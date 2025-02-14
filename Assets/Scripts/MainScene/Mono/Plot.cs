@@ -3,6 +3,11 @@ using UnityEngine;
 public class Plot : MonoBehaviour {
     private bool mouseOver;
 
+    private void PlaceObject(SOPlaceableObject object_to_place) {
+        MainSceneUIManager.instance.ObjectPlaced();
+        Instantiate(object_to_place.placeableObjectPrefab, transform.position, Quaternion.identity, transform);
+    }
+
     public void OnMouseEnter() {
         mouseOver = true;
         Debug.Log("Over");
@@ -10,6 +15,12 @@ public class Plot : MonoBehaviour {
 
     public void OnMouseExit() {
         mouseOver = false;
+    }
+
+    private void OnMouseDown() {
+        if (MainSceneUIManager.instance.IsPlacingObject()) {
+            PlaceObject(MainSceneUIManager.instance.GetObjectToPlace());
+        }
     }
 
     private void Update() {

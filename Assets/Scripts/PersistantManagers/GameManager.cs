@@ -18,6 +18,9 @@ public class GameManager : MonoBehaviour {
 
     [HideInInspector] public Game Game;
 
+    private bool test = true;
+    [SerializeField] private SOPlaceableObject testPlacement;
+
     private void Awake() {
         if (instance) {
             Destroy(gameObject);
@@ -27,5 +30,12 @@ public class GameManager : MonoBehaviour {
         }
 
         Game = new(new(10, 10), PlotGenerationData.GetDict());
+    }
+
+    void Update() {
+        if (test) {
+            test = false;
+            MainSceneUIManager.instance.PlaceInventoryItem(testPlacement);
+        }
     }
 }
