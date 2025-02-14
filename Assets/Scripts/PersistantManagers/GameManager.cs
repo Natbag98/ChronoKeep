@@ -4,6 +4,11 @@ public class GameManager : MonoBehaviour {
     public static GameManager instance;
     public static System.Random Random = new();
 
+    public enum Attributes {
+        Health,
+        Defense
+    }
+
     [Header("Static Data")]
     public float PlotMouseOverHeight;
     public float PlotMouseOverSpeed;
