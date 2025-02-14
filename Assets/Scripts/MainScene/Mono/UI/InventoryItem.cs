@@ -5,5 +5,6 @@ public class InventoryItem : MonoBehaviour {
 
     public void _Button_InventoryItemClicked() {
         MainSceneUIManager.instance.StartPlacing(placeableObject);
+        Destroy(gameObject);
     }
 }

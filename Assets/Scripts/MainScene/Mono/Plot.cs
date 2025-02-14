@@ -10,7 +10,6 @@ public class Plot : MonoBehaviour {
 
     public void OnMouseEnter() {
         mouseOver = true;
-        Debug.Log("Over");
     }
 
     public void OnMouseExit() {
