@@ -5,7 +5,13 @@ public class Plot : MonoBehaviour {
 
     private void PlaceObject(SOPlaceableObject object_to_place) {
         MainSceneUIManager.instance.ObjectPlaced();
-        Instantiate(object_to_place.placeableObjectPrefab, transform.position, Quaternion.identity, transform);
+        PlaceableObject new_object = Instantiate(
+            object_to_place.placeableObjectPrefab,
+            transform.position,
+            Quaternion.identity,
+            transform
+        ).GetComponent<PlaceableObject>();
+        new_object.objectType = object_to_place.objectType;
     }
 
     public void OnMouseEnter() {

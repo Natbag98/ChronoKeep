@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: ArcherTower
   m_EditorClassIdentifier: 
   placeableObjectPrefab: {fileID: 1770908353305172144, guid: 64e04409d9507fc4c821e257dab8141a, type: 3}
+  objectType: 1

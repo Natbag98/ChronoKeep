@@ -8,6 +8,10 @@ public class GameManager : MonoBehaviour {
         Health,
         Defense
     }
+    public enum PlaceableObjectTypes {
+        Castle,
+        Tower
+    }
 
     [Header("Static Data")]
     public float PlotMouseOverHeight;
