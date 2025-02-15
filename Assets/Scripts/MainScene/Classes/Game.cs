@@ -1,9 +1,14 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Game {
     public Vector2Int TerrainSize { private set; get; }
     public SOPlot[][] BaseTerrain { private set; get; }
+
+    public Vector2Int CastleLocation { private set; get; }
+    public List<Vector2Int> BarbCamps { private set; get; } = new();
 
     public Game(
         Vector2Int terrain_size,
@@ -11,6 +16,8 @@ public class Game {
     ) {
         TerrainSize = terrain_size;
         GenerateBaseTerrain(plot_generation_data);
+        PlaceCastle();
+        PlaceBarbCamps(3);
     }
 
     private void GenerateBaseTerrain(Dictionary<SOPlot, int> plot_generation_data) {
@@ -30,6 +37,36 @@ public class Game {
                     }
                 }
             }
+        }
+    }
+
+    private void PlaceCastle() {
+        for (int x = TerrainSize.x / 2; x < TerrainSize.x; x++) {
+            for (int y = TerrainSize.y / 2; y < TerrainSize.y; y++) {
+                if (BaseTerrain[y][x].Prefab.GetComponent<Plot>().GetCanPlaceObject()) {
+                    CastleLocation = new Vector2Int(x, y);
+                    return;
+                }
+            }
+        }
+    }
+
+    private void PlaceBarbCamps(int count) {
+        for (int i = 0; i < count; i++) PlaceCamp();
+    }
+
+    private void PlaceCamp() {
+        SOPlot[] row = Utils.Choice(BaseTerrain); int y = Array.IndexOf(BaseTerrain, row);
+        SOPlot plot = Utils.Choice(row); int x = Array.IndexOf(row, plot);
+
+        if (
+            Vector2Int.Distance(new Vector2Int(x, y), CastleLocation) >= GameManager.instance.MinBarbGenerationDistance &&
+            !BarbCamps.Contains(new Vector2Int(x, y)) &&
+            BaseTerrain[y][x].Prefab.GetComponent<Plot>().GetCanPlaceObject()
+        ) {
+            BarbCamps.Add(new Vector2Int(x, y));
+        } else {
+            PlaceCamp();
         }
     }
 }

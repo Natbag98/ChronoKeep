@@ -10,12 +10,18 @@ public class GameManager : MonoBehaviour {
     }
     public enum PlaceableObjectTypes {
         Castle,
-        Tower
+        Tower,
+        Spawner
     }
 
     [Header("Static Data")]
     public float PlotMouseOverHeight;
     public float PlotMouseOverSpeed;
+
+    public int MinBarbGenerationDistance;
+
+    public SOPlaceableObject Castle;
+    public SOPlaceableObject BarbCamp;
 
     [Header("Plot Generation Data")]
     [SerializeField] private Utils.SerializeableDict<SOPlot, int> PlotGenerationData;
@@ -33,7 +39,7 @@ public class GameManager : MonoBehaviour {
             DontDestroyOnLoad(gameObject);
         }
 
-        Game = new(new(10, 10), PlotGenerationData.GetDict());
+        Game = new(new(11, 11), PlotGenerationData.GetDict());
     }
 
     void Update() {

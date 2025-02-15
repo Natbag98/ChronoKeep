@@ -3,9 +3,11 @@ using UnityEngine;
 public class Plot : MonoBehaviour {
     [SerializeField] private bool canPlaceObject;
 
+    public bool GetCanPlaceObject() { return canPlaceObject; }
+
     private bool mouseOver;
 
-    private void PlaceObject(SOPlaceableObject object_to_place) {
+    public void PlaceObject(SOPlaceableObject object_to_place) {
         MainSceneUIManager.instance.ObjectPlaced();
         PlaceableObject new_object = Instantiate(
             object_to_place.placeableObjectPrefab,

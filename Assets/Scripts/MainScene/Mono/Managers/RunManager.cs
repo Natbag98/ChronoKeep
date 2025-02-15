@@ -9,17 +9,23 @@ public class RunManager : MonoBehaviour {
     private Plot[][] plotArray;
 
     private void InstantiatePlots() {
-        plotArray = Utils.CreateJaggedArray<Plot[][]>(GameManager.instance.Game.TerrainSize.x, GameManager.instance.Game.TerrainSize.y);
-        for (int x = 0; x < GameManager.instance.Game.TerrainSize.x; x++) {
-            for (int y = 0; y < GameManager.instance.Game.TerrainSize.y; y++) {
+        Game game = GameManager.instance.Game;
+        plotArray = Utils.CreateJaggedArray<Plot[][]>(game.TerrainSize.x, game.TerrainSize.y);
+        for (int x = 0; x < game.TerrainSize.x; x++) {
+            for (int y = 0; y < game.TerrainSize.y; y++) {
                 GameObject new_plot = Instantiate(
-                    GameManager.instance.Game.BaseTerrain[y][x].Prefab,
-                    new Vector3(x - GameManager.instance.Game.TerrainSize.x / 2, 0f, y - GameManager.instance.Game.TerrainSize.y / 2),
+                    game.BaseTerrain[y][x].Prefab,
+                    new Vector3(x - game.TerrainSize.x / 2, 0f, y - game.TerrainSize.y / 2),
                     Quaternion.identity,
                     plotContainer
                 );
                 plotArray[y][x] = new_plot.GetComponent<Plot>();
             }
+        }
+
+        plotArray[game.CastleLocation.y][game.CastleLocation.x].PlaceObject(GameManager.instance.Castle);
+        foreach (Vector2Int location in game.BarbCamps) {
+            plotArray[location.y][location.x].PlaceObject(GameManager.instance.BarbCamp);
         }
     }
 

@@ -1,6 +1,8 @@
 using UnityEngine;
 
 public abstract class PlaceableObject : MonoBehaviour {
+    [Header("PlaceableObject")]
     [SerializeField] protected Attributes attributes;
-    public GameManager.PlaceableObjectTypes objectType;
+
+    [HideInInspector] public GameManager.PlaceableObjectTypes objectType;
 }
