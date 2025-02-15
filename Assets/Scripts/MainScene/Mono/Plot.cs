@@ -1,6 +1,8 @@
 using UnityEngine;
 
 public class Plot : MonoBehaviour {
+    [SerializeField] private bool canPlaceObject;
+
     private bool mouseOver;
 
     private void PlaceObject(SOPlaceableObject object_to_place) {
@@ -23,7 +25,7 @@ public class Plot : MonoBehaviour {
     }
 
     private void OnMouseDown() {
-        if (MainSceneUIManager.instance.IsPlacingObject()) {
+        if (MainSceneUIManager.instance.IsPlacingObject() && canPlaceObject) {
             PlaceObject(MainSceneUIManager.instance.GetObjectToPlace());
         }
     }
