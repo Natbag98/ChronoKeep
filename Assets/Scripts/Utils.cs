@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 
 public class Utils : MonoBehaviour {
+    public static T Choice<T>(T[] array) { return array[GameManager.Random.Next(array.Length)]; }
+    public static T Choice<T>(List<T> list) { return list[GameManager.Random.Next(list.Count)]; }
+
     [System.Serializable]
     public class SerializeableDict<TKey, TValue> {
         [SerializeField] private SerializableDictPair[] dictPairs;
