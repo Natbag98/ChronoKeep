@@ -3,6 +3,8 @@ using UnityEngine;
 public class Plot : MonoBehaviour {
     [SerializeField] private bool canPlaceObject;
 
+    [HideInInspector] public GameManager.PlaceableObjectTypes? placedObjectType = null;
+
     public bool GetCanPlaceObject() { return canPlaceObject; }
 
     private bool mouseOver;
@@ -15,7 +17,7 @@ public class Plot : MonoBehaviour {
             Quaternion.identity,
             transform
         ).GetComponent<PlaceableObject>();
-        new_object.objectType = object_to_place.objectType;
+        placedObjectType = new_object.objectType = object_to_place.objectType;
     }
 
     public void OnMouseEnter() {

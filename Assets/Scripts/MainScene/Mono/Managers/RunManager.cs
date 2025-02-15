@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class RunManager : MonoBehaviour {
     public static RunManager instance;
@@ -7,6 +8,26 @@ public class RunManager : MonoBehaviour {
     [SerializeField] private Transform plotContainer;
 
     private Plot[][] plotArray;
+
+    public Plot GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes placed_object) {
+        foreach (Plot[] row in plotArray) {
+            foreach (Plot plot in row) {
+                if (plot.placedObjectType == placed_object) return plot;
+            }
+        }
+        return null;
+    }
+
+    public List<Plot> GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes placed_object) {
+        List<Plot> plots = new();
+        foreach (Plot[] row in plotArray) {
+            foreach (Plot plot in row) {
+                if (plot.placedObjectType == placed_object) plots.Add(plot);
+            }
+        }
+        if (plots.Count == 0) return null;
+        return plots;
+    }
 
     private void InstantiatePlots() {
         Game game = GameManager.instance.Game;

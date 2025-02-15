@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
@@ -13,6 +14,8 @@ public class GameManager : MonoBehaviour {
         Tower,
         Spawner
     }
+
+    public event EventHandler pathCheckStarted;
 
     [Header("Static Data")]
     public float PlotMouseOverHeight;
