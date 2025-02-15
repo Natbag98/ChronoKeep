@@ -8,6 +8,15 @@ public abstract class Character : MonoBehaviour {
 
     private Plot movementTarget;
 
+    private Plot GetCurrentPlot() {
+        Ray ray = new(transform.position, Vector3.down);
+        RaycastHit[] hits = Physics.RaycastAll(ray, 5);
+        foreach (RaycastHit hit in hits) {
+            if (hit.transform.TryGetComponent<Plot>(out var plot)) return plot;
+        }
+        return null;
+    }
+
     private void GetTarget() {
         Plot min_target = null;
         float? min_distance = null;
