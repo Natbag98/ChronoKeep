@@ -10,6 +10,8 @@ public abstract class Character : MonoBehaviour {
     [SerializeField] private Transform centerPos;
 
     private Plot movementTarget;
+    private List<Transform> path;
+    private int pathIndex = 0;
 
     private Plot GetCurrentPlot() {
         Ray ray = new(centerPos.position, Vector3.down);
@@ -39,18 +41,34 @@ public abstract class Character : MonoBehaviour {
         }
     }
 
+    private void GetPath() {
+        path = new();
+        pathIndex = 0;
+        foreach (Plot plot in Utils.GetPath(GetCurrentPlot().GetPositionInPlotArray(), movementTarget.GetPositionInPlotArray())) {
+            path.Add(plot.transform);
+        }
+    }
+
+    public Vector3 GetPathTargetPos() { return new Vector3(path[pathIndex].position.x, 0f, path[pathIndex].position.z); }
+
     private void Move() {
-        Vector3 direction = (movementTarget.transform.position - transform.position).normalized;
+        Vector3 direction = (GetPathTargetPos() - transform.position).normalized;
         transform.Translate(moveSpeed * Time.deltaTime * direction);
     }
 
     private void Update() {
         if (movementTarget == null) {
             GetTarget();
-            foreach (Plot t in Utils.GetPath(GetCurrentPlot().GetPositionInPlotArray(), movementTarget.GetPositionInPlotArray())) {
-                Debug.Log($"{t.transform.position.x}, {t.transform.position.z}");
+            GetPath();
+        }
+
+        Move();
+
+        if (Vector3.Distance(GetPathTargetPos(), transform.position) < 0.05f) {
+            pathIndex++;
+            if (pathIndex >= path.Count) {
+                Destroy(gameObject);
             }
         }
-        Move();
     }
 }
