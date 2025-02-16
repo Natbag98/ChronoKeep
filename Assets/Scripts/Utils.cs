@@ -138,4 +138,14 @@ public class Utils : MonoBehaviour {
     }
 
     #endregion
+
+    public static void RotateTowards(Vector3 from_position, Vector3 to_position, Transform rotate, float rotate_speed=0f) {
+        Vector3 direction = (to_position - from_position).normalized;
+		Quaternion look_rotation = Quaternion.LookRotation(direction);
+        if (rotate_speed == 0f) {
+            rotate.rotation = look_rotation;
+        } else {
+            rotate.rotation = Quaternion.Slerp(rotate.rotation, look_rotation, Time.deltaTime * rotate_speed);
+        }
+    }
 }

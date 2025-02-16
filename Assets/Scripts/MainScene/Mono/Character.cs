@@ -4,10 +4,12 @@ using System.Collections.Generic;
 public abstract class Character : MonoBehaviour {
     [Header("Atttributes")]
     [SerializeField] private float moveSpeed;
+    [SerializeField] private float rotateSpeed;
     [SerializeField] private GameManager.PlaceableObjectTypes[] targetPriorities;
 
     [Header("References")]
     [SerializeField] private Transform centerPos;
+    [SerializeField] private Transform rotatePoint;
 
     private Plot movementTarget;
     private List<Transform> path;
@@ -56,6 +58,10 @@ public abstract class Character : MonoBehaviour {
         transform.Translate(moveSpeed * Time.deltaTime * direction);
     }
 
+    private void Rotate() {
+        Utils.RotateTowards(transform.position, GetPathTargetPos(), rotatePoint, rotateSpeed);
+    }
+
     private void Update() {
         if (movementTarget == null) {
             GetTarget();
@@ -63,6 +69,7 @@ public abstract class Character : MonoBehaviour {
         }
 
         Move();
+        Rotate();
 
         if (Vector3.Distance(GetPathTargetPos(), transform.position) < 0.05f) {
             pathIndex++;
