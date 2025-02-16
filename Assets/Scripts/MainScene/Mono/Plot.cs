@@ -15,9 +15,20 @@ public class Plot : MonoBehaviour {
     private bool mouseOver;
 
     public bool GetCanPlaceObject() { return canPlaceObject; }
-    public List<Plot> GetNeighbours() {
+    public List<Plot> GetNeighbours(int steps=1) {
         List<Plot> neighbours_to_return = new();
-        foreach (Plot neighbour in neighbours) if (neighbour != null) neighbours_to_return.Add(neighbour);
+        List<Plot> neighbours_to_check = new() { this };
+        for (int i = 0; i < steps; i++) {
+            foreach (Plot neighbour_to_check in neighbours_to_check) {
+                neighbours_to_check.Remove(neighbour_to_check);
+                foreach (Plot neighbour in neighbour_to_check.neighbours) {
+                    if (neighbour != null) {
+                        if (!neighbours_to_return.Contains(neighbour)) neighbours_to_return.Add(neighbour);
+                        neighbours_to_check.Add(neighbour);
+                    }
+                }
+            }
+        }
         return neighbours_to_return;
     }
 
