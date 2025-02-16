@@ -99,17 +99,6 @@ public class Utils : MonoBehaviour {
                 }
             }
 
-            if (current_pos == target_pos) {
-                List<Plot> path = new();
-                Vector2Int current_path_pos = target_pos;
-                while (GetPlotPathInfo(plot_path_info, current_path_pos).from_pos != null) {
-                    path.Add(RunManager.instance.GetPlotArray()[current_path_pos.y][current_path_pos.x]);
-                    current_path_pos = (Vector2Int)GetPlotPathInfo(plot_path_info, current_path_pos).from_pos;
-                }
-                path.Reverse();
-                return path;
-            }
-
             plots_to_search.Remove(current_pos);
             plots_searched.Add(current_pos);
 
@@ -118,7 +107,19 @@ public class Utils : MonoBehaviour {
                 PlotPathInfo neighbour_info = GetPlotPathInfo(plot_path_info, neighbour_pos);
                 PlotPathInfo current_info = GetPlotPathInfo(plot_path_info, current_pos);
 
-                if (plots_searched.Contains(neighbour_pos)) continue;
+                if (neighbour_pos == target_pos) {
+                    neighbour_info.from_pos = current_pos;
+                    List<Plot> path = new();
+                    Vector2Int current_path_pos = target_pos;
+                    while (GetPlotPathInfo(plot_path_info, current_path_pos).from_pos != null) {
+                        path.Add(RunManager.instance.GetPlotArray()[current_path_pos.y][current_path_pos.x]);
+                        current_path_pos = (Vector2Int)GetPlotPathInfo(plot_path_info, current_path_pos).from_pos;
+                    }
+                    path.Reverse();
+                    return path;
+                }
+
+                if (plots_searched.Contains(neighbour_pos) || !neighbour.CanCharacterMoveThrough()) continue;
 
                 int tentativeGCost = current_info.gCost + CalulateDistanceCost(current_pos, neighbour_pos);
                 if (tentativeGCost < neighbour_info.gCost) {

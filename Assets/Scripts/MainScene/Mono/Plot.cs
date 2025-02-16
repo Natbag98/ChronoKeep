@@ -12,6 +12,7 @@ public class Plot : MonoBehaviour {
 
     [HideInInspector] public GameManager.PlaceableObjectTypes? placedObjectType = null;
     private Plot[] neighbours;
+    private bool mouseOver;
 
     public bool GetCanPlaceObject() { return canPlaceObject; }
     public List<Plot> GetNeighbours() {
@@ -22,7 +23,13 @@ public class Plot : MonoBehaviour {
 
     public void SetNeighbours(Plot[] neighbours) { this.neighbours = neighbours; }
 
-    private bool mouseOver;
+    public bool CanCharacterMoveThrough() {
+        if (placedObjectType != null) {
+            return false;
+        } else {
+            return canPlaceObject;
+        }
+    }
 
     public void PlaceObject(SOPlaceableObject object_to_place) {
         MainSceneUIManager.instance.ObjectPlaced();
