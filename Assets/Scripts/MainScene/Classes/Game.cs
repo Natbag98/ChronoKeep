@@ -10,14 +10,24 @@ public class Game {
     public Vector2Int CastleLocation { private set; get; }
     public List<Vector2Int> BarbCamps { private set; get; } = new();
 
+    public List<Faction> BaseFactions { private set; get; } = new();
+
     public Game(
         Vector2Int terrain_size,
         Dictionary<SOPlot, int> plot_generation_data
     ) {
         TerrainSize = terrain_size;
+        GenerateFactions();
         GenerateBaseTerrain(plot_generation_data);
         PlaceCastle();
         PlaceBarbCamps(3);
+    }
+
+    private void GenerateFactions() {
+        for (int i = 0; i < 4; i++) {
+            BaseFactions.Add(new(GameManager.FactionTypes.Kingdom));
+        }
+        BaseFactions.Add(new(GameManager.FactionTypes.BarbarianClan));
     }
 
     private void GenerateBaseTerrain(Dictionary<SOPlot, int> plot_generation_data) {

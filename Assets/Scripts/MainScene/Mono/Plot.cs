@@ -11,6 +11,7 @@ public class Plot : MonoBehaviour {
     [SerializeField] private bool canPlaceObject;
 
     [HideInInspector] public GameManager.PlaceableObjectTypes? placedObjectType = null;
+    private Faction faction;
     private Plot[] neighbours;
     private bool mouseOver;
 
@@ -33,6 +34,7 @@ public class Plot : MonoBehaviour {
     }
 
     public void SetNeighbours(Plot[] neighbours) { this.neighbours = neighbours; }
+    public void SetFaction(Faction faction) { this.faction = faction; }
 
     public bool CanCharacterMoveThrough() {
         if (placedObjectType != null) {
