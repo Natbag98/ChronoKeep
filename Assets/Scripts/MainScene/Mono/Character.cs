@@ -6,14 +6,15 @@ public abstract class Character : MonoBehaviour {
     [SerializeField] private float moveSpeed;
     [SerializeField] private GameManager.PlaceableObjectTypes[] targetPriorities;
 
+    [Header("References")]
+    [SerializeField] private Transform centerPos;
+
     private Plot movementTarget;
 
     private Plot GetCurrentPlot() {
-        Ray ray = new(transform.position, Vector3.down);
+        Ray ray = new(centerPos.position, Vector3.down);
         RaycastHit[] hits = Physics.RaycastAll(ray, 5);
-        foreach (RaycastHit hit in hits) {
-            if (hit.transform.TryGetComponent<Plot>(out var plot)) return plot;
-        }
+        foreach (RaycastHit hit in hits) if (hit.transform.TryGetComponent<Plot>(out Plot plot)) return plot;
         return null;
     }
 
@@ -44,7 +45,12 @@ public abstract class Character : MonoBehaviour {
     }
 
     private void Update() {
-        if (movementTarget == null) GetTarget();
+        if (movementTarget == null) {
+            GetTarget();
+            foreach (Plot t in Utils.GetPath(GetCurrentPlot().GetPositionInPlotArray(), movementTarget.GetPositionInPlotArray())) {
+                Debug.Log($"{t.transform.position.x}, {t.transform.position.z}");
+            }
+        }
         Move();
     }
 }

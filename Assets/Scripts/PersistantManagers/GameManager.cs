@@ -15,8 +15,6 @@ public class GameManager : MonoBehaviour {
         Spawner
     }
 
-    public event EventHandler pathCheckStarted;
-
     [Header("Static Data")]
     public float PlotMouseOverHeight;
     public float PlotMouseOverSpeed;

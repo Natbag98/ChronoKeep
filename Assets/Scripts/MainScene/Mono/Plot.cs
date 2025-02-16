@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Plot : MonoBehaviour {
@@ -10,9 +11,16 @@ public class Plot : MonoBehaviour {
     [SerializeField] private bool canPlaceObject;
 
     [HideInInspector] public GameManager.PlaceableObjectTypes? placedObjectType = null;
-    [HideInInspector] public Plot[] neighbours;
+    private Plot[] neighbours;
 
     public bool GetCanPlaceObject() { return canPlaceObject; }
+    public List<Plot> GetNeighbours() {
+        List<Plot> neighbours_to_return = new();
+        foreach (Plot neighbour in neighbours) if (neighbour != null) neighbours_to_return.Add(neighbour);
+        return neighbours_to_return;
+    }
+
+    public void SetNeighbours(Plot[] neighbours) { this.neighbours = neighbours; }
 
     private bool mouseOver;
 
@@ -25,6 +33,13 @@ public class Plot : MonoBehaviour {
             transform
         ).GetComponent<PlaceableObject>();
         placedObjectType = new_object.objectType = object_to_place.objectType;
+    }
+
+    public Vector2Int GetPositionInPlotArray() {
+        return new(
+            (int)transform.position.x + GameManager.instance.Game.TerrainSize.x / 2,
+            (int)transform.position.z + GameManager.instance.Game.TerrainSize.y / 2
+        );
     }
 
     public void OnMouseEnter() {
