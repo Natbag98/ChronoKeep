@@ -42,6 +42,8 @@ public class Utils : MonoBehaviour {
         return array;
     }
 
+    #region Pathfinding
+
     private class PlotPathInfo {
         public int gCost;
         public int hCost;
@@ -134,4 +136,6 @@ public class Utils : MonoBehaviour {
 
         return null;
     }
+
+    #endregion
 }
