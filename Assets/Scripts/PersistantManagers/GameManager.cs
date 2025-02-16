@@ -14,6 +14,11 @@ public class GameManager : MonoBehaviour {
         Tower,
         Spawner
     }
+    public enum FactionTypes {
+        BarbarianClan,
+        Kingdom
+    }
+
 
     [Header("Static Data")]
     public float PlotMouseOverHeight;
