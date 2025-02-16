@@ -44,6 +44,17 @@ public class RunManager : MonoBehaviour {
             }
         }
 
+        for (int y = 0; y < game.TerrainSize.y; y++) {
+            for (int x = 0; x < game.TerrainSize.x; x++) {
+                Plot[] neighbours = new Plot[4];
+                if (y != 0) neighbours[Plot.neighbourUp] = plotArray[y - 1][x];
+                if (y != game.TerrainSize.y - 1) neighbours[Plot.neighbourDown] = plotArray[y + 1][x];
+                if (x != 0) neighbours[Plot.neighbourLeft] = plotArray[y][x - 1];
+                if (x != game.TerrainSize.x - 1) neighbours[Plot.neighbourRight] = plotArray[y][x + 1];
+                plotArray[y][x].neighbours = neighbours;
+            }
+        }
+
         plotArray[game.CastleLocation.y][game.CastleLocation.x].PlaceObject(GameManager.instance.Castle);
         foreach (Vector2Int location in game.BarbCamps) {
             plotArray[location.y][location.x].PlaceObject(GameManager.instance.BarbCamp);

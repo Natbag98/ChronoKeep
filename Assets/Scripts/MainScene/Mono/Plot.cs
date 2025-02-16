@@ -1,9 +1,16 @@
+using System;
 using UnityEngine;
 
 public class Plot : MonoBehaviour {
+    public static int neighbourUp = 0;
+    public static int neighbourRight = 1;
+    public static int neighbourDown = 2;
+    public static int neighbourLeft = 3;
+
     [SerializeField] private bool canPlaceObject;
 
     [HideInInspector] public GameManager.PlaceableObjectTypes? placedObjectType = null;
+    [HideInInspector] public Plot[] neighbours;
 
     public bool GetCanPlaceObject() { return canPlaceObject; }
 
