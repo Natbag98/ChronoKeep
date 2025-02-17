@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
+using System;
+using System.Linq;
 
 public class TextData {
     public Dictionary<string, List<string>> Data { private set; get; } = new();
@@ -10,10 +12,9 @@ public class TextData {
         DirectoryInfo info = new(data_path);
         FileInfo[] fileInfo = info.GetFiles();
         foreach (FileInfo file in fileInfo) {
-            string[] name = file.Name.Split(".");
-            foreach (string n in name) Debug.Log(n);
-            //Data.Add(info.Name, LoadListFromFile(info.FullName));
-            Data.Add(file.Name, new() { "Placeholder" });
+            string[] names = file.Name.Split(".");
+            foreach (string name in names) if (name == "meta") continue;
+            if (!Data.Keys.ToArray().Contains(names[0])) Data.Add(names[0], LoadListFromFile(Path.Combine(data_path, file.Name)));
         }
     }
 
