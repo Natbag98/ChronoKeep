@@ -16,9 +16,16 @@ public class Plot : MonoBehaviour {
     private bool mouseOver;
 
     public bool GetCanPlaceObject() { return canPlaceObject; }
-    public List<Plot> GetNeighbours(int steps=1) {
+    public List<Plot> GetNeighbours(int steps=1, bool square=false) {
         List<Plot> neighbours_to_return = new();
         List<Plot> neighbours_to_check = new() { this };
+
+        int? max_range = null;
+        if (square) {
+            max_range = steps;
+            steps *= 2;
+        }
+
         for (int i = 0; i < steps; i++) {
             Plot[] temp_neighbours_to_check = new Plot[neighbours_to_check.Count];
             neighbours_to_check.CopyTo(temp_neighbours_to_check);
@@ -27,6 +34,14 @@ public class Plot : MonoBehaviour {
                 neighbours_to_check.Remove(neighbour_to_check);
                 foreach (Plot neighbour in neighbour_to_check.neighbours) {
                     if (neighbour != null) {
+                        if (max_range != null) {
+                            if (
+                                Mathf.Abs(GetPositionInPlotArray().x - neighbour.GetPositionInPlotArray().x) > max_range ||
+                                Mathf.Abs(GetPositionInPlotArray().y - neighbour.GetPositionInPlotArray().y) > max_range
+                            ) {
+                                continue;
+                            }
+                        }
                         if (!neighbours_to_return.Contains(neighbour)) neighbours_to_return.Add(neighbour);
                         neighbours_to_check.Add(neighbour);
                     }
