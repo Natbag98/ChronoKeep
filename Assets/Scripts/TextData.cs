@@ -6,11 +6,14 @@ public class TextData {
     public Dictionary<string, List<string>> Data { private set; get; } = new();
 
     public TextData() {
-        string data_path = Path.Combine(Application.dataPath, "TextData");
+        string data_path = Path.Combine(Application.dataPath, "TextData", "");
         DirectoryInfo info = new(data_path);
         FileInfo[] fileInfo = info.GetFiles();
         foreach (FileInfo file in fileInfo) {
-            Data.Add(info.Name, LoadListFromFile(info.FullName));
+            string[] name = file.Name.Split(".");
+            foreach (string n in name) Debug.Log(n);
+            //Data.Add(info.Name, LoadListFromFile(info.FullName));
+            Data.Add(file.Name, new() { "Placeholder" });
         }
     }
 
