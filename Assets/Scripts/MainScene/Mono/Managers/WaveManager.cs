@@ -5,16 +5,16 @@ public class WaveManager : MonoBehaviour {
     public static WaveManager instance;
 
     public class OnWaveStartEventArgs : EventArgs {
-        public int wavePower;
+        public int baseWavePower;
     }
-
-    public event EventHandler<OnWaveStartEventArgs> onWaveStart;
 
     private int wave = 0;
 
     public void StartWave() {
         wave++;
-        onWaveStart.Invoke(null, new OnWaveStartEventArgs() { wavePower = wave * 10 });
+        foreach (Faction faction in RunManager.instance.factions) {
+            faction.OnWaveStart(wave * 10);
+        }
     }
 
     private void Start() {

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Faction {
@@ -31,6 +33,13 @@ public class Faction {
             Ruler = ruler;
         } else {
             Ruler = $"{Utils.Choice(GameManager.instance.TextData.Data["first_names"])} {Utils.Choice(GameManager.instance.TextData.Data["last_names"])}";
+        }
+    }
+
+    public void OnWaveStart(int base_power) {
+        List<Plot> plots_with_spawners = RunManager.instance.GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Spawner);
+        foreach (Plot plot in plots_with_spawners) {
+            if (plot.faction == this) plot.GetComponentInChildren<Spawner>().SpawnCharacter();
         }
     }
 }

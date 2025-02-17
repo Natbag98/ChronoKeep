@@ -6,8 +6,11 @@ public class RunManager : MonoBehaviour {
 
     [Header("References")]
     [SerializeField] private Transform plotContainer;
+    public Transform characterContainer;
 
     private Plot[][] plotArray;
+    [HideInInspector] public List<Faction> factions = new();
+    [HideInInspector] public Faction playerFaction;
 
     public Plot[][] GetPlotArray() { return plotArray; }
 
@@ -80,5 +83,7 @@ public class RunManager : MonoBehaviour {
     private void Start() {
         instance = this;
         InstantiatePlots();
+        factions.AddRange(GameManager.instance.Game.BaseFactions);
+        playerFaction = GameManager.instance.Game.PlayerFaction;
     }
 }

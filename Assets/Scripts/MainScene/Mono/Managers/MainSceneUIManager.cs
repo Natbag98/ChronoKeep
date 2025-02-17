@@ -18,6 +18,10 @@ public class MainSceneUIManager : MonoBehaviour {
         return placingObject;
     }
 
+    public void _Button_NextWaveButtonClicked() {
+        WaveManager.instance.StartWave();
+    }
+
     public void StartPlacing(SOPlaceableObject placeable_object) {
         placingObject = placeable_object;
     }

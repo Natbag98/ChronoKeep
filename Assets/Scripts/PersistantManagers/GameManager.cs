@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour {
         Kingdom
     }
 
-
     [Header("Static Data")]
     public float PlotMouseOverHeight;
     public float PlotMouseOverSpeed;
