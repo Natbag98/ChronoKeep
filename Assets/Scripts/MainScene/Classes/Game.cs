@@ -11,6 +11,7 @@ public class Game {
     public List<Vector2Int> BarbCamps { private set; get; } = new();
 
     public List<Faction> BaseFactions { private set; get; } = new();
+    public Faction PlayerFaction { private set; get; }
 
     public Game(
         Vector2Int terrain_size,
@@ -21,6 +22,7 @@ public class Game {
         GenerateBaseTerrain(plot_generation_data);
         PlaceCastle();
         PlaceBarbCamps(3);
+        PlayerFaction = new(GameManager.FactionTypes.Kingdom, "Player Kingdom", "Player Name");
     }
 
     private void GenerateFactions() {

@@ -57,9 +57,9 @@ public class RunManager : MonoBehaviour {
             }
         }
 
-        plotArray[game.CastleLocation.y][game.CastleLocation.x].PlaceObject(GameManager.instance.Castle);
+        plotArray[game.CastleLocation.y][game.CastleLocation.x].PlaceObject(GameManager.instance.Castle, GameManager.instance.Game.PlayerFaction);
         foreach (Vector2Int location in game.BarbCamps) {
-            plotArray[location.y][location.x].PlaceObject(GameManager.instance.BarbCamp);
+            plotArray[location.y][location.x].PlaceObject(GameManager.instance.BarbCamp, GameManager.instance.Game.BaseFactions[^1]);
         }
     }
 

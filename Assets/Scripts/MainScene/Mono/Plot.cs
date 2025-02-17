@@ -62,7 +62,7 @@ public class Plot : MonoBehaviour {
         }
     }
 
-    public void PlaceObject(SOPlaceableObject object_to_place) {
+    public void PlaceObject(SOPlaceableObject object_to_place, Faction faction) {
         MainSceneUIManager.instance.ObjectPlaced();
         PlaceableObject new_object = Instantiate(
             object_to_place.placeableObjectPrefab,
@@ -71,6 +71,9 @@ public class Plot : MonoBehaviour {
             transform
         ).GetComponent<PlaceableObject>();
         placedObjectType = new_object.objectType = object_to_place.objectType;
+
+        this.faction = faction;
+        foreach (Plot plot in GetNeighbours(object_to_place.factionControlRange, true)) plot.faction = faction;
     }
 
     public Vector2Int GetPositionInPlotArray() {
@@ -90,7 +93,7 @@ public class Plot : MonoBehaviour {
 
     private void OnMouseDown() {
         if (MainSceneUIManager.instance.IsPlacingObject() && canPlaceObject) {
-            PlaceObject(MainSceneUIManager.instance.GetObjectToPlace());
+            PlaceObject(MainSceneUIManager.instance.GetObjectToPlace(), GameManager.instance.Game.PlayerFaction);
         }
     }
 
