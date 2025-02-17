@@ -83,6 +83,17 @@ public class Plot : MonoBehaviour {
         );
     }
 
+    private bool ValidTowerPlacement() {
+        if (
+            placedObjectType != null ||
+            faction != GameManager.instance.Game.PlayerFaction
+        ) {
+            return false;
+        } else {
+            return canPlaceObject;
+        }
+    }
+
     public void OnMouseEnter() {
         mouseOver = true;
     }
@@ -92,7 +103,7 @@ public class Plot : MonoBehaviour {
     }
 
     private void OnMouseDown() {
-        if (MainSceneUIManager.instance.IsPlacingObject() && canPlaceObject) {
+        if (MainSceneUIManager.instance.IsPlacingObject() && ValidTowerPlacement()) {
             PlaceObject(MainSceneUIManager.instance.GetObjectToPlace(), GameManager.instance.Game.PlayerFaction);
         }
     }
@@ -101,6 +112,7 @@ public class Plot : MonoBehaviour {
         float target_height;
         if (mouseOver) {
             target_height = GameManager.instance.PlotMouseOverHeight;
+            if (MainSceneUIManager.instance.IsPlacingObject() && !ValidTowerPlacement()) target_height = 0;
         } else {
             target_height = 0;
         }
