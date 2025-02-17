@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Faction : MonoBehaviour {
+public class Faction {
     public GameManager.FactionTypes FactionType { private set; get; }
     public string Name { private set; get; }
     public string Ruler {private set; get; }
