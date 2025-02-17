@@ -14,6 +14,11 @@ public class GameManager : MonoBehaviour {
         Tower,
         Spawner
     }
+    public enum FactionTypes {
+        BarbarianClan,
+        Kingdom
+    }
+
 
     [Header("Static Data")]
     public float PlotMouseOverHeight;
@@ -28,6 +33,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private Utils.SerializeableDict<SOPlot, int> PlotGenerationData;
 
     [HideInInspector] public Game Game;
+    [HideInInspector] public TextData TextData = new();
 
     private bool test = true;
     [SerializeField] private SOPlaceableObject testPlacement;
