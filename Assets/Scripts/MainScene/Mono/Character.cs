@@ -15,6 +15,10 @@ public abstract class Character : MonoBehaviour {
     private List<Transform> path;
     private int pathIndex = 0;
 
+    /// <summary>
+    /// Gets the plot that the character is currently standing on.
+    /// </summary>
+    /// <returns>The plot the character is currently standing on.</returns>
     private Plot GetCurrentPlot() {
         Ray ray = new(centerPos.position, Vector3.down);
         RaycastHit[] hits = Physics.RaycastAll(ray, 5);
@@ -22,7 +26,10 @@ public abstract class Character : MonoBehaviour {
         return null;
     }
 
-    private void GetTarget() {
+    /// <summary>
+    /// Gets and sets the chracters movement target.
+    /// </summary>
+    private void GetMovementTarget() {
         Plot min_target = null;
         float? min_distance = null;
         foreach (GameManager.PlaceableObjectTypes targetObjectType in targetPriorities) {
@@ -43,6 +50,9 @@ public abstract class Character : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Gets and sets the character path.
+    /// </summary>
     private void GetPath() {
         path = new();
         pathIndex = 0;
@@ -64,7 +74,7 @@ public abstract class Character : MonoBehaviour {
 
     private void Update() {
         if (movementTarget == null) {
-            GetTarget();
+            GetMovementTarget();
             GetPath();
         }
 

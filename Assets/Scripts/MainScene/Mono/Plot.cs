@@ -16,6 +16,14 @@ public class Plot : MonoBehaviour {
     private bool mouseOver;
 
     public bool GetCanPlaceObject() { return canPlaceObject; }
+
+    /// <summary>
+    /// Gets a list of neighbours based on steps.
+    /// Will be in a circular shape if square is set to false.
+    /// </summary>
+    /// <param name="steps">The number of steps performed to find neighbours. Essentially the radius of the circle.</param>
+    /// <param name="square">Will return a square of plots of steps size instead of a circle.</param>
+    /// <returns>The list of neighbours.</returns>
     public List<Plot> GetNeighbours(int steps=1, bool square=false) {
         List<Plot> neighbours_to_return = new();
         List<Plot> neighbours_to_check = new() { this };
@@ -54,6 +62,9 @@ public class Plot : MonoBehaviour {
     public void SetNeighbours(Plot[] neighbours) { this.neighbours = neighbours; }
     public void SetFaction(Faction faction) { this.faction = faction; }
 
+    /// <summary>
+    /// Checks whether a character can move through the plot.
+    /// </summary>
     public bool CanCharacterMoveThrough() {
         if (placedObjectType != null) {
             return false;
@@ -62,6 +73,11 @@ public class Plot : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Places an object of the plot. Also sets the neighbouring plots faction ownership based on the objects factionControlRange.
+    /// </summary>
+    /// <param name="object_to_place">The object to place.</param>
+    /// <param name="faction">The faction to set neighbouring plots onwership to.</param>
     public void PlaceObject(SOPlaceableObject object_to_place, Faction faction) {
         MainSceneUIManager.instance.ObjectPlaced();
         PlaceableObject new_object = Instantiate(
@@ -76,6 +92,10 @@ public class Plot : MonoBehaviour {
         foreach (Plot plot in GetNeighbours(object_to_place.factionControlRange, true)) plot.faction ??= faction;
     }
 
+    /// <summary>
+    /// Gets the plots (x, y) position in the plotArray, which will be different from the plots position in the scene.
+    /// </summary>
+    /// <returns>The plots (x, y) positon in the plotArray</returns>
     public Vector2Int GetPositionInPlotArray() {
         return new(
             (int)transform.position.x + GameManager.instance.Game.TerrainSize.x / 2,
@@ -83,6 +103,9 @@ public class Plot : MonoBehaviour {
         );
     }
 
+    /// <summary>
+    /// Checks whether the a tower can be placed on the plot.
+    /// </summary>
     private bool ValidTowerPlacement() {
         if (
             placedObjectType != null ||

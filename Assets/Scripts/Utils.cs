@@ -6,6 +6,11 @@ public class Utils : MonoBehaviour {
     public static T Choice<T>(T[] array) { return array[GameManager.Random.Next(array.Length)]; }
     public static T Choice<T>(List<T> list) { return list[GameManager.Random.Next(list.Count)]; }
 
+    /// <summary>
+    /// A dict wrapper that can be serialized by unity.
+    /// </summary>
+    /// <typeparam name="TKey">The dictionary key.</typeparam>
+    /// <typeparam name="TValue">The dictionary value.</typeparam>
     [System.Serializable]
     public class SerializeableDict<TKey, TValue> {
         [SerializeField] private SerializableDictPair[] dictPairs;
@@ -74,6 +79,13 @@ public class Utils : MonoBehaviour {
         return plot_path_info[pos.y][pos.x];
     }
 
+    /// <summary>
+    /// Gets a path of plots from start_pos to target_pos based an A* pathfinding algorithm.
+    /// Note that the start plot is excluded from the final path.
+    /// </summary>
+    /// <param name="start_pos">The plotArray position of the start plot. (excl)</param>
+    /// <param name="target_pos">The plotArray position of the end plot. (incl)</param>
+    /// <returns></returns>
     public static List<Plot> GetPath(Vector2Int start_pos, Vector2Int target_pos) {
         PlotPathInfo[][] plot_path_info = CreateJaggedArray<PlotPathInfo[][]>(
             GameManager.instance.Game.TerrainSize.x,

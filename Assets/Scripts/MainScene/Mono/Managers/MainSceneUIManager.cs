@@ -22,6 +22,10 @@ public class MainSceneUIManager : MonoBehaviour {
         placingObject = placeable_object;
     }
 
+    /// <summary>
+    /// Places a placeableObject in the players inventory.
+    /// </summary>
+    /// <param name="placeable_object">The object to place.</param>
     public void PlaceInventoryItem(SOPlaceableObject placeable_object) {
         InventoryItem item = Instantiate(inventoryItemPrefab, inventoryPanel).GetComponent<InventoryItem>();
         item.placeableObject = placeable_object;

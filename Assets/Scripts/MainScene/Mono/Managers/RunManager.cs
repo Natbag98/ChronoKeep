@@ -11,6 +11,11 @@ public class RunManager : MonoBehaviour {
 
     public Plot[][] GetPlotArray() { return plotArray; }
 
+    /// <summary>
+    /// Get the first plot with the given object placed.
+    /// </summary>
+    /// <param name="placed_object">The object to check for.</param>
+    /// <returns>The plot with the placed object.</returns>
     public Plot GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes placed_object) {
         foreach (Plot[] row in plotArray) {
             foreach (Plot plot in row) {
@@ -20,6 +25,11 @@ public class RunManager : MonoBehaviour {
         return null;
     }
 
+    /// <summary>
+    /// Gets a list of plots with the given object placed.
+    /// </summary>
+    /// <param name="placed_object">The object to check for.</param>
+    /// <returns>The list of plots with the placed object.</returns>
     public List<Plot> GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes placed_object) {
         List<Plot> plots = new();
         foreach (Plot[] row in plotArray) {
@@ -31,6 +41,10 @@ public class RunManager : MonoBehaviour {
         return plots;
     }
 
+    /// <summary>
+    /// Instantiates the plots included in the Game class into the scene.
+    /// Should be called at the start of each run.
+    /// </summary>
     private void InstantiatePlots() {
         Game game = GameManager.instance.Game;
         plotArray = Utils.CreateJaggedArray<Plot[][]>(game.TerrainSize.x, game.TerrainSize.y);
