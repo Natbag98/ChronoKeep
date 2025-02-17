@@ -20,7 +20,10 @@ public class Plot : MonoBehaviour {
         List<Plot> neighbours_to_return = new();
         List<Plot> neighbours_to_check = new() { this };
         for (int i = 0; i < steps; i++) {
-            foreach (Plot neighbour_to_check in neighbours_to_check) {
+            Plot[] temp_neighbours_to_check = new Plot[neighbours_to_check.Count];
+            neighbours_to_check.CopyTo(temp_neighbours_to_check);
+
+            foreach (Plot neighbour_to_check in temp_neighbours_to_check) {
                 neighbours_to_check.Remove(neighbour_to_check);
                 foreach (Plot neighbour in neighbour_to_check.neighbours) {
                     if (neighbour != null) {
