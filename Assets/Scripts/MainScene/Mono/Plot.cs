@@ -73,7 +73,7 @@ public class Plot : MonoBehaviour {
         placedObjectType = new_object.objectType = object_to_place.objectType;
 
         this.faction = faction;
-        foreach (Plot plot in GetNeighbours(object_to_place.factionControlRange, true)) plot.faction = faction;
+        foreach (Plot plot in GetNeighbours(object_to_place.factionControlRange, true)) plot.faction ??= faction;
     }
 
     public Vector2Int GetPositionInPlotArray() {
