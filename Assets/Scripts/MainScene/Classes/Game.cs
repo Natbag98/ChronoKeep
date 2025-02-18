@@ -21,7 +21,7 @@ public class Game {
         GenerateFactions();
         GenerateBaseTerrain(plot_generation_data);
         PlaceCastle();
-        PlaceBarbCamps(3);
+        PlaceBarbCamps(1);
         PlayerFaction = new(GameManager.FactionTypes.Kingdom, "Player Kingdom", "Player Name");
     }
 

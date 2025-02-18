@@ -1,28 +1,36 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public abstract class Character : MonoBehaviour {
-    [Header("Atttributes")]
-    [SerializeField] private float moveSpeed;
+public abstract class Character : MonoBehaviour, IRangedTarget {
+    [Header("Attributes")]
     [SerializeField] private float rotateSpeed;
     [SerializeField] private GameManager.PlaceableObjectTypes[] targetPriorities;
+    [SerializeField] protected Attributes attributes;
 
     [Header("References")]
-    [SerializeField] private Transform centerPos;
+    [SerializeField] private Transform centerPoint;
     [SerializeField] private Transform rotatePoint;
 
+    private float health;
     private Plot movementTarget;
     private List<Transform> path;
     private int pathIndex = 0;
+
+    public Vector3 GetTargetPoint() { return centerPoint.position; }
+    public void Damage(float amount) {
+        if (Utils.CalculateDamage(amount, attributes.GetAttribute(GameManager.Attributes.Defense)) > 0) {
+            health -= Utils.CalculateDamage(amount, attributes.GetAttribute(GameManager.Attributes.Defense));
+        }
+    }
 
     /// <summary>
     /// Gets the plot that the character is currently standing on.
     /// </summary>
     /// <returns>The plot the character is currently standing on.</returns>
-    private Plot GetCurrentPlot() {
-        Ray ray = new(centerPos.position, Vector3.down);
+    public Plot GetCurrentPlot() {
+        Ray ray = new(centerPoint.position, Vector3.down);
         RaycastHit[] hits = Physics.RaycastAll(ray, 5);
-        foreach (RaycastHit hit in hits) if (hit.transform.TryGetComponent<Plot>(out Plot plot)) return plot;
+        foreach (RaycastHit hit in hits) if (hit.transform.TryGetComponent(out Plot plot)) return plot;
         return null;
     }
 
@@ -65,14 +73,18 @@ public abstract class Character : MonoBehaviour {
 
     private void Move() {
         Vector3 direction = (GetPathTargetPos() - transform.position).normalized;
-        transform.Translate(moveSpeed * Time.deltaTime * direction);
+        transform.Translate(attributes.GetAttribute(GameManager.Attributes.CharacterMoveSpeed) * Time.deltaTime * direction);
     }
 
     private void Rotate() {
         Utils.RotateTowards(transform.position, GetPathTargetPos(), rotatePoint, rotateSpeed);
     }
 
-    private void Update() {
+    private void Start() {
+        health = attributes.GetAttribute(GameManager.Attributes.Health);
+    }
+
+    protected virtual void Update() {
         if (movementTarget == null) {
             GetMovementTarget();
             GetPath();
@@ -86,6 +98,10 @@ public abstract class Character : MonoBehaviour {
             if (pathIndex >= path.Count) {
                 Destroy(gameObject);
             }
+        }
+
+        if (health <= 0) {
+            Destroy(gameObject);
         }
     }
 }

@@ -7,6 +7,7 @@ public class RunManager : MonoBehaviour {
     [Header("References")]
     [SerializeField] private Transform plotContainer;
     public Transform characterContainer;
+    public Transform projectileContainer;
 
     private Plot[][] plotArray;
     [HideInInspector] public List<Faction> factions = new();

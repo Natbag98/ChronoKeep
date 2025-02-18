@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -59,6 +58,17 @@ public class Plot : MonoBehaviour {
         return neighbours_to_return;
     }
 
+    /// <summary>
+    /// Gets a list of characters standing on this plot.
+    /// </summary>
+    public List<Character> GetCharacters() {
+        List<Character> characters = new();
+        foreach (Character character in FindObjectsByType<Character>(FindObjectsSortMode.None)) {
+            if (character.GetCurrentPlot() == this) characters.Add(character);
+        }
+        return characters;
+    }
+
     public void SetNeighbours(Plot[] neighbours) { this.neighbours = neighbours; }
 
     /// <summary>
@@ -86,6 +96,7 @@ public class Plot : MonoBehaviour {
             transform
         ).GetComponent<PlaceableObject>();
         placedObjectType = new_object.objectType = object_to_place.objectType;
+        new_object.parentPlot = this;
 
         this.faction = faction;
         foreach (Plot plot in GetNeighbours(object_to_place.factionControlRange, true)) plot.faction ??= faction;
