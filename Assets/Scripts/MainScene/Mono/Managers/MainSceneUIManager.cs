@@ -19,7 +19,7 @@ public class MainSceneUIManager : MonoBehaviour {
     }
 
     public void _Button_NextWaveButtonClicked() {
-        WaveManager.instance.StartWave();
+        if (!WaveManager.instance.waveActive) WaveManager.instance.StartWave();
     }
 
     public void StartPlacing(SOPlaceableObject placeable_object) {

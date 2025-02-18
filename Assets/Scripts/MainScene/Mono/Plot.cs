@@ -143,7 +143,10 @@ public class Plot : MonoBehaviour {
 
     private void Update() {
         float target_height;
-        if (mouseOver) {
+        if (
+            mouseOver &&
+            !WaveManager.instance.waveActive
+        ) {
             target_height = GameManager.instance.PlotMouseOverHeight;
             if (MainSceneUIManager.instance.IsPlacingObject() && !ValidTowerPlacement()) target_height = 0;
         } else {
