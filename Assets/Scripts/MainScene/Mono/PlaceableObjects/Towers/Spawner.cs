@@ -5,7 +5,13 @@ public class Spawner : Tower {
     [Header("Spawner")]
     [SerializeField] private SOCharacter[] potentialCharactersToSpawn;
 
-    [HideInInspector] public int powerRemaining;
+    private int powerRemaining;
+    private bool finishedWave;
+
+    public void SpawnHostileWave(int power) {
+        powerRemaining = power;
+        finishedWave = false;
+    }
 
     public void SpawnCharacter() {
         Instantiate(Utils.Choice(potentialCharactersToSpawn).prefab, transform.position, Quaternion.identity, RunManager.instance.characterContainer);
@@ -15,7 +21,12 @@ public class Spawner : Tower {
         if (parentPlot.faction == RunManager.instance.playerFaction) {
             SpawnCharacter();
         } else {
-            if (powerRemaining > 0) SpawnCharacter();
+            if (powerRemaining > 0) {
+                SpawnCharacter();
+            } else if (!finishedWave) {
+                finishedWave = true;
+                WaveManager.instance.hostileWaveSpawnersFinished++;
+            }
             powerRemaining--;
         }
     }
