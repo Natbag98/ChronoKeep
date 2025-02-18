@@ -13,7 +13,7 @@ public class WaveManager : MonoBehaviour {
     public void StartWave() {
         wave++;
         foreach (Faction faction in RunManager.instance.factions) {
-            faction.OnWaveStart(wave * 10);
+            faction.OnWaveStart(wave);
         }
     }
 

@@ -52,11 +52,14 @@ MonoBehaviour:
         Value: 100
       - Key: 1
         Value: 50
+      - Key: 2
+        Value: 1
   centerPoint: {fileID: 0}
   objectType: 0
   parentPlot: {fileID: 0}
   potentialCharactersToSpawn:
   - {fileID: 11400000, guid: 0d8835a8144b9ae4ebd680fae17343e2, type: 2}
+  powerRemaining: 0
 --- !u!1001 &5740825443011453480
 PrefabInstance:
   m_ObjectHideFlags: 0
