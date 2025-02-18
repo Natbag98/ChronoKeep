@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public abstract class Character : MonoBehaviour, IRangedTarget {
     [Header("Attributes")]
@@ -15,6 +16,17 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
     private Plot movementTarget;
     private List<Transform> path;
     private int pathIndex = 0;
+    protected Transform target;
+    protected bool canAttack = true;
+
+    protected virtual void GetTarget() {}
+    protected virtual void Attack() {}
+
+    protected IEnumerator Reload() {
+        canAttack = false;
+        yield return new WaitForSeconds(attributes.GetAttribute(GameManager.Attributes.ReloadTime));
+        canAttack = true;
+    }
 
     public Vector3 GetTargetPoint() { return centerPoint.position; }
     public void Damage(float amount) {
@@ -84,6 +96,17 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
         health = attributes.GetAttribute(GameManager.Attributes.Health);
     }
 
+    protected virtual void UpdateAttack() {
+        if (target == null) {
+            GetTarget();
+        } else {
+            if (canAttack) {
+                Attack();
+                StartCoroutine(Reload());
+            }
+        }
+    }
+
     protected virtual void Update() {
         if (movementTarget == null) {
             GetMovementTarget();
@@ -92,6 +115,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
 
         Move();
         Rotate();
+        UpdateAttack();
 
         if (Vector3.Distance(GetPathTargetPos(), transform.position) < 0.05f) {
             pathIndex++;
