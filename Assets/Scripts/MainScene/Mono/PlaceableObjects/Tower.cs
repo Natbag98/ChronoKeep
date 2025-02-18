@@ -25,7 +25,8 @@ public abstract class Tower : PlaceableObject {
         }
     }
 
-    private void Update() {
+    protected override void Update() {
+        base.Update();
         UpdateAttack();
     }
 }

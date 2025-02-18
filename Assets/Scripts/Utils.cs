@@ -160,4 +160,8 @@ public class Utils : MonoBehaviour {
             rotate.rotation = Quaternion.Slerp(rotate.rotation, look_rotation, Time.deltaTime * rotate_speed);
         }
     }
+
+    public static float CalculateDamage(float amount, float defense) {
+        return amount - defense;
+    }
 }

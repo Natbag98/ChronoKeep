@@ -10,7 +10,9 @@ public class GameManager : MonoBehaviour {
         Defense,
         ReloadTime,
         Attack,
-        Range
+        Range,
+        CharacterMoveSpeed,
+        ProjectileMoveSpeed
     }
     public enum PlaceableObjectTypes {
         Castle,
