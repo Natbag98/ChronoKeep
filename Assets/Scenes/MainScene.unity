@@ -789,7 +789,6 @@ MonoBehaviour:
       Value: 75
     - Key: {fileID: 11400000, guid: 91b0b931bda090541a294a0c5834a536, type: 2}
       Value: 15
-  inMainScene: 0
   testPlacement: {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
 --- !u!1 &1249548090
 GameObject:
@@ -1648,63 +1647,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!1001 &3547012931819866330
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2828861577566715767, guid: d141ad79b8bb16e458ead6d39dbbae46, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2828861577566715767, guid: d141ad79b8bb16e458ead6d39dbbae46, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2828861577566715767, guid: d141ad79b8bb16e458ead6d39dbbae46, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2828861577566715767, guid: d141ad79b8bb16e458ead6d39dbbae46, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2828861577566715767, guid: d141ad79b8bb16e458ead6d39dbbae46, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2828861577566715767, guid: d141ad79b8bb16e458ead6d39dbbae46, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2828861577566715767, guid: d141ad79b8bb16e458ead6d39dbbae46, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2828861577566715767, guid: d141ad79b8bb16e458ead6d39dbbae46, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2828861577566715767, guid: d141ad79b8bb16e458ead6d39dbbae46, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2828861577566715767, guid: d141ad79b8bb16e458ead6d39dbbae46, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6995875889840719490, guid: d141ad79b8bb16e458ead6d39dbbae46, type: 3}
-      propertyPath: m_Name
-      value: FootSoldier
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d141ad79b8bb16e458ead6d39dbbae46, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1718,4 +1660,3 @@ SceneRoots:
   - {fileID: 164689074}
   - {fileID: 1594311072}
   - {fileID: 376859342}
-  - {fileID: 3547012931819866330}
