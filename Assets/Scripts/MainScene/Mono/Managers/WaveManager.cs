@@ -28,7 +28,10 @@ public class WaveManager : MonoBehaviour {
     void Update() {
         Debug.Log(waveActive);
         if (waveActive) {
-            if (hostileWaveSpawners == hostileWaveSpawnersFinished) {
+            if (
+                hostileWaveSpawners == hostileWaveSpawnersFinished &&
+                RunManager.instance.characterContainer.childCount < 1
+            ) {
                 waveActive = false;
             }
         }
