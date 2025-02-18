@@ -48,7 +48,9 @@ MonoBehaviour:
   attributes:
     baseAttributes:
       dictPairs: []
+  centerPoint: {fileID: 0}
   objectType: 0
+  parentPlot: {fileID: 0}
   potentialCharactersToSpawn:
   - {fileID: 11400000, guid: 0d8835a8144b9ae4ebd680fae17343e2, type: 2}
 --- !u!1001 &5740825443011453480

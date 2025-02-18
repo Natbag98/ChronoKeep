@@ -81,7 +81,7 @@ MonoBehaviour:
   moveSpeed: 1
   rotateSpeed: 10
   targetPriorities: 
-  centerPos: {fileID: 3637380205398060539}
+  centerPoint: {fileID: 3637380205398060539}
   rotatePoint: {fileID: 7299065947056116757}
 --- !u!1 &9098338161914123813
 GameObject:

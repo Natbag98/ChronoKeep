@@ -7,7 +7,10 @@ public class GameManager : MonoBehaviour {
 
     public enum Attributes {
         Health,
-        Defense
+        Defense,
+        ReloadTime,
+        Attack,
+        Range
     }
     public enum PlaceableObjectTypes {
         Castle,

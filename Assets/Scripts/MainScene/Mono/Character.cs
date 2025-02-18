@@ -1,26 +1,28 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public abstract class Character : MonoBehaviour {
+public abstract class Character : MonoBehaviour, IRangedTarget {
     [Header("Atttributes")]
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private GameManager.PlaceableObjectTypes[] targetPriorities;
 
     [Header("References")]
-    [SerializeField] private Transform centerPos;
+    [SerializeField] private Transform centerPoint;
     [SerializeField] private Transform rotatePoint;
 
     private Plot movementTarget;
     private List<Transform> path;
     private int pathIndex = 0;
 
+    public Vector3 GetTargetPoint() { return centerPoint.position; }
+
     /// <summary>
     /// Gets the plot that the character is currently standing on.
     /// </summary>
     /// <returns>The plot the character is currently standing on.</returns>
-    private Plot GetCurrentPlot() {
-        Ray ray = new(centerPos.position, Vector3.down);
+    public Plot GetCurrentPlot() {
+        Ray ray = new(centerPoint.position, Vector3.down);
         RaycastHit[] hits = Physics.RaycastAll(ray, 5);
         foreach (RaycastHit hit in hits) if (hit.transform.TryGetComponent<Plot>(out Plot plot)) return plot;
         return null;
