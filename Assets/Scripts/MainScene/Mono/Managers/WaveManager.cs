@@ -6,8 +6,10 @@ public class WaveManager : MonoBehaviour {
 
 
     private int wave = 0;
+    [HideInInspector] public bool waveActive = false;
 
     public void StartWave() {
+        waveActive = true;
         wave++;
         foreach (Faction faction in RunManager.instance.factions) {
             faction.OnWaveStart(wave);
