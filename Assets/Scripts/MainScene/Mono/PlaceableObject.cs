@@ -24,7 +24,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget {
     }
 
     protected virtual void Update() {
-        if (health < 0) {
+        if (health <= 0) {
             Destroy(gameObject);
         }
     }
