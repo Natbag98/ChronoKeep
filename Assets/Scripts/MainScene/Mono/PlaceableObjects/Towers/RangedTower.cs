@@ -20,6 +20,7 @@ public class RangedTower : Tower {
             RunManager.instance.projectileContainer
         ).GetComponent<Projectile>();
         projectile.SetDamage(attributes.GetAttribute(GameManager.Attributes.Attack));
+        projectile.SetMoveSpeed(attributes.GetAttribute(GameManager.Attributes.ProjectileMoveSpeed));
         projectile.SetTarget(target);
         projectile.Setup();
     }

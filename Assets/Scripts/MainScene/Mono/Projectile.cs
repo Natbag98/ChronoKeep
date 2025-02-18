@@ -2,10 +2,12 @@ using UnityEngine;
 
 public abstract class Projectile : MonoBehaviour {
     protected float damage;
+    protected float moveSpeed;
     protected Transform target;
     protected Vector3 targetPoint;
 
     public void SetDamage(float damage) { this.damage = damage; }
+    public void SetMoveSpeed(float move_speed) { moveSpeed = move_speed; }
     public void SetTarget(Transform target) { this.target = target; }
     public void SetTargetPoint(Vector3 target_point) { targetPoint = target_point; }
 
