@@ -47,7 +47,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attributes:
     baseAttributes:
-      dictPairs: []
+      dictPairs:
+      - Key: 0
+        Value: 100
+      - Key: 1
+        Value: 50
   centerPoint: {fileID: 0}
   objectType: 0
   parentPlot: {fileID: 0}

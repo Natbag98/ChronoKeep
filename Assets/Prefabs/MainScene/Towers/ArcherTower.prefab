@@ -59,7 +59,7 @@ MonoBehaviour:
       - Key: 2
         Value: 2
       - Key: 3
-        Value: 0
+        Value: 100
   centerPoint: {fileID: 1873168185882578859}
   objectType: 0
   parentPlot: {fileID: 0}
