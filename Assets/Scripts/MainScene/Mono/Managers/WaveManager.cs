@@ -4,9 +4,6 @@ using UnityEngine;
 public class WaveManager : MonoBehaviour {
     public static WaveManager instance;
 
-    public class OnWaveStartEventArgs : EventArgs {
-        public int baseWavePower;
-    }
 
     private int wave = 0;
 
