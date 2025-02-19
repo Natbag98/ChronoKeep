@@ -98,9 +98,11 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
     }
 
     private void CheckCollision() {
-        Vector3 direction = centerPoint.position - lastPosition;
-        Ray ray = new(lastPosition, direction);
-        RaycastHit[] hits = Physics.RaycastAll(ray, Vector3.Distance(centerPoint.position, lastPosition));
+        Vector3 temp_current_pos = new(transform.position.x, centerPoint.position.y, transform.position.x);
+        Vector3 temp_last_pos  = new(lastPosition.x, centerPoint.position.y, lastPosition.x);
+        Vector3 direction = temp_current_pos - temp_last_pos;
+        Ray ray = new(temp_last_pos, direction);
+        RaycastHit[] hits = Physics.RaycastAll(ray, Vector3.Distance(temp_current_pos, temp_last_pos));
         foreach (RaycastHit hit in hits) {
             if (hit.transform != null) {
                 if (hit.transform.GetComponent<PlaceableObject>() != null) {
@@ -108,7 +110,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
                 }
             }
         }
-        lastPosition = centerPoint.position;
+        lastPosition = transform.position;
     }
 
     private void Start() {
