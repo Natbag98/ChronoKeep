@@ -10,7 +10,12 @@ public class RangedCharacter : Character {
     protected override void GetTarget() {
         List<PlaceableObject> towers_in_range = new();
         foreach (Plot plot in GetPlotsInRange()) {
-            if (plot.GetComponentInChildren<PlaceableObject>()) towers_in_range.Add(plot.GetComponentInChildren<PlaceableObject>());
+            if (
+                plot.GetComponentInChildren<PlaceableObject>() &&
+                plot.faction != faction
+            ) {
+                towers_in_range.Add(plot.GetComponentInChildren<PlaceableObject>());
+            }
         }
         if (towers_in_range.Count > 0) target = Utils.Choice(towers_in_range).transform;
     }

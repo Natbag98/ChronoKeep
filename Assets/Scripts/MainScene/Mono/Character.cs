@@ -13,6 +13,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
     [SerializeField] protected Transform centerPoint;
     [SerializeField] protected Transform rotatePoint;
 
+    [HideInInspector] public Faction faction;
     private float health;
     private Plot movementTarget;
     private List<Transform> path;
@@ -107,7 +108,10 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
         RaycastHit[] hits = Physics.RaycastAll(ray, Vector3.Distance(temp_current_pos, temp_last_pos));
         foreach (RaycastHit hit in hits) {
             if (hit.transform != null) {
-                if (hit.transform.GetComponent<PlaceableObject>() != null) {
+                if (
+                    hit.transform.GetComponent<PlaceableObject>() != null &&
+                    hit.transform.GetComponent<PlaceableObject>().parentPlot.faction != faction
+                ) {
                     blocked = true;
                     blockedObject = hit.transform.GetComponent<PlaceableObject>();
                 }
