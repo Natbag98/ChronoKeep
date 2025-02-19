@@ -26,7 +26,6 @@ public class WaveManager : MonoBehaviour {
     }
 
     void Update() {
-        Debug.Log(waveActive);
         if (waveActive) {
             if (
                 hostileWaveSpawners == hostileWaveSpawnersFinished &&

@@ -1,20 +1,38 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 
 public abstract class Character : MonoBehaviour, IRangedTarget {
     [Header("Attributes")]
-    [SerializeField] private float rotateSpeed;
-    [SerializeField] private GameManager.PlaceableObjectTypes[] targetPriorities;
+    [SerializeField] protected float rotateSpeed;
+    [SerializeField] protected float attackDelayTime;
+    [SerializeField] private GameManager.PlaceableObjectTypes[] movementTargetPriorities;
     [SerializeField] protected Attributes attributes;
 
     [Header("References")]
-    [SerializeField] private Transform centerPoint;
-    [SerializeField] private Transform rotatePoint;
+    [SerializeField] protected Transform centerPoint;
+    [SerializeField] protected Transform rotatePoint;
 
+    [HideInInspector] public Faction faction;
     private float health;
     private Plot movementTarget;
     private List<Transform> path;
     private int pathIndex = 0;
+    protected Transform target;
+    protected bool canAttack = true;
+    protected bool attacking;
+    private Vector3 lastPosition;
+    protected bool blocked = false;
+    protected PlaceableObject blockedObject;
+
+    protected virtual void GetTarget() {}
+    protected virtual void Attack() {}
+
+    protected IEnumerator Reload() {
+        canAttack = false;
+        yield return new WaitForSeconds(attributes.GetAttribute(GameManager.Attributes.ReloadTime));
+        canAttack = true;
+    }
 
     public Vector3 GetTargetPoint() { return centerPoint.position; }
     public void Damage(float amount) {
@@ -22,6 +40,8 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
             health -= Utils.CalculateDamage(amount, attributes.GetAttribute(GameManager.Attributes.Defense));
         }
     }
+
+    protected List<Plot> GetPlotsInRange() { return GetCurrentPlot().GetNeighbours(attributes.GetAttributeAsInt(GameManager.Attributes.Range)); }
 
     /// <summary>
     /// Gets the plot that the character is currently standing on.
@@ -40,7 +60,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
     private void GetMovementTarget() {
         Plot min_target = null;
         float? min_distance = null;
-        foreach (GameManager.PlaceableObjectTypes targetObjectType in targetPriorities) {
+        foreach (GameManager.PlaceableObjectTypes targetObjectType in movementTargetPriorities) {
             List<Plot> targets = RunManager.instance.GetAllPlotsWithPlacedObject(targetObjectType);
             foreach (Plot target in targets) {
                 float distance = Vector2.Distance(target.transform.position, transform.position);
@@ -80,8 +100,39 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
         Utils.RotateTowards(transform.position, GetPathTargetPos(), rotatePoint, rotateSpeed);
     }
 
+    private void CheckCollision() {
+        Vector3 temp_current_pos = new(transform.position.x, centerPoint.position.y, transform.position.z);
+        Vector3 temp_last_pos  = new(lastPosition.x, centerPoint.position.y, lastPosition.z);
+        Vector3 direction = temp_current_pos - temp_last_pos;
+        Ray ray = new(temp_last_pos, direction);
+        RaycastHit[] hits = Physics.RaycastAll(ray, Vector3.Distance(temp_current_pos, temp_last_pos));
+        foreach (RaycastHit hit in hits) {
+            if (hit.transform != null) {
+                if (
+                    hit.transform.GetComponent<PlaceableObject>() != null &&
+                    hit.transform.GetComponent<PlaceableObject>().parentPlot.faction != faction
+                ) {
+                    blocked = true;
+                    blockedObject = hit.transform.GetComponent<PlaceableObject>();
+                }
+            }
+        }
+        lastPosition = transform.position;
+    }
+
     private void Start() {
         health = attributes.GetAttribute(GameManager.Attributes.Health);
+    }
+
+    protected virtual void UpdateAttack() {
+        if (target == null) {
+            GetTarget();
+        } else {
+            if (canAttack) {
+                Attack();
+                StartCoroutine(Reload());
+            }
+        }
     }
 
     protected virtual void Update() {
@@ -90,8 +141,12 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
             GetPath();
         }
 
-        Move();
-        Rotate();
+        if (!attacking) {
+            if (!blocked) Move();
+            Rotate();
+        }
+        CheckCollision();
+        UpdateAttack();
 
         if (Vector3.Distance(GetPathTargetPos(), transform.position) < 0.05f) {
             pathIndex++;

@@ -14,7 +14,13 @@ public class Spawner : Tower {
     }
 
     public void SpawnCharacter() {
-        Instantiate(Utils.Choice(potentialCharactersToSpawn).prefab, transform.position, Quaternion.identity, RunManager.instance.characterContainer);
+        Character character = Instantiate(
+            Utils.Choice(potentialCharactersToSpawn).prefab,
+            transform.position,
+            Quaternion.identity,
+            RunManager.instance.characterContainer
+        ).GetComponent<Character>();
+        character.faction = parentPlot.faction;
     }
 
     protected override void Attack() {
