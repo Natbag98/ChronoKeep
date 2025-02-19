@@ -35,6 +35,8 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
         }
     }
 
+    protected List<Plot> GetPlotsInRange() { return GetCurrentPlot().GetNeighbours(attributes.GetAttributeAsInt(GameManager.Attributes.Range)); }
+
     /// <summary>
     /// Gets the plot that the character is currently standing on.
     /// </summary>
