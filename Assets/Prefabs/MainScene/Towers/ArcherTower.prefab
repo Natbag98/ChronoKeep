@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4065923678500815569}
   - component: {fileID: 3449150217713599646}
+  - component: {fileID: 4128386589434947518}
   m_Layer: 0
   m_Name: ArcherTower
   m_TagString: Untagged
@@ -67,6 +68,27 @@ MonoBehaviour:
   parentPlot: {fileID: 0}
   projectileToShoot: {fileID: 5921809335144549751, guid: 95dec3eebb46d5f49b1df02118c32718, type: 3}
   shootPoint: {fileID: 4218300769254404606}
+--- !u!65 &4128386589434947518
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1770908353305172144}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.8, y: 1.2342271, z: 0.8}
+  m_Center: {x: 0, y: 0.65698427, z: 0}
 --- !u!1 &8155888824777543750
 GameObject:
   m_ObjectHideFlags: 0

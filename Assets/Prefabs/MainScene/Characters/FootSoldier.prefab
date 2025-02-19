@@ -119,6 +119,8 @@ MonoBehaviour:
         Value: 25
       - Key: 3
         Value: 100
+      - Key: 2
+        Value: 3
   centerPoint: {fileID: 3637380205398060539}
   rotatePoint: {fileID: 7299065947056116757}
   projectileToShoot: {fileID: 5921809335144549751, guid: 95dec3eebb46d5f49b1df02118c32718, type: 3}
