@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class RangedCharacter : Character {
@@ -14,7 +15,9 @@ public class RangedCharacter : Character {
         if (towers_in_range.Count > 0) target = Utils.Choice(towers_in_range).transform;
     }
 
-    protected override void Attack() {
+    private IEnumerator RangedAttack() {
+        attacking = true;
+        yield return new WaitForSeconds(attackDelayTime / 2);
         Projectile projectile = Instantiate(
             projectileToShoot,
             shootPoint.position,
@@ -25,5 +28,14 @@ public class RangedCharacter : Character {
         projectile.SetMoveSpeed(attributes.GetAttribute(GameManager.Attributes.ProjectileMoveSpeed));
         projectile.SetTarget(target);
         projectile.Setup();
+        yield return new WaitForSeconds(attackDelayTime / 2);
+        attacking = false;
+    }
+
+    protected override void Attack() { StartCoroutine(RangedAttack()); }
+
+    protected override void Update() {
+        base.Update();
+        if (attacking) Utils.RotateTowards(transform.position, target.position, rotatePoint, rotateSpeed);
     }
 }

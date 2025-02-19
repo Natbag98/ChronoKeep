@@ -4,13 +4,14 @@ using System.Collections;
 
 public abstract class Character : MonoBehaviour, IRangedTarget {
     [Header("Attributes")]
-    [SerializeField] private float rotateSpeed;
-    [SerializeField] private GameManager.PlaceableObjectTypes[] targetPriorities;
+    [SerializeField] protected float rotateSpeed;
+    [SerializeField] protected float attackDelayTime;
+    [SerializeField] private GameManager.PlaceableObjectTypes[] movementTargetPriorities;
     [SerializeField] protected Attributes attributes;
 
     [Header("References")]
-    [SerializeField] private Transform centerPoint;
-    [SerializeField] private Transform rotatePoint;
+    [SerializeField] protected Transform centerPoint;
+    [SerializeField] protected Transform rotatePoint;
 
     private float health;
     private Plot movementTarget;
@@ -18,6 +19,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
     private int pathIndex = 0;
     protected Transform target;
     protected bool canAttack = true;
+    protected bool attacking;
 
     protected virtual void GetTarget() {}
     protected virtual void Attack() {}
@@ -54,7 +56,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
     private void GetMovementTarget() {
         Plot min_target = null;
         float? min_distance = null;
-        foreach (GameManager.PlaceableObjectTypes targetObjectType in targetPriorities) {
+        foreach (GameManager.PlaceableObjectTypes targetObjectType in movementTargetPriorities) {
             List<Plot> targets = RunManager.instance.GetAllPlotsWithPlacedObject(targetObjectType);
             foreach (Plot target in targets) {
                 float distance = Vector2.Distance(target.transform.position, transform.position);
@@ -115,8 +117,10 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
             GetPath();
         }
 
-        Move();
-        Rotate();
+        if (!attacking) {
+            Move();
+            Rotate();
+        }
         UpdateAttack();
 
         if (Vector3.Distance(GetPathTargetPos(), transform.position) < 0.05f) {
