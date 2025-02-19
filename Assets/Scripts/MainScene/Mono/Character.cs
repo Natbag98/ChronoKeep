@@ -98,19 +98,17 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
     }
 
     private void CheckCollision() {
-        // TODO : Set ray to cast from center point
-        Vector3 direction = transform.position - lastPosition;
+        Vector3 direction = centerPoint.position - lastPosition;
         Ray ray = new(lastPosition, direction);
-        RaycastHit[] hits = Physics.RaycastAll(ray, Vector3.Distance(transform.position, lastPosition));
+        RaycastHit[] hits = Physics.RaycastAll(ray, Vector3.Distance(centerPoint.position, lastPosition));
         foreach (RaycastHit hit in hits) {
-            Debug.Log(hit.transform.gameObject.name);
             if (hit.transform != null) {
                 if (hit.transform.GetComponent<PlaceableObject>() != null) {
                     Debug.Log("Collided");
                 }
             }
         }
-        lastPosition = transform.position;
+        lastPosition = centerPoint.position;
     }
 
     private void Start() {
