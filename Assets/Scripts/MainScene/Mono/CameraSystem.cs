@@ -5,6 +5,8 @@ public class CameraSystem : MonoBehaviour {
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private float zoomSpeed;
+    [SerializeField] private float maxZoom;
+    [SerializeField] private float minZoom;
     [SerializeField] private float scrollSpeed;
     [SerializeField] private Transform cameraTransform;
 
@@ -49,5 +51,17 @@ public class CameraSystem : MonoBehaviour {
         }
         Vector3 zoomDir = transform.forward * inputZoomDir.z + transform.up * inputZoomDir.y;
         cameraTransform.position += zoomDir * Time.deltaTime;
+
+        // Clamp camera zoom
+        cameraTransform.position = new Vector3(
+            cameraTransform.position.x,
+            Mathf.Max(maxZoom, cameraTransform.position.y),
+            Mathf.Min(-maxZoom, cameraTransform.position.z)
+        );
+        cameraTransform.position = new Vector3(
+            cameraTransform.position.x,
+            Mathf.Min(minZoom, cameraTransform.position.y),
+            Mathf.Max(-minZoom, cameraTransform.position.z)
+        );
     }
 }

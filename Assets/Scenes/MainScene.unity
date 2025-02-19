@@ -1515,6 +1515,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65608bd2a947c6342b3bbd6c8ad6f61d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waveActive: 0
+  hostileWaveSpawners: 0
+  hostileWaveSpawnersFinished: 0
 --- !u!1 &2013410473
 GameObject:
   m_ObjectHideFlags: 1
@@ -1613,6 +1616,8 @@ MonoBehaviour:
   moveSpeed: 20
   rotateSpeed: 100
   zoomSpeed: 20
+  maxZoom: 2
+  minZoom: 20
   scrollSpeed: 400
   cameraTransform: {fileID: 1823688467}
 --- !u!1 &2115885160
