@@ -21,6 +21,8 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
     protected bool canAttack = true;
     protected bool attacking;
     private Vector3 lastPosition;
+    private bool blocked = false;
+    private PlaceableObject blockedObject;
 
     protected virtual void GetTarget() {}
     protected virtual void Attack() {}
@@ -106,7 +108,8 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
         foreach (RaycastHit hit in hits) {
             if (hit.transform != null) {
                 if (hit.transform.GetComponent<PlaceableObject>() != null) {
-                    Debug.Log("Collided");
+                    blocked = true;
+                    blockedObject = hit.transform.GetComponent<PlaceableObject>();
                 }
             }
         }
@@ -129,13 +132,14 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
     }
 
     protected virtual void Update() {
+        Debug.Log(blocked);
         if (movementTarget == null) {
             GetMovementTarget();
             GetPath();
         }
 
         if (!attacking) {
-            Move();
+            if (!blocked) Move();
             Rotate();
         }
         CheckCollision();
