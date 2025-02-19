@@ -22,7 +22,7 @@ public class RangedCharacter : Character {
 
     private IEnumerator RangedAttack() {
         attacking = true;
-        yield return new WaitForSeconds(attackDelayTime / 2);
+        yield return new WaitForSeconds(attackDelayTime);
         Projectile projectile = Instantiate(
             projectileToShoot,
             shootPoint.position,
@@ -33,7 +33,6 @@ public class RangedCharacter : Character {
         projectile.SetMoveSpeed(attributes.GetAttribute(GameManager.Attributes.ProjectileMoveSpeed));
         projectile.SetTarget(target);
         projectile.Setup();
-        yield return new WaitForSeconds(attackDelayTime / 2);
         attacking = false;
     }
 
