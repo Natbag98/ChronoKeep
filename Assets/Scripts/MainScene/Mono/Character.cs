@@ -100,8 +100,8 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
     }
 
     private void CheckCollision() {
-        Vector3 temp_current_pos = new(transform.position.x, centerPoint.position.y, transform.position.x);
-        Vector3 temp_last_pos  = new(lastPosition.x, centerPoint.position.y, lastPosition.x);
+        Vector3 temp_current_pos = new(transform.position.x, centerPoint.position.y, transform.position.z);
+        Vector3 temp_last_pos  = new(lastPosition.x, centerPoint.position.y, lastPosition.z);
         Vector3 direction = temp_current_pos - temp_last_pos;
         Ray ray = new(temp_last_pos, direction);
         RaycastHit[] hits = Physics.RaycastAll(ray, Vector3.Distance(temp_current_pos, temp_last_pos));
