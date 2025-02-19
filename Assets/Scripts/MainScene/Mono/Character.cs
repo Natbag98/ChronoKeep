@@ -20,6 +20,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
     protected Transform target;
     protected bool canAttack = true;
     protected bool attacking;
+    private Vector3 lastPosition;
 
     protected virtual void GetTarget() {}
     protected virtual void Attack() {}
@@ -96,6 +97,22 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
         Utils.RotateTowards(transform.position, GetPathTargetPos(), rotatePoint, rotateSpeed);
     }
 
+    private void CheckCollision() {
+        // TODO : Set ray to cast from center point
+        Vector3 direction = transform.position - lastPosition;
+        Ray ray = new(lastPosition, direction);
+        RaycastHit[] hits = Physics.RaycastAll(ray, Vector3.Distance(transform.position, lastPosition));
+        foreach (RaycastHit hit in hits) {
+            Debug.Log(hit.transform.gameObject.name);
+            if (hit.transform != null) {
+                if (hit.transform.GetComponent<PlaceableObject>() != null) {
+                    Debug.Log("Collided");
+                }
+            }
+        }
+        lastPosition = transform.position;
+    }
+
     private void Start() {
         health = attributes.GetAttribute(GameManager.Attributes.Health);
     }
@@ -121,6 +138,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
             Move();
             Rotate();
         }
+        CheckCollision();
         UpdateAttack();
 
         if (Vector3.Distance(GetPathTargetPos(), transform.position) < 0.05f) {
