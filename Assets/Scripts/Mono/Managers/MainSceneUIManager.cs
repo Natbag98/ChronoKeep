@@ -38,4 +38,9 @@ public class MainSceneUIManager : MonoBehaviour {
     private void Start() {
         instance = this;
     }
+
+    private void Update() {
+        dragger.SetActive(placingObject);
+        dragger.transform.position = Input.mousePosition;
+    }
 }
