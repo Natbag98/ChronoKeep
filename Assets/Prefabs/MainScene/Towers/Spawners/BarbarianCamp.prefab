@@ -204,8 +204,10 @@ MonoBehaviour:
       - Key: 2
         Value: 1
   centerPoint: {fileID: 1968971150195000359}
+  healthBar: {fileID: 1284041797425990211}
   objectType: 0
   parentPlot: {fileID: 0}
+  reloadBar: {fileID: 850689369131243897}
   potentialCharactersToSpawn:
   - {fileID: 11400000, guid: 0d8835a8144b9ae4ebd680fae17343e2, type: 2}
   - {fileID: 11400000, guid: aae26af5810999345bbb394d8aba2b2c, type: 2}

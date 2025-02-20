@@ -65,8 +65,10 @@ MonoBehaviour:
       - Key: 6
         Value: 25
   centerPoint: {fileID: 1873168185882578859}
+  healthBar: {fileID: 4336203006317838630}
   objectType: 0
   parentPlot: {fileID: 0}
+  reloadBar: {fileID: 4159230835596145758}
   projectileToShoot: {fileID: 5921809335144549751, guid: 95dec3eebb46d5f49b1df02118c32718, type: 3}
   shootPoint: {fileID: 4218300769254404606}
 --- !u!65 &4128386589434947518
