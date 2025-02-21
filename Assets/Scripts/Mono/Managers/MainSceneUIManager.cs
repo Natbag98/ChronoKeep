@@ -6,8 +6,8 @@ public class MainSceneUIManager : MonoBehaviour {
     [Header("References")]
     [SerializeField] private Transform inventoryPanel;
     [SerializeField] private GameObject inventoryItemPrefab;
-
     [SerializeField] private GameObject dragger;
+    public GameObject pauseMenu;
 
     private SOPlaceableObject placingObject;
 
@@ -37,5 +37,23 @@ public class MainSceneUIManager : MonoBehaviour {
 
     private void Start() {
         instance = this;
+    }
+
+    private void Update() {
+        dragger.SetActive(placingObject);
+        dragger.transform.position = Input.mousePosition;
+
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            if (placingObject) {
+                PlaceInventoryItem(placingObject);
+                placingObject = null;
+            } else {
+                if (RunManager.instance.paused) {
+                    RunManager.instance.Unpause();
+                } else {
+                    RunManager.instance.Pause();
+                }
+            }
+        }
     }
 }

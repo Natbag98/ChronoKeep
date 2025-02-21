@@ -39,10 +39,8 @@ public class Spawner : Tower {
 
     protected override void UpdateAttack() {
         if (canAttack) {
-            if (canAttack) {
-                Attack();
-                StartCoroutine(Reload());
-            }
+            Attack();
+            StartCoroutine(Reload());
         }
     }
 }

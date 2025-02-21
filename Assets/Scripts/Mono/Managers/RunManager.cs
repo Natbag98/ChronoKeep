@@ -12,6 +12,7 @@ public class RunManager : MonoBehaviour {
     private Plot[][] plotArray;
     [HideInInspector] public List<Faction> factions = new();
     [HideInInspector] public Faction playerFaction;
+    public bool paused = false;
 
     public Plot[][] GetPlotArray() { return plotArray; }
 
@@ -79,6 +80,18 @@ public class RunManager : MonoBehaviour {
         foreach (Vector2Int location in game.BarbCamps) {
             plotArray[location.y][location.x].PlaceObject(GameManager.instance.BarbCamp, GameManager.instance.Game.BaseFactions[^1]);
         }
+    }
+
+    public void Pause() {
+        Time.timeScale = 0;
+        paused = true;
+        MainSceneUIManager.instance.pauseMenu.SetActive(true);
+    }
+
+    public void Unpause() {
+        Time.timeScale = 1;
+        paused = false;
+        MainSceneUIManager.instance.pauseMenu.SetActive(false);
     }
 
     private void Start() {

@@ -22,6 +22,7 @@ public class RangedCharacter : Character {
 
     private IEnumerator RangedAttack() {
         attacking = true;
+        canAttack = false;
         yield return new WaitForSeconds(attackDelayTime);
         Projectile projectile = Instantiate(
             projectileToShoot,
@@ -34,6 +35,9 @@ public class RangedCharacter : Character {
         projectile.SetTarget(target);
         projectile.Setup();
         attacking = false;
+
+        StartCoroutine(Reload());
+        reloadTimer = 0;
     }
 
     protected override void Attack() { StartCoroutine(RangedAttack()); }

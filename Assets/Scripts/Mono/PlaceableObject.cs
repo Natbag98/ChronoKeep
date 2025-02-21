@@ -6,6 +6,9 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget {
     [SerializeField] protected Attributes attributes;
     [SerializeField] private Transform centerPoint;
 
+    [Header("PlaceableObject : References UI")]
+    [SerializeField] private UnityEngine.UI.Image healthBar;
+
     [HideInInspector] public GameManager.PlaceableObjectTypes objectType;
     [HideInInspector] public Plot parentPlot;
     private float health;
@@ -19,11 +22,17 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget {
 
     protected List<Plot> GetPlotsInRange() { return parentPlot.GetNeighbours(attributes.GetAttributeAsInt(GameManager.Attributes.Range)); }
 
-    private void Start() {
+    protected virtual void UpdateUI() {
+        healthBar.fillAmount = health / attributes.GetAttribute(GameManager.Attributes.Health);
+    }
+
+    protected virtual void Start() {
         health = attributes.GetAttribute(GameManager.Attributes.Health);
     }
 
     protected virtual void Update() {
+        UpdateUI();
+
         if (health <= 0) {
             Destroy(gameObject);
         }

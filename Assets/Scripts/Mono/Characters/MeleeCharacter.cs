@@ -10,9 +10,13 @@ public class MeleeCharacter : Character {
 
     private IEnumerator MeleeAttack() {
         attacking = true;
+        canAttack = false;
         yield return new WaitForSeconds(attackDelayTime);
         target.GetComponent<PlaceableObject>().Damage(attributes.GetAttribute(GameManager.Attributes.Attack));
         attacking = false;
+
+        StartCoroutine(Reload());
+        reloadTimer = 0;
     }
 
     protected override void Attack() {

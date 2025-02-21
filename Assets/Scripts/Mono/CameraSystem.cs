@@ -53,15 +53,15 @@ public class CameraSystem : MonoBehaviour {
         cameraTransform.position += zoomDir * Time.deltaTime;
 
         // Clamp camera zoom
-        cameraTransform.position = new Vector3(
-            cameraTransform.position.x,
-            Mathf.Max(maxZoom, cameraTransform.position.y),
-            Mathf.Min(-maxZoom, cameraTransform.position.z)
+        cameraTransform.localPosition = new Vector3(
+            cameraTransform.localPosition.x,
+            Mathf.Max(maxZoom, cameraTransform.localPosition.y),
+            Mathf.Min(-maxZoom, cameraTransform.localPosition.z)
         );
-        cameraTransform.position = new Vector3(
-            cameraTransform.position.x,
-            Mathf.Min(minZoom, cameraTransform.position.y),
-            Mathf.Max(-minZoom, cameraTransform.position.z)
+        cameraTransform.localPosition = new Vector3(
+            cameraTransform.localPosition.x,
+            Mathf.Min(minZoom, cameraTransform.localPosition.y),
+            Mathf.Max(-minZoom, cameraTransform.localPosition.z)
         );
     }
 }

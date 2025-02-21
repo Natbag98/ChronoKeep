@@ -13,6 +13,10 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
     [SerializeField] protected Transform centerPoint;
     [SerializeField] protected Transform rotatePoint;
 
+    [Header("References UI")]
+    [SerializeField] private UnityEngine.UI.Image healthBar;
+    [SerializeField] private UnityEngine.UI.Image reloadBar;
+
     [HideInInspector] public Faction faction;
     private float health;
     private Plot movementTarget;
@@ -24,12 +28,12 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
     private Vector3 lastPosition;
     protected bool blocked = false;
     protected PlaceableObject blockedObject;
+    protected float reloadTimer;
 
     protected virtual void GetTarget() {}
     protected virtual void Attack() {}
 
     protected IEnumerator Reload() {
-        canAttack = false;
         yield return new WaitForSeconds(attributes.GetAttribute(GameManager.Attributes.ReloadTime));
         canAttack = true;
     }
@@ -42,6 +46,11 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
     }
 
     protected List<Plot> GetPlotsInRange() { return GetCurrentPlot().GetNeighbours(attributes.GetAttributeAsInt(GameManager.Attributes.Range)); }
+
+    protected virtual void UpdateUI() {
+        healthBar.fillAmount = health / attributes.GetAttribute(GameManager.Attributes.Health);
+        reloadBar.fillAmount = reloadTimer / (attributes.GetAttribute(GameManager.Attributes.ReloadTime) + attackDelayTime);
+    }
 
     /// <summary>
     /// Gets the plot that the character is currently standing on.
@@ -122,6 +131,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
 
     private void Start() {
         health = attributes.GetAttribute(GameManager.Attributes.Health);
+        reloadTimer = attributes.GetAttribute(GameManager.Attributes.ReloadTime);
     }
 
     protected virtual void UpdateAttack() {
@@ -130,7 +140,6 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
         } else {
             if (canAttack) {
                 Attack();
-                StartCoroutine(Reload());
             }
         }
     }
@@ -141,12 +150,22 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
             GetPath();
         }
 
-        if (!attacking) {
+        reloadTimer += Time.deltaTime;
+
+        if (attacking) {
+            if (reloadTimer > attributes.GetAttribute(GameManager.Attributes.ReloadTime) + attackDelayTime) {
+                reloadTimer = attributes.GetAttribute(GameManager.Attributes.ReloadTime) + attackDelayTime;
+            }
+        } else {
+            if (reloadTimer > attributes.GetAttribute(GameManager.Attributes.ReloadTime)) {
+                reloadTimer = attributes.GetAttribute(GameManager.Attributes.ReloadTime);
+            }
             if (!blocked) Move();
             Rotate();
         }
         CheckCollision();
         UpdateAttack();
+        UpdateUI();
 
         if (Vector3.Distance(GetPathTargetPos(), transform.position) < 0.05f) {
             pathIndex++;
