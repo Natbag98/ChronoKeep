@@ -4,6 +4,10 @@ using UnityEngine.SceneManagement;
 public class MainMenuUIManager : MonoBehaviour {
     public static MainMenuUIManager instance;
 
+    [Header("References")]
+    [SerializeField] private GameObject mainMenu;
+    [SerializeField] private GameObject settingsMenu;
+
     public void _Button_NewGameButtonClicked() {
         SceneManager.LoadScene("MainScene");
     }
@@ -13,11 +17,17 @@ public class MainMenuUIManager : MonoBehaviour {
     }
 
     public void _Button_SettingsButtonClicked() {
-        Debug.Log("Settings");
+        mainMenu.SetActive(false);
+        settingsMenu.SetActive(true);
     }
 
     public void _Button_QuitGameButtonClicked() {
         Application.Quit();
+    }
+
+    public void _Button_SettingsMenuBackButtonClicked() {
+        settingsMenu.SetActive(false);
+        mainMenu.SetActive(true);
     }
 
     private void Start() {
