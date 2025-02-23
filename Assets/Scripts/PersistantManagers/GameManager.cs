@@ -39,6 +39,9 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public Game Game;
     [HideInInspector] public TextData TextData = new();
 
+    [HideInInspector] public string playerName;
+    [HideInInspector] public string kingdomName;
+
     private bool test = true;
     [SerializeField] private SOPlaceableObject testPlacement;
 
@@ -58,5 +61,8 @@ public class GameManager : MonoBehaviour {
             test = false;
             MainSceneUIManager.instance.PlaceInventoryItem(testPlacement);
         }
+
+        Debug.Log(playerName);
+        Debug.Log(kingdomName);
     }
 }
