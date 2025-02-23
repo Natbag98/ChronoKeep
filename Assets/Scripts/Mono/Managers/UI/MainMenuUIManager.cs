@@ -7,9 +7,11 @@ public class MainMenuUIManager : MonoBehaviour {
     [Header("References")]
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject settingsMenu;
+    [SerializeField] private GameObject startMenu;
 
     public void _Button_NewGameButtonClicked() {
-        SceneManager.LoadScene("MainScene");
+        mainMenu.SetActive(false);
+        startMenu.SetActive(true);
     }
 
     public void _Button_LoadGameButtonClicked() {
@@ -27,6 +29,11 @@ public class MainMenuUIManager : MonoBehaviour {
 
     public void _Button_SettingsMenuBackButtonClicked() {
         settingsMenu.SetActive(false);
+        mainMenu.SetActive(true);
+    }
+
+    public void _Button_StartMenuBackButtonClicked() {
+        startMenu.SetActive(false);
         mainMenu.SetActive(true);
     }
 
