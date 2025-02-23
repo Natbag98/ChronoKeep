@@ -52,8 +52,10 @@ public class GameManager : MonoBehaviour {
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+    }
 
-        Game = new(new(11, 11), PlotGenerationData.GetDict());
+    public void NewGame() {
+        Game = new(new(11, 11), PlotGenerationData.GetDict(), kingdomName, playerName);
     }
 
     void Update() {
@@ -62,7 +64,7 @@ public class GameManager : MonoBehaviour {
             MainSceneUIManager.instance.PlaceInventoryItem(testPlacement);
         }
 
-        Debug.Log(playerName);
-        Debug.Log(kingdomName);
+        Debug.Log(Game.PlayerFaction.Ruler);
+        Debug.Log(Game.PlayerFaction.Name);
     }
 }
