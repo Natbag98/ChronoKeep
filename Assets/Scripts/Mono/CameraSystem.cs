@@ -10,7 +10,6 @@ public class CameraSystem : MonoBehaviour {
     [SerializeField] private float scrollSpeed;
     [SerializeField] private Transform cameraTransform;
 
-
     private void Update() {
         // Move the camera on the x and z axes
         Vector3 inputDir = new(0f, 0f, 0f);

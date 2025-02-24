@@ -28,7 +28,7 @@ public class RangedCharacter : Character {
             projectileToShoot,
             shootPoint.position,
             Quaternion.identity,
-            RunManager.instance.projectileContainer
+            Utils.GetManager<RunManager>().projectileContainer
         ).GetComponent<Projectile>();
         projectile.SetDamage(attributes.GetAttribute(GameManager.Attributes.Attack));
         projectile.SetMoveSpeed(attributes.GetAttribute(GameManager.Attributes.ProjectileMoveSpeed));

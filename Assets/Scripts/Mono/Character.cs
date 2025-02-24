@@ -70,7 +70,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
         Plot min_target = null;
         float? min_distance = null;
         foreach (GameManager.PlaceableObjectTypes targetObjectType in movementTargetPriorities) {
-            List<Plot> targets = RunManager.instance.GetAllPlotsWithPlacedObject(targetObjectType);
+            List<Plot> targets = Utils.GetManager<RunManager>().GetAllPlotsWithPlacedObject(targetObjectType);
             foreach (Plot target in targets) {
                 float distance = Vector2.Distance(target.transform.position, transform.position);
                 min_distance ??= distance; min_target = min_target != null ? min_target : target;
@@ -81,7 +81,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
             }
         }
         if (min_target == null) {
-            movementTarget = RunManager.instance.GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Castle);
+            movementTarget = Utils.GetManager<RunManager>().GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Castle);
         } else {
             movementTarget = min_target;
         }

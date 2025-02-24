@@ -88,7 +88,7 @@ public class Plot : MonoBehaviour {
     /// <param name="object_to_place">The object to place.</param>
     /// <param name="faction">The faction to set neighbouring plots onwership to.</param>
     public void PlaceObject(SOPlaceableObject object_to_place, Faction faction) {
-        MainSceneUIManager.instance.ObjectPlaced();
+        Utils.GetManager<MainSceneUIManager>().ObjectPlaced();
         PlaceableObject new_object = Instantiate(
             object_to_place.placeableObjectPrefab,
             transform.position,
@@ -136,8 +136,8 @@ public class Plot : MonoBehaviour {
     }
 
     private void OnMouseDown() {
-        if (MainSceneUIManager.instance.IsPlacingObject() && ValidTowerPlacement()) {
-            PlaceObject(MainSceneUIManager.instance.GetObjectToPlace(), GameManager.instance.Game.PlayerFaction);
+        if (Utils.GetManager<MainSceneUIManager>().IsPlacingObject() && ValidTowerPlacement()) {
+            PlaceObject(Utils.GetManager<MainSceneUIManager>().GetObjectToPlace(), GameManager.instance.Game.PlayerFaction);
         }
     }
 
@@ -145,10 +145,10 @@ public class Plot : MonoBehaviour {
         float target_height;
         if (
             mouseOver &&
-            !WaveManager.instance.waveActive
+            !Utils.GetManager<WaveManager>().waveActive
         ) {
             target_height = GameManager.instance.PlotMouseOverHeight;
-            if (MainSceneUIManager.instance.IsPlacingObject() && !ValidTowerPlacement()) target_height = 0;
+            if (Utils.GetManager<MainSceneUIManager>().IsPlacingObject() && !ValidTowerPlacement()) target_height = 0;
         } else {
             target_height = 0;
         }

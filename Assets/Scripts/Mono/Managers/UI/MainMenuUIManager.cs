@@ -3,8 +3,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenuUIManager : MonoBehaviour {
-    public static MainMenuUIManager instance;
-
     [Header("References Menus")]
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject settingsMenu;
@@ -48,9 +46,5 @@ public class MainMenuUIManager : MonoBehaviour {
         GameManager.instance.NewGame();
         
         SceneManager.LoadScene("MainScene");
-    }
-
-    private void Start() {
-        instance = this;
     }
 }

@@ -2,8 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 
 public class RunManager : MonoBehaviour {
-    public static RunManager instance;
-
     [Header("References")]
     [SerializeField] private Transform plotContainer;
     public Transform characterContainer;
@@ -88,24 +86,23 @@ public class RunManager : MonoBehaviour {
     public void Pause() {
         Time.timeScale = 0;
         paused = true;
-        MainSceneUIManager.instance.pauseMenu.SetActive(true);
+        Utils.GetManager<MainSceneUIManager>().pauseMenu.SetActive(true);
     }
 
     public void Unpause() {
         Time.timeScale = 1;
         paused = false;
-        MainSceneUIManager.instance.pauseMenu.SetActive(false);
+        Utils.GetManager<MainSceneUIManager>().pauseMenu.SetActive(false);
     }
 
     private void Start() {
-        instance = this;
         InstantiatePlots();
         factions.AddRange(GameManager.instance.Game.BaseFactions);
         playerFaction = GameManager.instance.Game.PlayerFaction;
 
         if (test) {
             test = false;
-            MainSceneUIManager.instance.PlaceInventoryItem(testPlacement);
+            Utils.GetManager<MainSceneUIManager>().PlaceInventoryItem(testPlacement);
         }
     }
 }

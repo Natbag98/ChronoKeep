@@ -18,20 +18,20 @@ public class Spawner : Tower {
             Utils.Choice(potentialCharactersToSpawn).prefab,
             transform.position,
             Quaternion.identity,
-            RunManager.instance.characterContainer
+            Utils.GetManager<RunManager>().characterContainer
         ).GetComponent<Character>();
         character.faction = parentPlot.faction;
     }
 
     protected override void Attack() {
-        if (parentPlot.faction == RunManager.instance.playerFaction) {
+        if (parentPlot.faction == Utils.GetManager<RunManager>().playerFaction) {
             SpawnCharacter();
         } else {
             if (powerRemaining > 0) {
                 SpawnCharacter();
             } else if (!finishedWave) {
                 finishedWave = true;
-                WaveManager.instance.hostileWaveSpawnersFinished++;
+                Utils.GetManager<WaveManager>().hostileWaveSpawnersFinished++;
             }
             powerRemaining--;
         }

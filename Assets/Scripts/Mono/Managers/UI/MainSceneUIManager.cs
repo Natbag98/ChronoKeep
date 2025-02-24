@@ -1,8 +1,7 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainSceneUIManager : MonoBehaviour {
-    public static MainSceneUIManager instance;
-
     [Header("References")]
     [SerializeField] private Transform inventoryPanel;
     [SerializeField] private GameObject inventoryItemPrefab;
@@ -19,7 +18,20 @@ public class MainSceneUIManager : MonoBehaviour {
     }
 
     public void _Button_NextWaveButtonClicked() {
-        if (!WaveManager.instance.waveActive) WaveManager.instance.StartWave();
+        if (!Utils.GetManager<WaveManager>().waveActive) Utils.GetManager<WaveManager>().StartWave();
+    }
+
+    public void _Button_PauseMenuQuitButtonClicked() {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("MainMenuScene");
+    }
+
+    public void _Button_PauseMenuResumeButtonClicked() {
+        Utils.GetManager<RunManager>().Unpause();
+    }
+
+    public void _Button_PauseMenuSaveGameButtonClicked() {
+        Debug.Log("Save Game");
     }
 
     public void StartPlacing(SOPlaceableObject placeable_object) {
@@ -35,10 +47,6 @@ public class MainSceneUIManager : MonoBehaviour {
         item.placeableObject = placeable_object;
     }
 
-    private void Start() {
-        instance = this;
-    }
-
     private void Update() {
         dragger.SetActive(placingObject);
         dragger.transform.position = Input.mousePosition;
@@ -48,10 +56,10 @@ public class MainSceneUIManager : MonoBehaviour {
                 PlaceInventoryItem(placingObject);
                 placingObject = null;
             } else {
-                if (RunManager.instance.paused) {
-                    RunManager.instance.Unpause();
+                if (Utils.GetManager<RunManager>().paused) {
+                    Utils.GetManager<RunManager>().Unpause();
                 } else {
-                    RunManager.instance.Pause();
+                    Utils.GetManager<RunManager>().Pause();
                 }
             }
         }

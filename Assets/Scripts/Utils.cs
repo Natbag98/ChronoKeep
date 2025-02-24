@@ -116,7 +116,7 @@ public class Utils : MonoBehaviour {
             plots_to_search.Remove(current_pos);
             plots_searched.Add(current_pos);
 
-            foreach (Plot neighbour in RunManager.instance.GetPlotArray()[current_pos.y][current_pos.x].GetNeighbours()) {
+            foreach (Plot neighbour in GetManager<RunManager>().GetPlotArray()[current_pos.y][current_pos.x].GetNeighbours()) {
                 Vector2Int neighbour_pos = neighbour.GetPositionInPlotArray();
                 PlotPathInfo neighbour_info = GetPlotPathInfo(plot_path_info, neighbour_pos);
                 PlotPathInfo current_info = GetPlotPathInfo(plot_path_info, current_pos);
@@ -126,7 +126,7 @@ public class Utils : MonoBehaviour {
                     List<Plot> path = new();
                     Vector2Int current_path_pos = target_pos;
                     while (GetPlotPathInfo(plot_path_info, current_path_pos).from_pos != null) {
-                        path.Add(RunManager.instance.GetPlotArray()[current_path_pos.y][current_path_pos.x]);
+                        path.Add(GetManager<RunManager>().GetPlotArray()[current_path_pos.y][current_path_pos.x]);
                         current_path_pos = (Vector2Int)GetPlotPathInfo(plot_path_info, current_path_pos).from_pos;
                     }
                     path.Reverse();
@@ -164,4 +164,6 @@ public class Utils : MonoBehaviour {
     public static float CalculateDamage(float amount, float defense) {
         return amount - defense;
     }
+
+    public static T GetManager<T>() where T : UnityEngine.Object { return FindFirstObjectByType<T>(); }
 }
