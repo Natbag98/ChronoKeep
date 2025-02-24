@@ -59,9 +59,4 @@ public class GameManager : MonoBehaviour {
     public void NewGame() {
         Game = new(new(11, 11), PlotGenerationData.GetDict(), kingdomName, playerName);
     }
-
-    void Update() {
-        Debug.Log(Game.PlayerFaction.Ruler);
-        Debug.Log(Game.PlayerFaction.Name);
-    }
 }
