@@ -28,15 +28,6 @@ public class Utils : MonoBehaviour {
         }
     }
 
-    public static bool HasNonWhiteSpaceCharacters(string s) {
-        foreach (char character in s) {
-            if (!(character == ' ')) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public static T CreateJaggedArray<T>(params int[] lengths) { return (T)InitializeJaggedArray(typeof(T).GetElementType(), 0, lengths); }
     public static bool SetFirstNull<T>(T element, T[] array) {
         for (int i = 0; i < array.Length; i++) if (array[i] == null) { array[i] = element; return true; }
