@@ -14,6 +14,9 @@ public class RunManager : MonoBehaviour {
     [HideInInspector] public Faction playerFaction;
     public bool paused = false;
 
+    private bool test = true;
+    [SerializeField] private SOPlaceableObject testPlacement;
+
     public Plot[][] GetPlotArray() { return plotArray; }
 
     /// <summary>
@@ -99,5 +102,10 @@ public class RunManager : MonoBehaviour {
         InstantiatePlots();
         factions.AddRange(GameManager.instance.Game.BaseFactions);
         playerFaction = GameManager.instance.Game.PlayerFaction;
+
+        if (test) {
+            test = false;
+            MainSceneUIManager.instance.PlaceInventoryItem(testPlacement);
+        }
     }
 }

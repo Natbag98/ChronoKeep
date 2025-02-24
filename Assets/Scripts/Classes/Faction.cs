@@ -13,6 +13,9 @@ public class Faction {
         string name=null,
         string ruler=null
     ) {
+        if (string.IsNullOrWhiteSpace(name)) name = null;
+        if (string.IsNullOrWhiteSpace(ruler)) ruler = null;
+        
         if (faction_type != null) {
             FactionType = (GameManager.FactionTypes)faction_type;
         } else {

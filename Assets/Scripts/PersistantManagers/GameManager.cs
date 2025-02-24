@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
     public static GameManager instance;
@@ -39,8 +40,8 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public Game Game;
     [HideInInspector] public TextData TextData = new();
 
-    private bool test = true;
-    [SerializeField] private SOPlaceableObject testPlacement;
+    [HideInInspector] public string playerName;
+    [HideInInspector] public string kingdomName;
 
     private void Awake() {
         if (instance) {
@@ -50,13 +51,12 @@ public class GameManager : MonoBehaviour {
             DontDestroyOnLoad(gameObject);
         }
 
-        Game = new(new(11, 11), PlotGenerationData.GetDict());
+        if (SceneManager.GetActiveScene().name == "MainScene") {
+            Game = new(new(11, 11), PlotGenerationData.GetDict(), "", "");
+        }
     }
 
-    void Update() {
-        if (test) {
-            test = false;
-            MainSceneUIManager.instance.PlaceInventoryItem(testPlacement);
-        }
+    public void NewGame() {
+        Game = new(new(11, 11), PlotGenerationData.GetDict(), kingdomName, playerName);
     }
 }

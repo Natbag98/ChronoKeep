@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class Game {
@@ -15,14 +14,16 @@ public class Game {
 
     public Game(
         Vector2Int terrain_size,
-        Dictionary<SOPlot, int> plot_generation_data
+        Dictionary<SOPlot, int> plot_generation_data,
+        string playerName,
+        string kingdomName
     ) {
         TerrainSize = terrain_size;
         GenerateFactions();
         GenerateBaseTerrain(plot_generation_data);
         PlaceCastle();
         PlaceBarbCamps(1);
-        PlayerFaction = new(GameManager.FactionTypes.Kingdom, "Player Kingdom", "Player Name");
+        PlayerFaction = new(GameManager.FactionTypes.Kingdom, kingdomName, playerName);
     }
 
     private void GenerateFactions() {
