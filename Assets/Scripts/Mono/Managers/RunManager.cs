@@ -10,7 +10,7 @@ public class RunManager : MonoBehaviour {
     private Plot[][] plotArray;
     [HideInInspector] public List<Faction> factions = new();
     [HideInInspector] public Faction playerFaction;
-    public bool paused = false;
+    [HideInInspector] public bool paused = false;
 
     private bool test = true;
     [SerializeField] private SOPlaceableObject testPlacement;

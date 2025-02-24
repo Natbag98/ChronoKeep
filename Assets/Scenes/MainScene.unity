@@ -2286,7 +2286,7 @@ MonoBehaviour:
   characterContainer: {fileID: 1594311072}
   projectileContainer: {fileID: 1731793887}
   paused: 0
-  testPlacement: {fileID: 0}
+  testPlacement: {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
 --- !u!114 &1948326906
 MonoBehaviour:
   m_ObjectHideFlags: 0
