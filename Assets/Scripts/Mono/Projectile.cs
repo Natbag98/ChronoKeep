@@ -6,10 +6,13 @@ public abstract class Projectile : MonoBehaviour {
     protected Transform target;
     protected Vector3 targetPoint;
 
-    public void SetDamage(float damage) { this.damage = damage; }
-    public void SetMoveSpeed(float move_speed) { moveSpeed = move_speed; }
     public void SetTarget(Transform target) { this.target = target; }
     public void SetTargetPoint(Vector3 target_point) { targetPoint = target_point; }
+
+    public virtual void SetAttributes(Attributes attributes) {
+        damage = attributes.GetAttribute(GameManager.Attributes.Attack);
+        moveSpeed = attributes.GetAttribute(GameManager.Attributes.ProjectileMoveSpeed);
+    }
 
     private Vector3 lastPosition;
 
