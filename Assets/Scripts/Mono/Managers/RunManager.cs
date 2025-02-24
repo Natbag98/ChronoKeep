@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class RunManager : MonoBehaviour {
     [Header("References")]
@@ -95,6 +96,10 @@ public class RunManager : MonoBehaviour {
         Utils.GetManager<MainSceneUIManager>().pauseMenu.SetActive(false);
     }
 
+    public void GameOver() {
+        SceneManager.LoadScene("MainMenuScene");
+    }
+
     private void Start() {
         InstantiatePlots();
         factions.AddRange(GameManager.instance.Game.BaseFactions);
@@ -103,6 +108,12 @@ public class RunManager : MonoBehaviour {
         if (test) {
             test = false;
             Utils.GetManager<MainSceneUIManager>().PlaceInventoryItem(testPlacement);
+        }
+    }
+
+    private void Update() {
+        if (GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle) == null) {
+            GameOver();
         }
     }
 }

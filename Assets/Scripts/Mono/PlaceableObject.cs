@@ -34,6 +34,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget {
         UpdateUI();
 
         if (health <= 0) {
+            parentPlot.placedObjectType = null;
             Destroy(gameObject);
         }
     }
