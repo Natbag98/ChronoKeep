@@ -11,8 +11,8 @@ public class MainMenuUIManager : MonoBehaviour {
     [SerializeField] private GameObject startMenu;
 
     [Header("References Start Menu")]
-    [SerializeField] TextMeshProUGUI playerName;
-    [SerializeField] TextMeshProUGUI kingdomName;
+    [SerializeField] TMP_InputField playerName;
+    [SerializeField] TMP_InputField kingdomName;
 
     public void _Button_NewGameButtonClicked() {
         mainMenu.SetActive(false);
