@@ -13,7 +13,8 @@ public class GameManager : MonoBehaviour {
         Attack,
         Range,
         CharacterMoveSpeed,
-        ProjectileMoveSpeed
+        ProjectileMoveSpeed,
+        ExplosionRadius
     }
     public enum PlaceableObjectTypes {
         Castle,
