@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
     public static GameManager instance;
@@ -48,6 +49,10 @@ public class GameManager : MonoBehaviour {
         } else {
             instance = this;
             DontDestroyOnLoad(gameObject);
+        }
+
+        if (SceneManager.GetActiveScene().name == "MainScene") {
+            Game = new(new(11, 11), PlotGenerationData.GetDict(), "", "");
         }
     }
 
