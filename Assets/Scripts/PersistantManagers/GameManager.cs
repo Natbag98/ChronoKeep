@@ -42,9 +42,6 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public string playerName;
     [HideInInspector] public string kingdomName;
 
-    private bool test = true;
-    [SerializeField] private SOPlaceableObject testPlacement;
-
     private void Awake() {
         if (instance) {
             Destroy(gameObject);
@@ -59,11 +56,6 @@ public class GameManager : MonoBehaviour {
     }
 
     void Update() {
-        if (test) {
-            test = false;
-            MainSceneUIManager.instance.PlaceInventoryItem(testPlacement);
-        }
-
         Debug.Log(Game.PlayerFaction.Ruler);
         Debug.Log(Game.PlayerFaction.Name);
     }
