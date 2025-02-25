@@ -112,7 +112,10 @@ public class RunManager : MonoBehaviour {
     }
 
     private void Update() {
-        if (GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle) == null) {
+        if (
+            GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle) == null ||
+            GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Spawner) == null
+        ) {
             GameOver();
         }
     }
