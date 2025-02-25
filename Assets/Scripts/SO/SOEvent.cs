@@ -1,13 +1,12 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SOEvent", menuName = "SOEvent")]
-public class SOEvent : ScriptableObject {
+public abstract class SOEvent : ScriptableObject {
     [Header("SOEvent")]
     public string displayName;
-    [SerializeField] private string description;
+    [SerializeField] protected string description;
 
-    public string GetDescription() { return description; }
-    public bool IsValid() { return true; }
-    public void Setup() {}
-    public void Event() {}
+    public virtual string GetDescription() { return description; }
+    public virtual bool IsValid() { return true; }
+    public virtual void Setup() {}
+    public abstract void Event();
 }
