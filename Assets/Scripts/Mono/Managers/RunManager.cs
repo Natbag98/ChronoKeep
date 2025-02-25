@@ -17,6 +17,11 @@ public class RunManager : MonoBehaviour {
     [SerializeField] private SOPlaceableObject testPlacement;
 
     public Plot[][] GetPlotArray() { return plotArray; }
+    public List<Plot> GetPlotList() {
+        List<Plot> to_return = new();
+        foreach (Plot[] row in plotArray) to_return.AddRange(row);
+        return to_return;
+    }
 
     /// <summary>
     /// Get the first plot with the given object placed.
@@ -82,6 +87,16 @@ public class RunManager : MonoBehaviour {
         foreach (Vector2Int location in game.BarbCamps) {
             plotArray[location.y][location.x].PlaceObject(GameManager.instance.BarbCamp, GameManager.instance.Game.BaseFactions[^1]);
         }
+    }
+
+    public void PlaceRandomObject(SOPlaceableObject object_to_place, Faction faction, bool no_mans_land=false) {
+        List<Plot> plots = new();
+        if (!no_mans_land) {
+            foreach (Plot plot in GetPlotList()) if (faction == plot.faction && plot.GetCanPlaceObject()) plots.Add(plot);
+        } else {
+            foreach (Plot plot in GetPlotList()) if (faction == plot.faction || plot.faction == null && plot.GetCanPlaceObject()) plots.Add(plot);
+        }
+        Utils.Choice(plots).PlaceObject(object_to_place, faction);
     }
 
     public void Pause() {

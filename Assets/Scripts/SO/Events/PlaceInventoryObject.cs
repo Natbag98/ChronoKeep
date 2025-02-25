@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "PlaceRandomInventoryObject", menuName = "Event/PlaceRandomInventoryObject")]
-public class PlaceRandomInventoryObject : SOEvent {
+[CreateAssetMenu(fileName = "PlaceInventoryObject", menuName = "Event/PlaceInventoryObject")]
+public class PlaceInventoryObject : SOEvent {
     [Header("PlaceInventoryObject")]
     [SerializeField] SOPlaceableObject[] potentialObjects;
 
