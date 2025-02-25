@@ -1323,7 +1323,7 @@ MonoBehaviour:
   MinBarbGenerationDistance: 2
   Castle: {fileID: 11400000, guid: facc3f4559aae0043adf012e27c0de95, type: 2}
   BarbCamp: {fileID: 11400000, guid: e504a0bbd48c9504686b3244871fecbd, type: 2}
-  PlotGenerationData:
+  plotGenerationData:
     dictPairs:
     - Key: {fileID: 11400000, guid: 2a890fe14bba1d04cab20d4019369af9, type: 2}
       Value: 75
@@ -2248,6 +2248,7 @@ GameObject:
   - component: {fileID: 1948326904}
   - component: {fileID: 1948326905}
   - component: {fileID: 1948326906}
+  - component: {fileID: 1948326907}
   m_Layer: 0
   m_Name: RunManager
   m_TagString: Untagged
@@ -2302,6 +2303,29 @@ MonoBehaviour:
   waveActive: 0
   hostileWaveSpawners: 0
   hostileWaveSpawnersFinished: 0
+--- !u!114 &1948326907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948326903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f48a70404af5a034d9f977506b761185, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  positiveEventsDict:
+    dictPairs:
+    - Key: {fileID: 11400000, guid: 0e0bc10ba1339604c9aaa554f0197353, type: 2}
+      Value: 2
+  negativeEventsDict:
+    dictPairs:
+    - Key: {fileID: 11400000, guid: 0e0bc10ba1339604c9aaa554f0197353, type: 2}
+      Value: 2
+  eventChanceIncreasePerWave: 100
+  negativeEventChance: 50
+  currentEvent: {fileID: 0}
 --- !u!1 &2013410473
 GameObject:
   m_ObjectHideFlags: 1
