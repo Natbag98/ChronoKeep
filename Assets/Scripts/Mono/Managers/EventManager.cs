@@ -42,8 +42,6 @@ public class EventManager : MonoBehaviour {
         if (GameManager.Random.Next(1, 101) < eventChance) {
             eventChance = 0f;
             NewEvent();
-            Debug.Log(currentEvent.GetDescription());
-            Event();
         }
     }
 
