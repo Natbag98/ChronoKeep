@@ -24,6 +24,7 @@ public class RangedCharacter : Character {
         attacking = true;
         canAttack = false;
         yield return new WaitForSeconds(attackDelayTime);
+        if (!attacking) yield break;
         Projectile projectile = Instantiate(
             projectileToShoot,
             shootPoint.position,
@@ -43,6 +44,7 @@ public class RangedCharacter : Character {
 
     protected override void Update() {
         base.Update();
+        if (target == null) attacking = false;
         if (attacking) Utils.RotateTowards(transform.position, target.position, rotatePoint, rotateSpeed);
     }
 }
