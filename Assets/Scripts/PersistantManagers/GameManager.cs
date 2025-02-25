@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour {
     public SOPlaceableObject BarbCamp;
 
     [Header("Plot Generation Data")]
-    [SerializeField] private Utils.SerializeableDict<SOPlot, int> PlotGenerationData;
+    [SerializeField] private Utils.SerializeableDict<SOPlot, int> plotGenerationData;
 
     [HideInInspector] public Game Game;
     [HideInInspector] public TextData TextData = new();
@@ -53,11 +53,11 @@ public class GameManager : MonoBehaviour {
         }
 
         if (SceneManager.GetActiveScene().name == "MainScene") {
-            Game = new(new(11, 11), PlotGenerationData.GetDict(), "", "");
+            Game = new(new(11, 11), plotGenerationData.GetDict(), "", "");
         }
     }
 
     public void NewGame() {
-        Game = new(new(11, 11), PlotGenerationData.GetDict(), kingdomName, playerName);
+        Game = new(new(11, 11), plotGenerationData.GetDict(), kingdomName, playerName);
     }
 }
