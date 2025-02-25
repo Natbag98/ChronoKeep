@@ -2317,11 +2317,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   positiveEventsDict:
     dictPairs:
-    - Key: {fileID: 11400000, guid: 0e0bc10ba1339604c9aaa554f0197353, type: 2}
+    - Key: {fileID: 11400000, guid: f861b974dd717b94596c540766c78102, type: 2}
       Value: 2
   negativeEventsDict:
     dictPairs:
-    - Key: {fileID: 11400000, guid: 0e0bc10ba1339604c9aaa554f0197353, type: 2}
+    - Key: {fileID: 11400000, guid: f861b974dd717b94596c540766c78102, type: 2}
       Value: 2
   eventChanceIncreasePerWave: 100
   negativeEventChance: 50

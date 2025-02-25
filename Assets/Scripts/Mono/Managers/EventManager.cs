@@ -43,6 +43,7 @@ public class EventManager : MonoBehaviour {
             eventChance = 0f;
             NewEvent();
             Debug.Log(currentEvent.GetDescription());
+            Event();
         }
     }
 
