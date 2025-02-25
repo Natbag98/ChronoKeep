@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,6 +8,11 @@ public class MainSceneUIManager : MonoBehaviour {
     [SerializeField] private GameObject inventoryItemPrefab;
     [SerializeField] private GameObject dragger;
     public GameObject pauseMenu;
+
+    [Header("References Event Menu")]
+    [SerializeField] private GameObject eventMenu;
+    [SerializeField] private TextMeshProUGUI eventName;
+    [SerializeField] private TextMeshProUGUI eventDescription;
 
     private SOPlaceableObject placingObject;
 
@@ -32,6 +38,10 @@ public class MainSceneUIManager : MonoBehaviour {
 
     public void _Button_PauseMenuSaveGameButtonClicked() {
         Debug.Log("Save Game");
+    }
+
+    public void _Button_EventMenuContinueButtonClicked() {
+        Utils.GetManager<EventManager>().Event();
     }
 
     public void StartPlacing(SOPlaceableObject placeable_object) {
@@ -63,5 +73,10 @@ public class MainSceneUIManager : MonoBehaviour {
                 }
             }
         }
+
+        SOEvent current_event = Utils.GetManager<EventManager>().currentEvent;
+        eventMenu.SetActive(current_event);
+        eventName.text = current_event?.displayName;
+        eventDescription.text = current_event?.GetDescription();
     }
 }
