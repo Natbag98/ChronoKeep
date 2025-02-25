@@ -5,6 +5,21 @@ using System.Collections.Generic;
 public class Utils : MonoBehaviour {
     public static T Choice<T>(T[] array) { return array[GameManager.Random.Next(array.Length)]; }
     public static T Choice<T>(List<T> list) { return list[GameManager.Random.Next(list.Count)]; }
+    public static T Choice<T>(Dictionary<T, int> dict) {
+        int max = 0;
+        foreach (int chance in dict.Values) max += chance;
+        int rand = GameManager.Random.Next(1, max);
+
+        int threshold = 0;
+        foreach (T key in dict.Keys) {
+            threshold += dict[key];
+            if (rand < threshold) {
+                return key;
+            }
+        }
+
+        return default;
+    }
 
     /// <summary>
     /// A dict wrapper that can be serialized by unity.
