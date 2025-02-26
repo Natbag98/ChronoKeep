@@ -24,7 +24,7 @@ public class Spawner : Tower {
         character.faction = parentPlot.faction;
     }
 
-    protected override void Attack() {
+    protected new bool Attack() {
         if (parentPlot.faction == Utils.GetManager<RunManager>().playerFaction) {
             SpawnCharacter();
         } else {
@@ -33,15 +33,18 @@ public class Spawner : Tower {
             } else if (!finishedWave) {
                 finishedWave = true;
                 Utils.GetManager<WaveManager>().hostileWaveSpawnersFinished++;
+                return false;
+            } else {
+                return false;
             }
             powerRemaining--;
         }
+        return true;
     }
 
     protected override void UpdateAttack() {
         if (canAttack) {
-            Attack();
-            StartCoroutine(Reload());
+            if (Attack()) StartCoroutine(Reload());
         }
     }
 }
