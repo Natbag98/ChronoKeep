@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3788424827052882018}
   - component: {fileID: -4046614172991315263}
+  - component: {fileID: 2557827062971984170}
   m_Layer: 0
   m_Name: CannonTower
   m_TagString: Untagged
@@ -72,6 +73,27 @@ MonoBehaviour:
   reloadBar: {fileID: 7986063309831295654}
   projectileToShoot: {fileID: 8691435012008618616, guid: 4ab096dfc4cd6bc4daf803109e1f137e, type: 3}
   shootPoint: {fileID: 5182663363030290}
+--- !u!65 &2557827062971984170
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684129611004499971}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.8, y: 1.2342271, z: 0.8}
+  m_Center: {x: 0, y: 0.65698427, z: 0}
 --- !u!1 &2319768617860406896
 GameObject:
   m_ObjectHideFlags: 0
