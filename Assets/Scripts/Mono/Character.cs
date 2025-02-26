@@ -17,6 +17,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
     [SerializeField] private UnityEngine.UI.Image healthBar;
     [SerializeField] private UnityEngine.UI.Image reloadBar;
 
+    private Vector2 moveOffset;
     [HideInInspector] public Faction faction;
     private float health;
     private Plot movementTarget;
@@ -98,7 +99,13 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
         }
     }
 
-    public Vector3 GetPathTargetPos() { return new Vector3(path[pathIndex].position.x, 0f, path[pathIndex].position.z); }
+    public Vector3 GetPathTargetPos() {
+        return new Vector3(
+            path[pathIndex].position.x - moveOffset.x,
+            0f,
+            path[pathIndex].position.z - moveOffset.y
+        );
+    }
 
     private void Move() {
         Vector3 direction = (GetPathTargetPos() - transform.position).normalized;
@@ -127,6 +134,21 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
             }
         }
         lastPosition = transform.position;
+    }
+
+    public void SetStartPos(Vector3 position) {
+        transform.position = new Vector3(
+            position.x - moveOffset.x,
+            0f,
+            position.z - moveOffset.y
+        );
+    }
+
+    private void Awake() {
+        moveOffset = new(
+            (float)GameManager.Random.NextDouble() - 0.5f,
+            (float)GameManager.Random.NextDouble() - 0.5f
+        );
     }
 
     private void Start() {

@@ -20,6 +20,7 @@ public class Spawner : Tower {
             Quaternion.identity,
             Utils.GetManager<RunManager>().characterContainer
         ).GetComponent<Character>();
+        character.SetStartPos(transform.position);
         character.faction = parentPlot.faction;
     }
 
