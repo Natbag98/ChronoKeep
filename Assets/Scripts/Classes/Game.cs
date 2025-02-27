@@ -13,7 +13,7 @@ public class Game {
     public List<Faction> BaseFactions { private set; get; } = new();
     public Faction PlayerFaction { private set; get; }
 
-    private Dictionary<GameManager.Resources, int> resources = new();
+    public Dictionary<GameManager.Resources, int> resources = new();
 
     public Game(
         Vector2Int terrain_size,
@@ -41,6 +41,17 @@ public class Game {
         } else {
             return false;
         }
+    }
+
+    public bool SpendResources(Dictionary<GameManager.Resources, int> resource_dict) {
+        foreach (GameManager.Resources resource in resource_dict.Keys) {
+            if (!CanSpendResources(resource, resource_dict[resource])) {
+                return false;
+            }
+        }
+
+        foreach (GameManager.Resources resource in resource_dict.Keys) SpendResources(resource, resource_dict[resource]);
+        return true;
     }
 
     private void GenerateFactions() {

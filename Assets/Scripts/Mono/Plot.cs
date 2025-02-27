@@ -87,7 +87,8 @@ public class Plot : MonoBehaviour {
     /// </summary>
     /// <param name="object_to_place">The object to place.</param>
     /// <param name="faction">The faction to set neighbouring plots onwership to.</param>
-    public void PlaceObject(SOPlaceableObject object_to_place, Faction faction) {
+    public void PlaceObject(SOPlaceableObject object_to_place, Faction faction, bool player_placement=false) {
+        if (player_placement && !GameManager.instance.Game.SpendResources(object_to_place.placementCost.GetDict())) return;
         Utils.GetManager<MainSceneUIManager>().ObjectPlaced();
         PlaceableObject new_object = Instantiate(
             object_to_place.placeableObjectPrefab,
@@ -137,7 +138,7 @@ public class Plot : MonoBehaviour {
 
     public void OnMouseDown() {
         if (Utils.GetManager<MainSceneUIManager>().IsPlacingObject() && ValidTowerPlacement()) {
-            PlaceObject(Utils.GetManager<MainSceneUIManager>().GetObjectToPlace(), GameManager.instance.Game.PlayerFaction);
+            PlaceObject(Utils.GetManager<MainSceneUIManager>().GetObjectToPlace(), GameManager.instance.Game.PlayerFaction, true);
         }
     }
 

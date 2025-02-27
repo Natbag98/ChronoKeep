@@ -136,7 +136,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
         lastPosition = transform.position;
     }
 
-    public void SetStartPos(Vector3 position) {
+    public void SetStartPos(Vector3 position) { // TODO : Stop this from causing collision issues due to being moved after instantiation
         transform.position = new Vector3(
             position.x - moveOffset.x,
             0f,
