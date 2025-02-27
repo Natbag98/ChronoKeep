@@ -99,4 +99,8 @@ public class Game {
             PlaceCamp();
         }
     }
+
+    public void DebugUpdate() {
+        
+    }
 }
