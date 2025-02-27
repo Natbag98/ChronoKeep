@@ -13,7 +13,7 @@ public class Game {
     public List<Faction> BaseFactions { private set; get; } = new();
     public Faction PlayerFaction { private set; get; }
 
-    public Dictionary<GameManager.Resources, int> resources = new();
+    private Dictionary<GameManager.Resources, int> resources = new();
 
     public Game(
         Vector2Int terrain_size,
@@ -40,6 +40,12 @@ public class Game {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public void AddResources(Dictionary<GameManager.Resources, int> resource_dict) {
+        foreach (GameManager.Resources resource in Enum.GetValues(typeof(GameManager.Resources)).Cast<GameManager.Resources>()) {
+            resources[resource] += resource_dict[resource];
         }
     }
 
@@ -101,6 +107,6 @@ public class Game {
     }
 
     public void DebugUpdate() {
-        
+        Debug.Log(resources[GameManager.Resources.Gold]);
     }
 }
