@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour {
         BarbarianClan,
         Kingdom
     }
+    public enum Resources {
+        Gold
+    }
 
     [Header("Static Data")]
     public float PlotMouseOverHeight;
