@@ -22,6 +22,12 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget {
 
     protected List<Plot> GetPlotsInRange() { return parentPlot.GetNeighbours(attributes.GetAttributeAsInt(GameManager.Attributes.Range)); }
 
+    public void OnMouseEnter() { parentPlot.OnMouseEnter(); }
+
+    public void OnMouseExit() { parentPlot.OnMouseExit(); }
+
+    private void OnMouseDown() { parentPlot.OnMouseDown(); }
+
     protected virtual void UpdateUI() {
         healthBar.fillAmount = health / attributes.GetAttribute(GameManager.Attributes.Health);
     }

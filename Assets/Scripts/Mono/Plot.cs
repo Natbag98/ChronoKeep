@@ -135,7 +135,7 @@ public class Plot : MonoBehaviour {
         mouseOver = false;
     }
 
-    private void OnMouseDown() {
+    public void OnMouseDown() {
         if (Utils.GetManager<MainSceneUIManager>().IsPlacingObject() && ValidTowerPlacement()) {
             PlaceObject(Utils.GetManager<MainSceneUIManager>().GetObjectToPlace(), GameManager.instance.Game.PlayerFaction);
         }
