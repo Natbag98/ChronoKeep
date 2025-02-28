@@ -107,6 +107,6 @@ public class Game {
     }
 
     public void DebugUpdate() {
-        Debug.Log(resources[GameManager.Resources.Gold]);
+        // Debug game logs should go here
     }
 }

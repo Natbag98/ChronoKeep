@@ -11,6 +11,5 @@ public class SOPlaceableObject : ScriptableObject {
     public Utils.SerializeableDict<GameManager.Resources, int> placementCost;
 
     [Header("Placement Rules")]
-    public GameManager.PlotTypes? mustPlaceOn;
     public GameManager.PlotTypes[] mustPlaceBeside;
 }

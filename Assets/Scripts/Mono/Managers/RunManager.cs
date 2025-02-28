@@ -62,13 +62,14 @@ public class RunManager : MonoBehaviour {
         plotArray = Utils.CreateJaggedArray<Plot[][]>(game.TerrainSize.x, game.TerrainSize.y);
         for (int x = 0; x < game.TerrainSize.x; x++) {
             for (int y = 0; y < game.TerrainSize.y; y++) {
-                GameObject new_plot = Instantiate(
+                Plot new_plot = Instantiate(
                     game.BaseTerrain[y][x].Prefab,
                     new Vector3Int(x - game.TerrainSize.x / 2, 0, y - game.TerrainSize.y / 2),
                     Quaternion.identity,
                     plotContainer
-                );
-                plotArray[y][x] = new_plot.GetComponent<Plot>();
+                ).GetComponent<Plot>();
+                new_plot.plotType = game.BaseTerrain[y][x].plotType;
+                plotArray[y][x] = new_plot;
             }
         }
 

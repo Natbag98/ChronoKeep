@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Plot : MonoBehaviour {
@@ -11,6 +12,7 @@ public class Plot : MonoBehaviour {
 
     [HideInInspector] public GameManager.PlaceableObjectTypes? placedObjectType = null;
     [HideInInspector] public Faction faction;
+    [HideInInspector] public GameManager.PlotTypes plotType;
     private Plot[] neighbours;
     private bool mouseOver;
 
@@ -115,9 +117,12 @@ public class Plot : MonoBehaviour {
     }
 
     /// <summary>
-    /// Checks whether the a tower can be placed on the plot.
+    /// Checks whether the an object can be placed on the plot.
     /// </summary>
-    private bool ValidTowerPlacement() {
+    private bool ValidTowerPlacement(SOPlaceableObject object_to_place) {
+        foreach (GameManager.PlotTypes plot_type in object_to_place.mustPlaceBeside) {
+            if (!(from plot in GetNeighbours() select plot.plotType).Contains(plot_type)) return false;
+        }
         if (
             placedObjectType != null ||
             faction != GameManager.instance.Game.PlayerFaction
@@ -137,7 +142,7 @@ public class Plot : MonoBehaviour {
     }
 
     public void OnMouseDown() {
-        if (Utils.GetManager<MainSceneUIManager>().IsPlacingObject() && ValidTowerPlacement()) {
+        if (Utils.GetManager<MainSceneUIManager>().IsPlacingObject() && Utils.GetManager<MainSceneUIManager>().GetObjectToPlace()) {
             PlaceObject(Utils.GetManager<MainSceneUIManager>().GetObjectToPlace(), GameManager.instance.Game.PlayerFaction, true);
         }
     }
@@ -149,7 +154,9 @@ public class Plot : MonoBehaviour {
             !Utils.GetManager<WaveManager>().waveActive
         ) {
             target_height = GameManager.instance.PlotMouseOverHeight;
-            if (Utils.GetManager<MainSceneUIManager>().IsPlacingObject() && !ValidTowerPlacement()) target_height = 0;
+            if (
+                Utils.GetManager<MainSceneUIManager>().IsPlacingObject() && !ValidTowerPlacement(Utils.GetManager<MainSceneUIManager>().GetObjectToPlace())
+            ) target_height = 0;
         } else {
             target_height = 0;
         }

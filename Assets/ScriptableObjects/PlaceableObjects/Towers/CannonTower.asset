@@ -19,3 +19,4 @@ MonoBehaviour:
     dictPairs:
     - Key: 0
       Value: 1
+  mustPlaceBeside: 01000000
