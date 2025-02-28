@@ -44,7 +44,7 @@ public class Game {
     }
 
     public void AddResources(Dictionary<GameManager.Resources, int> resource_dict) {
-        foreach (GameManager.Resources resource in Enum.GetValues(typeof(GameManager.Resources)).Cast<GameManager.Resources>()) {
+        foreach (GameManager.Resources resource in resource_dict.Keys) {
             resources[resource] += resource_dict[resource];
         }
     }

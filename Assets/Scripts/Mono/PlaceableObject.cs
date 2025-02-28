@@ -29,9 +29,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget {
     public void OnMouseExit() { parentPlot.OnMouseExit(); }
     private void OnMouseDown() { parentPlot.OnMouseDown(); }
 
-    private void WaveEnd(object _, EventArgs __) {
-        Debug.Log(this.name);
-        Debug.Log(resourcesPerWave.GetDict().Count);
+    protected void WaveEnd(object _, EventArgs __) {
         GameManager.instance.Game.AddResources(resourcesPerWave.GetDict());
     }
 

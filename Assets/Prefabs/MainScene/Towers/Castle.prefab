@@ -274,6 +274,10 @@ MonoBehaviour:
         Value: 100
       - Key: 1
         Value: 50
+  resourcesPerWave:
+    dictPairs:
+    - Key: 0
+      Value: 1
   centerPoint: {fileID: 4511316026082654196}
   healthBar: {fileID: 8154312074877688543}
   objectType: 0
