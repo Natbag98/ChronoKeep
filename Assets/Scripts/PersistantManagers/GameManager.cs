@@ -28,6 +28,10 @@ public class GameManager : MonoBehaviour {
     public enum Resources {
         Gold
     }
+    public enum PlotTypes {
+        Plains,
+        Lake
+    }
 
     [Header("Static Data")]
     public float PlotMouseOverHeight;
