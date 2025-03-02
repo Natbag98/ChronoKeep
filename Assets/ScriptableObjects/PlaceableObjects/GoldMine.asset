@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: GoldMine
   m_EditorClassIdentifier: 
   placeableObjectPrefab: {fileID: 1770908353305172144, guid: 0abfa3b533c81204baea78f0811777d7, type: 3}
+  displayName: Gold Mine
   objectType: 3
   factionControlRange: 0
   placementCost:

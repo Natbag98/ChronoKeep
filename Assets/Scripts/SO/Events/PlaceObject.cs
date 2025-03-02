@@ -11,7 +11,7 @@ public class PlaceObject : SOEvent {
     private Faction faction;
 
     public override string GetDescription() {
-        return $"A {objectToPlace.name} of {faction.Name} will be placed on the map";
+        return $"A {objectToPlace.displayName} of {faction.Name} will be placed on the map";
     }
 
     public override void Setup() {
