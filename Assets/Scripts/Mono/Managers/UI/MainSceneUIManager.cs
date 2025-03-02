@@ -9,6 +9,9 @@ public class MainSceneUIManager : MonoBehaviour {
     [SerializeField] private GameObject dragger;
     public GameObject pauseMenu;
 
+    [Header("References Resources")]
+    [SerializeField] private TextMeshProUGUI resourceGoldText;
+
     [Header("References Event Menu")]
     [SerializeField] private GameObject eventMenu;
     [SerializeField] private TextMeshProUGUI eventName;
@@ -75,5 +78,7 @@ public class MainSceneUIManager : MonoBehaviour {
         eventMenu.SetActive(current_event);
         eventName.text = current_event?.displayName;
         eventDescription.text = current_event?.GetDescription();
+
+        resourceGoldText.text = $"Gold: {GameManager.instance.Game.GetResources()[GameManager.Resources.Gold]}";
     }
 }

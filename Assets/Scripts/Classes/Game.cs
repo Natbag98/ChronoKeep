@@ -14,6 +14,7 @@ public class Game {
     public Faction PlayerFaction { private set; get; }
 
     private Dictionary<GameManager.Resources, int> resources = new();
+    public Dictionary<GameManager.Resources, int> GetResources() { return resources; }
 
     public Game(
         Vector2Int terrain_size,
