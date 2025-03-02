@@ -17,6 +17,14 @@ public class MainSceneUIManager : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI eventName;
     [SerializeField] private TextMeshProUGUI eventDescription;
 
+    [Header("References Info Panels")]
+    public GameObject plotInfoPanel;
+    public TextMeshProUGUI plotInfoName;
+    public TextMeshProUGUI plotInfoDescription;
+    public GameObject objectInfoPanel;
+    public TextMeshProUGUI objectInfoName;
+    public TextMeshProUGUI objectInfoDescription;
+
     private SOPlaceableObject placingObject;
 
     public bool IsPlacingObject() { return placingObject; }

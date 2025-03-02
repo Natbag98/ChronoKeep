@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 283c5a900a5fc504084b11dbcc9d7802, type: 3}
   m_Name: Plains
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 2966169235243407632, guid: cc88ee249217db6478b6fc8d07b5c9f7, type: 3}
+  displayName: Plains
+  prefab: {fileID: 2966169235243407632, guid: cc88ee249217db6478b6fc8d07b5c9f7, type: 3}
+  plotType: 0

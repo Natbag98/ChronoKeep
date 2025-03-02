@@ -80,7 +80,7 @@ public class Game {
     private void PlaceCastle() {
         for (int x = TerrainSize.x / 2; x < TerrainSize.x; x++) {
             for (int y = TerrainSize.y / 2; y < TerrainSize.y; y++) {
-                if (BaseTerrain[y][x].Prefab.GetComponent<Plot>().GetCanPlaceObject()) {
+                if (BaseTerrain[y][x].prefab.GetComponent<Plot>().GetCanPlaceObject()) {
                     CastleLocation = new Vector2Int(x, y);
                     return;
                 }
@@ -99,7 +99,7 @@ public class Game {
         if (
             Vector2Int.Distance(new Vector2Int(x, y), CastleLocation) >= GameManager.instance.MinBarbGenerationDistance &&
             !BarbCamps.Contains(new Vector2Int(x, y)) &&
-            BaseTerrain[y][x].Prefab.GetComponent<Plot>().GetCanPlaceObject()
+            BaseTerrain[y][x].prefab.GetComponent<Plot>().GetCanPlaceObject()
         ) {
             BarbCamps.Add(new Vector2Int(x, y));
         } else {

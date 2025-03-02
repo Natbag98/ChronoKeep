@@ -10,7 +10,9 @@ public class Plot : MonoBehaviour {
 
     [SerializeField] private bool canPlaceObject;
 
+    [HideInInspector] public SOPlot plotSO;
     [HideInInspector] public GameManager.PlaceableObjectTypes? placedObjectType = null;
+    [HideInInspector] public SOPlaceableObject placedObjectSO;
     [HideInInspector] public Faction faction;
     [HideInInspector] public GameManager.PlotTypes plotType;
     private Plot[] neighbours;
@@ -99,6 +101,7 @@ public class Plot : MonoBehaviour {
             transform
         ).GetComponent<PlaceableObject>();
         placedObjectType = new_object.objectType = object_to_place.objectType;
+        placedObjectSO = object_to_place;
         new_object.parentPlot = this;
 
         this.faction = faction;
@@ -135,10 +138,14 @@ public class Plot : MonoBehaviour {
 
     public void OnMouseEnter() {
         mouseOver = true;
+        Utils.GetManager<MainSceneUIManager>().plotInfoPanel.SetActive(true);
+        if (placedObjectType != null) Utils.GetManager<MainSceneUIManager>().objectInfoPanel.SetActive(true);
     }
 
     public void OnMouseExit() {
         mouseOver = false;
+        Utils.GetManager<MainSceneUIManager>().plotInfoPanel.SetActive(false);
+        Utils.GetManager<MainSceneUIManager>().objectInfoPanel.SetActive(false);
     }
 
     public void OnMouseDown() {
@@ -153,10 +160,13 @@ public class Plot : MonoBehaviour {
             mouseOver &&
             !Utils.GetManager<WaveManager>().waveActive
         ) {
-            target_height = GameManager.instance.PlotMouseOverHeight;
-            if (
-                Utils.GetManager<MainSceneUIManager>().IsPlacingObject() && !ValidTowerPlacement(Utils.GetManager<MainSceneUIManager>().GetObjectToPlace())
-            ) target_height = 0;
+            if (Utils.GetManager<MainSceneUIManager>().IsPlacingObject() && !ValidTowerPlacement(Utils.GetManager<MainSceneUIManager>().GetObjectToPlace())) {
+                target_height = 0;
+            } else {
+               target_height = GameManager.instance.PlotMouseOverHeight;
+
+                Utils.GetManager<MainSceneUIManager>().plotInfoName.text = plotSO.displayName;
+            }
         } else {
             target_height = 0;
         }

@@ -63,12 +63,12 @@ public class RunManager : MonoBehaviour {
         for (int x = 0; x < game.TerrainSize.x; x++) {
             for (int y = 0; y < game.TerrainSize.y; y++) {
                 Plot new_plot = Instantiate(
-                    game.BaseTerrain[y][x].Prefab,
+                    game.BaseTerrain[y][x].prefab,
                     new Vector3Int(x - game.TerrainSize.x / 2, 0, y - game.TerrainSize.y / 2),
                     Quaternion.identity,
                     plotContainer
                 ).GetComponent<Plot>();
-                new_plot.plotType = game.BaseTerrain[y][x].plotType;
+                new_plot.plotSO = game.BaseTerrain[y][x];
                 plotArray[y][x] = new_plot;
             }
         }

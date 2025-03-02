@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 283c5a900a5fc504084b11dbcc9d7802, type: 3}
   m_Name: Gold
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 4344120411089467013, guid: 4d9ed6ef97948924cb2e5d90e2954411, type: 3}
+  displayName: Gold
+  prefab: {fileID: 4344120411089467013, guid: 4d9ed6ef97948924cb2e5d90e2954411, type: 3}
   plotType: 2
