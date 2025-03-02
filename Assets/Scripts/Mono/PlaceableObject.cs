@@ -1,9 +1,12 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public abstract class PlaceableObject : MonoBehaviour, IRangedTarget {
     [Header("PlaceableObject")]
     [SerializeField] protected Attributes attributes;
+    [SerializeField] protected Utils.SerializeableDict<GameManager.Resources, int> resourcesPerWave;
     [SerializeField] private Transform centerPoint;
 
     [Header("PlaceableObject : References UI")]
@@ -23,10 +26,12 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget {
     protected List<Plot> GetPlotsInRange() { return parentPlot.GetNeighbours(attributes.GetAttributeAsInt(GameManager.Attributes.Range)); }
 
     public void OnMouseEnter() { parentPlot.OnMouseEnter(); }
-
     public void OnMouseExit() { parentPlot.OnMouseExit(); }
-
     private void OnMouseDown() { parentPlot.OnMouseDown(); }
+
+    protected void WaveEnd(object _, EventArgs __) {
+        GameManager.instance.Game.AddResources(resourcesPerWave.GetDict());
+    }
 
     protected virtual void UpdateUI() {
         healthBar.fillAmount = health / attributes.GetAttribute(GameManager.Attributes.Health);
@@ -34,6 +39,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget {
 
     protected virtual void Start() {
         health = attributes.GetAttribute(GameManager.Attributes.Health);
+        Utils.GetManager<WaveManager>().waveEnd += WaveEnd;
     }
 
     protected virtual void Update() {

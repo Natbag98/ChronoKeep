@@ -14,7 +14,7 @@ public class RunManager : MonoBehaviour {
     [HideInInspector] public bool paused = false;
 
     private bool test = true;
-    [SerializeField] private SOPlaceableObject testPlacement;
+    [SerializeField] private SOPlaceableObject[] testPlacement;
 
     public Plot[][] GetPlotArray() { return plotArray; }
     public List<Plot> GetPlotList() {
@@ -62,13 +62,14 @@ public class RunManager : MonoBehaviour {
         plotArray = Utils.CreateJaggedArray<Plot[][]>(game.TerrainSize.x, game.TerrainSize.y);
         for (int x = 0; x < game.TerrainSize.x; x++) {
             for (int y = 0; y < game.TerrainSize.y; y++) {
-                GameObject new_plot = Instantiate(
+                Plot new_plot = Instantiate(
                     game.BaseTerrain[y][x].Prefab,
                     new Vector3Int(x - game.TerrainSize.x / 2, 0, y - game.TerrainSize.y / 2),
                     Quaternion.identity,
                     plotContainer
-                );
-                plotArray[y][x] = new_plot.GetComponent<Plot>();
+                ).GetComponent<Plot>();
+                new_plot.plotType = game.BaseTerrain[y][x].plotType;
+                plotArray[y][x] = new_plot;
             }
         }
 
@@ -122,7 +123,7 @@ public class RunManager : MonoBehaviour {
 
         if (test) {
             test = false;
-            Utils.GetManager<MainSceneUIManager>().PlaceInventoryItem(testPlacement);
+            foreach (SOPlaceableObject object_to_place in testPlacement) Utils.GetManager<MainSceneUIManager>().PlaceInventoryItem(object_to_place);
         }
     }
 

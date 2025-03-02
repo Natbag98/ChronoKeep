@@ -19,11 +19,20 @@ public class GameManager : MonoBehaviour {
     public enum PlaceableObjectTypes {
         Castle,
         Tower,
-        Spawner
+        Spawner,
+        CivilianTower
     }
     public enum FactionTypes {
         BarbarianClan,
         Kingdom
+    }
+    public enum Resources {
+        Gold
+    }
+    public enum PlotTypes {
+        Plains,
+        Lake,
+        Gold
     }
 
     [Header("Static Data")]
@@ -59,5 +68,9 @@ public class GameManager : MonoBehaviour {
 
     public void NewGame() {
         Game = new(new(11, 11), plotGenerationData.GetDict(), kingdomName, playerName);
+    }
+
+    void Update() {
+        Game.DebugUpdate();
     }
 }

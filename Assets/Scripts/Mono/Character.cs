@@ -136,7 +136,8 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
         lastPosition = transform.position;
     }
 
-    public void SetStartPos(Vector3 position) {
+    public void SetStartPos(Vector3 position) { 
+        lastPosition = position;
         transform.position = new Vector3(
             position.x - moveOffset.x,
             0f,

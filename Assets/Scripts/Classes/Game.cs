@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Game {
@@ -12,18 +13,51 @@ public class Game {
     public List<Faction> BaseFactions { private set; get; } = new();
     public Faction PlayerFaction { private set; get; }
 
+    private Dictionary<GameManager.Resources, int> resources = new();
+
     public Game(
         Vector2Int terrain_size,
         Dictionary<SOPlot, int> plot_generation_data,
         string playerName,
         string kingdomName
     ) {
+        foreach (GameManager.Resources resource in Enum.GetValues(typeof(GameManager.Resources)).Cast<GameManager.Resources>()) resources.Add(resource, 5);
         TerrainSize = terrain_size;
         GenerateFactions();
         GenerateBaseTerrain(plot_generation_data);
         PlaceCastle();
         PlaceBarbCamps(1);
         PlayerFaction = new(GameManager.FactionTypes.Kingdom, kingdomName, playerName);
+    }
+
+    public bool CanSpendResources(GameManager.Resources resource, int amount) {
+        return amount < resources[resource];
+    }
+
+    public bool SpendResources(GameManager.Resources resource, int amount) {
+        if (CanSpendResources(resource, amount)) {
+            resources[resource] -= amount;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void AddResources(Dictionary<GameManager.Resources, int> resource_dict) {
+        foreach (GameManager.Resources resource in resource_dict.Keys) {
+            resources[resource] += resource_dict[resource];
+        }
+    }
+
+    public bool SpendResources(Dictionary<GameManager.Resources, int> resource_dict) {
+        foreach (GameManager.Resources resource in resource_dict.Keys) {
+            if (!CanSpendResources(resource, resource_dict[resource])) {
+                return false;
+            }
+        }
+
+        foreach (GameManager.Resources resource in resource_dict.Keys) SpendResources(resource, resource_dict[resource]);
+        return true;
     }
 
     private void GenerateFactions() {
@@ -70,5 +104,9 @@ public class Game {
         } else {
             PlaceCamp();
         }
+    }
+
+    public void DebugUpdate() {
+        // Debug game logs should go here
     }
 }

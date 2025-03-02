@@ -18,10 +18,7 @@ public class MainSceneUIManager : MonoBehaviour {
 
     public bool IsPlacingObject() { return placingObject; }
     public void ObjectPlaced() { placingObject = null; }
-
-    public SOPlaceableObject GetObjectToPlace() {
-        return placingObject;
-    }
+    public SOPlaceableObject GetObjectToPlace() { return placingObject; }
 
     public void _Button_NextWaveButtonClicked() {
         if (!Utils.GetManager<WaveManager>().waveActive) Utils.GetManager<WaveManager>().StartWave();
