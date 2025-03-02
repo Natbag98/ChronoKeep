@@ -1602,6 +1602,8 @@ MonoBehaviour:
       Value: 75
     - Key: {fileID: 11400000, guid: 91b0b931bda090541a294a0c5834a536, type: 2}
       Value: 15
+    - Key: {fileID: 11400000, guid: 487feeaaddffd7844895873763a7a0c8, type: 2}
+      Value: 5
   playerName: 
   kingdomName: 
 --- !u!1 &1162555620
@@ -2937,7 +2939,7 @@ MonoBehaviour:
   characterContainer: {fileID: 1594311072}
   projectileContainer: {fileID: 1731793887}
   paused: 0
-  testPlacement: {fileID: 11400000, guid: 106fc22d69ab7ff4b91326f6c0e3b4e4, type: 2}
+  testPlacement: {fileID: 11400000, guid: 86066999b2da0ef4f9c74035828c70ab, type: 2}
 --- !u!114 &1948326906
 MonoBehaviour:
   m_ObjectHideFlags: 0

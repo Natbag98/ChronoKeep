@@ -43,6 +43,18 @@ public class Utils : MonoBehaviour {
         }
     }
 
+    public class SerializableNullable<T> where T : class {
+        [SerializeField] private bool containsValue;
+        [SerializeField] private T value;
+        public T GetValue() {
+            if (containsValue) {
+                return value;
+            } else {
+                return null;
+            }
+        }
+    }
+
     public static T CreateJaggedArray<T>(params int[] lengths) { return (T)InitializeJaggedArray(typeof(T).GetElementType(), 0, lengths); }
     public static bool SetFirstNull<T>(T element, T[] array) {
         for (int i = 0; i < array.Length; i++) if (array[i] == null) { array[i] = element; return true; }

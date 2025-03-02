@@ -14,7 +14,7 @@ public class RunManager : MonoBehaviour {
     [HideInInspector] public bool paused = false;
 
     private bool test = true;
-    [SerializeField] private SOPlaceableObject testPlacement;
+    [SerializeField] private SOPlaceableObject[] testPlacement;
 
     public Plot[][] GetPlotArray() { return plotArray; }
     public List<Plot> GetPlotList() {
@@ -123,7 +123,7 @@ public class RunManager : MonoBehaviour {
 
         if (test) {
             test = false;
-            Utils.GetManager<MainSceneUIManager>().PlaceInventoryItem(testPlacement);
+            foreach (SOPlaceableObject object_to_place in testPlacement) Utils.GetManager<MainSceneUIManager>().PlaceInventoryItem(object_to_place);
         }
     }
 

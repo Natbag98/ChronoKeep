@@ -19,7 +19,8 @@ public class GameManager : MonoBehaviour {
     public enum PlaceableObjectTypes {
         Castle,
         Tower,
-        Spawner
+        Spawner,
+        CivilianTower
     }
     public enum FactionTypes {
         BarbarianClan,
@@ -30,7 +31,8 @@ public class GameManager : MonoBehaviour {
     }
     public enum PlotTypes {
         Plains,
-        Lake
+        Lake,
+        Gold
     }
 
     [Header("Static Data")]
