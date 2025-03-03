@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Tag : MonoBehaviour {
     public enum Tags {
-        UIHidesMouse
+        UIBlocksMouse
     }
 
     public Tags[] tags;
