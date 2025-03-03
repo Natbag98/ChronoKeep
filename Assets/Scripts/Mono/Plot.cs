@@ -142,7 +142,7 @@ public class Plot : MonoBehaviour {
             if (ValidTowerPlacement(Utils.GetManager<MainSceneUIManager>().GetObjectToPlace())) {
                 Utils.GetManager<MainSceneUIManager>().plotInfoPanel.SetActive(true);
             }
-        } else {
+        } else if (!Utils.GetManager<MainSceneUIManager>().mouseBlocked) {
             Utils.GetManager<MainSceneUIManager>().plotInfoPanel.SetActive(true);
         }
         if (placedObjectType != null) Utils.GetManager<MainSceneUIManager>().objectInfoPanel.SetActive(true);
@@ -166,7 +166,11 @@ public class Plot : MonoBehaviour {
             mouseOver &&
             !Utils.GetManager<WaveManager>().waveActive
         ) {
-            if (Utils.GetManager<MainSceneUIManager>().IsPlacingObject() && !ValidTowerPlacement(Utils.GetManager<MainSceneUIManager>().GetObjectToPlace())) {
+            if (
+                Utils.GetManager<MainSceneUIManager>().mouseBlocked ||
+                Utils.GetManager<MainSceneUIManager>().IsPlacingObject() && 
+                !ValidTowerPlacement(Utils.GetManager<MainSceneUIManager>().GetObjectToPlace())
+            ) {
                 target_height = 0;
             } else {
                target_height = GameManager.instance.PlotMouseOverHeight;

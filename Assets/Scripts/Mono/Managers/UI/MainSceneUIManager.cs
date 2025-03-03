@@ -26,7 +26,7 @@ public class MainSceneUIManager : MonoBehaviour {
     public TextMeshProUGUI objectInfoDescription;
 
     private SOPlaceableObject placingObject;
-    private bool mouseBlocked = false;
+    [HideInInspector] public bool mouseBlocked = false;
 
     public bool IsPlacingObject() { return placingObject; }
     public void ObjectPlaced() { placingObject = null; }
@@ -88,7 +88,6 @@ public class MainSceneUIManager : MonoBehaviour {
         } else {
             mouseBlocked = false;
         }
-        Debug.Log(mouseBlocked);
 
         SOEvent current_event = Utils.GetManager<EventManager>().currentEvent;
         eventMenu.SetActive(current_event);
