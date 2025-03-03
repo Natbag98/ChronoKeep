@@ -6,6 +6,7 @@ public class SOPlaceableObject : ScriptableObject {
     public GameObject placeableObjectPrefab;
 
     [Header("Attributes")]
+    public string displayName;
     public GameManager.PlaceableObjectTypes objectType;
     public int factionControlRange;
     public Utils.SerializeableDict<GameManager.Resources, int> placementCost;

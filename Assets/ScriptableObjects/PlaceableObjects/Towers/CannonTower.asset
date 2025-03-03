@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: CannonTower
   m_EditorClassIdentifier: 
   placeableObjectPrefab: {fileID: 684129611004499971, guid: 0e266b66c322faf4e8656dac4c0beb46, type: 3}
+  displayName: Cannon Tower
   objectType: 1
   factionControlRange: 0
   placementCost:

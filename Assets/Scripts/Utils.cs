@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 public class Utils : MonoBehaviour {
     public static T Choice<T>(T[] array) { return array[GameManager.Random.Next(array.Length)]; }
@@ -193,4 +194,21 @@ public class Utils : MonoBehaviour {
     }
 
     public static T GetManager<T>() where T : UnityEngine.Object { return FindFirstObjectByType<T>(); }
+
+    /// <summary>
+    /// Checks whether the mouse is hovering over a UI element with the given tag.
+    /// </summary>
+    /// <param name="tag">The tag to check against.</param>
+    /// <returns>The GameObject that the mouse is hovering over.</returns>
+    public static GameObject CheckMouseHoveringOverUIElementWithTag(Tag.Tags tag) {
+        PointerEventData pointerEventData = new(EventSystem.current) { position = Input.mousePosition };
+        List<RaycastResult> raycastResult = new();
+        EventSystem.current.RaycastAll(pointerEventData, raycastResult);
+        foreach (RaycastResult result in raycastResult) {
+            if (result.gameObject.GetComponent<Tag>() != null && result.gameObject.GetComponent<Tag>().HasTag(tag)) {
+                return result.gameObject;
+            }
+        }
+        return null;
+    }
 }

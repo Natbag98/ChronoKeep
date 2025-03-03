@@ -8,7 +8,7 @@ public class PlaceInventoryObject : SOEvent {
     private SOPlaceableObject objectToPlace;
 
     public override string GetDescription() {
-        return $"A {objectToPlace.name} will be placed in your inventory";
+        return $"A {objectToPlace.displayName} will be placed in your inventory";
     }
 
     public override void Setup() {

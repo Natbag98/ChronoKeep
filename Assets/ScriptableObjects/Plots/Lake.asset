@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 283c5a900a5fc504084b11dbcc9d7802, type: 3}
   m_Name: Lake
   m_EditorClassIdentifier: 
-  Prefab: {fileID: 4344120411089467013, guid: e44cfe94d4ffa7d44a423f09280be94b, type: 3}
+  displayName: Lake
+  prefab: {fileID: 4344120411089467013, guid: e44cfe94d4ffa7d44a423f09280be94b, type: 3}
   plotType: 1

@@ -9,12 +9,24 @@ public class MainSceneUIManager : MonoBehaviour {
     [SerializeField] private GameObject dragger;
     public GameObject pauseMenu;
 
+    [Header("References Resources")]
+    [SerializeField] private TextMeshProUGUI resourceGoldText;
+
     [Header("References Event Menu")]
     [SerializeField] private GameObject eventMenu;
     [SerializeField] private TextMeshProUGUI eventName;
     [SerializeField] private TextMeshProUGUI eventDescription;
 
+    [Header("References Info Panels")]
+    public GameObject plotInfoPanel;
+    public TextMeshProUGUI plotInfoName;
+    public TextMeshProUGUI plotInfoDescription;
+    public GameObject objectInfoPanel;
+    public TextMeshProUGUI objectInfoName;
+    public TextMeshProUGUI objectInfoDescription;
+
     private SOPlaceableObject placingObject;
+    [HideInInspector] public bool mouseBlocked = false;
 
     public bool IsPlacingObject() { return placingObject; }
     public void ObjectPlaced() { placingObject = null; }
@@ -71,9 +83,17 @@ public class MainSceneUIManager : MonoBehaviour {
             }
         }
 
+        if (Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.UIBlocksMouse)) {
+            mouseBlocked = true;
+        } else {
+            mouseBlocked = false;
+        }
+
         SOEvent current_event = Utils.GetManager<EventManager>().currentEvent;
         eventMenu.SetActive(current_event);
         eventName.text = current_event?.displayName;
         eventDescription.text = current_event?.GetDescription();
+
+        resourceGoldText.text = $"Gold: {GameManager.instance.Game.GetResources()[GameManager.Resources.Gold]}";
     }
 }
