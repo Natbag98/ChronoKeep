@@ -4358,6 +4358,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c64e00a80431a944b16369d8c0c075c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  placeableObjects: {fileID: 11400000, guid: f9ed21499d9aea74a85c552f36eda3a7, type: 2}
   PlotMouseOverHeight: 1
   PlotMouseOverSpeed: 5
   MinBarbGenerationDistance: 2
