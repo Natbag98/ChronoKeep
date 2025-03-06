@@ -44,7 +44,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget {
     }
 
     protected virtual void Update() {
-        GameManager.instance.Game.UpdateObjectsDiscovered(placeableObjectSO);
+        GameManager.instance.Game.placeableObjectsUnlockTracker.UpdateDiscovered(placeableObjectSO);
         UpdateUI();
 
         if (health <= 0) {

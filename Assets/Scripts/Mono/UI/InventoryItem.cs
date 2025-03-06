@@ -11,6 +11,6 @@ public class InventoryItem : MonoBehaviour {
     }
 
     public void Update() {
-        GameManager.instance.Game.UpdateObjectsDiscovered(placeableObject);
+        GameManager.instance.Game.placeableObjectsUnlockTracker.UpdateDiscovered(placeableObject);
     }
 }
