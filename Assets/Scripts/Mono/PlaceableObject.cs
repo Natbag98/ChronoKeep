@@ -12,6 +12,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget {
     [Header("PlaceableObject : References UI")]
     [SerializeField] private UnityEngine.UI.Image healthBar;
 
+    [HideInInspector] public SOPlaceableObject placeableObjectSO;
     [HideInInspector] public GameManager.PlaceableObjectTypes objectType;
     [HideInInspector] public Plot parentPlot;
     private float health;
@@ -43,6 +44,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget {
     }
 
     protected virtual void Update() {
+        GameManager.instance.Game.UpdateObjectsDiscovered(placeableObjectSO);
         UpdateUI();
 
         if (health <= 0) {

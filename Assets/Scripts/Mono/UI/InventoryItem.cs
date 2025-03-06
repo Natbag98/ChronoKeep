@@ -9,4 +9,8 @@ public class InventoryItem : MonoBehaviour {
             Destroy(gameObject);
         }
     }
+
+    public void Update() {
+        GameManager.instance.Game.UpdateObjectsDiscovered(placeableObject);
+    }
 }

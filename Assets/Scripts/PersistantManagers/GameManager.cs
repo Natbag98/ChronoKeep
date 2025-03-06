@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -53,6 +54,8 @@ public class GameManager : MonoBehaviour {
     [HideInInspector] public string playerName;
     [HideInInspector] public string kingdomName;
 
+    [HideInInspector] public List<SOPlaceableObject> allSOPlaceableObjects = new();
+
     private void Awake() {
         if (instance) {
             Destroy(gameObject);
@@ -60,6 +63,8 @@ public class GameManager : MonoBehaviour {
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+
+        foreach (SOPlaceableObject placeable_object in Utils.GetAllAssets<SOPlaceableObject>()) allSOPlaceableObjects.Add(placeable_object);
 
         if (SceneManager.GetActiveScene().name == "MainScene") {
             Game = new(new(11, 11), plotGenerationData.GetDict(), "", "");

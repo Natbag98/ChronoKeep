@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class Game {
@@ -17,6 +18,9 @@ public class Game {
     public Dictionary<GameManager.Resources, int> GetResources() { return resources; }
 
     public Dictionary<SOPlaceableObject, bool> objectsDiscovered = new();
+    public void UpdateObjectsDiscovered(SOPlaceableObject placeable_object) {
+        objectsDiscovered[placeable_object] = true;
+    }
 
     public Game(
         Vector2Int terrain_size,
@@ -24,7 +28,7 @@ public class Game {
         string playerName,
         string kingdomName
     ) {
-        //foreach (SOPlaceableObject placeable_object in )
+        foreach (SOPlaceableObject placeable_object in GameManager.instance.allSOPlaceableObjects) objectsDiscovered.Add(placeable_object, false);
 
         foreach (GameManager.Resources resource in Enum.GetValues(typeof(GameManager.Resources)).Cast<GameManager.Resources>()) resources.Add(resource, 5);
         TerrainSize = terrain_size;
