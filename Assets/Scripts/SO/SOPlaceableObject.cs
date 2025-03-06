@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "SOPlaceableObject", menuName = "SOPlaceableObject")]
-public class SOPlaceableObject : ScriptableObject {
+public class SOPlaceableObject : ScriptableObject, IUnlockTrackable {
     [Header("References")]
     public GameObject placeableObjectPrefab;
 
@@ -13,4 +13,8 @@ public class SOPlaceableObject : ScriptableObject {
 
     [Header("Placement Rules")]
     public GameManager.PlotTypes[] mustPlaceBeside;
+
+    public GameObject GetPrefab() {
+        return placeableObjectPrefab;
+    }
 }

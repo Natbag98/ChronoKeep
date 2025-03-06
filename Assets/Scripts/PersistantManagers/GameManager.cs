@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour {
 
     public SOPlaceableObject Castle;
     public SOPlaceableObject BarbCamp;
+    public SOPlaceableObject ArcherTower;
 
     [Header("Plot Generation Data")]
     [SerializeField] private Utils.SerializeableDict<SOPlot, int> plotGenerationData;

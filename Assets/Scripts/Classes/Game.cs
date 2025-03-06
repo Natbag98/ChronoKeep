@@ -25,6 +25,10 @@ public class Game {
         string playerName,
         string kingdomName
     ) {
+        placeableObjectsUnlockTracker.UpdateUnlocked(GameManager.instance.ArcherTower);
+        placeableObjectsUnlockTracker.UpdateUnlocked(GameManager.instance.Castle);
+        placeableObjectsUnlockTracker.UpdateUnlocked(GameManager.instance.BarbCamp);
+
         foreach (GameManager.Resources resource in Enum.GetValues(typeof(GameManager.Resources)).Cast<GameManager.Resources>()) resources.Add(resource, 5);
         TerrainSize = terrain_size;
         GenerateFactions();

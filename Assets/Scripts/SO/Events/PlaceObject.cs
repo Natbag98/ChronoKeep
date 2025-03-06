@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlaceObject", menuName = "Event/PlaceObject")]
 public class PlaceObject : SOEvent {
     [Header("PlaceInventoryObject")]
-    [SerializeField] SOPlaceableObject[] potentialObjects;
+    [SerializeField] Tag.Tags[] potentialObjectTags;
     [SerializeField] GameManager.FactionTypes factionType;
 
     private SOPlaceableObject objectToPlace;
@@ -15,7 +15,7 @@ public class PlaceObject : SOEvent {
     }
 
     public override void Setup() {
-        objectToPlace = Utils.Choice(potentialObjects);
+        objectToPlace = GameManager.instance.Game.placeableObjectsUnlockTracker.GetRandomUnlocked(potentialObjectTags);
         List<Faction> potential_factions = new();
         foreach (Faction faction in Utils.GetManager<RunManager>().factions) if (faction.FactionType == factionType) potential_factions.Add(faction);
         faction = Utils.Choice(potential_factions);
