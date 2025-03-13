@@ -1,8 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
 public class Attributes {
     [SerializeField] private Utils.SerializeableDict<GameManager.Attributes, float> baseAttributes;
+
+    private List<Mod> mods;
 
     /// <summary>
     /// Gets the base value of the given attribute.
@@ -21,6 +24,9 @@ public class Attributes {
     /// <returns>The value of the attribute.</returns>
     public int GetAttributeAsInt(GameManager.Attributes attribute_to_get) {
         float attribute = baseAttributes.GetDict()[attribute_to_get];
+        foreach (Mod mod in mods) {
+            if (mod.attributeToAffect == attribute_to_get) attribute *= mod.amount;
+        }
         return Mathf.FloorToInt(attribute);
     }
 }
