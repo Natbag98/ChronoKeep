@@ -14,5 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Random Tower
   description: 
-  potentialObjects:
-  - {fileID: 11400000, guid: 86066999b2da0ef4f9c74035828c70ab, type: 2}
+  potentialObjectTags: 02000000

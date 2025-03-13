@@ -3,7 +3,9 @@ using UnityEngine;
 
 public class Tag : MonoBehaviour {
     public enum Tags {
-        UIBlocksMouse
+        UIBlocksMouse,
+        Spawner,
+        Tower
     }
 
     public Tags[] tags;
