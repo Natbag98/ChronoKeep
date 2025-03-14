@@ -8,11 +8,13 @@ public class WaveManager : MonoBehaviour {
     [HideInInspector] public int hostileWaveSpawners;
     [HideInInspector] public int hostileWaveSpawnersFinished;
 
+    public event EventHandler waveStart;
     public event EventHandler waveEnd;
 
     public void StartWave() {
         waveActive = true;
         wave++;
+        waveStart?.Invoke(null, EventArgs.Empty);
 
         hostileWaveSpawners = hostileWaveSpawnersFinished = 0;
 

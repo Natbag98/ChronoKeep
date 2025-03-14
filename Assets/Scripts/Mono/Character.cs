@@ -205,4 +205,8 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
     public void AddMod(Mod mod) {
         attributes.AddMod(mod);
     }
+
+    public void RemoveMod(Mod mod) {
+        attributes.RemoveMod(mod);
+    }
 }

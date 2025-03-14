@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IModable {
@@ -29,7 +30,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IModable {
     public void OnMouseExit() { parentPlot.OnMouseExit(); }
     private void OnMouseDown() { parentPlot.OnMouseDown(); }
 
-    protected void WaveEnd(object _, EventArgs __) {
+    private void WaveEnd(object _, EventArgs __) {
         GameManager.instance.Game.AddResources(resourcesPerWave.GetDict());
     }
 
@@ -54,5 +55,9 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IModable {
 
     public void AddMod(Mod mod) {
         attributes.AddMod(mod);
+    }
+
+    public void RemoveMod(Mod mod) {
+        attributes.RemoveMod(mod);
     }
 }

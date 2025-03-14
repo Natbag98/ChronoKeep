@@ -38,4 +38,8 @@ public class Attributes {
     public void AddMod(Mod mod) {
         mods.Add(mod);
     }
+
+    public void RemoveMod(Mod mod) {
+        mods.Remove(mod);
+    }
 }
