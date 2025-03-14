@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public abstract class PlaceableObject : MonoBehaviour, IRangedTarget {
+public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IModable {
     [Header("PlaceableObject")]
     [SerializeField] protected Attributes attributes;
     [SerializeField] protected Utils.SerializeableDict<GameManager.Resources, int> resourcesPerWave;
@@ -50,5 +50,9 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget {
             parentPlot.placedObjectSO = null;
             Destroy(gameObject);
         }
+    }
+
+    public void AddMod(Mod mod) {
+        attributes.AddMod(mod);
     }
 }

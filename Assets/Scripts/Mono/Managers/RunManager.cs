@@ -15,6 +15,7 @@ public class RunManager : MonoBehaviour {
 
     private bool test = true;
     [SerializeField] private SOPlaceableObject[] testPlacement;
+    public Mod[] testMods;
 
     public Plot[][] GetPlotArray() { return plotArray; }
     public List<Plot> GetPlotList() {

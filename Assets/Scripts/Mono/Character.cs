@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
 
-public abstract class Character : MonoBehaviour, IRangedTarget {
+public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
     [Header("Attributes")]
     [SerializeField] protected float rotateSpeed;
     [SerializeField] protected float attackDelayTime;
@@ -200,5 +200,9 @@ public abstract class Character : MonoBehaviour, IRangedTarget {
         if (health <= 0) {
             Destroy(gameObject);
         }
+    }
+
+    public void AddMod(Mod mod) {
+        attributes.AddMod(mod);
     }
 }

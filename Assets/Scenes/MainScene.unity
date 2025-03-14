@@ -891,6 +891,7 @@ MonoBehaviour:
   objectInfoPanel: {fileID: 2103577975}
   objectInfoName: {fileID: 395016118}
   objectInfoDescription: {fileID: 1831468386}
+  mouseBlocked: 0
 --- !u!1 &395016116
 GameObject:
   m_ObjectHideFlags: 0
@@ -3983,7 +3984,11 @@ MonoBehaviour:
   testPlacement:
   - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
   - {fileID: 11400000, guid: 106fc22d69ab7ff4b91326f6c0e3b4e4, type: 2}
-  - {fileID: 11400000, guid: 86066999b2da0ef4f9c74035828c70ab, type: 2}
+  testMods:
+  - attributeToAffect: 3
+    amount: 2
+  - attributeToAffect: 0
+    amount: 2
 --- !u!114 &1948326906
 MonoBehaviour:
   m_ObjectHideFlags: 0
