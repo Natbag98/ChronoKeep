@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b117226a6549b1448d8a08556c52cc1, type: 3}
   m_Name: HealthBooster
   m_EditorClassIdentifier: 
-  placeableObjectPrefab: {fileID: 0}
-  displayName: 
-  objectType: 0
-  factionControlRange: 0
+  placeableObjectPrefab: {fileID: 1770908353305172144, guid: 98fc16a2791c828419f3cbe1fe457446, type: 3}
+  displayName: Health Booster
+  objectType: 1
+  factionControlRange: 1
   placementCost:
     dictPairs:
     - Key: 0
