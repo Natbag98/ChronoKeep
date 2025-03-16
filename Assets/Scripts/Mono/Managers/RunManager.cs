@@ -114,7 +114,7 @@ public class RunManager : MonoBehaviour {
     }
 
     public void GameOver() {
-        SceneManager.LoadScene("MainMenuScene");
+        SceneManager.LoadScene("GameScene");
     }
 
     private void Start() {
