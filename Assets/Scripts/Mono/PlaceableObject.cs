@@ -56,7 +56,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IModable {
     }
 
     public void AddMod(Mod mod) {
-        attributes.AddMod(mod);
+        attributes.AddMod(mod, GetComponent<Tag>());
     }
 
     public void RemoveMod(Mod mod) {

@@ -53,9 +53,11 @@ public class Utils : MonoBehaviour {
         }
     }
 
+    [System.Serializable]
     public class SerializableNullable<T> where T : class {
         [SerializeField] private bool containsValue;
         [SerializeField] private T value;
+
         public T GetValue() {
             if (containsValue) {
                 return value;
