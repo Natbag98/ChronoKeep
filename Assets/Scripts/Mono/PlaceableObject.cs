@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
 using UnityEngine;
 
 public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IModable {

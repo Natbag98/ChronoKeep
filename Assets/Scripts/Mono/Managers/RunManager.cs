@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class RunManager : MonoBehaviour {
     [Header("References")]
@@ -12,6 +13,7 @@ public class RunManager : MonoBehaviour {
     [HideInInspector] public List<Faction> factions = new();
     [HideInInspector] public Faction playerFaction;
     [HideInInspector] public bool paused = false;
+    [HideInInspector] public List<Mod> globalMods;
 
     private bool test = true;
     [SerializeField] private SOPlaceableObject[] testPlacement;
@@ -129,6 +131,10 @@ public class RunManager : MonoBehaviour {
     }
 
     private void Update() {
+        foreach (IModable modable in FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<IModable>()) {
+            foreach (Mod mod in globalMods) modable.AddMod(mod);
+        }
+
         if (
             GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle) == null ||
             GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Spawner) == null
