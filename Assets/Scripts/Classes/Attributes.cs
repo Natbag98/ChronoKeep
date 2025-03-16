@@ -1,8 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
 public class Attributes {
     [SerializeField] private Utils.SerializeableDict<GameManager.Attributes, float> baseAttributes;
+
+    private List<Mod> mods = new();
 
     /// <summary>
     /// Gets the base value of the given attribute.
@@ -11,6 +14,9 @@ public class Attributes {
     /// <returns>The value of the attribute.</returns>
     public float GetAttribute(GameManager.Attributes attribute_to_get) {
         float attribute = baseAttributes.GetDict()[attribute_to_get];
+        foreach (Mod mod in mods) {
+            if (mod.attributeToAffect == attribute_to_get) attribute *= mod.amount;
+        }
         return attribute;
     }
 
@@ -21,6 +27,17 @@ public class Attributes {
     /// <returns>The value of the attribute.</returns>
     public int GetAttributeAsInt(GameManager.Attributes attribute_to_get) {
         float attribute = baseAttributes.GetDict()[attribute_to_get];
+        foreach (Mod mod in mods) {
+            if (mod.attributeToAffect == attribute_to_get) attribute *= mod.amount;
+        }
         return Mathf.FloorToInt(attribute);
+    }
+
+    public void AddMod(Mod mod) {
+        mods.Add(mod);
+    }
+
+    public void RemoveMod(Mod mod) {
+        mods.Remove(mod);
     }
 }

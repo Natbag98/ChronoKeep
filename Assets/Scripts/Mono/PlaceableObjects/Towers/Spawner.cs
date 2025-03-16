@@ -20,6 +20,10 @@ public class Spawner : Tower {
             Quaternion.identity,
             Utils.GetManager<RunManager>().characterContainer
         ).GetComponent<Character>();
+
+        // Test
+        foreach (Mod mod in Utils.GetManager<RunManager>().testMods) character.AddMod(mod);
+
         character.SetStartPos(transform.position);
         character.faction = parentPlot.faction;
     }
