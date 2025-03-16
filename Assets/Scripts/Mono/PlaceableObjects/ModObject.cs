@@ -1,25 +1,22 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ModObject : PlaceableObject {
     [Header("Mod Tower")]
     [SerializeField] private Mod[] modsToApply;
 
-    private void WaveStart(object _, EventArgs __) {
-        foreach (Plot plot in GetPlotsInRange()) {
-            foreach (Mod mod in modsToApply) plot.GetComponentInChildren<PlaceableObject>()?.AddMod(mod);
-        }
-    }
+    [SerializeField] private List<PlaceableObject> objectsWithMod;
 
-    private void WaveEnd(object _, EventArgs __) {
-        foreach (Plot plot in GetPlotsInRange()) {
-            foreach (Mod mod in modsToApply) plot.GetComponentInChildren<PlaceableObject>()?.RemoveMod(mod);
-        }
-    }
+    protected override void Update() {
+        base.Update();
 
-    protected override void Start() {
-        base.Start();
-        Utils.GetManager<WaveManager>().waveStart += WaveStart;
-        Utils.GetManager<WaveManager>().waveEnd += WaveEnd;
+        foreach (Plot plot in GetPlotsInRange()) {
+            PlaceableObject placeable_object = plot.GetComponentInChildren<PlaceableObject>();
+            if (placeable_object != null && !objectsWithMod.Contains(placeable_object)) {
+                foreach (Mod mod in modsToApply) plot.GetComponentInChildren<PlaceableObject>()?.AddMod(mod);
+                objectsWithMod.Add(placeable_object);
+            }
+        }
     }
 }

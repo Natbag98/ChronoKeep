@@ -28,7 +28,6 @@ public class Attributes {
     public int GetAttributeAsInt(GameManager.Attributes attribute_to_get) {
         float attribute = baseAttributes.GetDict()[attribute_to_get];
         foreach (Mod mod in mods) {
-            Debug.Log(mod);
             if (mod.attributeToAffect == attribute_to_get) attribute *= mod.amount;
         }
         return Mathf.FloorToInt(attribute);
