@@ -1,12 +1,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnlockTracker<T> where T : UnityEngine.Object, IUnlockTrackable {
+public class UnlockTracker<T> where T : ScriptableObject, IUnlockTrackable {
     public Dictionary<T, bool> disovered = new();
     public Dictionary<T, bool> unlocked = new();
 
     public UnlockTracker() {
-        foreach (T asset in Utils.GetAllAssets<T>()) disovered.Add(asset, false);
+        foreach (T asset in Utils.GetAllAssets<T>()) { disovered.Add(asset, false); unlocked.Add(asset, false); }
     }
 
     public void UpdateDiscovered(T asset) {
@@ -15,6 +15,12 @@ public class UnlockTracker<T> where T : UnityEngine.Object, IUnlockTrackable {
 
     public void UpdateUnlocked(T asset) {
         unlocked[asset] = true;
+    }
+
+    public List<T> GetAllUnlocked() {
+        List<T> unlocked = new();
+        foreach (T t in this.unlocked.Keys) if (this.unlocked[t]) unlocked.Add(t);
+        return unlocked;
     }
 
     public T GetRandomUnlocked(Tag.Tags[] tags) {

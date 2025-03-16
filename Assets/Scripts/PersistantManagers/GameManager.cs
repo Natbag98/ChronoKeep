@@ -35,6 +35,10 @@ public class GameManager : MonoBehaviour {
         Lake,
         Gold
     }
+    public enum PerkTrees {
+        KingdomManagement,
+        Engineering
+    }
 
     [Header("Static Data")]
     public float PlotMouseOverHeight;
