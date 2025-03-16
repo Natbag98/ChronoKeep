@@ -33,7 +33,8 @@ public class Attributes {
         return Mathf.FloorToInt(attribute);
     }
 
-    public void AddMod(Mod mod, Tag object_tags) {
+    public void AddMod(Mod mod, Tag object_tags, bool allow_duplicate) {
+        if (!allow_duplicate && mods.Contains(mod)) return;
         foreach (Tag.Tags tag in mod.targetTags) {
             if (object_tags == null) return;
             if (!object_tags.HasTag(tag)) return;

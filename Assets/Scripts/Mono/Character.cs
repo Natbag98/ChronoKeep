@@ -202,8 +202,8 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
         }
     }
 
-    public void AddMod(Mod mod) {
-        attributes.AddMod(mod, GetComponent<Tag>());
+    public void AddMod(Mod mod, bool allow_duplicate=false) {
+        attributes.AddMod(mod, GetComponent<Tag>(), allow_duplicate);
     }
 
     public void RemoveMod(Mod mod) {
