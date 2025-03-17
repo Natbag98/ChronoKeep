@@ -20,6 +20,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
     private Vector2 moveOffset;
     [HideInInspector] public Faction faction;
     private float health;
+    private Faction targetFaction;
     private Plot movementTarget;
     private List<Transform> path;
     private int pathIndex = 0;
@@ -71,7 +72,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
         Plot min_target = null;
         float? min_distance = null;
         foreach (GameManager.PlaceableObjectTypes targetObjectType in movementTargetPriorities) {
-            List<Plot> targets = Utils.GetManager<RunManager>().GetAllPlotsWithPlacedObject(targetObjectType);
+            List<Plot> targets = Utils.GetManager<RunManager>().GetAllPlotsWithPlacedObject(targetObjectType, targetFaction);
             foreach (Plot target in targets) {
                 float distance = Vector2.Distance(target.transform.position, transform.position);
                 min_distance ??= distance; min_target = min_target != null ? min_target : target;
@@ -82,7 +83,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
             }
         }
         if (min_target == null) {
-            movementTarget = Utils.GetManager<RunManager>().GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Castle);
+            movementTarget = Utils.GetManager<RunManager>().GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Castle, targetFaction);
         } else {
             movementTarget = min_target;
         }
@@ -153,6 +154,16 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
     }
 
     private void Start() {
+        float min_distance = Mathf.Infinity;
+        foreach (Plot plot in Utils.GetManager<RunManager>().GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle)) {
+            float dist = Vector3.Distance(transform.position, plot.transform.position);
+            Debug.Log(dist);
+            if (dist < min_distance) {
+                targetFaction = plot.faction;
+                min_distance = dist;
+            }
+        }
+
         health = attributes.GetAttribute(GameManager.Attributes.Health);
         reloadTimer = attributes.GetAttribute(GameManager.Attributes.ReloadTime);
     }

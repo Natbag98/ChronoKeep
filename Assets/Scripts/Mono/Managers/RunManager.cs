@@ -29,9 +29,16 @@ public class RunManager : MonoBehaviour {
     /// </summary>
     /// <param name="placed_object">The object to check for.</param>
     /// <returns>The plot with the placed object.</returns>
-    public Plot GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes placed_object) {
+    public Plot GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes placed_object, Faction faction=null) {
         foreach (Plot[] row in plotArray) {
             foreach (Plot plot in row) {
+                if (faction != null) {
+                    if (plot.faction == null) {
+                        continue;
+                    } else if (plot.faction == faction) {
+                        continue;
+                    }
+                }
                 if (plot.placedObjectType == placed_object) return plot;
             }
         }
@@ -43,10 +50,17 @@ public class RunManager : MonoBehaviour {
     /// </summary>
     /// <param name="placed_object">The object to check for.</param>
     /// <returns>The list of plots with the placed object.</returns>
-    public List<Plot> GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes placed_object) {
+    public List<Plot> GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes placed_object, Faction faction=null) {
         List<Plot> plots = new();
         foreach (Plot[] row in plotArray) {
             foreach (Plot plot in row) {
+                if (faction != null) {
+                    if (plot.faction == null) {
+                        continue;
+                    } else if (plot.faction == faction) {
+                        continue;
+                    }
+                }
                 if (plot.placedObjectType == placed_object) plots.Add(plot);
             }
         }
@@ -133,6 +147,7 @@ public class RunManager : MonoBehaviour {
 
     private void Start() {
         InstantiatePlots();
+        foreach (Faction faction in GameManager.instance.Game.BaseFactions) faction.RunStart();
         foreach (SOPerk perk in GameManager.instance.Game.perksUnlockTracker.GetAllUnlocked()) {
             globalMods.AddRange(perk.modsToApply);
         }
