@@ -101,7 +101,7 @@ public class Plot : MonoBehaviour {
             transform
         ).GetComponent<PlaceableObject>();
         placedObjectType = new_object.objectType = object_to_place.objectType;
-        placedObjectSO = object_to_place;
+        placedObjectSO = new_object.placeableObjectSO = object_to_place;
         new_object.parentPlot = this;
 
         this.faction = faction;

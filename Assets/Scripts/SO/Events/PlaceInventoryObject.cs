@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlaceInventoryObject", menuName = "Event/PlaceInventoryObject")]
 public class PlaceInventoryObject : SOEvent {
     [Header("PlaceInventoryObject")]
-    [SerializeField] SOPlaceableObject[] potentialObjects;
+    [SerializeField] Tag.Tags[] potentialObjectTags;
 
     private SOPlaceableObject objectToPlace;
 
@@ -12,7 +12,7 @@ public class PlaceInventoryObject : SOEvent {
     }
 
     public override void Setup() {
-        objectToPlace = Utils.Choice(potentialObjects);
+        objectToPlace = GameManager.instance.Game.placeableObjectsUnlockTracker.GetRandomUnlocked(potentialObjectTags);
     }
 
     public override void Event() {

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class Game {
@@ -16,13 +15,21 @@ public class Game {
     private Dictionary<GameManager.Resources, int> resources = new();
     public Dictionary<GameManager.Resources, int> GetResources() { return resources; }
 
+    public UnlockTracker<SOPlaceableObject> placeableObjectsUnlockTracker = new();
+
+    public UnlockTracker<SOPerk> perksUnlockTracker = new();
+
     public Game(
         Vector2Int terrain_size,
         Dictionary<SOPlot, int> plot_generation_data,
         string playerName,
         string kingdomName
     ) {
-        foreach (GameManager.Resources resource in Enum.GetValues(typeof(GameManager.Resources)).Cast<GameManager.Resources>()) resources.Add(resource, 5);
+        placeableObjectsUnlockTracker.UpdateUnlocked(GameManager.instance.ArcherTower);
+        placeableObjectsUnlockTracker.UpdateUnlocked(GameManager.instance.Castle);
+        placeableObjectsUnlockTracker.UpdateUnlocked(GameManager.instance.BarbCamp);
+
+        foreach (GameManager.Resources resource in Utils.GetEnumValues<GameManager.Resources>()) resources.Add(resource, 5);
         TerrainSize = terrain_size;
         GenerateFactions();
         GenerateBaseTerrain(plot_generation_data);

@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
 using UnityEngine;
 
 public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IModable {
@@ -13,6 +11,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IModable {
     [Header("PlaceableObject : References UI")]
     [SerializeField] private UnityEngine.UI.Image healthBar;
 
+    [HideInInspector] public SOPlaceableObject placeableObjectSO;
     [HideInInspector] public GameManager.PlaceableObjectTypes objectType;
     [HideInInspector] public Plot parentPlot;
     private float health;
@@ -44,6 +43,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IModable {
     }
 
     protected virtual void Update() {
+        GameManager.instance.Game.placeableObjectsUnlockTracker.UpdateDiscovered(placeableObjectSO);
         UpdateUI();
 
         if (health <= 0) {
@@ -53,8 +53,10 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IModable {
         }
     }
 
-    public void AddMod(Mod mod) {
-        attributes.AddMod(mod);
+    public void AddMod(Mod mod, bool allow_duplicate=false) {
+        if (attributes.AddMod(mod, GetComponent<Tag>(), allow_duplicate) && mod.attributeToAffect == GameManager.Attributes.Health) {
+            health *= mod.amount;
+        }
     }
 
     public void RemoveMod(Mod mod) {

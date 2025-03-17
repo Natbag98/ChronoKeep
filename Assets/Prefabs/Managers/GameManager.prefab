@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8258276669532781956
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8616007788194761630}
+  - component: {fileID: 2683455571686427681}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8616007788194761630
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8258276669532781956}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2683455571686427681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8258276669532781956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c64e00a80431a944b16369d8c0c075c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlotMouseOverHeight: 1
+  PlotMouseOverSpeed: 5
+  MinBarbGenerationDistance: 2
+  Castle: {fileID: 11400000, guid: facc3f4559aae0043adf012e27c0de95, type: 2}
+  BarbCamp: {fileID: 11400000, guid: e504a0bbd48c9504686b3244871fecbd, type: 2}
+  ArcherTower: {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
+  plotGenerationData:
+    dictPairs:
+    - Key: {fileID: 11400000, guid: 2a890fe14bba1d04cab20d4019369af9, type: 2}
+      Value: 75
+    - Key: {fileID: 11400000, guid: 91b0b931bda090541a294a0c5834a536, type: 2}
+      Value: 15
+    - Key: {fileID: 11400000, guid: 487feeaaddffd7844895873763a7a0c8, type: 2}
+      Value: 5
+  playerName: 
+  kingdomName: 
+  allSOPlaceableObjects: []

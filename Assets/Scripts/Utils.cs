@@ -2,6 +2,8 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
+using UnityEditor;
+using System.Linq;
 
 public class Utils : MonoBehaviour {
     public static T Choice<T>(T[] array) { return array[GameManager.Random.Next(array.Length)]; }
@@ -20,6 +22,13 @@ public class Utils : MonoBehaviour {
         }
 
         return default;
+    }
+
+    /// <summary>
+    /// Gets all the values in an enum as an enumerator
+    /// </summary>
+    public static IEnumerable<T> GetEnumValues<T>() {
+        return Enum.GetValues(typeof(T)).Cast<T>();
     }
 
     /// <summary>
@@ -44,9 +53,11 @@ public class Utils : MonoBehaviour {
         }
     }
 
+    [System.Serializable]
     public class SerializableNullable<T> where T : class {
         [SerializeField] private bool containsValue;
         [SerializeField] private T value;
+
         public T GetValue() {
             if (containsValue) {
                 return value;
@@ -210,5 +221,14 @@ public class Utils : MonoBehaviour {
             }
         }
         return null;
+    }
+
+    
+    public static List<T> GetAllAssets<T>() where T : UnityEngine.Object {
+        List<T> to_return = new();
+        foreach (string asset in AssetDatabase.FindAssets($"t:{typeof(T).Name}")) {
+            to_return.Add(AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(asset)));
+        }
+        return to_return;
     }
 }

@@ -38,7 +38,7 @@ public class MainSceneUIManager : MonoBehaviour {
 
     public void _Button_PauseMenuQuitButtonClicked() {
         Time.timeScale = 1;
-        SceneManager.LoadScene("MainMenuScene");
+        SceneManager.LoadScene("GameScene");
     }
 
     public void _Button_PauseMenuResumeButtonClicked() {

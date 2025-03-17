@@ -280,6 +280,7 @@ MonoBehaviour:
       Value: 1
   centerPoint: {fileID: 4511316026082654196}
   healthBar: {fileID: 8154312074877688543}
+  placeableObjectSO: {fileID: 0}
   objectType: 0
   parentPlot: {fileID: 0}
 --- !u!65 &8179762866046384583

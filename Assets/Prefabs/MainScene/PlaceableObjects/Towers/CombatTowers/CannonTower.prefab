@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3788424827052882018}
   - component: {fileID: -4046614172991315263}
   - component: {fileID: 2557827062971984170}
+  - component: {fileID: -3760728519744355951}
   m_Layer: 0
   m_Name: CannonTower
   m_TagString: Untagged
@@ -66,8 +67,11 @@ MonoBehaviour:
         Value: 5
       - Key: 7
         Value: 0.5
+  resourcesPerWave:
+    dictPairs: []
   centerPoint: {fileID: 5090057776214024442}
   healthBar: {fileID: 3184848820018506755}
+  placeableObjectSO: {fileID: 0}
   objectType: 0
   parentPlot: {fileID: 0}
   reloadBar: {fileID: 7986063309831295654}
@@ -94,6 +98,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.8, y: 1.2342271, z: 0.8}
   m_Center: {x: 0, y: 0.65698427, z: 0}
+--- !u!114 &-3760728519744355951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 684129611004499971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18a5389b09fc8864985c1e82169e6d35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tags: 02000000
 --- !u!1 &2319768617860406896
 GameObject:
   m_ObjectHideFlags: 0
