@@ -7,6 +7,7 @@ public class SOPlaceableObject : ScriptableObject, IUnlockTrackable {
 
     [Header("Attributes")]
     public string displayName;
+    public string description;
     public GameManager.PlaceableObjectTypes objectType;
     public int factionControlRange;
     public Utils.SerializeableDict<GameManager.Resources, int> placementCost;

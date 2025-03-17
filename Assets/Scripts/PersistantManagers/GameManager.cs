@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour {
 
         foreach (SOPlaceableObject placeable_object in Utils.GetAllAssets<SOPlaceableObject>()) allSOPlaceableObjects.Add(placeable_object);
 
-        if (SceneManager.GetActiveScene().name == "MainScene") {
+        if (SceneManager.GetActiveScene().name != "MainMenuScene") {
             Game = new(new(11, 11), plotGenerationData.GetDict(), "", "");
         }
     }

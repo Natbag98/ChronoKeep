@@ -1,9 +1,18 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameSceneUIManager : MonoBehaviour {
     [Header("References")]
     [SerializeField] private GameObject mainMenu;
+
+    [Header("References Tower Viewer")]
+    [SerializeField] private GameObject towerMenu;
+    [SerializeField] private Transform towerHolder;
+    [SerializeField] private GameObject towerViewerPrefab;
+    public GameObject towerInfo;
+    public TextMeshProUGUI towerName;
+    public TextMeshProUGUI towerDescription;
 
     [Header("References Character Perks")]
     [SerializeField] private GameObject characterPerkMenu;
@@ -25,7 +34,13 @@ public class GameSceneUIManager : MonoBehaviour {
     }
 
     public void _Button_ViewTowersButtonClicked() {
-        Debug.Log("View Towers");
+        mainMenu.SetActive(false);
+        towerMenu.SetActive(true);
+    }
+
+    public void _Button_ViewTowersBackButtonClicked() {
+        towerMenu.SetActive(false);
+        mainMenu.SetActive(true);
     }
 
     public void _Button_CharacterPerksBackButtonClicked() {
@@ -34,6 +49,11 @@ public class GameSceneUIManager : MonoBehaviour {
     }
 
     private void Start() {
+        foreach (SOPlaceableObject placeable_object in Utils.GetAllAssets<SOPlaceableObject>()) {
+            TowerViewer tower_viewer = Instantiate(towerViewerPrefab, towerHolder).GetComponent<TowerViewer>();
+            tower_viewer.placeableObject = placeable_object;
+        }
+
         foreach (GameManager.PerkTrees tree in Utils.GetEnumValues<GameManager.PerkTrees>()) {
             Transform tree_transform = Instantiate(perkTreePrefab, characterPerksHolder).transform;
             foreach (SOPerk perk in Utils.GetAllAssets<SOPerk>()) {
@@ -43,6 +63,12 @@ public class GameSceneUIManager : MonoBehaviour {
                     perk_object.perk = perk;
                 }
             }
+        }
+    }
+
+    private void Update() {
+        if (!Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.TowerViewer)) {
+            towerInfo.SetActive(false);
         }
     }
 }

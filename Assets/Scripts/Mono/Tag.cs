@@ -5,7 +5,8 @@ public class Tag : MonoBehaviour {
     public enum Tags {
         UIBlocksMouse,
         Spawner,
-        Tower
+        Tower,
+        TowerViewer
     }
 
     public Tags[] tags;
