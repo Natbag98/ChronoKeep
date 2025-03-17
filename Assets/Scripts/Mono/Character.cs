@@ -92,9 +92,19 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
     /// Gets and sets the character path.
     /// </summary>
     private void GetPath() {
+        GetMovementTarget();
+
         path = new();
         pathIndex = 0;
-        foreach (Plot plot in Utils.GetPath(GetCurrentPlot().GetPositionInPlotArray(), movementTarget.GetPositionInPlotArray())) {
+        List<Plot> new_path = Utils.GetPath(GetCurrentPlot().GetPositionInPlotArray(), movementTarget.GetPositionInPlotArray());
+
+        if (new_path == null) {
+            // Later in development enemies should either not spawn from a spawner with no valid path or the enemy should attempt to attack a different faction
+            Debug.Log("No path found");
+            Destroy(gameObject);
+        }
+
+        foreach (Plot plot in new_path) {
             path.Add(plot.transform);
         }
     }
@@ -169,7 +179,6 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
 
     protected virtual void Update() {
         if (movementTarget == null) {
-            GetMovementTarget();
             GetPath();
         }
 
