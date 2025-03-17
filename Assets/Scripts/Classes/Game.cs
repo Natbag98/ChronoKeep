@@ -78,8 +78,20 @@ public class Game {
     }
 
     private void GenerateFactions() {
+        Vector2Int[] castle_locations = {
+            new(3, TerrainSize.y / 2),
+            new(TerrainSize.x - 3, TerrainSize.y / 2),
+            new(TerrainSize.x / 2, TerrainSize.y - 3),
+            new(TerrainSize.x / 2, 3),
+        };
+
         for (int i = 0; i < 4; i++) {
             BaseFactions.Add(new(GameManager.FactionTypes.Kingdom));
+            baseObjectInfo.Add(new BaseObjectInfo{
+                location = castle_locations[i],
+                base_object = GameManager.instance.Castle,
+                faction = BaseFactions[^1]
+            });
         }
         BaseFactions.Add(new(GameManager.FactionTypes.BarbarianClan));
     }

@@ -46,8 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlotMouseOverHeight: 1
   PlotMouseOverSpeed: 5
-  MinBarbGenerationDistance: 2
-  MaxBarbGenerationDistance: 8
+  MinBarbGenerationDistance: 1
+  MaxBarbGenerationDistance: 5
   Castle: {fileID: 11400000, guid: facc3f4559aae0043adf012e27c0de95, type: 2}
   BarbCamp: {fileID: 11400000, guid: e504a0bbd48c9504686b3244871fecbd, type: 2}
   ArcherTower: {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
