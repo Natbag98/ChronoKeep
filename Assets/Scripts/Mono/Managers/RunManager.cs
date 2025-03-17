@@ -13,7 +13,7 @@ public class RunManager : MonoBehaviour {
     [HideInInspector] public List<Faction> factions = new();
     [HideInInspector] public Faction playerFaction;
     [HideInInspector] public bool paused = false;
-    [HideInInspector] public List<Mod> globalMods;
+    [HideInInspector] public List<Mod> globalMods = new();
 
     private bool test = true;
     [SerializeField] private SOPlaceableObject[] testPlacement;

@@ -203,7 +203,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
     }
 
     public void AddMod(Mod mod, bool allow_duplicate=false) {
-        attributes.AddMod(mod, GetComponent<Tag>(), allow_duplicate);
+        if (attributes.AddMod(mod, GetComponent<Tag>(), allow_duplicate) && mod.attributeToAffect == GameManager.Attributes.Health) Debug.Log("Added"); //health *= mod.amount;
     }
 
     public void RemoveMod(Mod mod) {
