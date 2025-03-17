@@ -37,14 +37,14 @@ public class Game {
         placeableObjectsUnlockTracker.UpdateUnlocked(GameManager.instance.ArcherTower);
         placeableObjectsUnlockTracker.UpdateUnlocked(GameManager.instance.Castle);
         placeableObjectsUnlockTracker.UpdateUnlocked(GameManager.instance.BarbCamp);
-
+        
+        PlayerFaction = new(GameManager.FactionTypes.Kingdom, kingdomName, playerName);
         foreach (GameManager.Resources resource in Utils.GetEnumValues<GameManager.Resources>()) resources.Add(resource, 5);
         TerrainSize = terrain_size;
         GenerateFactions();
         GenerateBaseTerrain(plot_generation_data);
         PlaceCastle();
         PlaceBarbCamps(1);
-        PlayerFaction = new(GameManager.FactionTypes.Kingdom, kingdomName, playerName);
     }
 
     public bool CanSpendResources(GameManager.Resources resource, int amount) {
@@ -86,11 +86,12 @@ public class Game {
         };
 
         for (int i = 0; i < 4; i++) {
-            BaseFactions.Add(new(GameManager.FactionTypes.Kingdom));
+            Faction faction = new(GameManager.FactionTypes.Kingdom);
+            BaseFactions.Add(faction);
             baseObjectInfo.Add(new BaseObjectInfo{
                 location = castle_locations[i],
                 base_object = GameManager.instance.Castle,
-                faction = BaseFactions[^1]
+                faction = faction
             });
         }
         BaseFactions.Add(new(GameManager.FactionTypes.BarbarianClan));
