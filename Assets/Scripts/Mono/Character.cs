@@ -147,8 +147,8 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
 
     private void Awake() {
         moveOffset = new(
-            (float)GameManager.Random.NextDouble() - 0.5f,
-            (float)GameManager.Random.NextDouble() - 0.5f
+            Mathf.Max(Mathf.Min((float)GameManager.Random.NextDouble() - 0.5f, 0.4f), -0.4f),
+            Mathf.Max(Mathf.Min((float)GameManager.Random.NextDouble() - 0.5f, 0.4f), -0.4f)
         );
     }
 
