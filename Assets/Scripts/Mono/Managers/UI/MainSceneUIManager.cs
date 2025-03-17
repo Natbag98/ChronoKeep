@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainSceneUIManager : MonoBehaviour {
+    public static MainSceneUIManager instance;
+
     [Header("References")]
     [SerializeField] private Transform inventoryPanel;
     [SerializeField] private GameObject inventoryItemPrefab;
@@ -64,6 +66,10 @@ public class MainSceneUIManager : MonoBehaviour {
     public void PlaceInventoryItem(SOPlaceableObject placeable_object) {
         InventoryItem item = Instantiate(inventoryItemPrefab, inventoryPanel).GetComponent<InventoryItem>();
         item.placeableObject = placeable_object;
+    }
+
+    private void Start() {
+        instance = this;
     }
 
     private void Update() {
