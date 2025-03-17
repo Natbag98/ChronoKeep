@@ -89,7 +89,7 @@ public class MainSceneUIManager : MonoBehaviour {
             }
         }
 
-        if (Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.UIBlocksMouse)) {
+        if (Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.UIBlocksMouse) || Utils.GetManager<RunManager>().paused) {
             mouseBlocked = true;
         } else {
             mouseBlocked = false;

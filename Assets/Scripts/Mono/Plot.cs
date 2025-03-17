@@ -138,20 +138,10 @@ public class Plot : MonoBehaviour {
 
     public void OnMouseEnter() {
         mouseOver = true;
-        if (Utils.GetManager<MainSceneUIManager>().IsPlacingObject()) {
-            if (ValidTowerPlacement(Utils.GetManager<MainSceneUIManager>().GetObjectToPlace())) {
-                Utils.GetManager<MainSceneUIManager>().plotInfoPanel.SetActive(true);
-            }
-        } else if (!Utils.GetManager<MainSceneUIManager>().mouseBlocked) {
-            Utils.GetManager<MainSceneUIManager>().plotInfoPanel.SetActive(true);
-        }
-        if (placedObjectType != null) Utils.GetManager<MainSceneUIManager>().objectInfoPanel.SetActive(true);
     }
 
     public void OnMouseExit() {
         mouseOver = false;
-        Utils.GetManager<MainSceneUIManager>().plotInfoPanel.SetActive(false);
-        Utils.GetManager<MainSceneUIManager>().objectInfoPanel.SetActive(false);
     }
 
     public void OnMouseDown() {
@@ -167,27 +157,29 @@ public class Plot : MonoBehaviour {
                 mouseOver &&
                 !Utils.GetManager<WaveManager>().waveActive
             ) {
-                Debug.Log(faction.Name);
+                if (faction != null) Debug.Log(faction.Name);
                 if (Utils.GetManager<MainSceneUIManager>().IsPlacingObject()) {
                     if (ValidTowerPlacement(Utils.GetManager<MainSceneUIManager>().GetObjectToPlace())) target_height = GameManager.instance.PlotMouseOverHeight;
                 } else {
                     target_height = GameManager.instance.PlotMouseOverHeight;
                 }
+            }
+        }
 
-                // if (
-                //     Utils.GetManager<MainSceneUIManager>().mouseBlocked ||
-                //     Utils.GetManager<MainSceneUIManager>().IsPlacingObject() && 
-                //     !ValidTowerPlacement(Utils.GetManager<MainSceneUIManager>().GetObjectToPlace())
-                // ) {
-                //     target_height = 0;
-                // } else {
-                //    target_height = GameManager.instance.PlotMouseOverHeight;
+        if (mouseOver) {
+            Utils.GetManager<MainSceneUIManager>().plotInfoName.text = plotSO.displayName;
+            if (placedObjectType != null) {
+                Utils.GetManager<MainSceneUIManager>().objectInfoName.text = placedObjectSO.displayName;
+            }
+        }
 
-                //     Utils.GetManager<MainSceneUIManager>().plotInfoName.text = plotSO.displayName;
-                //     if (placedObjectType != null) {
-                //         Utils.GetManager<MainSceneUIManager>().objectInfoName.text = placedObjectSO.displayName;
-                //     }
-                // }
+        if (target_height == 0 && mouseOver) {
+            Utils.GetManager<MainSceneUIManager>().plotInfoPanel.SetActive(false);
+            Utils.GetManager<MainSceneUIManager>().objectInfoPanel.SetActive(false);
+        } else if (target_height != 0) {
+            Utils.GetManager<MainSceneUIManager>().plotInfoPanel.SetActive(true);
+            if (placedObjectType != null) {
+                Utils.GetManager<MainSceneUIManager>().objectInfoPanel.SetActive(true);
             }
         }
 
