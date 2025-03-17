@@ -54,7 +54,9 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IModable {
     }
 
     public void AddMod(Mod mod, bool allow_duplicate=false) {
-        if (attributes.AddMod(mod, GetComponent<Tag>(), allow_duplicate) && mod.attributeToAffect == GameManager.Attributes.Health) Debug.Log("Added");
+        if (attributes.AddMod(mod, GetComponent<Tag>(), allow_duplicate) && mod.attributeToAffect == GameManager.Attributes.Health) {
+            health *= mod.amount;
+        }
     }
 
     public void RemoveMod(Mod mod) {

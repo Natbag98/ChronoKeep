@@ -3983,10 +3983,7 @@ MonoBehaviour:
   characterContainer: {fileID: 1594311072}
   projectileContainer: {fileID: 1731793887}
   paused: 0
-  globalMods:
-  - targetTags: 
-    attributeToAffect: 0
-    amount: 2
+  globalMods: []
   testPlacement:
   - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
   - {fileID: 11400000, guid: 106fc22d69ab7ff4b91326f6c0e3b4e4, type: 2}
