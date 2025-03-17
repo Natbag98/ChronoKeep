@@ -29,7 +29,7 @@ public class Spawner : Tower {
     }
 
     protected new bool Attack() {
-        if (parentPlot.faction == Utils.GetManager<RunManager>().playerFaction) {
+        if (parentPlot.faction == GameManager.instance.Game.PlayerFaction) {
             SpawnCharacter();
         } else {
             if (powerRemaining > 0) {

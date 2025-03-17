@@ -45,10 +45,13 @@ public class GameManager : MonoBehaviour {
     public float PlotMouseOverSpeed;
 
     public int MinBarbGenerationDistance;
+    public int MaxBarbGenerationDistance;
 
     public SOPlaceableObject Castle;
     public SOPlaceableObject BarbCamp;
     public SOPlaceableObject ArcherTower;
+
+    public SOPlot Plains;
 
     [Header("Plot Generation Data")]
     [SerializeField] private Utils.SerializeableDict<SOPlot, int> plotGenerationData;
@@ -72,12 +75,12 @@ public class GameManager : MonoBehaviour {
         foreach (SOPlaceableObject placeable_object in Utils.GetAllAssets<SOPlaceableObject>()) allSOPlaceableObjects.Add(placeable_object);
 
         if (SceneManager.GetActiveScene().name != "MainMenuScene") {
-            Game = new(new(11, 11), plotGenerationData.GetDict(), "", "");
+            Game = new(new(25, 25), plotGenerationData.GetDict(), "", "");
         }
     }
 
     public void NewGame() {
-        Game = new(new(11, 11), plotGenerationData.GetDict(), kingdomName, playerName);
+        Game = new(new(25, 25), plotGenerationData.GetDict(), kingdomName, playerName);
     }
 
     void Update() {

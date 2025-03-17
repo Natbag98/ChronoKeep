@@ -10,8 +10,6 @@ public class RunManager : MonoBehaviour {
     public Transform projectileContainer;
 
     private Plot[][] plotArray;
-    [HideInInspector] public List<Faction> factions = new();
-    [HideInInspector] public Faction playerFaction;
     [HideInInspector] public bool paused = false;
     [HideInInspector] public List<Mod> globalMods = new();
 
@@ -65,17 +63,25 @@ public class RunManager : MonoBehaviour {
         plotArray = Utils.CreateJaggedArray<Plot[][]>(game.TerrainSize.x, game.TerrainSize.y);
         for (int x = 0; x < game.TerrainSize.x; x++) {
             for (int y = 0; y < game.TerrainSize.y; y++) {
-                Plot new_plot = Instantiate(
-                    game.BaseTerrain[y][x].prefab,
-                    new Vector3Int(x - game.TerrainSize.x / 2, 0, y - game.TerrainSize.y / 2),
-                    Quaternion.identity,
-                    plotContainer
-                ).GetComponent<Plot>();
-                new_plot.plotSO = game.BaseTerrain[y][x];
-                plotArray[y][x] = new_plot;
+                InstantiatePlot(x, y, GameManager.instance.Game.BaseTerrain[y][x].prefab);
             }
         }
 
+        SetPlotNeighbours();
+
+        foreach (Game.BaseObjectInfo object_info in game.baseObjectInfo) {
+            Plot plot = plotArray[object_info.location.y][object_info.location.x];
+            if (!plot.GetCanPlaceObject()) {
+                Destroy(plot.gameObject);
+                InstantiatePlot(object_info.location.x, object_info.location.y, GameManager.instance.Plains.prefab);
+            }
+            SetPlotNeighbours();
+            plotArray[object_info.location.y][object_info.location.x].PlaceObject(object_info.base_object, object_info.faction);
+        }
+    }
+
+    public void SetPlotNeighbours() {
+        Game game = GameManager.instance.Game;
         for (int y = 0; y < game.TerrainSize.y; y++) {
             for (int x = 0; x < game.TerrainSize.x; x++) {
                 Plot[] neighbours = new Plot[4];
@@ -86,11 +92,17 @@ public class RunManager : MonoBehaviour {
                 plotArray[y][x].SetNeighbours(neighbours);
             }
         }
+    }
 
-        plotArray[game.CastleLocation.y][game.CastleLocation.x].PlaceObject(GameManager.instance.Castle, GameManager.instance.Game.PlayerFaction);
-        foreach (Vector2Int location in game.BarbCamps) {
-            plotArray[location.y][location.x].PlaceObject(GameManager.instance.BarbCamp, GameManager.instance.Game.BaseFactions[^1]);
-        }
+    public void InstantiatePlot(int x, int y, GameObject plot_prefab) {
+        Plot new_plot = Instantiate(
+            plot_prefab,
+            new Vector3Int(x - GameManager.instance.Game.TerrainSize.x / 2, 0, y - GameManager.instance.Game.TerrainSize.y / 2),
+            Quaternion.identity,
+            plotContainer
+        ).GetComponent<Plot>();
+        new_plot.plotSO = GameManager.instance.Game.BaseTerrain[y][x];
+        plotArray[y][x] = new_plot;
     }
 
     public void PlaceRandomObject(SOPlaceableObject object_to_place, Faction faction, bool no_mans_land=false) {
@@ -121,8 +133,6 @@ public class RunManager : MonoBehaviour {
 
     private void Start() {
         InstantiatePlots();
-        factions.AddRange(GameManager.instance.Game.BaseFactions);
-        playerFaction = GameManager.instance.Game.PlayerFaction;
         foreach (SOPerk perk in GameManager.instance.Game.perksUnlockTracker.GetAllUnlocked()) {
             globalMods.AddRange(perk.modsToApply);
         }

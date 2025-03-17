@@ -18,7 +18,7 @@ public class WaveManager : MonoBehaviour {
 
         hostileWaveSpawners = hostileWaveSpawnersFinished = 0;
 
-        foreach (Faction faction in Utils.GetManager<RunManager>().factions) {
+        foreach (Faction faction in GameManager.instance.Game.BaseFactions) {
             faction.OnWaveStart(wave);
         }
     }

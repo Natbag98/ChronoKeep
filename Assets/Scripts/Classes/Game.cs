@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using UnityEngine;
 
 public class Game {
     public Vector2Int TerrainSize { private set; get; }
     public SOPlot[][] BaseTerrain { private set; get; }
 
-    public Vector2Int CastleLocation { private set; get; }
-    public List<Vector2Int> BarbCamps { private set; get; } = new();
+    public List<BaseObjectInfo> baseObjectInfo { private set; get; } = new();
 
     public List<Faction> BaseFactions { private set; get; } = new();
     public Faction PlayerFaction { private set; get; }
@@ -18,6 +19,14 @@ public class Game {
     public UnlockTracker<SOPlaceableObject> placeableObjectsUnlockTracker = new();
 
     public UnlockTracker<SOPerk> perksUnlockTracker = new();
+
+    private Vector2Int playerCastleLocation;
+
+    public class BaseObjectInfo {
+        public Vector2Int location;
+        public SOPlaceableObject base_object;
+        public Faction faction;
+    }
 
     public Game(
         Vector2Int terrain_size,
@@ -88,7 +97,12 @@ public class Game {
         for (int x = TerrainSize.x / 2; x < TerrainSize.x; x++) {
             for (int y = TerrainSize.y / 2; y < TerrainSize.y; y++) {
                 if (BaseTerrain[y][x].prefab.GetComponent<Plot>().GetCanPlaceObject()) {
-                    CastleLocation = new Vector2Int(x, y);
+                    baseObjectInfo.Add(new BaseObjectInfo{
+                        location = new(x, y),
+                        base_object = GameManager.instance.Castle,
+                        faction = PlayerFaction
+                    });
+                    playerCastleLocation = new(x, y);
                     return;
                 }
             }
@@ -96,21 +110,43 @@ public class Game {
     }
 
     private void PlaceBarbCamps(int count) {
-        for (int i = 0; i < count; i++) PlaceCamp();
+        for (int i = 0; i < count; i++) PlaceObject(
+            GameManager.instance.BarbCamp,
+            BaseFactions[^1],
+            baseObjectInfo,
+            playerCastleLocation,
+            GameManager.instance.MinBarbGenerationDistance,
+            GameManager.instance.MaxBarbGenerationDistance
+        );
     }
 
-    private void PlaceCamp() {
+    private void PlaceObject(
+        SOPlaceableObject object_to_place,
+        Faction faction,
+        List<BaseObjectInfo> list_to_place,
+        Vector2Int? constraint_location=null,
+        int constraint_min_distance=0,
+        int constraint_max_distance=1000
+    ) {
         SOPlot[] row = Utils.Choice(BaseTerrain); int y = Array.IndexOf(BaseTerrain, row);
         SOPlot plot = Utils.Choice(row); int x = Array.IndexOf(row, plot);
 
+        if (constraint_location == null) {
+            constraint_location = Vector2Int.zero;
+        }
+
         if (
-            Vector2Int.Distance(new Vector2Int(x, y), CastleLocation) >= GameManager.instance.MinBarbGenerationDistance &&
-            !BarbCamps.Contains(new Vector2Int(x, y)) &&
-            BaseTerrain[y][x].prefab.GetComponent<Plot>().GetCanPlaceObject()
+            Vector2Int.Distance(new Vector2Int(x, y), (Vector2Int)constraint_location) >= constraint_min_distance &&
+            Vector2Int.Distance(new Vector2Int(x, y), (Vector2Int)constraint_location) <= constraint_max_distance &&
+            !(from base_object_info in list_to_place select base_object_info.location).Contains(new Vector2Int(x, y))
         ) {
-            BarbCamps.Add(new Vector2Int(x, y));
+            list_to_place.Add(new BaseObjectInfo{
+                location = new(x, y),
+                base_object = object_to_place,
+                faction = faction
+            });
         } else {
-            PlaceCamp();
+            PlaceObject(object_to_place, faction, list_to_place, constraint_location, constraint_min_distance, constraint_max_distance);
         }
     }
 
