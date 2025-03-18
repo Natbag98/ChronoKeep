@@ -60,12 +60,21 @@ public class Faction {
         return (from faction in atWarWith where faction.Value select faction.Key).ToArray();
     }
 
+    public void DeclareWar(Faction faction) {
+        atWarWith[faction] = true;
+        faction.atWarWith[this] = true;
+    }
+
     public void RunStart() {
         atWarWith = new() {
-            { GameManager.instance.Game.PlayerFaction, FactionType == GameManager.FactionTypes.BarbarianClan }
+            { GameManager.instance.Game.PlayerFaction, false }
         };
         foreach (Faction faction in GameManager.instance.Game.BaseFactions) {
-            atWarWith.Add(faction, FactionType == GameManager.FactionTypes.BarbarianClan);
+            atWarWith.Add(faction, false);
+        }
+
+        if (FactionType == GameManager.FactionTypes.BarbarianClan) {
+            foreach (Faction faction in atWarWith.Keys) faction.DeclareWar(this); 
         }
     }
 }

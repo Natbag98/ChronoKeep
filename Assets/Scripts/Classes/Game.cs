@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Game {
@@ -41,8 +42,8 @@ public class Game {
         PlayerFaction = new(GameManager.FactionTypes.Kingdom, kingdomName, playerName);
         foreach (GameManager.Resources resource in Utils.GetEnumValues<GameManager.Resources>()) resources.Add(resource, 5);
         TerrainSize = terrain_size;
-        GenerateFactions();
         GenerateBaseTerrain(plot_generation_data);
+        GenerateFactions();
         PlaceCastle();
         PlaceBarbCamps(1);
     }
@@ -93,6 +94,22 @@ public class Game {
                 base_object = GameManager.instance.Castle,
                 faction = faction
             });
+
+            PlaceObject(
+                GameManager.instance.BarbCamp,
+                faction,
+                baseObjectInfo,
+                castle_locations[i],
+                constraint_max_distance: 4
+            );
+
+            PlaceObject(
+                GameManager.instance.ArcherTower,
+                faction,
+                baseObjectInfo,
+                castle_locations[i],
+                constraint_max_distance: 4
+            );
         }
         BaseFactions.Add(new(GameManager.FactionTypes.BarbarianClan));
     }
@@ -137,20 +154,50 @@ public class Game {
         SOPlaceableObject object_to_place,
         Faction faction,
         List<BaseObjectInfo> list_to_place,
-        Vector2Int? constraint_location=null,
+        Vector2Int? constraint_location_input=null,
         int constraint_min_distance=0,
         int constraint_max_distance=1000
     ) {
-        SOPlot[] row = Utils.Choice(BaseTerrain); int y = Array.IndexOf(BaseTerrain, row);
-        SOPlot plot = Utils.Choice(row); int x = Array.IndexOf(row, plot);
-
-        if (constraint_location == null) {
-            constraint_location = Vector2Int.zero;
+        Vector2Int constraint_location = Vector2Int.zero;
+        if (constraint_location_input != null) {
+            constraint_location = (Vector2Int)constraint_location_input;
         }
 
+        SOPlot[] row;
+        if (GameManager.Random.Next(1, 3) == 1) {
+            row = BaseTerrain[GameManager.Random.Next(
+                constraint_location.y - constraint_min_distance,
+                constraint_location.y - constraint_max_distance
+            )];
+        } else {
+            row = BaseTerrain[GameManager.Random.Next(
+                constraint_location.y + constraint_min_distance,
+                constraint_location.y + constraint_max_distance
+            )];
+        }
+
+        Debug.Log(constraint_location.x - constraint_min_distance);
+        Debug.Log(constraint_location.x - constraint_max_distance);
+        Debug.Log("---------------------------------------------");
+        SOPlot plot;
+        if (GameManager.Random.Next(1, 3) == 1) {
+            plot = row[GameManager.Random.Next(
+                constraint_location.x - constraint_min_distance,
+                constraint_location.x - constraint_max_distance
+            )];
+        } else {
+            plot = row[GameManager.Random.Next(
+                constraint_location.x + constraint_min_distance,
+                constraint_location.x + constraint_max_distance
+            )];
+        }
+
+        int y = Array.IndexOf(BaseTerrain, row);
+        int x = Array.IndexOf(row, plot);
+
         if (
-            Vector2Int.Distance(new Vector2Int(x, y), (Vector2Int)constraint_location) >= constraint_min_distance &&
-            Vector2Int.Distance(new Vector2Int(x, y), (Vector2Int)constraint_location) <= constraint_max_distance &&
+            Vector2Int.Distance(new Vector2Int(x, y), constraint_location) >= constraint_min_distance &&
+            Vector2Int.Distance(new Vector2Int(x, y), constraint_location) <= constraint_max_distance &&
             !(from base_object_info in list_to_place select base_object_info.location).Contains(new Vector2Int(x, y))
         ) {
             list_to_place.Add(new BaseObjectInfo{
