@@ -74,7 +74,7 @@ public class Faction {
         }
 
         if (FactionType == GameManager.FactionTypes.BarbarianClan) {
-            foreach (Faction faction in atWarWith.Keys) faction.DeclareWar(this); 
+            foreach (Faction faction in atWarWith.Keys.ToList()) faction.DeclareWar(this); 
         }
     }
 }

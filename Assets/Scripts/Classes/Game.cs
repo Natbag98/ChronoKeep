@@ -162,42 +162,11 @@ public class Game {
         if (constraint_location_input != null) {
             constraint_location = (Vector2Int)constraint_location_input;
         }
-
-        SOPlot[] row;
-        if (GameManager.Random.Next(1, 3) == 1) {
-            row = BaseTerrain[GameManager.Random.Next(
-                constraint_location.y - constraint_min_distance,
-                constraint_location.y - constraint_max_distance
-            )];
-        } else {
-            row = BaseTerrain[GameManager.Random.Next(
-                constraint_location.y + constraint_min_distance,
-                constraint_location.y + constraint_max_distance
-            )];
-        }
-
-        Debug.Log(constraint_location.x - constraint_min_distance);
-        Debug.Log(constraint_location.x - constraint_max_distance);
-        Debug.Log("---------------------------------------------");
-        SOPlot plot;
-        if (GameManager.Random.Next(1, 3) == 1) {
-            plot = row[GameManager.Random.Next(
-                constraint_location.x - constraint_min_distance,
-                constraint_location.x - constraint_max_distance
-            )];
-        } else {
-            plot = row[GameManager.Random.Next(
-                constraint_location.x + constraint_min_distance,
-                constraint_location.x + constraint_max_distance
-            )];
-        }
-
-        int y = Array.IndexOf(BaseTerrain, row);
-        int x = Array.IndexOf(row, plot);
+        
+        int x = Mathf.Clamp(Utils.GenerateNumberAroundCenter(constraint_location.x, constraint_min_distance, constraint_max_distance), 0, TerrainSize.x - 1);
+        int y = Mathf.Clamp(Utils.GenerateNumberAroundCenter(constraint_location.y, constraint_min_distance, constraint_max_distance), 0, TerrainSize.y - 1);
 
         if (
-            Vector2Int.Distance(new Vector2Int(x, y), constraint_location) >= constraint_min_distance &&
-            Vector2Int.Distance(new Vector2Int(x, y), constraint_location) <= constraint_max_distance &&
             !(from base_object_info in list_to_place select base_object_info.location).Contains(new Vector2Int(x, y))
         ) {
             list_to_place.Add(new BaseObjectInfo{
