@@ -7,10 +7,12 @@ public class Spawner : Tower {
 
     private int powerRemaining;
     private bool finishedWave;
+    private bool partOfHostileWave = false;
 
     public void SpawnHostileWave(int power) {
         powerRemaining = power;
         finishedWave = false;
+        partOfHostileWave = true;
     }
 
     public void SpawnCharacter() {
@@ -29,13 +31,15 @@ public class Spawner : Tower {
     }
 
     protected new bool Attack() {
-        if (parentPlot.faction == Utils.GetManager<RunManager>().playerFaction) {
+        if (parentPlot.faction == GameManager.instance.Game.PlayerFaction) {
             SpawnCharacter();
-        } else {
+            return true;
+        } else if (partOfHostileWave) {
             if (powerRemaining > 0) {
                 SpawnCharacter();
             } else if (!finishedWave) {
                 finishedWave = true;
+                partOfHostileWave = false;
                 Utils.GetManager<WaveManager>().hostileWaveSpawnersFinished++;
                 return false;
             } else {
@@ -43,7 +47,7 @@ public class Spawner : Tower {
             }
             powerRemaining--;
         }
-        return true;
+        return false;
     }
 
     protected override void UpdateAttack() {

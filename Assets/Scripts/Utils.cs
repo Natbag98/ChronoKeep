@@ -24,6 +24,21 @@ public class Utils : MonoBehaviour {
         return default;
     }
 
+    public static int GenerateNumberAroundCenter(int center, int minOffset, int maxOffset) {
+        int upperBound = center + maxOffset;
+        int lowerBound = center - minOffset;
+
+        int range_size = Mathf.Abs(minOffset - maxOffset);
+        int randomIndex = GameManager.Random.Next(0, range_size * 2);
+        
+        if (randomIndex < range_size) {
+            return upperBound - randomIndex - 1;
+        }
+        else {
+            return lowerBound - (randomIndex - range_size);
+        }
+    }
+
     /// <summary>
     /// Gets all the values in an enum as an enumerator
     /// </summary>
@@ -222,7 +237,6 @@ public class Utils : MonoBehaviour {
         }
         return null;
     }
-
     
     public static List<T> GetAllAssets<T>() where T : UnityEngine.Object {
         List<T> to_return = new();
