@@ -160,6 +160,7 @@ public class Plot : MonoBehaviour {
                 !Utils.GetManager<WaveManager>().waveActive
             ) {
                 if (faction != null) Debug.Log(faction.Name);
+                Debug.Log(placedObjectType);
                 if (Utils.GetManager<MainSceneUIManager>().IsPlacingObject()) {
                     if (ValidTowerPlacement(Utils.GetManager<MainSceneUIManager>().GetObjectToPlace())) target_height = GameManager.instance.PlotMouseOverHeight;
                 } else {

@@ -170,7 +170,9 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
     private void Start() {
         List<Plot> targets = Utils.GetManager<RunManager>().GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle);
         Dictionary<float, Plot> potential_targets = new();
-        foreach (Plot target in targets) potential_targets.Add(Vector3.Distance(target.transform.position, transform.position), target);
+        foreach (Plot target in targets) {
+            if (faction.atWarWith[target.faction]) potential_targets.Add(Vector3.Distance(target.transform.position, transform.position), target);
+        }
         targetFaction = potential_targets[potential_targets.Keys.ToArray().Min()].faction;
 
         health = attributes.GetAttribute(GameManager.Attributes.Health);
