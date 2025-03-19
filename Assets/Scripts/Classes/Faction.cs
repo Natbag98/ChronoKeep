@@ -53,7 +53,7 @@ public class Faction {
                     select faction
                 ).ToList().Count != 0
             ) {
-                plot.GetComponentInChildren<Spawner>().SpawnHostileWave(base_power * (int)Math.Ceiling(GetWarCount() / 2f));
+                plot.GetComponentInChildren<Spawner>().SpawnHostileWave(base_power); //(int)Math.Ceiling(GetWarCount() / 2f));
                 Utils.GetManager<WaveManager>().hostileWaveSpawners++;
             }
         }

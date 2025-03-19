@@ -32,14 +32,11 @@ public class RunManager : MonoBehaviour {
     public Plot GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes placed_object, Faction faction=null) {
         foreach (Plot[] row in plotArray) {
             foreach (Plot plot in row) {
-                if (faction != null) {
-                    if (plot.faction == null) {
-                        continue;
-                    } else if (plot.faction == faction) {
-                        continue;
-                    }
+                if (faction == null) {
+                    if (plot.placedObjectType == placed_object) return plot;
+                } else {
+                    if (plot.placedObjectType == placed_object && plot.faction == faction) return plot;
                 }
-                if (plot.placedObjectType == placed_object) return plot;
             }
         }
         return null;
@@ -54,14 +51,11 @@ public class RunManager : MonoBehaviour {
         List<Plot> plots = new();
         foreach (Plot[] row in plotArray) {
             foreach (Plot plot in row) {
-                if (faction != null) {
-                    if (plot.faction == null) {
-                        continue;
-                    } else if (plot.faction == faction) {
-                        continue;
-                    }
+                if (faction == null) {
+                    if (plot.placedObjectType == placed_object) plots.Add(plot);
+                } else {
+                    if (plot.placedObjectType == placed_object && plot.faction == faction) plots.Add(plot);
                 }
-                if (plot.placedObjectType == placed_object) plots.Add(plot);
             }
         }
         if (plots.Count == 0) return null;

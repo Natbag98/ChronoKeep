@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using System;
+using Unity.Mathematics;
+using System.Linq;
 
 public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
     [Header("Attributes")]
@@ -83,6 +86,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
             }
         }
         if (min_target == null) {
+            Debug.Log("Here 2");
             movementTarget = Utils.GetManager<RunManager>().GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Castle, targetFaction);
         } else {
             movementTarget = min_target;
@@ -154,15 +158,10 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
     }
 
     private void Start() {
-        float min_distance = Mathf.Infinity;
-        foreach (Plot plot in Utils.GetManager<RunManager>().GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle)) {
-            float dist = Vector3.Distance(transform.position, plot.transform.position);
-            Debug.Log(dist);
-            if (dist < min_distance) {
-                targetFaction = plot.faction;
-                min_distance = dist;
-            }
-        }
+        List<Plot> targets = Utils.GetManager<RunManager>().GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle);
+        Dictionary<float, Plot> potential_targets = new();
+        foreach (Plot target in targets) potential_targets.Add(Vector3.Distance(target.transform.position, transform.position), target);
+        targetFaction = potential_targets[potential_targets.Keys.ToArray().Min()].faction;
 
         health = attributes.GetAttribute(GameManager.Attributes.Health);
         reloadTimer = attributes.GetAttribute(GameManager.Attributes.ReloadTime);
