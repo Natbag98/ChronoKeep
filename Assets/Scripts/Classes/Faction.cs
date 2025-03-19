@@ -45,7 +45,14 @@ public class Faction {
     public void OnWaveStart(int base_power) {
         List<Plot> plots_with_spawners = Utils.GetManager<RunManager>().GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Spawner);
         foreach (Plot plot in plots_with_spawners) {
-            if (plot.faction == this) {
+            if (
+                plot.faction == this &&
+                (
+                    from faction in atWarWith.Keys
+                    where faction.FactionType == GameManager.FactionTypes.Kingdom && atWarWith[faction]
+                    select faction
+                ).ToList().Count != 0
+            ) {
                 plot.GetComponentInChildren<Spawner>().SpawnHostileWave(base_power * (int)Math.Ceiling(GetWarCount() / 2f));
                 Utils.GetManager<WaveManager>().hostileWaveSpawners++;
             }
