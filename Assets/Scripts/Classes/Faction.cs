@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ public class Faction {
     public GameManager.FactionTypes FactionType { private set; get; }
     public string Name { private set; get; }
     public string Ruler {private set; get; }
+
+    public Dictionary<Faction, bool> atWarWith = new();
 
     public Faction(
         GameManager.FactionTypes? faction_type=null,
@@ -42,10 +45,43 @@ public class Faction {
     public void OnWaveStart(int base_power) {
         List<Plot> plots_with_spawners = Utils.GetManager<RunManager>().GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Spawner);
         foreach (Plot plot in plots_with_spawners) {
-            if (plot.faction == this) {
-                plot.GetComponentInChildren<Spawner>().SpawnHostileWave(base_power);
+            if (
+                plot.faction == this &&
+                (
+                    from faction in atWarWith.Keys
+                    where faction.FactionType == GameManager.FactionTypes.Kingdom && atWarWith[faction]
+                    select faction
+                ).ToList().Count != 0
+            ) {
+                plot.GetComponentInChildren<Spawner>().SpawnHostileWave(base_power); //(int)Math.Ceiling(GetWarCount() / 2f));
                 Utils.GetManager<WaveManager>().hostileWaveSpawners++;
             }
+        }
+    }
+
+    public int GetWarCount() {
+        return (from faction in atWarWith.Values where faction select faction).ToArray().Length;
+    }
+
+    public Faction[] GetAtWar() {
+        return (from faction in atWarWith where faction.Value select faction.Key).ToArray();
+    }
+
+    public void DeclareWar(Faction faction) {
+        atWarWith[faction] = true;
+        faction.atWarWith[this] = true;
+    }
+
+    public void RunStart() {
+        atWarWith = new() {
+            { GameManager.instance.Game.PlayerFaction, false }
+        };
+        foreach (Faction faction in GameManager.instance.Game.BaseFactions) {
+            atWarWith.Add(faction, false);
+        }
+
+        if (FactionType == GameManager.FactionTypes.BarbarianClan) {
+            foreach (Faction faction in atWarWith.Keys.ToList()) faction.DeclareWar(this); 
         }
     }
 }

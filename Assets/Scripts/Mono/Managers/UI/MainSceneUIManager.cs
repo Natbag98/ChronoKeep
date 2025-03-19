@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainSceneUIManager : MonoBehaviour {
+    public static MainSceneUIManager instance;
+
     [Header("References")]
     [SerializeField] private Transform inventoryPanel;
     [SerializeField] private GameObject inventoryItemPrefab;
@@ -66,6 +68,10 @@ public class MainSceneUIManager : MonoBehaviour {
         item.placeableObject = placeable_object;
     }
 
+    private void Start() {
+        instance = this;
+    }
+
     private void Update() {
         dragger.SetActive(placingObject);
         dragger.transform.position = Input.mousePosition;
@@ -83,7 +89,7 @@ public class MainSceneUIManager : MonoBehaviour {
             }
         }
 
-        if (Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.UIBlocksMouse)) {
+        if (Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.UIBlocksMouse) || Utils.GetManager<RunManager>().paused) {
             mouseBlocked = true;
         } else {
             mouseBlocked = false;

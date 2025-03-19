@@ -17,7 +17,7 @@ public class PlaceObject : SOEvent {
     public override void Setup() {
         objectToPlace = GameManager.instance.Game.placeableObjectsUnlockTracker.GetRandomUnlocked(potentialObjectTags);
         List<Faction> potential_factions = new();
-        foreach (Faction faction in Utils.GetManager<RunManager>().factions) if (faction.FactionType == factionType) potential_factions.Add(faction);
+        foreach (Faction faction in GameManager.instance.Game.BaseFactions) if (faction.FactionType == factionType) potential_factions.Add(faction);
         faction = Utils.Choice(potential_factions);
     }
 
