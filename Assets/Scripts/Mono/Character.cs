@@ -85,8 +85,8 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
                 }
             }
         }
+
         if (min_target == null) {
-            Debug.Log("Here 2");
             movementTarget = Utils.GetManager<RunManager>().GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Castle, targetFaction);
         } else {
             movementTarget = min_target;

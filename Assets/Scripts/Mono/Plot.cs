@@ -142,6 +142,8 @@ public class Plot : MonoBehaviour {
 
     public void OnMouseExit() {
         mouseOver = false;
+        Utils.GetManager<MainSceneUIManager>().plotInfoPanel.SetActive(false);
+        Utils.GetManager<MainSceneUIManager>().objectInfoPanel.SetActive(false);
     }
 
     public void OnMouseDown() {
@@ -173,10 +175,7 @@ public class Plot : MonoBehaviour {
             }
         }
 
-        if (target_height == 0 && mouseOver) {
-            Utils.GetManager<MainSceneUIManager>().plotInfoPanel.SetActive(false);
-            Utils.GetManager<MainSceneUIManager>().objectInfoPanel.SetActive(false);
-        } else if (target_height != 0) {
+        if (target_height != 0) {
             Utils.GetManager<MainSceneUIManager>().plotInfoPanel.SetActive(true);
             if (placedObjectType != null) {
                 Utils.GetManager<MainSceneUIManager>().objectInfoPanel.SetActive(true);
