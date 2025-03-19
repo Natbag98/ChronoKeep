@@ -49,7 +49,7 @@ public class Game {
     }
 
     public bool CanSpendResources(GameManager.Resources resource, int amount) {
-        return amount < resources[resource];
+        return amount <= resources[resource];
     }
 
     public bool SpendResources(GameManager.Resources resource, int amount) {
