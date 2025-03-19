@@ -11,7 +11,7 @@ public class Utils : MonoBehaviour {
     public static T Choice<T>(Dictionary<T, int> dict) {
         int max = 0;
         foreach (int chance in dict.Values) max += chance;
-        int rand = GameManager.Random.Next(1, max);
+        int rand = GameManager.Random.Next(max);
 
         int threshold = 0;
         foreach (T key in dict.Keys) {
