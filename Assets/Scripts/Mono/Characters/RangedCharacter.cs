@@ -12,7 +12,7 @@ public class RangedCharacter : Character {
         foreach (Plot plot in GetPlotsInRange()) {
             if (
                 plot.GetComponentInChildren<PlaceableObject>() &&
-                plot.faction != faction
+                faction.atWarWith[plot.faction]
             ) {
                 towers_in_range.Add(plot.GetComponentInChildren<PlaceableObject>());
             }
