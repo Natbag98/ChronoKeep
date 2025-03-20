@@ -76,6 +76,7 @@ public class Faction {
     }
 
     public void DeclareWar(Faction faction) {
+        if (faction == this) return;
         atWarWith[faction] = true;
         faction.atWarWith[this] = true;
     }
