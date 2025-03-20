@@ -151,6 +151,15 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
         lastPosition = transform.position;
     }
 
+    private void CheckCollisionWithCharacters() {
+        foreach (Character character in GetCurrentPlot().GetCharacters()) {
+            if (faction.atWarWith[character.faction]) {
+                Debug.Log("Coll");
+                blocked = true;
+            }
+        }
+    }
+
     public void SetStartPos(Vector3 position) { 
         lastPosition = position;
         transform.position = new Vector3(
@@ -190,11 +199,15 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
     }
 
     protected virtual void Update() {
-        if (movementTarget == null) {
-            GetPath();
-        }
-
         reloadTimer += Time.deltaTime;
+        if (movementTarget == null) GetPath();
+        if (blockedObject == null) blocked = false;
+        if (health <= 0) Destroy(gameObject);
+
+        CheckCollision();
+        CheckCollisionWithCharacters();
+        UpdateAttack();
+        UpdateUI();
 
         if (attacking) {
             if (reloadTimer > attributes.GetAttribute(GameManager.Attributes.ReloadTime) + attackDelayTime) {
@@ -207,19 +220,12 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
             if (!blocked) Move();
             Rotate();
         }
-        CheckCollision();
-        UpdateAttack();
-        UpdateUI();
 
         if (Vector3.Distance(GetPathTargetPos(), transform.position) < 0.05f) {
             pathIndex++;
             if (pathIndex >= path.Count) {
                 Destroy(gameObject);
             }
-        }
-
-        if (health <= 0) {
-            Destroy(gameObject);
         }
     }
 

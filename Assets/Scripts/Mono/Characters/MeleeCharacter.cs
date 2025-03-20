@@ -22,9 +22,4 @@ public class MeleeCharacter : Character {
     protected override void Attack() {
         StartCoroutine(MeleeAttack());
     }
-
-    protected override void Update() {
-        if (blockedObject == null) blocked = false;
-        base.Update();
-    }
 }
