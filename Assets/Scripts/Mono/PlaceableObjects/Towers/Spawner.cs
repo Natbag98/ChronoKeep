@@ -37,6 +37,8 @@ public class Spawner : Tower {
         } else if (partOfHostileWave) {
             if (powerRemaining > 0) {
                 SpawnCharacter();
+                powerRemaining--;
+                return true;
             } else if (!finishedWave) {
                 finishedWave = true;
                 partOfHostileWave = false;
@@ -45,7 +47,6 @@ public class Spawner : Tower {
             } else {
                 return false;
             }
-            powerRemaining--;
         }
         return false;
     }
