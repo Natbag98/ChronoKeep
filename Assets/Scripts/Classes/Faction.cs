@@ -12,6 +12,7 @@ public class Faction {
     public Dictionary<Faction, bool> atWarWith = new();
 
     public Faction(
+        Game game,
         GameManager.FactionTypes? faction_type=null,
         string name=null,
         string ruler=null
@@ -28,10 +29,17 @@ public class Faction {
         if (name != null) {
             Name = name;
         } else {
-            if (faction_type == GameManager.FactionTypes.Kingdom) {
-                Name = Utils.Choice(GameManager.instance.TextData.Data["kingdom_names"]);
-            } else if (faction_type == GameManager.FactionTypes.BarbarianClan) {
-                Name = $"The {Utils.Choice(GameManager.instance.TextData.Data["clan_names"])} Clans";
+            while (true) {
+                if (faction_type == GameManager.FactionTypes.Kingdom) {
+                    Name = Utils.Choice(GameManager.instance.TextData.Data["kingdom_names"]);
+                } else if (faction_type == GameManager.FactionTypes.BarbarianClan) {
+                    Name = $"The {Utils.Choice(GameManager.instance.TextData.Data["clan_names"])} Clans";
+                }
+
+                if (!game.usedFactionNames.Contains(Name)) {
+                    game.usedFactionNames.Add(Name);
+                    break;
+                }
             }
         }
 
