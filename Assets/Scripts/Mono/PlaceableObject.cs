@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IModable {
+public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarget, IModable {
     [Header("PlaceableObject")]
     [SerializeField] protected Attributes attributes;
     [SerializeField] protected Utils.SerializeableDict<GameManager.Resources, int> resourcesPerWave;

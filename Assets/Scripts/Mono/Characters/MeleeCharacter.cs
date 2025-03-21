@@ -1,10 +1,17 @@
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class MeleeCharacter : Character {
     protected override void GetTarget() {
         if (blocked) {
-            target = blockedObject.transform;
+            if (blockedObject == null) {
+                target = Utils.Choice(
+                    (from character in GetCurrentPlot().GetCharacters() where faction.atWarWith[character.faction] select character).ToList()
+                ).transform;
+            } else {
+                target = blockedObject.transform;
+            }
         }
     }
 
@@ -12,7 +19,8 @@ public class MeleeCharacter : Character {
         attacking = true;
         canAttack = false;
         yield return new WaitForSeconds(attackDelayTime);
-        target.GetComponent<PlaceableObject>().Damage(attributes.GetAttribute(GameManager.Attributes.Attack));
+        if (!attacking) yield break;
+        target.GetComponent<IMeleeTarget>().Damage(attributes.GetAttribute(GameManager.Attributes.Attack));
         attacking = false;
 
         StartCoroutine(Reload());
@@ -21,5 +29,10 @@ public class MeleeCharacter : Character {
 
     protected override void Attack() {
         StartCoroutine(MeleeAttack());
+    }
+
+    protected override void Update() {
+        base.Update();
+        if (target == null) attacking = false;
     }
 }

@@ -5,7 +5,7 @@ using System;
 using Unity.Mathematics;
 using System.Linq;
 
-public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
+public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IModable {
     [Header("Attributes")]
     [SerializeField] protected float rotateSpeed;
     [SerializeField] protected float attackDelayTime;
