@@ -8,16 +8,22 @@ public class RangedCharacter : Character {
     [SerializeField] private Transform shootPoint;
 
     protected override void GetTarget() {
-        List<PlaceableObject> towers_in_range = new();
+        List<Transform> targets_in_range = new();
+
         foreach (Plot plot in GetPlotsInRange()) {
             if (
                 plot.GetComponentInChildren<PlaceableObject>() &&
                 faction.atWarWith[plot.faction]
             ) {
-                towers_in_range.Add(plot.GetComponentInChildren<PlaceableObject>());
+                targets_in_range.Add(plot.transform);
+            }
+
+            foreach (Character character in plot.GetCharacters()) {
+                if (faction.atWarWith[character.faction]) targets_in_range.Add(character.transform);
             }
         }
-        if (towers_in_range.Count > 0) target = Utils.Choice(towers_in_range).transform;
+
+        if (targets_in_range.Count > 0) target = Utils.Choice(targets_in_range);
     }
 
     private IEnumerator RangedAttack() {
