@@ -180,9 +180,18 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     private void Start() {
         List<Plot> targets = Utils.GetManager<RunManager>().GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle);
         Dictionary<float, Plot> potential_targets = new();
+
         foreach (Plot target in targets) {
             if (faction.atWarWith[target.faction]) potential_targets.Add(Vector3.Distance(target.transform.position, transform.position), target);
         }
+    
+        if (faction == GameManager.instance.Game.PlayerFaction) {
+            potential_targets.Add(
+                0,
+                Utils.GetManager<RunManager>().GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Spawner, GameManager.instance.Game.BaseFactions[^1])
+            );
+        }
+    
         targetFaction = potential_targets[potential_targets.Keys.ToArray().Min()].faction;
 
         health = attributes.GetAttribute(GameManager.Attributes.Health);

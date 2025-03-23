@@ -153,6 +153,7 @@ public class RunManager : MonoBehaviour {
 
     private void Start() {
         InstantiatePlots();
+        GameManager.instance.Game.PlayerFaction.RunStart();
         foreach (Faction faction in GameManager.instance.Game.BaseFactions) faction.RunStart();
         foreach (SOPerk perk in GameManager.instance.Game.perksUnlockTracker.GetAllUnlocked()) {
             globalMods.AddRange(perk.modsToApply);

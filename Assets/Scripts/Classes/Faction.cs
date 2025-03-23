@@ -94,8 +94,8 @@ public class Faction {
         }
 
         // Test
-        foreach (Faction faction in atWarWith.Keys.ToList()) {
-            faction.DeclareWar(this);
-        }
+        // foreach (Faction faction in atWarWith.Keys.ToList()) {
+        //     faction.DeclareWar(this);
+        // }
     }
 }
