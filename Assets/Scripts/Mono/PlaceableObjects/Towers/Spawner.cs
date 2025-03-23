@@ -32,8 +32,11 @@ public class Spawner : Tower {
 
     protected new bool Attack() {
         if (parentPlot.faction == GameManager.instance.Game.PlayerFaction) {
-            SpawnCharacter();
-            return true;
+            if (GameManager.instance.Game.SpendResources(GameManager.Resources.ManPower, 1)) {
+                SpawnCharacter();
+                return true;
+            }
+            return false;
         } else if (partOfHostileWave) {
             if (powerRemaining > 0) {
                 SpawnCharacter();
