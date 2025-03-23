@@ -13,6 +13,7 @@ public class MainSceneUIManager : MonoBehaviour {
 
     [Header("References Resources")]
     [SerializeField] private TextMeshProUGUI resourceGoldText;
+    [SerializeField] private TextMeshProUGUI resourceManPowerText;
 
     [Header("References Event Menu")]
     [SerializeField] private GameObject eventMenu;
@@ -101,5 +102,6 @@ public class MainSceneUIManager : MonoBehaviour {
         eventDescription.text = current_event?.GetDescription();
 
         resourceGoldText.text = $"Gold: {GameManager.instance.Game.GetResources()[GameManager.Resources.Gold]}";
+        resourceManPowerText.text = $"Man Power: {GameManager.instance.Game.GetResources()[GameManager.Resources.ManPower]}";
     }
 }

@@ -41,9 +41,9 @@ public class Game {
         placeableObjectsUnlockTracker.UpdateUnlocked(GameManager.instance.ArcherTower);
         placeableObjectsUnlockTracker.UpdateUnlocked(GameManager.instance.Castle);
         placeableObjectsUnlockTracker.UpdateUnlocked(GameManager.instance.BarbCamp);
-        
+
         PlayerFaction = new(this, GameManager.FactionTypes.Kingdom, kingdomName, playerName);
-        foreach (GameManager.Resources resource in Utils.GetEnumValues<GameManager.Resources>()) resources.Add(resource, 5);
+        resources = GameManager.instance.startingResources.GetDict();
         TerrainSize = terrain_size;
         GenerateBaseTerrain(plot_generation_data);
         GenerateFactions();

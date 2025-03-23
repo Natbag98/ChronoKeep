@@ -28,7 +28,8 @@ public class GameManager : MonoBehaviour {
         Kingdom
     }
     public enum Resources {
-        Gold
+        Gold,
+        ManPower
     }
     public enum PlotTypes {
         Plains,
@@ -55,6 +56,9 @@ public class GameManager : MonoBehaviour {
 
     [Header("Plot Generation Data")]
     [SerializeField] private Utils.SerializeableDict<SOPlot, int> plotGenerationData;
+
+    [Header("Test Data")]
+    public Utils.SerializeableDict<Resources, int> startingResources;
 
     [HideInInspector] public Game Game;
     [HideInInspector] public TextData TextData = new();
