@@ -30,7 +30,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     private void OnMouseDown() { parentPlot.OnMouseDown(); }
 
     private void WaveEnd(object _, EventArgs __) {
-        GameManager.instance.Game.AddResources(resourcesPerWave.GetDict());
+        if (parentPlot.faction == GameManager.instance.Game.PlayerFaction) GameManager.instance.Game.AddResources(resourcesPerWave.GetDict());
     }
 
     protected virtual void UpdateUI() {
