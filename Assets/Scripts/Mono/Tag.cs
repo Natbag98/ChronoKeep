@@ -6,7 +6,8 @@ public class Tag : MonoBehaviour {
         UIBlocksMouse,
         Spawner,
         Tower,
-        TowerViewer
+        TowerViewer,
+        PopulationCenter
     }
 
     public Tags[] tags;
