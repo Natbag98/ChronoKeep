@@ -63,6 +63,18 @@ public class RunManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Gets all the plots with a placed object belonging to a given faction
+    /// </summary>
+    public List<Plot> GetAllPlotsWithFactionObjects(Faction faction) {
+        return (
+            from placeable_object_type
+            in Utils.GetEnumValues<GameManager.PlaceableObjectTypes>()
+            where GetAllPlotsWithPlacedObject(placeable_object_type, faction) != null
+            select GetAllPlotsWithPlacedObject(placeable_object_type, faction)
+        ).SelectMany(x => x).ToList();
+    }
+
+    /// <summary>
     /// Instantiates the plots included in the Game class into the scene.
     /// Should be called at the start of each run.
     /// </summary>

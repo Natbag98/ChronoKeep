@@ -88,6 +88,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
 
         if (min_target == null) {
             movementTarget = Utils.GetManager<RunManager>().GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Castle, targetFaction);
+            if (movementTarget == null) movementTarget = Utils.Choice(Utils.GetManager<RunManager>().GetAllPlotsWithFactionObjects(targetFaction));
         } else {
             movementTarget = min_target;
         }
