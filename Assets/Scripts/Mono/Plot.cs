@@ -147,7 +147,11 @@ public class Plot : MonoBehaviour {
     }
 
     public void OnMouseDown() {
-        if (Utils.GetManager<MainSceneUIManager>().IsPlacingObject() && Utils.GetManager<MainSceneUIManager>().GetObjectToPlace()) {
+        if (
+            Utils.GetManager<MainSceneUIManager>().IsPlacingObject() &&
+            Utils.GetManager<MainSceneUIManager>().GetObjectToPlace() &&
+            ValidTowerPlacement(Utils.GetManager<MainSceneUIManager>().GetObjectToPlace())
+        ) {
             PlaceObject(Utils.GetManager<MainSceneUIManager>().GetObjectToPlace(), GameManager.instance.Game.PlayerFaction, true);
         }
     }
