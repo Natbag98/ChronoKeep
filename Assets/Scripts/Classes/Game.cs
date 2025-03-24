@@ -23,6 +23,8 @@ public class Game {
 
     private Vector2Int playerCastleLocation;
 
+    public List<string> usedFactionNames;
+
     public class BaseObjectInfo {
         public Vector2Int location;
         public SOPlaceableObject base_object;
@@ -35,12 +37,13 @@ public class Game {
         string playerName,
         string kingdomName
     ) {
+        usedFactionNames = new();
         placeableObjectsUnlockTracker.UpdateUnlocked(GameManager.instance.ArcherTower);
         placeableObjectsUnlockTracker.UpdateUnlocked(GameManager.instance.Castle);
         placeableObjectsUnlockTracker.UpdateUnlocked(GameManager.instance.BarbCamp);
-        
-        PlayerFaction = new(GameManager.FactionTypes.Kingdom, kingdomName, playerName);
-        foreach (GameManager.Resources resource in Utils.GetEnumValues<GameManager.Resources>()) resources.Add(resource, 5);
+
+        PlayerFaction = new(this, GameManager.FactionTypes.Kingdom, kingdomName, playerName);
+        resources = GameManager.instance.startingResources.GetDict();
         TerrainSize = terrain_size;
         GenerateBaseTerrain(plot_generation_data);
         GenerateFactions();
@@ -49,7 +52,7 @@ public class Game {
     }
 
     public bool CanSpendResources(GameManager.Resources resource, int amount) {
-        return amount < resources[resource];
+        return amount <= resources[resource];
     }
 
     public bool SpendResources(GameManager.Resources resource, int amount) {
@@ -87,7 +90,7 @@ public class Game {
         };
 
         for (int i = 0; i < 4; i++) {
-            Faction faction = new(GameManager.FactionTypes.Kingdom);
+            Faction faction = new(this, GameManager.FactionTypes.Kingdom);
             BaseFactions.Add(faction);
             baseObjectInfo.Add(new BaseObjectInfo{
                 location = castle_locations[i],
@@ -111,7 +114,7 @@ public class Game {
                 constraint_max_distance: 4
             );
         }
-        BaseFactions.Add(new(GameManager.FactionTypes.BarbarianClan));
+        BaseFactions.Add(new(this, GameManager.FactionTypes.BarbarianClan));
     }
 
     private void GenerateBaseTerrain(Dictionary<SOPlot, int> plot_generation_data) {

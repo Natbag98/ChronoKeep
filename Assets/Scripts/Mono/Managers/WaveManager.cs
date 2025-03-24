@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 
 public class WaveManager : MonoBehaviour {
+    public static WaveManager instance;
+
     private int wave = 0;
     [HideInInspector] public bool waveActive = false;
 
@@ -27,11 +29,15 @@ public class WaveManager : MonoBehaviour {
         if (waveActive) {
             if (
                 hostileWaveSpawners == hostileWaveSpawnersFinished &&
-                Utils.GetManager<RunManager>().characterContainer.childCount < 1
+                RunManager.instance.characterContainer.childCount < 1
             ) {
                 waveEnd?.Invoke(null, EventArgs.Empty);
                 waveActive = false;
             }
         }
+    }
+
+    private void Start() {
+        instance = this;
     }
 }

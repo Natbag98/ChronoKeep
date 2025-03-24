@@ -8,16 +8,22 @@ public class RangedCharacter : Character {
     [SerializeField] private Transform shootPoint;
 
     protected override void GetTarget() {
-        List<PlaceableObject> towers_in_range = new();
+        List<Transform> targets_in_range = new();
+
         foreach (Plot plot in GetPlotsInRange()) {
             if (
                 plot.GetComponentInChildren<PlaceableObject>() &&
-                plot.faction != faction
+                faction.atWarWith[plot.faction]
             ) {
-                towers_in_range.Add(plot.GetComponentInChildren<PlaceableObject>());
+                targets_in_range.Add(plot.GetComponentInChildren<PlaceableObject>().transform);
+            }
+
+            foreach (Character character in plot.GetCharacters()) {
+                if (faction.atWarWith[character.faction]) targets_in_range.Add(character.transform);
             }
         }
-        if (towers_in_range.Count > 0) target = Utils.Choice(towers_in_range).transform;
+
+        if (targets_in_range.Count > 0) target = Utils.Choice(targets_in_range);
     }
 
     private IEnumerator RangedAttack() {
@@ -29,7 +35,7 @@ public class RangedCharacter : Character {
             projectileToShoot,
             shootPoint.position,
             Quaternion.identity,
-            Utils.GetManager<RunManager>().projectileContainer
+            RunManager.instance.projectileContainer
         ).GetComponent<Projectile>();
         projectile.SetAttributes(attributes);
         projectile.SetTarget(target);
@@ -40,7 +46,9 @@ public class RangedCharacter : Character {
         reloadTimer = 0;
     }
 
-    protected override void Attack() { StartCoroutine(RangedAttack()); }
+    protected override void Attack() {
+        if (!blocked) { StartCoroutine(RangedAttack()); }
+    }
 
     protected override void Update() {
         base.Update();

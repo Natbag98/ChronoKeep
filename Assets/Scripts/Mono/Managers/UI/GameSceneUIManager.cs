@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameSceneUIManager : MonoBehaviour {
+    public static GameSceneUIManager instance;
+
     [Header("References")]
     [SerializeField] private GameObject mainMenu;
 
@@ -49,6 +51,8 @@ public class GameSceneUIManager : MonoBehaviour {
     }
 
     private void Start() {
+        instance = this;
+
         foreach (SOPlaceableObject placeable_object in Utils.GetAllAssets<SOPlaceableObject>()) {
             TowerViewer tower_viewer = Instantiate(towerViewerPrefab, towerHolder).GetComponent<TowerViewer>();
             tower_viewer.placeableObject = placeable_object;

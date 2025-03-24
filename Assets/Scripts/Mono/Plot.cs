@@ -93,7 +93,7 @@ public class Plot : MonoBehaviour {
     /// <param name="faction">The faction to set neighbouring plots onwership to.</param>
     public void PlaceObject(SOPlaceableObject object_to_place, Faction faction, bool player_placement=false) {
         if (player_placement && !GameManager.instance.Game.SpendResources(object_to_place.placementCost.GetDict())) return;
-        Utils.GetManager<MainSceneUIManager>().ObjectPlaced();
+        MainSceneUIManager.instance.ObjectPlaced();
         PlaceableObject new_object = Instantiate(
             object_to_place.placeableObjectPrefab,
             transform.position,
@@ -126,6 +126,15 @@ public class Plot : MonoBehaviour {
         foreach (GameManager.PlotTypes plot_type in object_to_place.mustPlaceBeside) {
             if (!(from plot in GetNeighbours() select plot.plotType).Contains(plot_type)) return false;
         }
+
+        foreach (Tag.Tags tag in object_to_place.mustPlaceBesideTags) {
+            if (!(
+                from plot in GetNeighbours()
+                where plot.GetComponentInChildren<PlaceableObject>() != null && plot.GetComponentInChildren<PlaceableObject>().GetComponent<Tag>() != null
+                select plot.GetComponentInChildren<PlaceableObject>().GetComponent<Tag>().HasTag(tag)
+            ).Contains(true)) return false;
+        }
+
         if (
             placedObjectType != null ||
             faction != GameManager.instance.Game.PlayerFaction
@@ -142,13 +151,17 @@ public class Plot : MonoBehaviour {
 
     public void OnMouseExit() {
         mouseOver = false;
-        Utils.GetManager<MainSceneUIManager>().plotInfoPanel.SetActive(false);
-        Utils.GetManager<MainSceneUIManager>().objectInfoPanel.SetActive(false);
+        MainSceneUIManager.instance.plotInfoPanel.SetActive(false);
+        MainSceneUIManager.instance.objectInfoPanel.SetActive(false);
     }
 
     public void OnMouseDown() {
-        if (Utils.GetManager<MainSceneUIManager>().IsPlacingObject() && Utils.GetManager<MainSceneUIManager>().GetObjectToPlace()) {
-            PlaceObject(Utils.GetManager<MainSceneUIManager>().GetObjectToPlace(), GameManager.instance.Game.PlayerFaction, true);
+        if (
+            MainSceneUIManager.instance.IsPlacingObject() &&
+            MainSceneUIManager.instance.GetObjectToPlace() &&
+            ValidTowerPlacement(MainSceneUIManager.instance.GetObjectToPlace())
+        ) {
+            PlaceObject(MainSceneUIManager.instance.GetObjectToPlace(), GameManager.instance.Game.PlayerFaction, true);
         }
     }
 
@@ -157,11 +170,11 @@ public class Plot : MonoBehaviour {
         if (!MainSceneUIManager.instance.mouseBlocked) {
             if (
                 mouseOver &&
-                !Utils.GetManager<WaveManager>().waveActive
+                !WaveManager.instance.waveActive
             ) {
                 if (faction != null) Debug.Log(faction.Name);
-                if (Utils.GetManager<MainSceneUIManager>().IsPlacingObject()) {
-                    if (ValidTowerPlacement(Utils.GetManager<MainSceneUIManager>().GetObjectToPlace())) target_height = GameManager.instance.PlotMouseOverHeight;
+                if (MainSceneUIManager.instance.IsPlacingObject()) {
+                    if (ValidTowerPlacement(MainSceneUIManager.instance.GetObjectToPlace())) target_height = GameManager.instance.PlotMouseOverHeight;
                 } else {
                     target_height = GameManager.instance.PlotMouseOverHeight;
                 }
@@ -169,16 +182,16 @@ public class Plot : MonoBehaviour {
         }
 
         if (mouseOver) {
-            Utils.GetManager<MainSceneUIManager>().plotInfoName.text = plotSO.displayName;
+            MainSceneUIManager.instance.plotInfoName.text = plotSO.displayName;
             if (placedObjectType != null) {
-                Utils.GetManager<MainSceneUIManager>().objectInfoName.text = placedObjectSO.displayName;
+                MainSceneUIManager.instance.objectInfoName.text = placedObjectSO.displayName;
             }
         }
 
         if (target_height != 0) {
-            Utils.GetManager<MainSceneUIManager>().plotInfoPanel.SetActive(true);
+            MainSceneUIManager.instance.plotInfoPanel.SetActive(true);
             if (placedObjectType != null) {
-                Utils.GetManager<MainSceneUIManager>().objectInfoPanel.SetActive(true);
+                MainSceneUIManager.instance.objectInfoPanel.SetActive(true);
             }
         }
 

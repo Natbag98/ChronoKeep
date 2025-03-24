@@ -16,6 +16,6 @@ public class PlaceInventoryObject : SOEvent {
     }
 
     public override void Event() {
-        Utils.GetManager<MainSceneUIManager>().PlaceInventoryItem(objectToPlace);
+        MainSceneUIManager.instance.PlaceInventoryItem(objectToPlace);
     }
 }

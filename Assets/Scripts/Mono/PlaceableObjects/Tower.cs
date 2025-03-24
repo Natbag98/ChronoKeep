@@ -43,6 +43,6 @@ public abstract class Tower : PlaceableObject {
     protected override void Update() {
         reloadTimer += Time.deltaTime;
         base.Update();
-        if (Utils.GetManager<WaveManager>().waveActive) UpdateAttack();
+        if (WaveManager.instance.waveActive) UpdateAttack();
     }
 }

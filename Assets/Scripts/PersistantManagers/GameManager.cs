@@ -28,7 +28,8 @@ public class GameManager : MonoBehaviour {
         Kingdom
     }
     public enum Resources {
-        Gold
+        Gold,
+        ManPower
     }
     public enum PlotTypes {
         Plains,
@@ -54,7 +55,11 @@ public class GameManager : MonoBehaviour {
     public SOPlot Plains;
 
     [Header("Plot Generation Data")]
+    [SerializeField] private int mapSize;
     [SerializeField] private Utils.SerializeableDict<SOPlot, int> plotGenerationData;
+
+    [Header("Test Data")]
+    public Utils.SerializeableDict<Resources, int> startingResources;
 
     [HideInInspector] public Game Game;
     [HideInInspector] public TextData TextData = new();
@@ -75,12 +80,12 @@ public class GameManager : MonoBehaviour {
         foreach (SOPlaceableObject placeable_object in Utils.GetAllAssets<SOPlaceableObject>()) allSOPlaceableObjects.Add(placeable_object);
 
         if (SceneManager.GetActiveScene().name != "MainMenuScene") {
-            Game = new(new(25, 25), plotGenerationData.GetDict(), "", "");
+            Game = new(new(mapSize, mapSize), plotGenerationData.GetDict(), "", "");
         }
     }
 
     public void NewGame() {
-        Game = new(new(25, 25), plotGenerationData.GetDict(), kingdomName, playerName);
+        Game = new(new(mapSize, mapSize), plotGenerationData.GetDict(), kingdomName, playerName);
     }
 
     void Update() {

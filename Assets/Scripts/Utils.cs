@@ -11,7 +11,7 @@ public class Utils : MonoBehaviour {
     public static T Choice<T>(Dictionary<T, int> dict) {
         int max = 0;
         foreach (int chance in dict.Values) max += chance;
-        int rand = GameManager.Random.Next(1, max);
+        int rand = GameManager.Random.Next(max);
 
         int threshold = 0;
         foreach (T key in dict.Keys) {
@@ -170,7 +170,7 @@ public class Utils : MonoBehaviour {
             plots_to_search.Remove(current_pos);
             plots_searched.Add(current_pos);
 
-            foreach (Plot neighbour in GetManager<RunManager>().GetPlotArray()[current_pos.y][current_pos.x].GetNeighbours()) {
+            foreach (Plot neighbour in RunManager.instance.GetPlotArray()[current_pos.y][current_pos.x].GetNeighbours()) {
                 Vector2Int neighbour_pos = neighbour.GetPositionInPlotArray();
                 PlotPathInfo neighbour_info = GetPlotPathInfo(plot_path_info, neighbour_pos);
                 PlotPathInfo current_info = GetPlotPathInfo(plot_path_info, current_pos);
@@ -180,7 +180,7 @@ public class Utils : MonoBehaviour {
                     List<Plot> path = new();
                     Vector2Int current_path_pos = target_pos;
                     while (GetPlotPathInfo(plot_path_info, current_path_pos).from_pos != null) {
-                        path.Add(GetManager<RunManager>().GetPlotArray()[current_path_pos.y][current_path_pos.x]);
+                        path.Add(RunManager.instance.GetPlotArray()[current_path_pos.y][current_path_pos.x]);
                         current_path_pos = (Vector2Int)GetPlotPathInfo(plot_path_info, current_path_pos).from_pos;
                     }
                     path.Reverse();
@@ -218,8 +218,6 @@ public class Utils : MonoBehaviour {
     public static float CalculateDamage(float amount, float defense) {
         return amount - defense;
     }
-
-    public static T GetManager<T>() where T : UnityEngine.Object { return FindFirstObjectByType<T>(); }
 
     /// <summary>
     /// Checks whether the mouse is hovering over a UI element with the given tag.

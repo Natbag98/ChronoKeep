@@ -14,6 +14,7 @@ public class SOPlaceableObject : ScriptableObject, IUnlockTrackable {
 
     [Header("Placement Rules")]
     public GameManager.PlotTypes[] mustPlaceBeside;
+    public Tag.Tags[] mustPlaceBesideTags;
 
     public GameObject GetPrefab() {
         return placeableObjectPrefab;

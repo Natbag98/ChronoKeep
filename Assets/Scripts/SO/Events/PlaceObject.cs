@@ -22,6 +22,6 @@ public class PlaceObject : SOEvent {
     }
 
     public override void Event() {
-        Utils.GetManager<RunManager>().PlaceRandomObject(objectToPlace, faction, factionType == GameManager.FactionTypes.BarbarianClan);
+        RunManager.instance.PlaceRandomObject(objectToPlace, faction, factionType == GameManager.FactionTypes.BarbarianClan);
     }
 }

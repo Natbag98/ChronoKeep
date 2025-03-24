@@ -6,5 +6,5 @@ public class SOCharacter : ScriptableObject {
     public GameObject prefab;
 
     [Header("Attributes")]
-    public int powerRequired;    
+    public int powerRequired;
 }

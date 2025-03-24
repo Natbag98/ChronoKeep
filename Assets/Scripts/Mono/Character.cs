@@ -5,7 +5,7 @@ using System;
 using Unity.Mathematics;
 using System.Linq;
 
-public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
+public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IModable {
     [Header("Attributes")]
     [SerializeField] protected float rotateSpeed;
     [SerializeField] protected float attackDelayTime;
@@ -74,8 +74,9 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
     private void GetMovementTarget() {
         Plot min_target = null;
         float? min_distance = null;
+        List<Plot> target_objects = RunManager.instance.GetAllPlotsWithFactionObjects(targetFaction);
         foreach (GameManager.PlaceableObjectTypes targetObjectType in movementTargetPriorities) {
-            List<Plot> targets = Utils.GetManager<RunManager>().GetAllPlotsWithPlacedObject(targetObjectType, targetFaction);
+            List<Plot> targets = RunManager.instance.GetAllPlotsWithPlacedObject(targetObjectType, targetFaction);
             foreach (Plot target in targets) {
                 float distance = Vector2.Distance(target.transform.position, transform.position);
                 min_distance ??= distance; min_target = min_target != null ? min_target : target;
@@ -87,9 +88,20 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
         }
 
         if (min_target == null) {
-            movementTarget = Utils.GetManager<RunManager>().GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Castle, targetFaction);
+            movementTarget = RunManager.instance.GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Castle, targetFaction);
+            if (movementTarget == null) movementTarget = Utils.Choice(target_objects);
         } else {
             movementTarget = min_target;
+        }
+
+        if (Utils.GetPath(GetCurrentPlot().GetPositionInPlotArray(), movementTarget.GetPositionInPlotArray()) == null) {
+            Dictionary<float, Plot> potential_movement_targets = new();
+            foreach (Plot plot in target_objects) {
+                if (Utils.GetPath(GetCurrentPlot().GetPositionInPlotArray(), plot.GetPositionInPlotArray()) != null) {
+                    potential_movement_targets.Add(Vector3.Distance(transform.position, plot.transform.position), plot);
+                }
+            }
+            movementTarget = potential_movement_targets[potential_movement_targets.Keys.ToArray().Min()];
         }
     }
 
@@ -97,9 +109,19 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
     /// Gets and sets the character path.
     /// </summary>
     private void GetPath() {
+        GetMovementTarget();
+
         path = new();
         pathIndex = 0;
-        foreach (Plot plot in Utils.GetPath(GetCurrentPlot().GetPositionInPlotArray(), movementTarget.GetPositionInPlotArray())) {
+        List<Plot> new_path = Utils.GetPath(GetCurrentPlot().GetPositionInPlotArray(), movementTarget.GetPositionInPlotArray());
+
+        if (new_path == null) {
+            // Later in development enemies should either not spawn from a spawner with no valid path or the enemy should attempt to attack a different faction
+            Debug.Log("No path found");
+            Destroy(gameObject);
+        }
+
+        foreach (Plot plot in new_path) {
             path.Add(plot.transform);
         }
     }
@@ -141,6 +163,15 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
         lastPosition = transform.position;
     }
 
+    private void CheckCollisionWithCharacters() {
+        foreach (Character character in GetCurrentPlot().GetCharacters()) {
+            if (faction.atWarWith[character.faction]) {
+                Debug.Log("Coll");
+                blocked = true;
+            }
+        }
+    }
+
     public void SetStartPos(Vector3 position) { 
         lastPosition = position;
         transform.position = new Vector3(
@@ -152,15 +183,26 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
 
     private void Awake() {
         moveOffset = new(
-            (float)GameManager.Random.NextDouble() - 0.5f,
-            (float)GameManager.Random.NextDouble() - 0.5f
+            Mathf.Max(Mathf.Min((float)GameManager.Random.NextDouble() - 0.5f, 0.4f), -0.4f),
+            Mathf.Max(Mathf.Min((float)GameManager.Random.NextDouble() - 0.5f, 0.4f), -0.4f)
         );
     }
 
     private void Start() {
-        List<Plot> targets = Utils.GetManager<RunManager>().GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle);
+        List<Plot> targets = RunManager.instance.GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle);
         Dictionary<float, Plot> potential_targets = new();
-        foreach (Plot target in targets) potential_targets.Add(Vector3.Distance(target.transform.position, transform.position), target);
+
+        foreach (Plot target in targets) {
+            if (faction.atWarWith[target.faction]) potential_targets.Add(Vector3.Distance(target.transform.position, transform.position), target);
+        }
+    
+        if (faction == GameManager.instance.Game.PlayerFaction) {
+            potential_targets.Add(
+                0,
+                RunManager.instance.GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Spawner, GameManager.instance.Game.BaseFactions[^1])
+            );
+        }
+    
         targetFaction = potential_targets[potential_targets.Keys.ToArray().Min()].faction;
 
         health = attributes.GetAttribute(GameManager.Attributes.Health);
@@ -178,12 +220,15 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
     }
 
     protected virtual void Update() {
-        if (movementTarget == null) {
-            GetMovementTarget();
-            GetPath();
-        }
-
         reloadTimer += Time.deltaTime;
+        if (movementTarget == null) GetPath();
+        if (blockedObject == null) blocked = false;
+        if (health <= 0) Destroy(gameObject);
+
+        CheckCollision();
+        CheckCollisionWithCharacters();
+        UpdateAttack();
+        UpdateUI();
 
         if (attacking) {
             if (reloadTimer > attributes.GetAttribute(GameManager.Attributes.ReloadTime) + attackDelayTime) {
@@ -196,19 +241,12 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IModable {
             if (!blocked) Move();
             Rotate();
         }
-        CheckCollision();
-        UpdateAttack();
-        UpdateUI();
 
         if (Vector3.Distance(GetPathTargetPos(), transform.position) < 0.05f) {
             pathIndex++;
             if (pathIndex >= path.Count) {
                 Destroy(gameObject);
             }
-        }
-
-        if (health <= 0) {
-            Destroy(gameObject);
         }
     }
 

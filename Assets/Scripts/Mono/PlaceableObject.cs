@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IModable {
+public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarget, IModable {
     [Header("PlaceableObject")]
     [SerializeField] protected Attributes attributes;
     [SerializeField] protected Utils.SerializeableDict<GameManager.Resources, int> resourcesPerWave;
@@ -30,7 +30,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IModable {
     private void OnMouseDown() { parentPlot.OnMouseDown(); }
 
     private void WaveEnd(object _, EventArgs __) {
-        GameManager.instance.Game.AddResources(resourcesPerWave.GetDict());
+        if (parentPlot.faction == GameManager.instance.Game.PlayerFaction) GameManager.instance.Game.AddResources(resourcesPerWave.GetDict());
     }
 
     protected virtual void UpdateUI() {
@@ -39,7 +39,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IModable {
 
     protected virtual void Start() {
         health = attributes.GetAttribute(GameManager.Attributes.Health);
-        Utils.GetManager<WaveManager>().waveEnd += WaveEnd;
+        WaveManager.instance.waveEnd += WaveEnd;
     }
 
     protected virtual void Update() {
