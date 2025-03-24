@@ -46,7 +46,9 @@ public class RangedCharacter : Character {
         reloadTimer = 0;
     }
 
-    protected override void Attack() { StartCoroutine(RangedAttack()); }
+    protected override void Attack() {
+        if (!blocked) { StartCoroutine(RangedAttack()); }
+    }
 
     protected override void Update() {
         base.Update();
