@@ -93,6 +93,16 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
         } else {
             movementTarget = min_target;
         }
+
+        if (Utils.GetPath(GetCurrentPlot().GetPositionInPlotArray(), movementTarget.GetPositionInPlotArray()) == null) {
+            Dictionary<float, Plot> potential_movement_targets = new();
+            foreach (Plot plot in target_objects) {
+                if (Utils.GetPath(GetCurrentPlot().GetPositionInPlotArray(), plot.GetPositionInPlotArray()) != null) {
+                    potential_movement_targets.Add(Vector3.Distance(transform.position, plot.transform.position), plot);
+                }
+            }
+            movementTarget = potential_movement_targets[potential_movement_targets.Keys.ToArray().Min()];
+        }
     }
 
     /// <summary>
