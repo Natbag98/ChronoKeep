@@ -10,9 +10,9 @@ public class TowerViewer : MonoBehaviour {
         if (GameManager.instance.Game.placeableObjectsUnlockTracker.disovered[placeableObject]) {
             mask.color = Color.white;
             if (Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.TowerViewer) == gameObject) {
-                Utils.GetManager<GameSceneUIManager>().towerInfo.SetActive(true);
-                Utils.GetManager<GameSceneUIManager>().towerName.text = placeableObject.displayName;
-                Utils.GetManager<GameSceneUIManager>().towerDescription.text = placeableObject.description;
+                GameSceneUIManager.instance.towerInfo.SetActive(true);
+                GameSceneUIManager.instance.towerName.text = placeableObject.displayName;
+                GameSceneUIManager.instance.towerDescription.text = placeableObject.description;
             }
         } else {
             mask.color = Color.black;

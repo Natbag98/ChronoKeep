@@ -74,8 +74,9 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     private void GetMovementTarget() {
         Plot min_target = null;
         float? min_distance = null;
+        List<Plot> target_objects = RunManager.instance.GetAllPlotsWithFactionObjects(targetFaction);
         foreach (GameManager.PlaceableObjectTypes targetObjectType in movementTargetPriorities) {
-            List<Plot> targets = Utils.GetManager<RunManager>().GetAllPlotsWithPlacedObject(targetObjectType, targetFaction);
+            List<Plot> targets = RunManager.instance.GetAllPlotsWithPlacedObject(targetObjectType, targetFaction);
             foreach (Plot target in targets) {
                 float distance = Vector2.Distance(target.transform.position, transform.position);
                 min_distance ??= distance; min_target = min_target != null ? min_target : target;
@@ -87,8 +88,8 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
         }
 
         if (min_target == null) {
-            movementTarget = Utils.GetManager<RunManager>().GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Castle, targetFaction);
-            if (movementTarget == null) movementTarget = Utils.Choice(Utils.GetManager<RunManager>().GetAllPlotsWithFactionObjects(targetFaction));
+            movementTarget = RunManager.instance.GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Castle, targetFaction);
+            if (movementTarget == null) movementTarget = Utils.Choice(target_objects);
         } else {
             movementTarget = min_target;
         }
@@ -178,7 +179,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     }
 
     private void Start() {
-        List<Plot> targets = Utils.GetManager<RunManager>().GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle);
+        List<Plot> targets = RunManager.instance.GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle);
         Dictionary<float, Plot> potential_targets = new();
 
         foreach (Plot target in targets) {
@@ -188,7 +189,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
         if (faction == GameManager.instance.Game.PlayerFaction) {
             potential_targets.Add(
                 0,
-                Utils.GetManager<RunManager>().GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Spawner, GameManager.instance.Game.BaseFactions[^1])
+                RunManager.instance.GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Spawner, GameManager.instance.Game.BaseFactions[^1])
             );
         }
     

@@ -36,7 +36,7 @@ public class MainSceneUIManager : MonoBehaviour {
     public SOPlaceableObject GetObjectToPlace() { return placingObject; }
 
     public void _Button_NextWaveButtonClicked() {
-        if (!Utils.GetManager<WaveManager>().waveActive) Utils.GetManager<WaveManager>().StartWave();
+        if (!WaveManager.instance.waveActive) WaveManager.instance.StartWave();
     }
 
     public void _Button_PauseMenuQuitButtonClicked() {
@@ -45,7 +45,7 @@ public class MainSceneUIManager : MonoBehaviour {
     }
 
     public void _Button_PauseMenuResumeButtonClicked() {
-        Utils.GetManager<RunManager>().Unpause();
+        RunManager.instance.Unpause();
     }
 
     public void _Button_PauseMenuSaveGameButtonClicked() {
@@ -53,7 +53,7 @@ public class MainSceneUIManager : MonoBehaviour {
     }
 
     public void _Button_EventMenuContinueButtonClicked() {
-        Utils.GetManager<EventManager>().Event();
+        EventManager.instance.Event();
     }
 
     public void StartPlacing(SOPlaceableObject placeable_object) {
@@ -82,21 +82,21 @@ public class MainSceneUIManager : MonoBehaviour {
                 PlaceInventoryItem(placingObject);
                 placingObject = null;
             } else {
-                if (Utils.GetManager<RunManager>().paused) {
-                    Utils.GetManager<RunManager>().Unpause();
+                if (RunManager.instance.paused) {
+                    RunManager.instance.Unpause();
                 } else {
-                    Utils.GetManager<RunManager>().Pause();
+                    RunManager.instance.Pause();
                 }
             }
         }
 
-        if (Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.UIBlocksMouse) || Utils.GetManager<RunManager>().paused) {
+        if (Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.UIBlocksMouse) || RunManager.instance.paused) {
             mouseBlocked = true;
         } else {
             mouseBlocked = false;
         }
 
-        SOEvent current_event = Utils.GetManager<EventManager>().currentEvent;
+        SOEvent current_event = EventManager.instance.currentEvent;
         eventMenu.SetActive(current_event);
         eventName.text = current_event?.displayName;
         eventDescription.text = current_event?.GetDescription();

@@ -39,7 +39,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
 
     protected virtual void Start() {
         health = attributes.GetAttribute(GameManager.Attributes.Health);
-        Utils.GetManager<WaveManager>().waveEnd += WaveEnd;
+        WaveManager.instance.waveEnd += WaveEnd;
     }
 
     protected virtual void Update() {

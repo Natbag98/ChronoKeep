@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EventManager : MonoBehaviour {
+    public static EventManager instance;
+
     [Header("Events")]
     [SerializeField] private Utils.SerializeableDict<SOEvent, int> positiveEventsDict;
     [SerializeField] private Utils.SerializeableDict<SOEvent, int> negativeEventsDict;
@@ -46,8 +48,10 @@ public class EventManager : MonoBehaviour {
     }
 
     private void Start() {
+        instance = this;
+
         positiveEvents = positiveEventsDict.GetDict();
         negativeEvents = negativeEventsDict.GetDict();
-        Utils.GetManager<WaveManager>().waveEnd += WaveEnd;
+        WaveManager.instance.waveEnd += WaveEnd;
     }
 }

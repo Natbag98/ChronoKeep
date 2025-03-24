@@ -35,7 +35,7 @@ public class RangedCharacter : Character {
             projectileToShoot,
             shootPoint.position,
             Quaternion.identity,
-            Utils.GetManager<RunManager>().projectileContainer
+            RunManager.instance.projectileContainer
         ).GetComponent<Projectile>();
         projectile.SetAttributes(attributes);
         projectile.SetTarget(target);

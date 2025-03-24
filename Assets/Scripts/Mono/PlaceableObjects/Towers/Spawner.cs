@@ -20,11 +20,11 @@ public class Spawner : Tower {
             Utils.Choice(potentialCharactersToSpawn).prefab,
             transform.position,
             Quaternion.identity,
-            Utils.GetManager<RunManager>().characterContainer
+            RunManager.instance.characterContainer
         ).GetComponent<Character>();
 
         // Test
-        foreach (Mod mod in Utils.GetManager<RunManager>().testMods) character.AddMod(mod);
+        foreach (Mod mod in RunManager.instance.testMods) character.AddMod(mod);
 
         character.SetStartPos(transform.position);
         character.faction = parentPlot.faction;
@@ -45,7 +45,7 @@ public class Spawner : Tower {
             } else if (!finishedWave) {
                 finishedWave = true;
                 partOfHostileWave = false;
-                Utils.GetManager<WaveManager>().hostileWaveSpawnersFinished++;
+                WaveManager.instance.hostileWaveSpawnersFinished++;
                 return false;
             } else {
                 return false;

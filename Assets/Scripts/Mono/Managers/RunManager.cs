@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 using System.Linq;
 
 public class RunManager : MonoBehaviour {
+    public static RunManager instance;
+
     [Header("References")]
     [SerializeField] private Transform plotContainer;
     public Transform characterContainer;
@@ -138,13 +140,13 @@ public class RunManager : MonoBehaviour {
     public void Pause() {
         Time.timeScale = 0;
         paused = true;
-        Utils.GetManager<MainSceneUIManager>().pauseMenu.SetActive(true);
+        MainSceneUIManager.instance.pauseMenu.SetActive(true);
     }
 
     public void Unpause() {
         Time.timeScale = 1;
         paused = false;
-        Utils.GetManager<MainSceneUIManager>().pauseMenu.SetActive(false);
+        MainSceneUIManager.instance.pauseMenu.SetActive(false);
     }
 
     public void GameOver() {
@@ -152,6 +154,8 @@ public class RunManager : MonoBehaviour {
     }
 
     private void Start() {
+        instance = this;
+
         InstantiatePlots();
         GameManager.instance.Game.PlayerFaction.RunStart();
         foreach (Faction faction in GameManager.instance.Game.BaseFactions) faction.RunStart();
@@ -161,7 +165,7 @@ public class RunManager : MonoBehaviour {
 
         if (test) {
             test = false;
-            foreach (SOPlaceableObject object_to_place in testPlacement) Utils.GetManager<MainSceneUIManager>().PlaceInventoryItem(object_to_place);
+            foreach (SOPlaceableObject object_to_place in testPlacement) MainSceneUIManager.instance.PlaceInventoryItem(object_to_place);
         }
     }
 
