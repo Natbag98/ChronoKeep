@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.EventSystems;
 using UnityEditor;
 using System.Linq;
+using System.IO;
 
 public class Utils : MonoBehaviour {
     public static T Choice<T>(T[] array) { return array[GameManager.Random.Next(array.Length)]; }
@@ -235,12 +236,8 @@ public class Utils : MonoBehaviour {
         }
         return null;
     }
-    
+
     public static List<T> GetAllAssets<T>() where T : UnityEngine.Object {
-        List<T> to_return = new();
-        foreach (string asset in AssetDatabase.FindAssets($"t:{typeof(T).Name}")) {
-            to_return.Add(AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(asset)));
-        }
-        return to_return;
+        return AssetBundle.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "asset")).LoadAllAssets<T>().ToList();
     }
 }

@@ -48,6 +48,8 @@ public class GameManager : MonoBehaviour {
     public int MinBarbGenerationDistance;
     public int MaxBarbGenerationDistance;
 
+    public List<string> assetBundles;
+
     public SOPlaceableObject Castle;
     public SOPlaceableObject BarbCamp;
     public SOPlaceableObject ArcherTower;
