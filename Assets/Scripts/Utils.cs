@@ -238,6 +238,9 @@ public class Utils : MonoBehaviour {
     }
 
     public static List<T> GetAllAssets<T>() where T : UnityEngine.Object {
-        return AssetBundle.LoadFromFile(Path.Combine(Application.streamingAssetsPath, "asset")).LoadAllAssets<T>().ToList();
+        AssetBundle bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath, "AssetBundles", "asset"));
+        List<T> assets = bundle.LoadAllAssets<T>().ToList();
+        bundle.Unload(true);
+        return assets;
     }
 }

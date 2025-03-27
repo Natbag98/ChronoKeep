@@ -74,3 +74,4 @@ crashlytics-build.properties
 .editorconfig
 dist
 ProjectSettings/ProjectVersion.txt
+Assets/AssetBundles
