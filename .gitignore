@@ -75,3 +75,4 @@ crashlytics-build.properties
 dist
 ProjectSettings/ProjectVersion.txt
 Assets/AssetBundles
+Assets/AssetBundles.meta

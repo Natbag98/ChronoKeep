@@ -238,9 +238,17 @@ public class Utils : MonoBehaviour {
     }
 
     public static List<T> GetAllAssets<T>() where T : UnityEngine.Object {
-        AssetBundle bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath, "AssetBundles", "asset"));
-        List<T> assets = bundle.LoadAllAssets<T>().ToList();
-        bundle.Unload(true);
-        return assets;
+        # if UNITY_EDITOR
+            List<T> to_return = new();
+            foreach (string asset in AssetDatabase.FindAssets($"t:{typeof(T).Name}")) {
+                to_return.Add(AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(asset)));
+            }
+            return to_return;
+        # else
+            AssetBundle bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath, "AssetBundles", "asset"));
+            List<T> assets = bundle.LoadAllAssets<T>().ToList();
+            bundle.Unload(true);
+            return assets;
+        # endif
     }
 }
