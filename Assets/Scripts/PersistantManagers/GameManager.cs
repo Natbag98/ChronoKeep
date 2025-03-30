@@ -107,6 +107,9 @@ public class GameManager : MonoBehaviour, ISaveSystem {
                 data.baseTerrain[y][x] = Game.BaseTerrain[y][x].name;
             }
         }
+
+        data.perkUnlockTracker = new(Game.perksUnlockTracker);
+        data.placeableObjectUnlockTracker = new(Game.placeableObjectsUnlockTracker);
     }
 
     public void LoadData(GameData data) {
