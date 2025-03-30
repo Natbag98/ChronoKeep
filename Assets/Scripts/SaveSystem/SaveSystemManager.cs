@@ -10,17 +10,8 @@ public class SaveSystemManager : MonoBehaviour {
     [Header("Configuration")]
     [SerializeField] private string saveFileExtension;
     [SerializeField] private string saveFolder;
-    [SerializeField] private string playerDataFileName;
-
-    [Header("Data")]
-    [SerializeField] private GameObject[] plotPrefabs;
 
     private string saveFolderPath;
-
-    public GameObject GetPlotPrefab(string prefab_name) {
-        foreach (GameObject plot in plotPrefabs) if (plot.name == prefab_name) return plot;
-        return null;
-    }
 
     public void SaveGame(string save_name="Debug") {
         GameData data = new();
@@ -56,6 +47,8 @@ public class SaveSystemManager : MonoBehaviour {
             Destroy(gameObject);
         }
 
-        saveFolderPath = System.IO.Path.Combine(Application.persistentDataPath, saveFolder);
+        // saveFolderPath = System.IO.Path.Combine(Application.persistentDataPath, saveFolder);
+        // Debug folder
+        saveFolderPath = System.IO.Path.Combine(Application.dataPath, "TestSaves", saveFolder);
     }
 }

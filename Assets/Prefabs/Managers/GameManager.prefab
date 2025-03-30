@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8616007788194761630}
   - component: {fileID: 2683455571686427681}
+  - component: {fileID: -8175749535513372674}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -48,6 +49,7 @@ MonoBehaviour:
   PlotMouseOverSpeed: 5
   MinBarbGenerationDistance: 2
   MaxBarbGenerationDistance: 5
+  assetBundles: []
   Castle: {fileID: 11400000, guid: facc3f4559aae0043adf012e27c0de95, type: 2}
   BarbCamp: {fileID: 11400000, guid: e504a0bbd48c9504686b3244871fecbd, type: 2}
   ArcherTower: {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
@@ -70,3 +72,17 @@ MonoBehaviour:
   playerName: 
   kingdomName: 
   allSOPlaceableObjects: []
+--- !u!114 &-8175749535513372674
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8258276669532781956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b83ac6ecb11c942a36e0dd2fd5adda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveFileExtension: savegame
+  saveFolder: Saves

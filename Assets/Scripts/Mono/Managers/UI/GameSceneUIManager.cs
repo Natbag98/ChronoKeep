@@ -27,6 +27,7 @@ public class GameSceneUIManager : MonoBehaviour {
     }
 
     public void _Button_SaveAndQuitButtonClicked() {
+        SaveSystemManager.instance.SaveGame();
         SceneManager.LoadScene("MainMenuScene");
     }
 

@@ -49,7 +49,7 @@ public class MainSceneUIManager : MonoBehaviour {
     }
 
     public void _Button_PauseMenuSaveGameButtonClicked() {
-        Debug.Log("Save Game");
+        SaveSystemManager.instance.SaveGame();
     }
 
     public void _Button_EventMenuContinueButtonClicked() {
