@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour, ISaveSystem {
     public static GameManager instance;
     public static System.Random Random = new();
 
@@ -92,5 +93,23 @@ public class GameManager : MonoBehaviour {
 
     void Update() {
         Game.DebugUpdate();
+    }
+
+    public void SaveData(GameData data) {
+        if (SceneManager.GetActiveScene().name == "MainScene") {
+            data.runActive = true;
+            data.runData = new();
+        }
+
+        data.baseTerrain = Utils.CreateJaggedArray<string[][]>(Game.TerrainSize.x, Game.TerrainSize.y);
+        for (int x = 0; x < Game.TerrainSize.x; x++) {
+            for (int y = 0; y < Game.TerrainSize.y; y++) {
+                data.baseTerrain[y][x] = Game.BaseTerrain[y][x].name;
+            }
+        }
+    }
+
+    public void LoadData(GameData data) {
+        throw new NotImplementedException();
     }
 }
