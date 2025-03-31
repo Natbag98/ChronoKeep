@@ -26,6 +26,11 @@ public class SaveSystemManager : MonoBehaviour {
         foreach (ISaveSystem saveSystemObject in saveSystemObjects) saveSystemObject.LoadData(data);
     }
 
+    public bool GetRunActive(string save_name="Debug") {
+        GameData data = Json.Deserialize<GameData>(LoadFromFile(saveFolderPath, save_name), SerializationOptions.PrettyPrint);
+        return data.runActive;
+    }
+
     private void WriteToFile(string path, string filename, string data) {
         Directory.CreateDirectory(path);
         using FileStream stream = new(System.IO.Path.Combine(path, $"{filename}.{saveFileExtension}"), FileMode.Create);

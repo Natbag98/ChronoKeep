@@ -14,4 +14,6 @@ public class UnlockTrackerData<T> where T : ScriptableObject, IUnlockTrackable {
             unlocked.Add(t.name, unlock_tracker.unlocked[t]);
         }
     }
+
+    public UnlockTrackerData() {}
 }

@@ -10,4 +10,6 @@ public class FactionData {
         name = faction.Name;
         rulerName = faction.Ruler;
     }
+
+    public FactionData() {}
 }

@@ -73,6 +73,8 @@ public class GameManager : MonoBehaviour, ISaveSystem {
 
     [HideInInspector] public List<SOPlaceableObject> allSOPlaceableObjects = new();
 
+    [HideInInspector] public bool load = false;
+
     private void Awake() {
         if (instance) {
             Destroy(gameObject);
@@ -93,6 +95,11 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     }
 
     void Update() {
+        if (load) {
+            load = false;
+            SaveSystemManager.instance.LoadGame();
+        }
+
         Game.DebugUpdate();
     }
 
@@ -122,6 +129,6 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     }
 
     public void LoadData(GameData data) {
-        throw new NotImplementedException();
+        Game.LoadData(data);
     }
 }

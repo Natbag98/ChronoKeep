@@ -18,7 +18,12 @@ public class MainMenuUIManager : MonoBehaviour {
     }
 
     public void _Button_LoadGameButtonClicked() {
-        Debug.Log("Load Game");
+        GameManager.instance.load = true;
+        if (SaveSystemManager.instance.GetRunActive()) {
+            SceneManager.LoadScene("MainScene");
+        } else {
+            SceneManager.LoadScene("GameScene");
+        }
     }
 
     public void _Button_SettingsButtonClicked() {
