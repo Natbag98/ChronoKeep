@@ -23,6 +23,7 @@ public class MainMenuUIManager : MonoBehaviour {
             return;
         }
         GameManager.instance.load = true;
+        GameManager.instance.NewGame();
         if (SaveSystemManager.instance.GetRunActive()) {
             SceneManager.LoadScene("MainScene");
         } else {

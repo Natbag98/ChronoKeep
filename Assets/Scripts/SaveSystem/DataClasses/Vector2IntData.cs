@@ -1,8 +1,9 @@
 using UnityEngine;
 
+[System.Serializable]
 public class Vector2IntData {
-    int x;
-    int y;
+    public int x;
+    public int y;
 
     public Vector2IntData(Vector2Int vector2Int) {
         x = vector2Int.x;

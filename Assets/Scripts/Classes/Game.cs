@@ -184,18 +184,26 @@ public class Game {
     }
 
     public void LoadData(GameData data) {
-        BaseTerrain = CreateJaggedArray<SOPlot[][]>(data.terrainSize.x, data.terrainSize.y);
+        BaseTerrain = CreateJaggedArray<SOPlot[][]>(data.terrainSize.Get().x, data.terrainSize.Get().y);
         for (int x = 0; x < data.terrainSize.Get().x; x++) {
             for (int y = 0; y < data.terrainSize.Get().y; y++) {
                 BaseTerrain[y][x] = GetAsset<SOPlot>(data.baseTerrain[y][x]);
             }
         }
 
-        foreach (string perk in data.perkUnlockTracker.disovered.Keys) perksUnlockTracker.disovered[GetAsset<SOPerk>(perk)] = true;
-        foreach (string perk in data.perkUnlockTracker.unlocked.Keys) perksUnlockTracker.unlocked[GetAsset<SOPerk>(perk)] = true;
-        foreach (string object_ in data.placeableObjectUnlockTracker.disovered.Keys) placeableObjectsUnlockTracker.disovered[GetAsset<SOPlaceableObject>(object_)] = true;
-        foreach (string object_ in data.placeableObjectUnlockTracker.unlocked.Keys) placeableObjectsUnlockTracker.unlocked[GetAsset<SOPlaceableObject>(object_)] = true;
-    
+        foreach (string perk in data.perkUnlockTracker.disovered.Keys) {
+            perksUnlockTracker.disovered[GetAsset<SOPerk>(perk)] = data.perkUnlockTracker.disovered[perk];
+        }
+        foreach (string perk in data.perkUnlockTracker.unlocked.Keys) {
+            perksUnlockTracker.unlocked[GetAsset<SOPerk>(perk)] = data.perkUnlockTracker.unlocked[perk];
+        }
+        foreach (string object_ in data.placeableObjectUnlockTracker.disovered.Keys) {
+            placeableObjectsUnlockTracker.disovered[GetAsset<SOPlaceableObject>(object_)] = data.placeableObjectUnlockTracker.disovered[object_];
+        }
+        foreach (string object_ in data.placeableObjectUnlockTracker.unlocked.Keys) {
+            placeableObjectsUnlockTracker.unlocked[GetAsset<SOPlaceableObject>(object_)] = data.placeableObjectUnlockTracker.unlocked[object_];
+        }
+
         PlayerFaction = new(this, data.playerFaction.factionType, data.playerFaction.name, data.playerFaction.rulerName);
         BaseFactions = new();
         foreach (FactionData factionData in data.factionData) {

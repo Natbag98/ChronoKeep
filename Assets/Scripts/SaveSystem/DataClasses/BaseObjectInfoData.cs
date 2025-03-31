@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[System.Serializable]
 public class BaseObjectInfoData {
     public Vector2IntData location;
     public string baseObject;

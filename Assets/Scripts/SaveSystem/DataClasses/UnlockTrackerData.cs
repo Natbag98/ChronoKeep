@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class UnlockTrackerData<T> where T : ScriptableObject, IUnlockTrackable {
     public Dictionary<string, bool> disovered = new();
     public Dictionary<string, bool> unlocked = new();

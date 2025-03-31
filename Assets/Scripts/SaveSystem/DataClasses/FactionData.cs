@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[System.Serializable]
 public class FactionData {
     public GameManager.FactionTypes factionType;
     public string name;
