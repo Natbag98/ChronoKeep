@@ -174,10 +174,7 @@ public class RunManager : MonoBehaviour {
             foreach (Mod mod in globalMods) modable.AddMod(mod);
         }
 
-        if (
-            GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle) == null ||
-            GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Spawner) == null
-        ) {
+        if (GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle, GameManager.instance.Game.PlayerFaction) == null) {
             GameOver();
         }
     }
