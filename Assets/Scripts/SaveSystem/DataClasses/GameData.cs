@@ -11,5 +11,5 @@ public class GameData {
     public UnlockTrackerData<SOPlaceableObject> placeableObjectUnlockTracker;
     public List<FactionData> factionData = new();
     public FactionData playerFaction;
-    public List<Game.BaseObjectInfo> baseObjectInfo;
+    public List<BaseObjectInfoData> baseObjectInfo;
 }

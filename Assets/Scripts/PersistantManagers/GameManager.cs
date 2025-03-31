@@ -114,7 +114,8 @@ public class GameManager : MonoBehaviour, ISaveSystem {
 
         data.factionData = (from faction in Game.BaseFactions select new FactionData(faction)).ToList();
         data.playerFaction = new(Game.PlayerFaction);
-        //data.baseObjectInfo = Game.baseObjectInfo;
+
+        data.baseObjectInfo = (from info in Game.baseObjectInfo select new BaseObjectInfoData(info)).ToList();
     }
 
     public void LoadData(GameData data) {
