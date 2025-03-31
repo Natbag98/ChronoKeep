@@ -12,4 +12,6 @@ public class GameData {
     public List<FactionData> factionData = new();
     public FactionData playerFaction;
     public List<BaseObjectInfoData> baseObjectInfo;
+    public Dictionary<GameManager.Resources, int> resources;
+    public Vector2Int terrainSize;
 }
