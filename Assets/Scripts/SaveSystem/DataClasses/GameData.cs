@@ -3,6 +3,8 @@ using UnityEngine;
 
 [System.Serializable]
 public class GameData {
+    public float saveFileVersion;
+
     public bool runActive;
     public RunData runData = null;
 

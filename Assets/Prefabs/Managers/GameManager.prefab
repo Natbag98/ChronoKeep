@@ -72,6 +72,7 @@ MonoBehaviour:
   playerName: 
   kingdomName: 
   allSOPlaceableObjects: []
+  load: 0
 --- !u!114 &-8175749535513372674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -85,4 +86,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveFileExtension: savegame
+  saveFileVersion: 1
   saveFolder: Saves

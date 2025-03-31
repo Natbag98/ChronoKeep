@@ -9,6 +9,7 @@ public class SaveSystemManager : MonoBehaviour {
 
     [Header("Configuration")]
     [SerializeField] private string saveFileExtension;
+    [SerializeField] private float saveFileVersion;
     [SerializeField] private string saveFolder;
 
     private string saveFolderPath;
@@ -16,6 +17,7 @@ public class SaveSystemManager : MonoBehaviour {
     public void SaveGame(string save_name="Debug") {
         GameData data = new();
         List<ISaveSystem> saveSystemObjects = new(FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<ISaveSystem>());
+        data.saveFileVersion = saveFileVersion;
         foreach (ISaveSystem saveSystemObject in saveSystemObjects) saveSystemObject.SaveData(data);
         WriteToFile(saveFolderPath, save_name, Json.SerializeToString(data, SerializationOptions.PrettyPrint));
     }
@@ -31,15 +33,20 @@ public class SaveSystemManager : MonoBehaviour {
         return data.runActive;
     }
 
+    public bool GetCanLoadGame(string save_name="Debug") {
+        if (!File.Exists(Path.Combine(saveFolderPath, $"{save_name}.{saveFileExtension}"))) return false;
+        return Json.Deserialize<GameData>(LoadFromFile(saveFolderPath, save_name), SerializationOptions.PrettyPrint).saveFileVersion == saveFileVersion;
+    }
+
     private void WriteToFile(string path, string filename, string data) {
         Directory.CreateDirectory(path);
-        using FileStream stream = new(System.IO.Path.Combine(path, $"{filename}.{saveFileExtension}"), FileMode.Create);
+        using FileStream stream = new(Path.Combine(path, $"{filename}.{saveFileExtension}"), FileMode.Create);
         using StreamWriter writer = new(stream);
         writer.Write(data);
     }
 
     private string LoadFromFile(string path, string filename) {
-        using FileStream stream = new(System.IO.Path.Combine(path, $"{filename}.{saveFileExtension}"), FileMode.Open);
+        using FileStream stream = new(Path.Combine(path, $"{filename}.{saveFileExtension}"), FileMode.Open);
         using StreamReader reader = new(stream);
         return reader.ReadToEnd();
     }
@@ -54,6 +61,6 @@ public class SaveSystemManager : MonoBehaviour {
 
         // saveFolderPath = System.IO.Path.Combine(Application.persistentDataPath, saveFolder);
         // Debug folder
-        saveFolderPath = System.IO.Path.Combine(Application.dataPath, "TestSaves", saveFolder);
+        saveFolderPath = Path.Combine(Application.dataPath, "TestSaves", saveFolder);
     }
 }

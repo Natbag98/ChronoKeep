@@ -18,6 +18,10 @@ public class MainMenuUIManager : MonoBehaviour {
     }
 
     public void _Button_LoadGameButtonClicked() {
+        if (!SaveSystemManager.instance.GetCanLoadGame()) {
+            Debug.Log("Cannot load file"); // TODO : This needs to be replaced with some kind of message to the player
+            return;
+        }
         GameManager.instance.load = true;
         if (SaveSystemManager.instance.GetRunActive()) {
             SceneManager.LoadScene("MainScene");
