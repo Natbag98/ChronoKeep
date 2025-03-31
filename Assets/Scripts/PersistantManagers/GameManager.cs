@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -110,6 +111,10 @@ public class GameManager : MonoBehaviour, ISaveSystem {
 
         data.perkUnlockTracker = new(Game.perksUnlockTracker);
         data.placeableObjectUnlockTracker = new(Game.placeableObjectsUnlockTracker);
+
+        data.factionData = (from faction in Game.BaseFactions select new FactionData(faction)).ToList();
+        data.playerFaction = new(Game.PlayerFaction);
+        //data.baseObjectInfo = Game.baseObjectInfo;
     }
 
     public void LoadData(GameData data) {
