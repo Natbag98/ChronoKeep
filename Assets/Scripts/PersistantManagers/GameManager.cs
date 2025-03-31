@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour, ISaveSystem {
         data.baseObjectInfo = (from info in Game.baseObjectInfo select new BaseObjectInfoData(info)).ToList();
 
         data.resources = Game.GetResources();
-        data.terrainSize = Game.TerrainSize;
+        data.terrainSize = new(Game.TerrainSize);
     }
 
     public void LoadData(GameData data) {

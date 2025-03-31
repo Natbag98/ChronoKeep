@@ -185,8 +185,8 @@ public class Game {
 
     public void LoadData(GameData data) {
         BaseTerrain = CreateJaggedArray<SOPlot[][]>(data.terrainSize.x, data.terrainSize.y);
-        for (int x = 0; x < data.terrainSize.x; x++) {
-            for (int y = 0; y < data.terrainSize.y; y++) {
+        for (int x = 0; x < data.terrainSize.Get().x; x++) {
+            for (int y = 0; y < data.terrainSize.Get().y; y++) {
                 BaseTerrain[y][x] = GetAsset<SOPlot>(data.baseTerrain[y][x]);
             }
         }
@@ -217,7 +217,7 @@ public class Game {
         }
 
         resources = data.resources;
-        TerrainSize = data.terrainSize;
+        TerrainSize = data.terrainSize.Get();
     }
 
     public void DebugUpdate() {
