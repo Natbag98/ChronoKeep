@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarget, IModable {
+public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarget, IModable, ISaveSystem {
     [Header("PlaceableObject")]
     [SerializeField] protected Attributes attributes;
     [SerializeField] protected Utils.SerializeableDict<GameManager.Resources, int> resourcesPerWave;
@@ -62,4 +62,16 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     public void RemoveMod(Mod mod) {
         attributes.RemoveMod(mod);
     }
+
+    public void SaveData(GameData data) {
+        data.runData.placeableObjects.Add(
+            new() {
+                placeableObjectSO = placeableObjectSO.name,
+                health = health,
+                location = 
+            }
+        );
+    }
+
+    public void LoadData(GameData data) {}
 }

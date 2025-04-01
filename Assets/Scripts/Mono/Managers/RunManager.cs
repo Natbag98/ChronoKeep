@@ -180,7 +180,6 @@ public class RunManager : MonoBehaviour, ISaveSystem {
     }
 
     public void SaveData(GameData data) {
-        Debug.Log(globalMods.Count);
         data.runData.globalMods = globalMods;
     }
 
