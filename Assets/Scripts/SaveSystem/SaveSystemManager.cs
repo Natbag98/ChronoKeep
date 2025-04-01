@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using GameDevWare.Serialization;
+using UnityEngine.SceneManagement;
 
 public class SaveSystemManager : MonoBehaviour {
     public static SaveSystemManager instance;
@@ -15,9 +16,13 @@ public class SaveSystemManager : MonoBehaviour {
     private string saveFolderPath;
 
     public void SaveGame(string save_name="Debug") {
-        GameData data = new();
+        GameData data = new() { saveFileVersion = saveFileVersion };
+        if (SceneManager.GetActiveScene().name == "MainScene") {
+            data.runActive = true;
+            data.runData = new();
+        }
+
         List<ISaveSystem> saveSystemObjects = new(FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<ISaveSystem>());
-        data.saveFileVersion = saveFileVersion;
         foreach (ISaveSystem saveSystemObject in saveSystemObjects) saveSystemObject.SaveData(data);
         WriteToFile(saveFolderPath, save_name, Json.SerializeToString(data, SerializationOptions.PrettyPrint));
     }

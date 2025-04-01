@@ -104,11 +104,6 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     }
 
     public void SaveData(GameData data) {
-        if (SceneManager.GetActiveScene().name == "MainScene") {
-            data.runActive = true;
-            data.runData = new();
-        }
-
         data.baseTerrain = Utils.CreateJaggedArray<string[][]>(Game.TerrainSize.x, Game.TerrainSize.y);
         for (int x = 0; x < Game.TerrainSize.x; x++) {
             for (int y = 0; y < Game.TerrainSize.y; y++) {

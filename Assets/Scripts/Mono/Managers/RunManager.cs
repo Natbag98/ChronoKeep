@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System.Linq;
 
-public class RunManager : MonoBehaviour {
+public class RunManager : MonoBehaviour, ISaveSystem {
     public static RunManager instance;
 
     [Header("References")]
@@ -178,4 +178,11 @@ public class RunManager : MonoBehaviour {
             GameOver();
         }
     }
+
+    public void SaveData(GameData data) {
+        Debug.Log(globalMods.Count);
+        data.runData.globalMods = globalMods;
+    }
+
+    public void LoadData(GameData data) {}
 }
