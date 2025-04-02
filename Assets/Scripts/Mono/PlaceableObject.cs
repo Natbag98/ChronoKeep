@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarget, IModable, ISaveSystem {
+public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarget, IModable {
     [Header("PlaceableObject")]
     [SerializeField] protected Attributes attributes;
     [SerializeField] protected Utils.SerializeableDict<GameManager.Resources, int> resourcesPerWave;
@@ -15,6 +15,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     [HideInInspector] public GameManager.PlaceableObjectTypes objectType;
     [HideInInspector] public Plot parentPlot;
     private float health;
+    public float GetHealth() { return health; }
 
     public Vector3 GetTargetPoint() { return centerPoint.position; }
     public void Damage(float amount) {
@@ -62,16 +63,4 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     public void RemoveMod(Mod mod) {
         attributes.RemoveMod(mod);
     }
-
-    public void SaveData(GameData data) {
-        data.runData.placeableObjects.Add(
-            new() {
-                placeableObjectSO = placeableObjectSO.name,
-                health = health,
-                location = new(parentPlot.GetPositionInPlotArray())
-            }
-        );
-    }
-
-    public void LoadData(GameData data) {}
 }

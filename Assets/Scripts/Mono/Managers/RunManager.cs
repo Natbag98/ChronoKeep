@@ -181,6 +181,24 @@ public class RunManager : MonoBehaviour, ISaveSystem {
 
     public void SaveData(GameData data) {
         data.runData.globalMods = globalMods;
+
+        data.runData.plotData = Utils.CreateJaggedArray<PlotData[][]>(GameManager.instance.Game.TerrainSize.x, GameManager.instance.Game.TerrainSize.y);
+        for (int x = 0; x < GameManager.instance.Game.TerrainSize.x; x++) {
+            for (int y = 0; y < GameManager.instance.Game.TerrainSize.y; y++) {
+                Plot plot = plotArray[y][x];
+                data.runData.plotData[y][x] = new() {
+                    plotSO = plot.plotSO.name,
+                    faction = plot.faction?.Name
+                };
+
+                if (plot.placedObjectSO) {
+                    data.runData.plotData[y][x].placedObject = new() {
+                        placeableObjectSO = plot.GetComponentInChildren<PlaceableObject>().placeableObjectSO.name,
+                        health = plot.GetComponentInChildren<PlaceableObject>().GetHealth()
+                    };
+                }
+            }
+        }
     }
 
     public void LoadData(GameData data) {}
