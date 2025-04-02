@@ -68,7 +68,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
             new() {
                 placeableObjectSO = placeableObjectSO.name,
                 health = health,
-                location = 
+                location = new(parentPlot.GetPositionInPlotArray())
             }
         );
     }
