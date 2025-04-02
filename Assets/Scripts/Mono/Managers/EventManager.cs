@@ -60,6 +60,6 @@ public class EventManager : MonoBehaviour, ISaveSystem {
     }
 
     public void LoadData(GameData data) {
-        throw new NotImplementedException();
+        eventChance = data.runData.eventChance;
     }
 }

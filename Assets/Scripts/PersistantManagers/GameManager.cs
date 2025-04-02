@@ -95,7 +95,7 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     }
 
     void Update() {
-        if (load) {
+        if (load && RunManager.instance != null) {
             load = false;
             SaveSystemManager.instance.LoadGame();
         }

@@ -46,6 +46,6 @@ public class WaveManager : MonoBehaviour, ISaveSystem {
     }
 
     public void LoadData(GameData data) {
-        throw new NotImplementedException();
+        wave = data.runData.wave;
     }
 }

@@ -29,7 +29,7 @@ public class SaveSystemManager : MonoBehaviour {
 
     public void LoadGame(string save_name="Debug") {
         GameData data = Json.Deserialize<GameData>(LoadFromFile(saveFolderPath, save_name), SerializationOptions.PrettyPrint);
-        List<ISaveSystem> saveSystemObjects = new(FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<ISaveSystem>());
+        List<ISaveSystem> saveSystemObjects = new(FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.InstanceID).OfType<ISaveSystem>());
         foreach (ISaveSystem saveSystemObject in saveSystemObjects) saveSystemObject.LoadData(data);
     }
 

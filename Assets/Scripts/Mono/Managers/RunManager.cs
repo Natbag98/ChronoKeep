@@ -85,7 +85,7 @@ public class RunManager : MonoBehaviour, ISaveSystem {
         plotArray = Utils.CreateJaggedArray<Plot[][]>(game.TerrainSize.x, game.TerrainSize.y);
         for (int x = 0; x < game.TerrainSize.x; x++) {
             for (int y = 0; y < game.TerrainSize.y; y++) {
-                InstantiatePlot(x, y, GameManager.instance.Game.BaseTerrain[y][x].prefab);
+                InstantiatePlot(x, y, GameManager.instance.Game.BaseTerrain[y][x]);
             }
         }
 
@@ -95,7 +95,7 @@ public class RunManager : MonoBehaviour, ISaveSystem {
             Plot plot = plotArray[object_info.location.y][object_info.location.x];
             if (!plot.GetCanPlaceObject()) {
                 Destroy(plot.gameObject);
-                InstantiatePlot(object_info.location.x, object_info.location.y, GameManager.instance.Plains.prefab);
+                InstantiatePlot(object_info.location.x, object_info.location.y, GameManager.instance.Plains);
             }
             SetPlotNeighbours();
             plotArray[object_info.location.y][object_info.location.x].PlaceObject(object_info.base_object, object_info.faction);
@@ -116,15 +116,16 @@ public class RunManager : MonoBehaviour, ISaveSystem {
         }
     }
 
-    public void InstantiatePlot(int x, int y, GameObject plot_prefab) {
+    public Plot InstantiatePlot(int x, int y, SOPlot plotSO) {
         Plot new_plot = Instantiate(
-            plot_prefab,
+            plotSO.prefab,
             new Vector3Int(x - GameManager.instance.Game.TerrainSize.x / 2, 0, y - GameManager.instance.Game.TerrainSize.y / 2),
             Quaternion.identity,
             plotContainer
         ).GetComponent<Plot>();
-        new_plot.plotSO = GameManager.instance.Game.BaseTerrain[y][x];
+        new_plot.plotSO = plotSO;
         plotArray[y][x] = new_plot;
+        return new_plot;
     }
 
     public void PlaceRandomObject(SOPlaceableObject object_to_place, Faction faction, bool no_mans_land=false) {
@@ -201,5 +202,22 @@ public class RunManager : MonoBehaviour, ISaveSystem {
         }
     }
 
-    public void LoadData(GameData data) {}
+    public void LoadData(GameData data) {
+        globalMods = data.runData.globalMods;
+
+        foreach (Plot[] row in plotArray) {
+            foreach (Plot plot in row) {
+                Destroy(plot.gameObject);
+            }
+        }
+
+        plotArray = Utils.CreateJaggedArray<Plot[][]>(data.terrainSize.x, data.terrainSize.y);
+        for (int x = 0; x < data.terrainSize.x; x++) {
+            for (int y = 0; y < data.terrainSize.y; y++) {
+                Plot new_plot = InstantiatePlot(x, y, Utils.GetAsset<SOPlot>(data.runData.plotData[y][x].plotSO));
+                // TODO : finish faction and placeable objects loading
+                //new_plot.faction = data.runData.plotData[y][x].faction
+            }
+        }
+    }
 }
