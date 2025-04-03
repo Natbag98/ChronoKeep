@@ -52,6 +52,12 @@ public class Game {
         PlaceBarbCamps(1);
     }
 
+    public Faction GetFactionByName(string name) {
+        Dictionary<string, Faction> factions = new() { { PlayerFaction.Name, PlayerFaction } };
+        foreach (Faction faction in BaseFactions) factions.Add(faction.Name, faction);
+        return factions[name];
+    }
+
     public bool CanSpendResources(GameManager.Resources resource, int amount) {
         return amount <= resources[resource];
     }

@@ -195,7 +195,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
         foreach (Plot target in targets) {
             if (faction.atWarWith[target.faction]) potential_targets.Add(Vector3.Distance(target.transform.position, transform.position), target);
         }
-    
+
         if (faction == GameManager.instance.Game.PlayerFaction) {
             potential_targets.Add(
                 0,

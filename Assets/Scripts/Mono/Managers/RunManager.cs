@@ -195,7 +195,7 @@ public class RunManager : MonoBehaviour, ISaveSystem {
                 if (plot.placedObjectSO) {
                     data.runData.plotData[y][x].placedObject = new() {
                         placeableObjectSO = plot.GetComponentInChildren<PlaceableObject>().placeableObjectSO.name,
-                        health = plot.GetComponentInChildren<PlaceableObject>().GetHealth()
+                        health = plot.GetComponentInChildren<PlaceableObject>().health
                     };
                 }
             }
@@ -215,9 +215,19 @@ public class RunManager : MonoBehaviour, ISaveSystem {
         for (int x = 0; x < data.terrainSize.x; x++) {
             for (int y = 0; y < data.terrainSize.y; y++) {
                 Plot new_plot = InstantiatePlot(x, y, Utils.GetAsset<SOPlot>(data.runData.plotData[y][x].plotSO));
-                // TODO : finish faction and placeable objects loading
-                //new_plot.faction = data.runData.plotData[y][x].faction
+
+                if (data.runData.plotData[y][x].faction == null) {
+                    new_plot.faction = null;
+                } else {
+                    new_plot.faction = GameManager.instance.Game.GetFactionByName(data.runData.plotData[y][x].faction);
+                }
+
+                if (data.runData.plotData[y][x].placedObject != null) {
+                    PlaceableObject new_object = new_plot.PlaceObject(Utils.GetAsset<SOPlaceableObject>(data.runData.plotData[y][x].placedObject.placeableObjectSO));
+                    new_object.health = data.runData.plotData[y][x].placedObject.health;
+                }
             }
         }
+        SetPlotNeighbours();
     }
 }

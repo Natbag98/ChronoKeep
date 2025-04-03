@@ -14,8 +14,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     [HideInInspector] public SOPlaceableObject placeableObjectSO;
     [HideInInspector] public GameManager.PlaceableObjectTypes objectType;
     [HideInInspector] public Plot parentPlot;
-    private float health;
-    public float GetHealth() { return health; }
+    [HideInInspector] public float health;
 
     public Vector3 GetTargetPoint() { return centerPoint.position; }
     public void Damage(float amount) {

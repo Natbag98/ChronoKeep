@@ -91,8 +91,9 @@ public class Plot : MonoBehaviour {
     /// </summary>
     /// <param name="object_to_place">The object to place.</param>
     /// <param name="faction">The faction to set neighbouring plots onwership to.</param>
-    public void PlaceObject(SOPlaceableObject object_to_place, Faction faction, bool player_placement=false) {
-        if (player_placement && !GameManager.instance.Game.SpendResources(object_to_place.placementCost.GetDict())) return;
+    /// <returns>Returns the placed object</returns>
+    public PlaceableObject PlaceObject(SOPlaceableObject object_to_place, Faction faction=null, bool player_placement=false) {
+        if (player_placement && !GameManager.instance.Game.SpendResources(object_to_place.placementCost.GetDict())) return null;
         MainSceneUIManager.instance.ObjectPlaced();
         PlaceableObject new_object = Instantiate(
             object_to_place.placeableObjectPrefab,
@@ -104,8 +105,12 @@ public class Plot : MonoBehaviour {
         placedObjectSO = new_object.placeableObjectSO = object_to_place;
         new_object.parentPlot = this;
 
-        this.faction = faction;
-        foreach (Plot plot in GetNeighbours(object_to_place.factionControlRange, true)) plot.faction ??= faction;
+        if (faction != null) {
+            this.faction = faction;
+            foreach (Plot plot in GetNeighbours(object_to_place.factionControlRange, true)) plot.faction ??= faction;
+        }
+
+        return new_object;
     }
 
     /// <summary>
