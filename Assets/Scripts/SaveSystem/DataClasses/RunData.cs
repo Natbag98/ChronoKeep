@@ -8,5 +8,7 @@ public class RunData {
     public List<Mod> globalMods;
     public PlotData[][] plotData;
 
+    public Dictionary<string, Dictionary<string, bool>> factionsWars = new();
+
     public RunData() {}
 }

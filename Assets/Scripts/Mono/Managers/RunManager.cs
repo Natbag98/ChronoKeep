@@ -200,6 +200,13 @@ public class RunManager : MonoBehaviour, ISaveSystem {
                 }
             }
         }
+
+        foreach (Faction faction in GameManager.instance.Game.BaseFactions) {
+            data.runData.factionsWars.Add(faction.Name, new());
+            foreach (Faction war_faction in faction.atWarWith.Keys) {
+                data.runData.factionsWars[faction.Name].Add(war_faction.Name, faction.atWarWith[war_faction]);
+            }
+        }
     }
 
     public void LoadData(GameData data) {
@@ -229,5 +236,15 @@ public class RunManager : MonoBehaviour, ISaveSystem {
             }
         }
         SetPlotNeighbours();
+
+        foreach (string faction in data.runData.factionsWars.Keys) {
+            GameManager.instance.Game.GetFactionByName(faction).atWarWith = new();
+            foreach (string war_faction in data.runData.factionsWars[faction].Keys) {
+                GameManager.instance.Game.GetFactionByName(faction).atWarWith.Add(
+                    GameManager.instance.Game.GetFactionByName(war_faction),
+                    data.runData.factionsWars[faction][war_faction]
+                );
+            }
+        }
     }
 }
