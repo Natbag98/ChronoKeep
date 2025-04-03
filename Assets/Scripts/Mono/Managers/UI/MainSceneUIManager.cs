@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainSceneUIManager : MonoBehaviour {
+public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     public static MainSceneUIManager instance;
 
     [Header("References")]
@@ -103,5 +103,12 @@ public class MainSceneUIManager : MonoBehaviour {
 
         resourceGoldText.text = $"Gold: {GameManager.instance.Game.GetResources()[GameManager.Resources.Gold]}";
         resourceManPowerText.text = $"Man Power: {GameManager.instance.Game.GetResources()[GameManager.Resources.ManPower]}";
+    }
+
+    public void SaveData(GameData data) {}
+
+    public void LoadData(GameData data) {
+        foreach (Transform child in inventoryPanel) Destroy(child.gameObject);
+        foreach (string item in data.runData.inventoryItems) PlaceInventoryItem(Utils.GetAsset<SOPlaceableObject>(item));
     }
 }

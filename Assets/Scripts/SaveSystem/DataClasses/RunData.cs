@@ -7,8 +7,8 @@ public class RunData {
     public float eventChance;
     public List<Mod> globalMods;
     public PlotData[][] plotData;
-
     public Dictionary<string, Dictionary<string, bool>> factionsWars = new();
+    public List<string> inventoryItems = new();
 
     public RunData() {}
 }

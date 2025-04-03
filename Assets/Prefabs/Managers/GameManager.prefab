@@ -86,5 +86,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveFileExtension: savegame
-  saveFileVersion: 1
+  saveFileVersion: 2
   saveFolder: Saves
