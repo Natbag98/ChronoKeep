@@ -201,7 +201,7 @@ public class RunManager : MonoBehaviour, ISaveSystem {
             }
         }
 
-        foreach (Faction faction in GameManager.instance.Game.BaseFactions) {
+        foreach (Faction faction in GameManager.instance.Game.BaseFactions.Append(GameManager.instance.Game.PlayerFaction)) {
             data.runData.factionsWars.Add(faction.Name, new());
             foreach (Faction war_faction in faction.atWarWith.Keys) {
                 data.runData.factionsWars[faction.Name].Add(war_faction.Name, faction.atWarWith[war_faction]);

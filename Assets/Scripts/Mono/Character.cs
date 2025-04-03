@@ -196,7 +196,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
             if (faction.atWarWith[target.faction]) potential_targets.Add(Vector3.Distance(target.transform.position, transform.position), target);
         }
 
-        if (faction == GameManager.instance.Game.PlayerFaction) {
+        if (faction == GameManager.instance.Game.PlayerFaction) { // TODO : Stop this from running if there are no barbarians left in the game
             potential_targets.Add(
                 0,
                 RunManager.instance.GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Spawner, GameManager.instance.Game.BaseFactions[^1])
