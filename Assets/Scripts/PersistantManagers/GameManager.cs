@@ -50,8 +50,6 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     public int MinBarbGenerationDistance;
     public int MaxBarbGenerationDistance;
 
-    public List<string> assetBundles;
-
     public SOPlaceableObject Castle;
     public SOPlaceableObject BarbCamp;
     public SOPlaceableObject ArcherTower;

@@ -67,7 +67,8 @@ public class Plot : MonoBehaviour {
     /// </summary>
     public List<Character> GetCharacters() {
         List<Character> characters = new();
-        foreach (Character character in FindObjectsByType<Character>(FindObjectsSortMode.None)) {
+        foreach (Transform t in RunManager.instance.characterContainer) {
+            Character character = t.GetComponent<Character>();
             if (character.GetCurrentPlot() == this) characters.Add(character);
         }
         return characters;
