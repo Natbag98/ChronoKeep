@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EventManager : MonoBehaviour {
+public class EventManager : MonoBehaviour, ISaveSystem {
     public static EventManager instance;
 
     [Header("Events")]
@@ -53,5 +53,13 @@ public class EventManager : MonoBehaviour {
         positiveEvents = positiveEventsDict.GetDict();
         negativeEvents = negativeEventsDict.GetDict();
         WaveManager.instance.waveEnd += WaveEnd;
+    }
+
+    public void SaveData(GameData data) {
+        data.runData.eventChance = eventChance;
+    }
+
+    public void LoadData(GameData data) {
+        eventChance = data.runData.eventChance;
     }
 }

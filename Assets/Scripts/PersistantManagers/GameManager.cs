@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour, ISaveSystem {
     public static GameManager instance;
     public static System.Random Random = new();
 
@@ -69,6 +71,8 @@ public class GameManager : MonoBehaviour {
 
     [HideInInspector] public List<SOPlaceableObject> allSOPlaceableObjects = new();
 
+    [HideInInspector] public bool load = false;
+
     private void Awake() {
         if (instance) {
             Destroy(gameObject);
@@ -89,6 +93,35 @@ public class GameManager : MonoBehaviour {
     }
 
     void Update() {
+        if (load && RunManager.instance != null) {
+            load = false;
+            SaveSystemManager.instance.LoadGame();
+        }
+
         Game.DebugUpdate();
+    }
+
+    public void SaveData(GameData data) {
+        data.baseTerrain = Utils.CreateJaggedArray<string[][]>(Game.TerrainSize.x, Game.TerrainSize.y);
+        for (int x = 0; x < Game.TerrainSize.x; x++) {
+            for (int y = 0; y < Game.TerrainSize.y; y++) {
+                data.baseTerrain[y][x] = Game.BaseTerrain[y][x].name;
+            }
+        }
+
+        data.perkUnlockTracker = new(Game.perksUnlockTracker);
+        data.placeableObjectUnlockTracker = new(Game.placeableObjectsUnlockTracker);
+
+        data.factionData = (from faction in Game.BaseFactions select new FactionData(faction)).ToList();
+        data.playerFaction = new(Game.PlayerFaction);
+
+        data.baseObjectInfo = (from info in Game.baseObjectInfo select new BaseObjectInfoData(info)).ToList();
+
+        data.resources = Game.GetResources();
+        data.terrainSize = new(Game.TerrainSize);
+    }
+
+    public void LoadData(GameData data) {
+        Game.LoadData(data);
     }
 }

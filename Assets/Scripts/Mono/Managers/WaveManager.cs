@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class WaveManager : MonoBehaviour {
+public class WaveManager : MonoBehaviour, ISaveSystem {
     public static WaveManager instance;
 
     private int wave = 0;
@@ -39,5 +39,13 @@ public class WaveManager : MonoBehaviour {
 
     private void Start() {
         instance = this;
+    }
+
+    public void SaveData(GameData data) {
+        data.runData.wave = wave;
+    }
+
+    public void LoadData(GameData data) {
+        wave = data.runData.wave;
     }
 }

@@ -251,4 +251,25 @@ public class Utils : MonoBehaviour {
             return assets;
         # endif
     }
+
+    public static Dictionary<string, T> GetAllAssetsDict<T>() where T : UnityEngine.Object {
+        # if UNITY_EDITOR
+            Dictionary<string, T> to_return = new();
+            foreach (string asset in AssetDatabase.FindAssets($"t:{typeof(T).Name}")) {
+                T loaded_asset = AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(asset));
+                to_return.Add(loaded_asset.name, loaded_asset);
+            }
+            return to_return;
+        # else
+            AssetBundle bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath, "AssetBundles", "asset"));
+            List<T> assets = bundle.LoadAllAssets<T>().ToList();
+            bundle.Unload(true);
+
+            Dictionary<string, T> assets_dict = new();
+            foreach (T asset in assets) assets_dict.Add(asset.name, asset)
+            return assets_dict;
+        # endif
+    }
+
+    public static T GetAsset<T>(string name) where T : UnityEngine.Object { return GetAllAssetsDict<T>()[name]; }
 }

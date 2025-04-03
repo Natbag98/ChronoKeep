@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System.Linq;
 
-public class RunManager : MonoBehaviour {
+public class RunManager : MonoBehaviour, ISaveSystem {
     public static RunManager instance;
 
     [Header("References")]
@@ -85,7 +85,7 @@ public class RunManager : MonoBehaviour {
         plotArray = Utils.CreateJaggedArray<Plot[][]>(game.TerrainSize.x, game.TerrainSize.y);
         for (int x = 0; x < game.TerrainSize.x; x++) {
             for (int y = 0; y < game.TerrainSize.y; y++) {
-                InstantiatePlot(x, y, GameManager.instance.Game.BaseTerrain[y][x].prefab);
+                InstantiatePlot(x, y, GameManager.instance.Game.BaseTerrain[y][x]);
             }
         }
 
@@ -95,7 +95,7 @@ public class RunManager : MonoBehaviour {
             Plot plot = plotArray[object_info.location.y][object_info.location.x];
             if (!plot.GetCanPlaceObject()) {
                 Destroy(plot.gameObject);
-                InstantiatePlot(object_info.location.x, object_info.location.y, GameManager.instance.Plains.prefab);
+                InstantiatePlot(object_info.location.x, object_info.location.y, GameManager.instance.Plains);
             }
             SetPlotNeighbours();
             plotArray[object_info.location.y][object_info.location.x].PlaceObject(object_info.base_object, object_info.faction);
@@ -116,15 +116,16 @@ public class RunManager : MonoBehaviour {
         }
     }
 
-    public void InstantiatePlot(int x, int y, GameObject plot_prefab) {
+    public Plot InstantiatePlot(int x, int y, SOPlot plotSO) {
         Plot new_plot = Instantiate(
-            plot_prefab,
+            plotSO.prefab,
             new Vector3Int(x - GameManager.instance.Game.TerrainSize.x / 2, 0, y - GameManager.instance.Game.TerrainSize.y / 2),
             Quaternion.identity,
             plotContainer
         ).GetComponent<Plot>();
-        new_plot.plotSO = GameManager.instance.Game.BaseTerrain[y][x];
+        new_plot.plotSO = plotSO;
         plotArray[y][x] = new_plot;
+        return new_plot;
     }
 
     public void PlaceRandomObject(SOPlaceableObject object_to_place, Faction faction, bool no_mans_land=false) {
@@ -174,11 +175,76 @@ public class RunManager : MonoBehaviour {
             foreach (Mod mod in globalMods) modable.AddMod(mod);
         }
 
-        if (
-            GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle) == null ||
-            GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Spawner) == null
-        ) {
+        if (GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle, GameManager.instance.Game.PlayerFaction) == null) {
             GameOver();
+        }
+    }
+
+    public void SaveData(GameData data) {
+        data.runData.globalMods = globalMods;
+
+        data.runData.plotData = Utils.CreateJaggedArray<PlotData[][]>(GameManager.instance.Game.TerrainSize.x, GameManager.instance.Game.TerrainSize.y);
+        for (int x = 0; x < GameManager.instance.Game.TerrainSize.x; x++) {
+            for (int y = 0; y < GameManager.instance.Game.TerrainSize.y; y++) {
+                Plot plot = plotArray[y][x];
+                data.runData.plotData[y][x] = new() {
+                    plotSO = plot.plotSO.name,
+                    faction = plot.faction?.Name
+                };
+
+                if (plot.placedObjectSO) {
+                    data.runData.plotData[y][x].placedObject = new() {
+                        placeableObjectSO = plot.GetComponentInChildren<PlaceableObject>().placeableObjectSO.name,
+                        health = plot.GetComponentInChildren<PlaceableObject>().health
+                    };
+                }
+            }
+        }
+
+        foreach (Faction faction in GameManager.instance.Game.BaseFactions.Append(GameManager.instance.Game.PlayerFaction)) {
+            data.runData.factionsWars.Add(faction.Name, new());
+            foreach (Faction war_faction in faction.atWarWith.Keys) {
+                data.runData.factionsWars[faction.Name].Add(war_faction.Name, faction.atWarWith[war_faction]);
+            }
+        }
+    }
+
+    public void LoadData(GameData data) {
+        globalMods = data.runData.globalMods;
+
+        foreach (Plot[] row in plotArray) {
+            foreach (Plot plot in row) {
+                Destroy(plot.gameObject);
+            }
+        }
+
+        plotArray = Utils.CreateJaggedArray<Plot[][]>(data.terrainSize.x, data.terrainSize.y);
+        for (int x = 0; x < data.terrainSize.x; x++) {
+            for (int y = 0; y < data.terrainSize.y; y++) {
+                Plot new_plot = InstantiatePlot(x, y, Utils.GetAsset<SOPlot>(data.runData.plotData[y][x].plotSO));
+
+                if (data.runData.plotData[y][x].faction == null) {
+                    new_plot.faction = null;
+                } else {
+                    new_plot.faction = GameManager.instance.Game.GetFactionByName(data.runData.plotData[y][x].faction);
+                }
+
+                if (data.runData.plotData[y][x].placedObject != null) {
+                    PlaceableObject new_object = new_plot.PlaceObject(Utils.GetAsset<SOPlaceableObject>(data.runData.plotData[y][x].placedObject.placeableObjectSO));
+                    new_object.health = data.runData.plotData[y][x].placedObject.health;
+                }
+            }
+        }
+        SetPlotNeighbours();
+
+        foreach (string faction in data.runData.factionsWars.Keys) {
+            GameManager.instance.Game.GetFactionByName(faction).atWarWith = new();
+            foreach (string war_faction in data.runData.factionsWars[faction].Keys) {
+                GameManager.instance.Game.GetFactionByName(faction).atWarWith.Add(
+                    GameManager.instance.Game.GetFactionByName(war_faction),
+                    data.runData.factionsWars[faction][war_faction]
+                );
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using static Utils;
 
 public class Game {
     public Vector2Int TerrainSize { private set; get; }
@@ -49,6 +50,12 @@ public class Game {
         GenerateFactions();
         PlaceCastle();
         PlaceBarbCamps(1);
+    }
+
+    public Faction GetFactionByName(string name) {
+        Dictionary<string, Faction> factions = new() { { PlayerFaction.Name, PlayerFaction } };
+        foreach (Faction faction in BaseFactions) factions.Add(faction.Name, faction);
+        return factions[name];
     }
 
     public bool CanSpendResources(GameManager.Resources resource, int amount) {
@@ -118,10 +125,10 @@ public class Game {
     }
 
     private void GenerateBaseTerrain(Dictionary<SOPlot, int> plot_generation_data) {
-        BaseTerrain = Utils.CreateJaggedArray<SOPlot[][]>(TerrainSize.x, TerrainSize.y);
+        BaseTerrain = CreateJaggedArray<SOPlot[][]>(TerrainSize.x, TerrainSize.y);
         for (int x = 0; x < TerrainSize.x; x++) {
             for (int y = 0; y < TerrainSize.y; y++) {
-                BaseTerrain[y][x] = Utils.Choice(plot_generation_data);
+                BaseTerrain[y][x] = Choice(plot_generation_data);
             }
         }
     }
@@ -166,8 +173,8 @@ public class Game {
             constraint_location = (Vector2Int)constraint_location_input;
         }
         
-        int x = Mathf.Clamp(Utils.GenerateNumberAroundCenter(constraint_location.x, constraint_min_distance, constraint_max_distance), 0, TerrainSize.x - 1);
-        int y = Mathf.Clamp(Utils.GenerateNumberAroundCenter(constraint_location.y, constraint_min_distance, constraint_max_distance), 0, TerrainSize.y - 1);
+        int x = Mathf.Clamp(GenerateNumberAroundCenter(constraint_location.x, constraint_min_distance, constraint_max_distance), 0, TerrainSize.x - 1);
+        int y = Mathf.Clamp(GenerateNumberAroundCenter(constraint_location.y, constraint_min_distance, constraint_max_distance), 0, TerrainSize.y - 1);
 
         if (
             !(from base_object_info in list_to_place select base_object_info.location).Contains(new Vector2Int(x, y))
@@ -180,6 +187,51 @@ public class Game {
         } else {
             PlaceObject(object_to_place, faction, list_to_place, constraint_location, constraint_min_distance, constraint_max_distance);
         }
+    }
+
+    public void LoadData(GameData data) {
+        BaseTerrain = CreateJaggedArray<SOPlot[][]>(data.terrainSize.Get().x, data.terrainSize.Get().y);
+        for (int x = 0; x < data.terrainSize.Get().x; x++) {
+            for (int y = 0; y < data.terrainSize.Get().y; y++) {
+                BaseTerrain[y][x] = GetAsset<SOPlot>(data.baseTerrain[y][x]);
+            }
+        }
+
+        foreach (string perk in data.perkUnlockTracker.disovered.Keys) {
+            perksUnlockTracker.disovered[GetAsset<SOPerk>(perk)] = data.perkUnlockTracker.disovered[perk];
+        }
+        foreach (string perk in data.perkUnlockTracker.unlocked.Keys) {
+            perksUnlockTracker.unlocked[GetAsset<SOPerk>(perk)] = data.perkUnlockTracker.unlocked[perk];
+        }
+        foreach (string object_ in data.placeableObjectUnlockTracker.disovered.Keys) {
+            placeableObjectsUnlockTracker.disovered[GetAsset<SOPlaceableObject>(object_)] = data.placeableObjectUnlockTracker.disovered[object_];
+        }
+        foreach (string object_ in data.placeableObjectUnlockTracker.unlocked.Keys) {
+            placeableObjectsUnlockTracker.unlocked[GetAsset<SOPlaceableObject>(object_)] = data.placeableObjectUnlockTracker.unlocked[object_];
+        }
+
+        PlayerFaction = new(this, data.playerFaction.factionType, data.playerFaction.name, data.playerFaction.rulerName);
+        BaseFactions = new();
+        foreach (FactionData factionData in data.factionData) {
+            BaseFactions.Add(new(this, factionData.factionType, factionData.name, factionData.rulerName));
+        }
+
+        Dictionary<string, Faction> factions = new() { { PlayerFaction.Name, PlayerFaction } };
+        foreach (Faction faction in BaseFactions) factions.Add(faction.Name, faction);
+
+        baseObjectInfo = new();
+        foreach (BaseObjectInfoData baseObjectInfoData in data.baseObjectInfo) {
+            baseObjectInfo.Add(
+                new() {
+                    location = baseObjectInfoData.location.Get(),
+                    base_object = GetAsset<SOPlaceableObject>(baseObjectInfoData.baseObject),
+                    faction = factions[baseObjectInfoData.faction]
+                }
+            );
+        }
+
+        resources = data.resources;
+        TerrainSize = data.terrainSize.Get();
     }
 
     public void DebugUpdate() {
