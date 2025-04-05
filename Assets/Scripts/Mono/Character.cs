@@ -9,6 +9,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     [Header("Attributes")]
     [SerializeField] protected float rotateSpeed;
     [SerializeField] protected float attackDelayTime;
+    [SerializeField] protected GameManager.MagicTypes magicType;
     [SerializeField] private GameManager.PlaceableObjectTypes[] movementTargetPriorities;
     [SerializeField] protected Attributes attributes;
 
@@ -44,9 +45,9 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     }
 
     public Vector3 GetTargetPoint() { return centerPoint.position; }
-    public void Damage(float amount) {
-        if (Utils.CalculateDamage(amount, attributes.GetAttribute(GameManager.Attributes.Defense)) > 0) {
-            health -= Utils.CalculateDamage(amount, attributes.GetAttribute(GameManager.Attributes.Defense));
+    public void Damage(GameManager.MagicTypes attackType, float amount) {
+        if (Utils.CalculateDamage(attackType, amount, attributes) > 0) {
+            health -= Utils.CalculateDamage(attackType, amount, attributes);
         }
     }
 

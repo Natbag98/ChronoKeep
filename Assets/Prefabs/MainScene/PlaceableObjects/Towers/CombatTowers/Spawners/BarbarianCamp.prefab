@@ -195,6 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6445faf904d4f5940936f07c66b0e9fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  magicType: 0
   attributes:
     baseAttributes:
       dictPairs:
@@ -204,6 +205,8 @@ MonoBehaviour:
         Value: 50
       - Key: 2
         Value: 1
+      - Key: 8
+        Value: 0
   resourcesPerWave:
     dictPairs: []
   centerPoint: {fileID: 1968971150195000359}
@@ -211,10 +214,12 @@ MonoBehaviour:
   placeableObjectSO: {fileID: 0}
   objectType: 0
   parentPlot: {fileID: 0}
+  health: 0
   reloadBar: {fileID: 850689369131243897}
   potentialCharactersToSpawn:
   - {fileID: 11400000, guid: 0d8835a8144b9ae4ebd680fae17343e2, type: 2}
   - {fileID: 11400000, guid: aae26af5810999345bbb394d8aba2b2c, type: 2}
+  - {fileID: 11400000, guid: c293a2631ee69bc4dad0c73258986891, type: 2}
 --- !u!65 &8876198742693058485
 BoxCollider:
   m_ObjectHideFlags: 0

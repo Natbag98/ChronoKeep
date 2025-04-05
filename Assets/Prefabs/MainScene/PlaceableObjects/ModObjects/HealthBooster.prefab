@@ -215,6 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51dbb0a7ac7659446a5c3883a877bf5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  magicType: 0
   attributes:
     baseAttributes:
       dictPairs:
@@ -230,14 +231,19 @@ MonoBehaviour:
         Value: 100
       - Key: 6
         Value: 25
+      - Key: 8
+        Value: 0
   resourcesPerWave:
     dictPairs: []
   centerPoint: {fileID: 1968971150195000359}
   healthBar: {fileID: 1284041797425990211}
+  placeableObjectSO: {fileID: 0}
   objectType: 0
   parentPlot: {fileID: 0}
+  health: 0
   modsToApply:
-  - attributeToAffect: 0
+  - targetTags: 
+    attributeToAffect: 0
     amount: 2
 --- !u!1 &7793943204553541298
 GameObject:

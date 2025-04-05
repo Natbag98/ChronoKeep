@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4128386589434947518}
   - component: {fileID: 5034972000713109263}
   m_Layer: 0
-  m_Name: ArcherTower
+  m_Name: WizardTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c1f5efbea470b47848ba936e43079e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magicType: 0
+  magicType: 1
   attributes:
     baseAttributes:
       dictPairs:
@@ -65,7 +65,7 @@ MonoBehaviour:
       - Key: 3
         Value: 100
       - Key: 6
-        Value: 25
+        Value: 30
       - Key: 8
         Value: 0
   resourcesPerWave:

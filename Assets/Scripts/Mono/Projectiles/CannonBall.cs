@@ -36,7 +36,7 @@ public class CannonBall : Projectile {
 
     private void Explode() {
         Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
-        foreach (Collider hit in hits) hit.GetComponent<IRangedTarget>()?.Damage(damage);
+        foreach (Collider hit in hits) hit.GetComponent<IRangedTarget>()?.Damage(magicType, damage);
         Destroy(gameObject);
     }
 }
