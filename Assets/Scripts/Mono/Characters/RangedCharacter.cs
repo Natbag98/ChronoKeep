@@ -39,6 +39,7 @@ public class RangedCharacter : Character {
         ).GetComponent<Projectile>();
         projectile.SetAttributes(attributes);
         projectile.SetTarget(target);
+        projectile.SetMagicType(magicType);
         projectile.Setup();
         attacking = false;
 

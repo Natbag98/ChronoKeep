@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3c1f5efbea470b47848ba936e43079e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  magicType: 0
   attributes:
     baseAttributes:
       dictPairs:
@@ -65,6 +66,8 @@ MonoBehaviour:
         Value: 100
       - Key: 6
         Value: 25
+      - Key: 8
+        Value: 0
   resourcesPerWave:
     dictPairs: []
   centerPoint: {fileID: 1873168185882578859}
@@ -72,6 +75,7 @@ MonoBehaviour:
   placeableObjectSO: {fileID: 0}
   objectType: 0
   parentPlot: {fileID: 0}
+  health: 0
   reloadBar: {fileID: 4159230835596145758}
   projectileToShoot: {fileID: 5921809335144549751, guid: 95dec3eebb46d5f49b1df02118c32718, type: 3}
   shootPoint: {fileID: 4218300769254404606}

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarget, IModable {
     [Header("PlaceableObject")]
+    [SerializeField] protected GameManager.MagicTypes magicType;
     [SerializeField] protected Attributes attributes;
     [SerializeField] protected Utils.SerializeableDict<GameManager.Resources, int> resourcesPerWave;
     [SerializeField] private Transform centerPoint;
@@ -17,9 +18,9 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     [HideInInspector] public float health;
 
     public Vector3 GetTargetPoint() { return centerPoint.position; }
-    public void Damage(float amount) {
-        if (Utils.CalculateDamage(amount, attributes.GetAttribute(GameManager.Attributes.Defense)) > 0) {
-            health -= Utils.CalculateDamage(amount, attributes.GetAttribute(GameManager.Attributes.Defense));
+    public void Damage(GameManager.MagicTypes attackType, float amount) {
+        if (Utils.CalculateDamage(attackType, amount, attributes) > 0) {
+            health -= Utils.CalculateDamage(attackType, amount, attributes);
         }
     }
 

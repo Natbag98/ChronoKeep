@@ -1,5 +1,5 @@
 using UnityEngine;
 
 public interface IMeleeTarget {
-    public void Damage(float amount);
+    public void Damage(GameManager.MagicTypes attackType, float amount);
 }

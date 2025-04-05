@@ -17,7 +17,8 @@ public class GameManager : MonoBehaviour, ISaveSystem {
         Range,
         CharacterMoveSpeed,
         ProjectileMoveSpeed,
-        ExplosionRadius
+        ExplosionRadius,
+        Resistance
     }
     public enum PlaceableObjectTypes {
         Castle,
@@ -41,6 +42,10 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     public enum PerkTrees {
         KingdomManagement,
         Engineering
+    }
+    public enum MagicTypes {
+        Physical,
+        Magic
     }
 
     [Header("Static Data")]
