@@ -1408,7 +1408,7 @@ GameObject:
   - component: {fileID: 701749690}
   - component: {fileID: 701749689}
   m_Layer: 0
-  m_Name: QuitButton
+  m_Name: SaveAndQuitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1480,7 +1480,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 376859343}
         m_TargetAssemblyTypeName: MainSceneUIManager, Assembly-CSharp
-        m_MethodName: _Button_PauseMenuQuitButtonClicked
+        m_MethodName: _Button_PauseMenuSaveAndQuitButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1868,7 +1868,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Quit Game
+  m_text: Save and Quit Game
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2426,7 +2426,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Save Game
+  m_text: End Run
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4224,7 +4224,7 @@ GameObject:
   - component: {fileID: 2014405879}
   - component: {fileID: 2014405878}
   m_Layer: 0
-  m_Name: SaveButton
+  m_Name: EndRunButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4296,7 +4296,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 376859343}
         m_TargetAssemblyTypeName: MainSceneUIManager, Assembly-CSharp
-        m_MethodName: _Button_PauseMenuSaveGameButtonClicked
+        m_MethodName: _Button_PauseMenuEndRunClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

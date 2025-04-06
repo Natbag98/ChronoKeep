@@ -152,8 +152,8 @@ public class RunManager : MonoBehaviour, ISaveSystem {
     }
 
     public void GameOver() {
-        GameManager.instance.scoreLastRun = WaveManager.instance.GetWave() - 1 * 10;
-        GameManager.instance.Game.skillPoints += WaveManager.instance.GetWave() - 1;
+        GameManager.instance.scoreLastRun = Mathf.Max(WaveManager.instance.GetWave() - 1, 0) * 10;
+        GameManager.instance.Game.skillPoints += Mathf.Max(WaveManager.instance.GetWave() - 1, 0);
         SceneManager.LoadScene("GameScene");
     }
 
