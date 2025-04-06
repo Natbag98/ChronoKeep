@@ -78,6 +78,8 @@ public class GameManager : MonoBehaviour, ISaveSystem {
 
     [HideInInspector] public bool load = false;
 
+    [HideInInspector] public int scoreLastRun;
+
     private void Awake() {
         if (instance) {
             Destroy(gameObject);

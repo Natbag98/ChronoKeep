@@ -9,7 +9,11 @@ public class Perk : MonoBehaviour {
     [HideInInspector] public SOPerk perk;
 
     public void _Button_PerkButtonClicked() {
-        GameManager.instance.Game.perksUnlockTracker.UpdateUnlocked(perk);
+        if (GameManager.instance.Game.skillPoints >= perk.cost) {
+            if (perk.requiredPerk != null && GameManager.instance.Game.perksUnlockTracker.unlocked[perk.requiredPerk]) return;
+            GameManager.instance.Game.skillPoints -= perk.cost;
+            GameManager.instance.Game.perksUnlockTracker.UpdateUnlocked(perk);
+        }
     }
 
     private void Update() {

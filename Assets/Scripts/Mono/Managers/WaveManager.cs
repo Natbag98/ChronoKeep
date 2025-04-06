@@ -13,6 +13,8 @@ public class WaveManager : MonoBehaviour, ISaveSystem {
     public event EventHandler waveStart;
     public event EventHandler waveEnd;
 
+    public int GetWave() { return wave; }
+
     public void StartWave() {
         waveActive = true;
         wave++;

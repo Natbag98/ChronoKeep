@@ -17,4 +17,5 @@ MonoBehaviour:
   tree: 0
   index: 1
   requiredPerk: {fileID: 11400000, guid: ddabd163f8851c34a937e97910186069, type: 2}
+  cost: 2
   modsToApply: []

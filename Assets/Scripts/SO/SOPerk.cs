@@ -8,6 +8,7 @@ public class SOPerk : ScriptableObject, IUnlockTrackable {
     public GameManager.PerkTrees tree;
     public int index;
     public SOPerk requiredPerk;
+    public int cost;
 
     [Header("Behaviour")]
     public Mod[] modsToApply;

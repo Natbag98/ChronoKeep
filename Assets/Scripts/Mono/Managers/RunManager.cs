@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using UnityEngine.Events;
 
 public class RunManager : MonoBehaviour, ISaveSystem {
     public static RunManager instance;
@@ -151,6 +152,8 @@ public class RunManager : MonoBehaviour, ISaveSystem {
     }
 
     public void GameOver() {
+        GameManager.instance.scoreLastRun = WaveManager.instance.GetWave() - 1 * 10;
+        GameManager.instance.Game.skillPoints += WaveManager.instance.GetWave() - 1;
         SceneManager.LoadScene("GameScene");
     }
 

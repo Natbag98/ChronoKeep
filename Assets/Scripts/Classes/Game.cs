@@ -19,8 +19,8 @@ public class Game {
     public Dictionary<GameManager.Resources, int> GetResources() { return resources; }
 
     public UnlockTracker<SOPlaceableObject> placeableObjectsUnlockTracker = new();
-
     public UnlockTracker<SOPerk> perksUnlockTracker = new();
+    public int skillPoints = 0;
 
     private Vector2Int playerCastleLocation;
 
@@ -236,5 +236,6 @@ public class Game {
 
     public void DebugUpdate() {
         // Debug game logs should go here
+        Debug.Log($"Skill: {skillPoints}");
     }
 }

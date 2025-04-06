@@ -17,4 +17,5 @@ MonoBehaviour:
   tree: 0
   index: 0
   requiredPerk: {fileID: 0}
+  cost: 1
   modsToApply: []
