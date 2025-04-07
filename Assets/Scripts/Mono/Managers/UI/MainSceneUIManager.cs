@@ -36,7 +36,11 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     public SOPlaceableObject GetObjectToPlace() { return placingObject; }
 
     public void _Button_NextWaveButtonClicked() {
-        if (!WaveManager.instance.waveActive) WaveManager.instance.StartWave();
+        if (!WaveManager.instance.waveActive) {
+            WaveManager.instance.StartWave(); 
+        } else {
+            PopupManager.instance.Display("Wave already active");
+        }
     }
 
     public void _Button_PauseMenuSaveAndQuitButtonClicked() {
