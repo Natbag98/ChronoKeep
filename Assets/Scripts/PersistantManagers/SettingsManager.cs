@@ -5,6 +5,8 @@ public class SettingsManager : MonoBehaviour {
 
     [Header("Default Values")]
     public bool modularHardwareAcceleration = false;
+    [HideInInspector] public int soundEffectsVolume = 100;
+    [HideInInspector] public int musicVolume = 100;
 
     private void Start() {
         if (instance == null) {

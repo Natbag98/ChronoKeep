@@ -99,6 +99,14 @@ public class GameManager : MonoBehaviour, ISaveSystem {
         Game = new(new(mapSize, mapSize), plotGenerationData.GetDict(), kingdomName, playerName);
     }
 
+    public float GetVolumeScale(SOSound.SoundType soundType) {
+        return soundType switch {
+            SOSound.SoundType.music => (float)SettingsManager.instance.musicVolume / 100f,
+            SOSound.SoundType.effect => (float)SettingsManager.instance.soundEffectsVolume / 100f,
+            _ => 1
+        };
+    }
+
     void Update() {
         if (load && RunManager.instance != null) {
             load = false;
