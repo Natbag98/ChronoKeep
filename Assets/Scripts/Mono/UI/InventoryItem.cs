@@ -1,7 +1,9 @@
+using TMPro;
 using UnityEngine;
 
 public class InventoryItem : MonoBehaviour, ISaveSystem {
     [HideInInspector] public SOPlaceableObject placeableObject;
+    private TextMeshProUGUI text;
 
     public void _Button_InventoryItemClicked() {
         if (!WaveManager.instance.waveActive) {
@@ -10,8 +12,13 @@ public class InventoryItem : MonoBehaviour, ISaveSystem {
         }
     }
 
+    private void Start() {
+        text = GetComponentInChildren<TextMeshProUGUI>();
+    }
+
     public void Update() {
         GameManager.instance.Game.placeableObjectsUnlockTracker.UpdateDiscovered(placeableObject);
+        text.text = placeableObject.displayName;
     }
 
     public void SaveData(GameData data) {
