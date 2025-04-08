@@ -17,8 +17,8 @@ public class SOSound : ScriptableObject {
     [SerializeField] private SoundType soundType;
 
     public enum SoundType {
-        music,
-        effect
+        Music,
+        Effect
     }
 
     public PlaySound Play(GameObject sender) {

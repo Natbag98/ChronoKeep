@@ -8,7 +8,7 @@ public class SettingsManager : MonoBehaviour {
     [HideInInspector] public int soundEffectsVolume = 100;
     [HideInInspector] public int musicVolume = 100;
 
-    private void Start() {
+    private void Awake() {
         if (instance == null) {
             instance = this;
             DontDestroyOnLoad(gameObject);

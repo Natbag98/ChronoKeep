@@ -101,8 +101,8 @@ public class GameManager : MonoBehaviour, ISaveSystem {
 
     public float GetVolumeScale(SOSound.SoundType soundType) {
         return soundType switch {
-            SOSound.SoundType.music => (float)SettingsManager.instance.musicVolume / 100f,
-            SOSound.SoundType.effect => (float)SettingsManager.instance.soundEffectsVolume / 100f,
+            SOSound.SoundType.Music => (float)SettingsManager.instance.musicVolume / 100f,
+            SOSound.SoundType.Effect => (float)SettingsManager.instance.soundEffectsVolume / 100f,
             _ => 1
         };
     }
