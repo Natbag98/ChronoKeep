@@ -17,6 +17,9 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     [HideInInspector] public Plot parentPlot;
     [HideInInspector] public float health;
 
+    [HideInInspector] public bool loaded = false;
+    private float loadedTimer = 2;
+
     public Vector3 GetTargetPoint() { return centerPoint.position; }
     public void Damage(GameManager.MagicTypes attackType, float amount) {
         if (Utils.CalculateDamage(attackType, amount, attributes) > 0) {
@@ -39,11 +42,12 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     }
 
     protected virtual void Start() {
-        health = attributes.GetAttribute(GameManager.Attributes.Health);
+        if (!loaded) health = attributes.GetAttribute(GameManager.Attributes.Health);
         WaveManager.instance.waveEnd += WaveEnd;
     }
 
     protected virtual void Update() {
+        loadedTimer -= Time.deltaTime;
         GameManager.instance.Game.placeableObjectsUnlockTracker.UpdateDiscovered(placeableObjectSO);
         UpdateUI();
 
@@ -56,6 +60,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
 
     public void AddMod(Mod mod, bool allow_duplicate=false) {
         if (attributes.AddMod(mod, GetComponent<Tag>(), allow_duplicate) && mod.attributeToAffect == GameManager.Attributes.Health) {
+            if (loaded && loadedTimer > 0) return;
             health *= mod.amount;
         }
     }

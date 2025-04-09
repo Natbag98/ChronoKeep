@@ -234,6 +234,7 @@ public class RunManager : MonoBehaviour, ISaveSystem {
 
                 if (data.runData.plotData[y][x].placedObject != null) {
                     PlaceableObject new_object = new_plot.PlaceObject(Utils.GetAsset<SOPlaceableObject>(data.runData.plotData[y][x].placedObject.placeableObjectSO));
+                    new_object.loaded = true;
                     new_object.health = data.runData.plotData[y][x].placedObject.health;
                 }
             }
