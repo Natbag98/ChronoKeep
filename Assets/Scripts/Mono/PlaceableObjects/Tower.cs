@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class Tower : PlaceableObject {
     [Header("Tower : References")]
+    [SerializeField] protected SOSound shootSound;
     [SerializeField] private UnityEngine.UI.Image reloadBar;
 
     protected Transform target;
@@ -24,6 +25,7 @@ public abstract class Tower : PlaceableObject {
             GetTarget();
         } else {
             if (canAttack) {
+                shootSound.Play(gameObject);
                 Attack();
                 StartCoroutine(Reload());
             }

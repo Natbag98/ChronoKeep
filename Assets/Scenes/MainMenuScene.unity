@@ -5950,8 +5950,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modularHardwareAcceleration: 0
-  soundEffectsVolume: 100
-  musicVolume: 100
+  soundEffectsVolume: 0
+  musicVolume: 0
 --- !u!1 &2138093285
 GameObject:
   m_ObjectHideFlags: 0
