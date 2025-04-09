@@ -5,8 +5,10 @@ public class SettingsManager : MonoBehaviour {
 
     [Header("Default Values")]
     public bool modularHardwareAcceleration = false;
+    [Range(0, 100)] public int soundEffectsVolume = 100;
+    [Range(0, 100)] public int musicVolume = 100;
 
-    private void Start() {
+    private void Awake() {
         if (instance == null) {
             instance = this;
             DontDestroyOnLoad(gameObject);

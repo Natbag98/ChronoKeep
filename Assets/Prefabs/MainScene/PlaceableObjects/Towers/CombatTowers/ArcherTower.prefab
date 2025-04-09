@@ -76,6 +76,7 @@ MonoBehaviour:
   objectType: 0
   parentPlot: {fileID: 0}
   health: 0
+  shootSound: {fileID: 11400000, guid: f9b4298990655a74da45201c670ca979, type: 2}
   reloadBar: {fileID: 4159230835596145758}
   projectileToShoot: {fileID: 5921809335144549751, guid: 95dec3eebb46d5f49b1df02118c32718, type: 3}
   shootPoint: {fileID: 4218300769254404606}
