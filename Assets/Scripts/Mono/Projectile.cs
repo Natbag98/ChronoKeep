@@ -28,7 +28,7 @@ public abstract class Projectile : MonoBehaviour {
         Ray ray = new(lastPosition, direction);
         RaycastHit[] hits = Physics.RaycastAll(ray, Vector3.Distance(transform.position, lastPosition));
         foreach (RaycastHit hit in hits) {
-            if (hit.transform != null) {
+            if (hit.transform == target) {
                 if (hit.transform.GetComponent<IRangedTarget>() != null) {
                     Collided(hit.collider);
                 }
