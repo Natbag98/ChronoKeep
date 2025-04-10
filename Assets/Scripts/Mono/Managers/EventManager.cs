@@ -26,17 +26,15 @@ public class EventManager : MonoBehaviour, ISaveSystem {
     }
 
     private void NewEvent() {
+        Dictionary<SOEvent, int> potentialEvents = new();
         if (GameManager.Random.Next(1, 101) < negativeEventChance) {
-            currentEvent = Utils.Choice(negativeEvents);
+            foreach (SOEvent event_ in negativeEvents.Keys) if (event_.IsValid()) potentialEvents.Add(event_, negativeEvents[event_]);
         } else {
-            currentEvent = Utils.Choice(positiveEvents);
+            foreach (SOEvent event_ in positiveEvents.Keys) if (event_.IsValid()) potentialEvents.Add(event_, positiveEvents[event_]);
         }
-        if (currentEvent.IsValid()) {
-            currentEvent.Setup();
-        } else {
-            Debug.Log("Event was not valid"); // TODO : Replace with getting a new event once more events exist
-            currentEvent = null;
-        }
+
+        currentEvent = Utils.Choice(potentialEvents);
+        currentEvent.Setup();
     }
 
     private void WaveEnd(object _, EventArgs __) {

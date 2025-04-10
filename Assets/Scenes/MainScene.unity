@@ -4288,14 +4288,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   positiveEventsDict:
     dictPairs:
-    - Key: {fileID: 11400000, guid: 48dc2cb2668607446b107809c366ba4b, type: 2}
+    - Key: {fileID: 11400000, guid: f861b974dd717b94596c540766c78102, type: 2}
       Value: 1
   negativeEventsDict:
     dictPairs:
     - Key: {fileID: 11400000, guid: 48dc2cb2668607446b107809c366ba4b, type: 2}
       Value: 1
+    - Key: {fileID: 11400000, guid: 15d4b00e740cee74c870a9af2eb41cce, type: 2}
+      Value: 2
   eventChanceIncreasePerWave: 100
-  negativeEventChance: 50
+  negativeEventChance: 60
   currentEvent: {fileID: 0}
 --- !u!114 &1948326908
 MonoBehaviour:
