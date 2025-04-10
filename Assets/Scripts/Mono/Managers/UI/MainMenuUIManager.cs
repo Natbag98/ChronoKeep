@@ -19,7 +19,7 @@ public class MainMenuUIManager : MonoBehaviour {
 
     public void _Button_LoadGameButtonClicked() {
         if (!SaveSystemManager.instance.GetCanLoadGame()) {
-            Debug.Log("Cannot load file"); // TODO : This needs to be replaced with some kind of message to the player
+            PopupManager.instance.Display("Cannot load save file");
             return;
         }
         GameManager.instance.load = true;
