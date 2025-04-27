@@ -113,7 +113,7 @@ public class GameManager : MonoBehaviour, ISaveSystem {
             SaveSystemManager.instance.LoadGame();
         }
 
-        Game.DebugUpdate();
+        // Game.DebugUpdate();
     }
 
     public void SaveData(GameData data) {

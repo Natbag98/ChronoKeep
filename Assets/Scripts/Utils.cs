@@ -270,7 +270,7 @@ public class Utils : MonoBehaviour {
             bundle.Unload(true);
 
             Dictionary<string, T> assets_dict = new();
-            foreach (T asset in assets) assets_dict.Add(asset.name, asset)
+            foreach (T asset in assets) assets_dict.Add(asset.name, asset);
             return assets_dict;
         # endif
     }

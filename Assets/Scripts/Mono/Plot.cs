@@ -17,6 +17,7 @@ public class Plot : MonoBehaviour {
     [HideInInspector] public GameManager.PlotTypes plotType;
     private Plot[] neighbours;
     private bool mouseOver;
+    [HideInInspector] public bool visibleToPlayer = false;
 
     public bool GetCanPlaceObject() { return canPlaceObject; }
 
@@ -151,6 +152,11 @@ public class Plot : MonoBehaviour {
         }
     }
 
+    private void SetVisible(bool set) {
+        foreach (MeshRenderer mesh in GetComponentsInChildren<MeshRenderer>()) mesh.enabled = set;
+        foreach (Canvas canvas in GetComponentsInChildren<Canvas>()) canvas.enabled = set;
+    }
+
     public void OnMouseEnter() {
         mouseOver = true;
     }
@@ -171,7 +177,12 @@ public class Plot : MonoBehaviour {
         }
     }
 
+    private void Start() {
+        SetVisible(false);
+    }
+
     private void Update() {
+        if (!visibleToPlayer) mouseOver = false;
         float target_height = 0;
         if (!MainSceneUIManager.instance.mouseBlocked) {
             if (
@@ -188,6 +199,7 @@ public class Plot : MonoBehaviour {
         }
 
         if (mouseOver) {
+            Debug.Log(visibleToPlayer);
             MainSceneUIManager.instance.plotInfoName.text = plotSO.displayName;
             if (placedObjectType != null) {
                 MainSceneUIManager.instance.objectInfoName.text = placedObjectSO.displayName;
@@ -206,5 +218,13 @@ public class Plot : MonoBehaviour {
             new Vector3(transform.position.x, target_height, transform.position.z),
             GameManager.instance.PlotMouseOverSpeed * Time.deltaTime
         );
+
+        if (
+            faction == GameManager.instance.Game.PlayerFaction ||
+            (from neighbour in GetNeighbours(square: true) select neighbour.faction).Contains(GameManager.instance.Game.PlayerFaction)
+        ) {
+            visibleToPlayer = true;
+            SetVisible(true);
+        }
     }
 }

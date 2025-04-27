@@ -41,7 +41,13 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
         healthBar.fillAmount = health / attributes.GetAttribute(GameManager.Attributes.Health);
     }
 
+    private void SetVisible(bool set) {
+        foreach (MeshRenderer mesh in GetComponentsInChildren<MeshRenderer>()) mesh.enabled = set;
+        foreach (Canvas canvas in GetComponentsInChildren<Canvas>()) canvas.enabled = set;
+    }
+
     protected virtual void Start() {
+        if (!parentPlot.visibleToPlayer) SetVisible(false);
         if (!loaded) health = attributes.GetAttribute(GameManager.Attributes.Health);
         WaveManager.instance.waveEnd += WaveEnd;
     }

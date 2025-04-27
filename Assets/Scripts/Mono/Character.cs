@@ -173,6 +173,11 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
         }
     }
 
+    private void SetVisible(bool set) {
+        foreach (MeshRenderer mesh in GetComponentsInChildren<MeshRenderer>()) mesh.enabled = set;
+        foreach (Canvas canvas in GetComponentsInChildren<Canvas>()) canvas.enabled = set;
+    }
+
     public void SetStartPos(Vector3 position) { 
         lastPosition = position;
         transform.position = new Vector3(
@@ -190,6 +195,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     }
 
     private void Start() {
+        SetVisible(false);
         List<Plot> targets = RunManager.instance.GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle);
         Dictionary<float, Plot> potential_targets = new();
 
@@ -228,6 +234,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
         if (movementTarget == null) GetPath();
         if (blockedObject == null) blocked = false;
         if (health <= 0) Destroy(gameObject);
+        SetVisible(GetCurrentPlot().visibleToPlayer);
 
         CheckCollision();
         CheckCollisionWithCharacters();
