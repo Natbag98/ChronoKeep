@@ -17,7 +17,7 @@ public class Plot : MonoBehaviour {
     [HideInInspector] public GameManager.PlotTypes plotType;
     private Plot[] neighbours;
     private bool mouseOver;
-    private bool visibleToPlayer = false;
+    [HideInInspector] public bool visibleToPlayer = false;
 
     public bool GetCanPlaceObject() { return canPlaceObject; }
 
@@ -182,6 +182,7 @@ public class Plot : MonoBehaviour {
     }
 
     private void Update() {
+        if (!visibleToPlayer) mouseOver = false;
         float target_height = 0;
         if (!MainSceneUIManager.instance.mouseBlocked) {
             if (
