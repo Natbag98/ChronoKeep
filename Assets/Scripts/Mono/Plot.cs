@@ -152,6 +152,11 @@ public class Plot : MonoBehaviour {
         }
     }
 
+    private void SetVisible(bool set) {
+        foreach (MeshRenderer mesh in GetComponentsInChildren<MeshRenderer>()) mesh.enabled = set;
+        foreach (Canvas canvas in GetComponentsInChildren<Canvas>()) canvas.enabled = set;
+    }
+
     public void OnMouseEnter() {
         mouseOver = true;
     }
@@ -170,6 +175,10 @@ public class Plot : MonoBehaviour {
         ) {
             PlaceObject(MainSceneUIManager.instance.GetObjectToPlace(), GameManager.instance.Game.PlayerFaction, true);
         }
+    }
+
+    private void Start() {
+        SetVisible(false);
     }
 
     private void Update() {
@@ -214,6 +223,7 @@ public class Plot : MonoBehaviour {
             (from neighbour in GetNeighbours(square: true) select neighbour.faction).Contains(GameManager.instance.Game.PlayerFaction)
         ) {
             visibleToPlayer = true;
+            SetVisible(true);
         }
     }
 }
