@@ -17,6 +17,7 @@ public class Plot : MonoBehaviour {
     [HideInInspector] public GameManager.PlotTypes plotType;
     private Plot[] neighbours;
     private bool mouseOver;
+    private bool visibleToPlayer = false;
 
     public bool GetCanPlaceObject() { return canPlaceObject; }
 
@@ -188,6 +189,7 @@ public class Plot : MonoBehaviour {
         }
 
         if (mouseOver) {
+            Debug.Log(visibleToPlayer);
             MainSceneUIManager.instance.plotInfoName.text = plotSO.displayName;
             if (placedObjectType != null) {
                 MainSceneUIManager.instance.objectInfoName.text = placedObjectSO.displayName;
@@ -206,5 +208,12 @@ public class Plot : MonoBehaviour {
             new Vector3(transform.position.x, target_height, transform.position.z),
             GameManager.instance.PlotMouseOverSpeed * Time.deltaTime
         );
+
+        if (
+            faction == GameManager.instance.Game.PlayerFaction ||
+            (from neighbour in GetNeighbours(square: true) select neighbour.faction).Contains(GameManager.instance.Game.PlayerFaction)
+        ) {
+            visibleToPlayer = true;
+        }
     }
 }
