@@ -259,6 +259,12 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
                 Destroy(gameObject);
             }
         }
+
+        if (faction == GameManager.instance.Game.PlayerFaction) {
+            Plot plot = GetCurrentPlot();
+            plot.SetVisibleToPlayer(true);
+            foreach (Plot n_plot in plot.GetNeighbours(square: true)) n_plot.SetVisibleToPlayer(true);
+        }
     }
 
     public void AddMod(Mod mod, bool allow_duplicate=false) {
