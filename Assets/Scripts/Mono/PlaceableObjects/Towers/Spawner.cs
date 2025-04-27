@@ -59,4 +59,9 @@ public class Spawner : Tower {
             if (Attack()) StartCoroutine(Reload());
         }
     }
+
+    protected override void DestroySelf() {
+        WaveManager.instance.hostileWaveSpawnersFinished++;
+        base.DestroySelf();
+    }
 }

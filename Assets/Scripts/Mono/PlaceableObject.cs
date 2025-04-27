@@ -58,10 +58,14 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
         UpdateUI();
 
         if (health <= 0) {
-            parentPlot.placedObjectType = null;
-            parentPlot.placedObjectSO = null;
-            Destroy(gameObject);
+            DestroySelf();
         }
+    }
+
+    protected virtual void DestroySelf() {
+        parentPlot.placedObjectType = null;
+        parentPlot.placedObjectSO = null;
+        Destroy(gameObject);
     }
 
     public void AddMod(Mod mod, bool allow_duplicate=false) {
