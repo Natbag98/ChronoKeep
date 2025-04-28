@@ -61,7 +61,7 @@ public class Spawner : Tower {
     }
 
     protected override void DestroySelf() {
-        WaveManager.instance.hostileWaveSpawnersFinished++;
+        if (!finishedWave) WaveManager.instance.hostileWaveSpawnersFinished++;
         base.DestroySelf();
     }
 }
