@@ -53,4 +53,11 @@ public class Attributes {
     public void RemoveMod(Mod mod) {
         mods.Remove(mod);
     }
+
+    /// <summary>
+    /// Checks whether the attributes class baseAttributes contains the given attribute
+    /// </summary>
+    public bool HasAttribute(GameManager.Attributes attribute) {
+        return baseAttributes.GetDict().ContainsKey(attribute);
+    }
 }

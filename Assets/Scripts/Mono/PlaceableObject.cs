@@ -50,6 +50,11 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
         if (!parentPlot.visibleToPlayer) SetVisible(false);
         if (!loaded) health = attributes.GetAttribute(GameManager.Attributes.Health);
         WaveManager.instance.waveEnd += WaveEnd;
+        if (parentPlot.faction == GameManager.instance.Game.PlayerFaction && attributes.HasAttribute(GameManager.Attributes.Range)) {
+            foreach (Plot plot in parentPlot.GetNeighbours(attributes.GetAttributeAsInt(GameManager.Attributes.Range))) {
+                plot.SetVisibleToPlayer(true);
+            }
+        }
     }
 
     protected virtual void Update() {
