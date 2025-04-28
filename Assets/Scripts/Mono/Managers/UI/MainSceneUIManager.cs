@@ -112,7 +112,7 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
         eventDescription.text = current_event?.GetDescription();
 
         resourceGoldText.text = $"Gold: {GameManager.instance.Game.GetResources()[GameManager.Resources.Gold]}";
-        resourceManPowerText.text = $"Man Power: {GameManager.instance.Game.GetResources()[GameManager.Resources.ManPower]}";
+        resourceManPowerText.text = $"Manpower per turn: {GameManager.instance.Game.GetResources()[GameManager.Resources.ManPower]}";
     }
 
     public void SaveData(GameData data) {}

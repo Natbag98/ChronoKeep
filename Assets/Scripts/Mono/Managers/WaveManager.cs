@@ -33,6 +33,7 @@ public class WaveManager : MonoBehaviour, ISaveSystem {
                 hostileWaveSpawners == hostileWaveSpawnersFinished &&
                 RunManager.instance.characterContainer.childCount < 1
             ) {
+                GameManager.instance.Game.ResetManpower();
                 waveEnd?.Invoke(null, EventArgs.Empty);
                 waveActive = false;
             }

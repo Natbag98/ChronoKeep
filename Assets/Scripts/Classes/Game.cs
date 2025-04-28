@@ -88,6 +88,10 @@ public class Game {
         return true;
     }
 
+    public void ResetManpower() {
+        resources[GameManager.Resources.ManPower] = 0;
+    }
+
     private void GenerateFactions() {
         Vector2Int[] castle_locations = {
             new(3, TerrainSize.y / 2),
