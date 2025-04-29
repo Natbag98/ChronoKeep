@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: Engineering1
   m_EditorClassIdentifier: 
   displayName: Stonework I
-  description: 
+  description: Increases the health of your towers by 25%
   tree: 1
   index: 0
   requiredPerk: {fileID: 0}
-  cost: 1
+  cost: 8
   modsToApply:
   - targetTags: 02000000
     attributeToAffect: 0
-    amount: 2
+    amount: 1.25

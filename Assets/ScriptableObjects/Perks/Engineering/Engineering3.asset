@@ -13,9 +13,16 @@ MonoBehaviour:
   m_Name: Engineering3
   m_EditorClassIdentifier: 
   displayName: Stonework III
-  description: 
+  description: Increases the health of your towers by a further 25% and increases
+    their defense by 10%
   tree: 1
   index: 2
   requiredPerk: {fileID: 11400000, guid: 0df2196dcc7265244adb227425ae589b, type: 2}
   cost: 20
-  modsToApply: []
+  modsToApply:
+  - targetTags: 02000000
+    attributeToAffect: 0
+    amount: 1.25
+  - targetTags: 02000000
+    attributeToAffect: 1
+    amount: 1.1
