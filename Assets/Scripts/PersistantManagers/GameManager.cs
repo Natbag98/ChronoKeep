@@ -24,7 +24,8 @@ public class GameManager : MonoBehaviour, ISaveSystem {
         Castle,
         Tower,
         Spawner,
-        CivilianTower
+        CivilianTower,
+        Ruins
     }
     public enum FactionTypes {
         BarbarianClan,
@@ -58,6 +59,7 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     public SOPlaceableObject Castle;
     public SOPlaceableObject BarbCamp;
     public SOPlaceableObject ArcherTower;
+    public SOPlaceableObject RuinsObject;
 
     public SOPlot Plains;
 

@@ -76,6 +76,10 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
         Plot min_target = null;
         float? min_distance = null;
         List<Plot> target_objects = RunManager.instance.GetAllPlotsWithFactionObjects(targetFaction);
+        for (int i = 0; i < target_objects.Count; i++) {
+            if (!target_objects[i].visibleToPlayer) target_objects.Remove(target_objects[i]);
+        }
+
         foreach (GameManager.PlaceableObjectTypes targetObjectType in movementTargetPriorities) {
             List<Plot> targets = RunManager.instance.GetAllPlotsWithPlacedObject(targetObjectType, targetFaction);
             foreach (Plot target in targets) {

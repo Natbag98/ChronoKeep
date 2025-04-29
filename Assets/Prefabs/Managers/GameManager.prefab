@@ -53,6 +53,7 @@ MonoBehaviour:
   Castle: {fileID: 11400000, guid: facc3f4559aae0043adf012e27c0de95, type: 2}
   BarbCamp: {fileID: 11400000, guid: e504a0bbd48c9504686b3244871fecbd, type: 2}
   ArcherTower: {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
+  RuinsObject: {fileID: 11400000, guid: ce86d5a866afc214ba1c64837eef36f7, type: 2}
   Plains: {fileID: 11400000, guid: 2a890fe14bba1d04cab20d4019369af9, type: 2}
   mapSize: 25
   plotGenerationData:

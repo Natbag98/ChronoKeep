@@ -68,8 +68,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     }
 
     protected virtual void DestroySelf() {
-        parentPlot.placedObjectType = null;
-        parentPlot.placedObjectSO = null;
+        parentPlot.PlaceObject(GameManager.instance.RuinsObject);
         Destroy(gameObject);
     }
 
