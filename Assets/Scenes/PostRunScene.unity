@@ -1036,6 +1036,7 @@ GameObject:
   m_Component:
   - component: {fileID: 812886202}
   - component: {fileID: 812886204}
+  - component: {fileID: 812886205}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -1074,6 +1075,20 @@ MonoBehaviour:
   popupTime: 2
   popup: {fileID: 900091776}
   popupText: {fileID: 445746924}
+--- !u!114 &812886205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812886201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1574813079e61ad4a858cc6c1406d1ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scoreText: {fileID: 1596601952}
+  skillText: {fileID: 1077198856}
 --- !u!1 &900091776
 GameObject:
   m_ObjectHideFlags: 0
@@ -1561,7 +1576,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1516407713}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 812886205}
+        m_TargetAssemblyTypeName: PostRunSceneUIManager, Assembly-CSharp
+        m_MethodName: _Button_ContinueButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1516407713
 MonoBehaviour:
   m_ObjectHideFlags: 0

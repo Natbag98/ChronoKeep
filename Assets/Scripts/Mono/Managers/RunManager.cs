@@ -160,8 +160,9 @@ public class RunManager : MonoBehaviour, ISaveSystem {
 
     public void GameOver() {
         GameManager.instance.scoreLastRun = Mathf.FloorToInt(score * scoreMult);
-        GameManager.instance.Game.skillPoints += Mathf.FloorToInt(GameManager.instance.scoreLastRun / 10 * skillMult);
-        SceneManager.LoadScene("GameScene");
+        GameManager.instance.skillLastRun = Mathf.FloorToInt(GameManager.instance.scoreLastRun / 10 * skillMult);
+        GameManager.instance.Game.skillPoints += GameManager.instance.skillLastRun;
+        SceneManager.LoadScene("PostRunScene");
     }
 
     private void Start() {
