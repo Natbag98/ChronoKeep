@@ -13,6 +13,9 @@ public class RunManager : MonoBehaviour, ISaveSystem {
     public Transform projectileContainer;
 
     private Plot[][] plotArray;
+    private int score;
+    private float scoreMult = 1;
+    private float skillMult = 1;
     [HideInInspector] public bool paused = false;
     [HideInInspector] public List<Mod> globalMods = new();
 
@@ -151,9 +154,13 @@ public class RunManager : MonoBehaviour, ISaveSystem {
         MainSceneUIManager.instance.pauseMenu.SetActive(false);
     }
 
+    public void AddScore(int amount) {
+        score += amount;
+    }
+
     public void GameOver() {
-        GameManager.instance.scoreLastRun = Mathf.Max(WaveManager.instance.GetWave() - 1, 0) * 10;
-        GameManager.instance.Game.skillPoints += Mathf.Max(WaveManager.instance.GetWave() - 1, 0);
+        GameManager.instance.scoreLastRun = Mathf.FloorToInt(score * scoreMult);
+        GameManager.instance.Game.skillPoints += Mathf.FloorToInt(GameManager.instance.scoreLastRun / 10 * skillMult);
         SceneManager.LoadScene("GameScene");
     }
 

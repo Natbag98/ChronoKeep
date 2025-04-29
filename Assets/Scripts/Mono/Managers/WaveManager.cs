@@ -34,6 +34,7 @@ public class WaveManager : MonoBehaviour, ISaveSystem {
                 RunManager.instance.characterContainer.childCount < 1
             ) {
                 GameManager.instance.Game.ResetManpower();
+                RunManager.instance.AddScore(100);
                 waveEnd?.Invoke(null, EventArgs.Empty);
                 waveActive = false;
             }
