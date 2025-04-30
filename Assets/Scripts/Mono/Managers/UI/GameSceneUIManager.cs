@@ -19,7 +19,8 @@ public class GameSceneUIManager : MonoBehaviour {
     [Header("References Character Perks")]
     [SerializeField] private GameObject characterPerkMenu;
     [SerializeField] private Transform characterPerksHolder;
-    public TextMeshProUGUI perkDescriptionText;
+    [SerializeField] private TextMeshProUGUI perkDescriptionText;
+    [SerializeField] private TextMeshProUGUI skillPointsText;
     [SerializeField] private GameObject perkTreePrefab;
     [SerializeField] private GameObject perkPrefab;
 
@@ -87,5 +88,7 @@ public class GameSceneUIManager : MonoBehaviour {
         } else {
             perkDescriptionText.text = "";
         }
+
+        skillPointsText.text = $"Skill Points: {GameManager.instance.Game.skillPoints}";
     }
 }
