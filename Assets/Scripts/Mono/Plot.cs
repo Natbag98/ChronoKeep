@@ -207,8 +207,10 @@ public class Plot : MonoBehaviour {
 
         if (mouseOver) {
             MainSceneUIManager.instance.plotInfoName.text = plotSO.displayName;
+            MainSceneUIManager.instance.plotInfoDescription.text = plotSO.description;
             if (placedObjectType != null) {
                 MainSceneUIManager.instance.objectInfoName.text = placedObjectSO.displayName;
+                MainSceneUIManager.instance.objectInfoDescription.text = placedObjectSO.description;
             }
         }
 
