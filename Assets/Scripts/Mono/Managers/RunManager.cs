@@ -155,12 +155,12 @@ public class RunManager : MonoBehaviour, ISaveSystem {
     }
 
     public void AddScore(int amount) {
-        score += amount;
+        score += Mathf.FloorToInt(amount * scoreMult);
     }
 
     public void GameOver() {
-        GameManager.instance.scoreLastRun = Mathf.FloorToInt(score * scoreMult);
-        GameManager.instance.skillLastRun = Mathf.FloorToInt(GameManager.instance.scoreLastRun / 10 * skillMult);
+        GameManager.instance.scoreLastRun = score;
+        GameManager.instance.skillLastRun = Mathf.FloorToInt(score / 10 * skillMult);
         GameManager.instance.Game.skillPoints += GameManager.instance.skillLastRun;
         SceneManager.LoadScene("PostRunScene");
     }
@@ -172,6 +172,8 @@ public class RunManager : MonoBehaviour, ISaveSystem {
         GameManager.instance.Game.PlayerFaction.RunStart();
         foreach (Faction faction in GameManager.instance.Game.BaseFactions) faction.RunStart();
         foreach (SOPerk perk in GameManager.instance.Game.perksUnlockTracker.GetAllUnlocked()) {
+            scoreMult += perk.scoreMultIncrease;
+            skillMult += perk.skillMultIncrease;
             globalMods.AddRange(perk.modsToApply);
         }
 

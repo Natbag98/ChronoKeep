@@ -19,6 +19,8 @@ MonoBehaviour:
   index: 1
   requiredPerk: {fileID: 11400000, guid: ddabd163f8851c34a937e97910186069, type: 2}
   cost: 20
+  scoreMultIncrease: 0.1
+  skillMultIncrease: 0
   modsToApply:
   - targetTags: 02000000
     attributeToAffect: 2
