@@ -38,10 +38,11 @@ public class WaveManager : MonoBehaviour, ISaveSystem {
                 if (
                     RunManager.instance.characterContainer.childCount < 1
                 ) {
+                    RunManager.instance.AddScore(100);
                     GameManager.instance.Game.ResetManpower();
                     waveEnd?.Invoke(null, EventArgs.Empty);
                     waveActive = false;
-                }   
+                }
             }
         }
     }
