@@ -11,6 +11,8 @@ public class SOPerk : ScriptableObject, IUnlockTrackable {
     public int cost;
 
     [Header("Behaviour")]
+    public float scoreMultIncrease;
+    public float skillMultIncrease;
     public Mod[] modsToApply;
 
     public bool Unlockable() {

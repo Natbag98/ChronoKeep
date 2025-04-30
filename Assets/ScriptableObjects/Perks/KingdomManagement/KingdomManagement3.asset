@@ -13,9 +13,15 @@ MonoBehaviour:
   m_Name: KingdomManagement3
   m_EditorClassIdentifier: 
   displayName: Organization III
-  description: 
+  description: Decreases the reload speed of your towers by a further 20% and increases
+    your score gain by a further 10%
   tree: 0
   index: 2
   requiredPerk: {fileID: 11400000, guid: 98e3c26d3b6e51c4180444f4debd7861, type: 2}
-  cost: 20
-  modsToApply: []
+  cost: 40
+  scoreMultIncrease: 0.1
+  skillMultIncrease: 0
+  modsToApply:
+  - targetTags: 02000000
+    attributeToAffect: 2
+    amount: 0.8

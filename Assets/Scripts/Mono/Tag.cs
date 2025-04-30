@@ -7,7 +7,8 @@ public class Tag : MonoBehaviour {
         Spawner,
         Tower,
         TowerViewer,
-        PopulationCenter
+        PopulationCenter,
+        PerkUI
     }
 
     public Tags[] tags;

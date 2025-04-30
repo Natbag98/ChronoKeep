@@ -79,6 +79,7 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     [HideInInspector] public bool load = false;
 
     [HideInInspector] public int scoreLastRun;
+    [HideInInspector] public int skillLastRun;
 
     private void Awake() {
         if (instance) {

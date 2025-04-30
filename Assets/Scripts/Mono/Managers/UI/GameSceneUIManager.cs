@@ -19,6 +19,8 @@ public class GameSceneUIManager : MonoBehaviour {
     [Header("References Character Perks")]
     [SerializeField] private GameObject characterPerkMenu;
     [SerializeField] private Transform characterPerksHolder;
+    [SerializeField] private TextMeshProUGUI perkDescriptionText;
+    [SerializeField] private TextMeshProUGUI skillPointsText;
     [SerializeField] private GameObject perkTreePrefab;
     [SerializeField] private GameObject perkPrefab;
 
@@ -75,5 +77,18 @@ public class GameSceneUIManager : MonoBehaviour {
         if (!Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.TowerViewer)) {
             towerInfo.SetActive(false);
         }
+
+        GameObject hover = Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.PerkUI);
+        if (hover) {
+            perkDescriptionText.text = hover.GetComponent<Perk>().perk.description;
+            perkDescriptionText.text += $"\n\nCost: {hover.GetComponent<Perk>().perk.cost}";
+            if (hover.GetComponent<Perk>().Unlockable()) {
+                perkDescriptionText.text += "\nClick to Unlock";
+            }
+        } else {
+            perkDescriptionText.text = "";
+        }
+
+        skillPointsText.text = $"Skill Points: {GameManager.instance.Game.skillPoints}";
     }
 }

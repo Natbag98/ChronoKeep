@@ -13,6 +13,9 @@ public class RunManager : MonoBehaviour, ISaveSystem {
     public Transform projectileContainer;
 
     private Plot[][] plotArray;
+    private int score;
+    private float scoreMult = 1;
+    private float skillMult = 1;
     [HideInInspector] public bool paused = false;
     [HideInInspector] public List<Mod> globalMods = new();
 
@@ -151,10 +154,15 @@ public class RunManager : MonoBehaviour, ISaveSystem {
         MainSceneUIManager.instance.pauseMenu.SetActive(false);
     }
 
+    public void AddScore(int amount) {
+        score += Mathf.FloorToInt(amount * scoreMult);
+    }
+
     public void GameOver() {
-        GameManager.instance.scoreLastRun = Mathf.Max(WaveManager.instance.GetWave() - 1, 0) * 10;
-        GameManager.instance.Game.skillPoints += Mathf.Max(WaveManager.instance.GetWave() - 1, 0);
-        SceneManager.LoadScene("GameScene");
+        GameManager.instance.scoreLastRun = score;
+        GameManager.instance.skillLastRun = Mathf.FloorToInt(score / 10 * skillMult);
+        GameManager.instance.Game.skillPoints += GameManager.instance.skillLastRun;
+        SceneManager.LoadScene("PostRunScene");
     }
 
     private void Start() {
@@ -164,6 +172,8 @@ public class RunManager : MonoBehaviour, ISaveSystem {
         GameManager.instance.Game.PlayerFaction.RunStart();
         foreach (Faction faction in GameManager.instance.Game.BaseFactions) faction.RunStart();
         foreach (SOPerk perk in GameManager.instance.Game.perksUnlockTracker.GetAllUnlocked()) {
+            scoreMult += perk.scoreMultIncrease;
+            skillMult += perk.skillMultIncrease;
             globalMods.AddRange(perk.modsToApply);
         }
 
