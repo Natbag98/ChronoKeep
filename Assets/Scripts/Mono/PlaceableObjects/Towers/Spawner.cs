@@ -6,12 +6,12 @@ public class Spawner : Tower {
     [SerializeField] private SOCharacter[] potentialCharactersToSpawn;
 
     private int powerRemaining;
-    private bool finishedWave;
-    private bool partOfHostileWave = false;
+    public bool spawning { private set; get; } = false;
+    public bool partOfHostileWave { private set; get; } = false;
 
     public void SpawnHostileWave(int power) {
         powerRemaining = power;
-        finishedWave = false;
+        spawning = true;
         partOfHostileWave = true;
     }
 
@@ -42,10 +42,9 @@ public class Spawner : Tower {
                 SpawnCharacter();
                 powerRemaining--;
                 return true;
-            } else if (!finishedWave) {
-                finishedWave = true;
+            } else if (spawning) {
+                spawning = false;
                 partOfHostileWave = false;
-                WaveManager.instance.hostileWaveSpawnersFinished++;
                 return false;
             } else {
                 return false;
@@ -58,10 +57,5 @@ public class Spawner : Tower {
         if (canAttack) {
             if (Attack()) StartCoroutine(Reload());
         }
-    }
-
-    protected override void DestroySelf() {
-        if (!finishedWave) WaveManager.instance.hostileWaveSpawnersFinished++;
-        base.DestroySelf();
     }
 }

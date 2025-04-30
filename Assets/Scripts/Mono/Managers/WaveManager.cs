@@ -1,14 +1,13 @@
 using System;
 using UnityEngine;
+using System.Linq;
 
 public class WaveManager : MonoBehaviour, ISaveSystem {
     public static WaveManager instance;
 
     private int wave = 0;
     [HideInInspector] public bool waveActive = false;
-
-    [HideInInspector] public int hostileWaveSpawners;
-    [HideInInspector] public int hostileWaveSpawnersFinished;
+    private float secondTimer = 0;
 
     public event EventHandler waveStart;
     public event EventHandler waveEnd;
@@ -16,11 +15,10 @@ public class WaveManager : MonoBehaviour, ISaveSystem {
     public int GetWave() { return wave; }
 
     public void StartWave() {
+        secondTimer = 0;
         waveActive = true;
         wave++;
         waveStart?.Invoke(null, EventArgs.Empty);
-
-        hostileWaveSpawners = hostileWaveSpawnersFinished = 0;
 
         foreach (Faction faction in GameManager.instance.Game.BaseFactions) {
             faction.OnWaveStart(wave);
@@ -29,14 +27,21 @@ public class WaveManager : MonoBehaviour, ISaveSystem {
 
     void Update() {
         if (waveActive) {
-            if (
-                hostileWaveSpawners == hostileWaveSpawnersFinished &&
-                RunManager.instance.characterContainer.childCount < 1
-            ) {
-                GameManager.instance.Game.ResetManpower();
-                RunManager.instance.AddScore(100);
-                waveEnd?.Invoke(null, EventArgs.Empty);
-                waveActive = false;
+            secondTimer += Time.deltaTime;
+            if (secondTimer > 1) {
+                secondTimer = 0;
+
+                foreach (Spawner spawner in FindObjectsByType<Spawner>(FindObjectsSortMode.None)) {
+                    if (spawner.partOfHostileWave && spawner.spawning) return;
+                }
+
+                if (
+                    RunManager.instance.characterContainer.childCount < 1
+                ) {
+                    GameManager.instance.Game.ResetManpower();
+                    waveEnd?.Invoke(null, EventArgs.Empty);
+                    waveActive = false;
+                }   
             }
         }
     }
