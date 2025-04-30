@@ -139,12 +139,14 @@ public class Plot : MonoBehaviour {
             if (!(from plot in GetNeighbours() select plot.plotType).Contains(plot_type)) return false;
         }
 
-        foreach (Tag.Tags tag in object_to_place.mustPlaceBesideTags) {
-            if (!(
-                from plot in GetNeighbours()
-                where plot.GetComponentInChildren<PlaceableObject>() != null && plot.GetComponentInChildren<PlaceableObject>().GetComponent<Tag>() != null
-                select plot.GetComponentInChildren<PlaceableObject>().GetComponent<Tag>().HasTag(tag)
-            ).Contains(true)) return false;
+        if (object_to_place.mustPlaceBesideTags != null) {
+            foreach (Tag.Tags tag in object_to_place.mustPlaceBesideTags) {
+                if (!(
+                    from plot in GetNeighbours()
+                    where plot.GetComponentInChildren<PlaceableObject>() != null && plot.GetComponentInChildren<PlaceableObject>().GetComponent<Tag>() != null
+                    select plot.GetComponentInChildren<PlaceableObject>().GetComponent<Tag>().HasTag(tag)
+                ).Contains(true)) return false;
+            }
         }
 
         if (
