@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: Wizard
   m_EditorClassIdentifier: 
   prefab: {fileID: 6995875889840719490, guid: 4d60c4cc56e3ce84f88f12ff5c19a1bd, type: 3}
-  powerRequired: 2
+  powerRequired: 5
+  displayName: Wizard
+  description: Fires bolts of magic.

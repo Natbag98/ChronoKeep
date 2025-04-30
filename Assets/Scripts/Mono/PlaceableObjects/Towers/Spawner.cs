@@ -16,8 +16,9 @@ public class Spawner : Tower {
     }
 
     public void SpawnCharacter() {
+        SOCharacter characterSO = Utils.Choice(potentialCharactersToSpawn);
         Character character = Instantiate(
-            Utils.Choice(potentialCharactersToSpawn).prefab,
+            characterSO.prefab,
             transform.position,
             Quaternion.identity,
             RunManager.instance.characterContainer
@@ -28,6 +29,7 @@ public class Spawner : Tower {
 
         character.SetStartPos(transform.position);
         character.faction = parentPlot.faction;
+        character.characterSO = characterSO;
     }
 
     protected new bool Attack() {

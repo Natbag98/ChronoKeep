@@ -19,6 +19,7 @@ public class Game {
     public Dictionary<GameManager.Resources, int> GetResources() { return resources; }
 
     public UnlockTracker<SOPlaceableObject> placeableObjectsUnlockTracker = new();
+    public UnlockTracker<SOCharacter> characterUnlockTracker = new();
     public UnlockTracker<SOPerk> perksUnlockTracker = new();
     public int skillPoints = 0;
 

@@ -23,6 +23,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
 
     private Vector2 moveOffset;
     [HideInInspector] public Faction faction;
+    [HideInInspector] public SOCharacter characterSO;
     private float health;
     private Faction targetFaction;
     private Plot movementTarget;
@@ -264,6 +265,10 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
             Plot plot = GetCurrentPlot();
             plot.SetVisibleToPlayer(true);
             foreach (Plot n_plot in plot.GetNeighbours(square: true)) n_plot.SetVisibleToPlayer(true);
+        }
+
+        if (GetCurrentPlot().visibleToPlayer) {
+            GameManager.instance.Game.characterUnlockTracker.UpdateDiscovered(characterSO);
         }
     }
 

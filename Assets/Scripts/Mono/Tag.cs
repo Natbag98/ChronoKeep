@@ -8,7 +8,8 @@ public class Tag : MonoBehaviour {
         Tower,
         TowerViewer,
         PopulationCenter,
-        PerkUI
+        PerkUI,
+        CharacterViewer
     }
 
     public Tags[] tags;
