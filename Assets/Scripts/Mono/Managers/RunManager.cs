@@ -68,13 +68,22 @@ public class RunManager : MonoBehaviour, ISaveSystem {
     /// <summary>
     /// Gets all the plots with a placed object belonging to a given faction
     /// </summary>
-    public List<Plot> GetAllPlotsWithFactionObjects(Faction faction) {
-        return (
-            from placeable_object_type
-            in Utils.GetEnumValues<GameManager.PlaceableObjectTypes>()
-            where GetAllPlotsWithPlacedObject(placeable_object_type, faction) != null
-            select GetAllPlotsWithPlacedObject(placeable_object_type, faction)
-        ).SelectMany(x => x).ToList();
+    public List<Plot> GetAllPlotsWithFactionObjects(Faction faction, bool exclude_ruins=false) {
+        if (exclude_ruins) {
+            return (
+                from placeable_object_type
+                in Utils.GetEnumValues<GameManager.PlaceableObjectTypes>()
+                where GetAllPlotsWithPlacedObject(placeable_object_type, faction) != null && placeable_object_type != GameManager.PlaceableObjectTypes.Ruins
+                select GetAllPlotsWithPlacedObject(placeable_object_type, faction)
+            ).SelectMany(x => x).ToList();
+        } else {
+            return (
+                from placeable_object_type
+                in Utils.GetEnumValues<GameManager.PlaceableObjectTypes>()
+                where GetAllPlotsWithPlacedObject(placeable_object_type, faction) != null
+                select GetAllPlotsWithPlacedObject(placeable_object_type, faction)
+            ).SelectMany(x => x).ToList();
+        }
     }
 
     /// <summary>

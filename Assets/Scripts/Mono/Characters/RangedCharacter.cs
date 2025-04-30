@@ -23,6 +23,12 @@ public class RangedCharacter : Character {
             }
         }
 
+        for (int i = 0; i < targets_in_range.Count; i++) {
+            if (targets_in_range[i].GetComponentInChildren<PlaceableObject>().placeableObjectSO.objectType == GameManager.PlaceableObjectTypes.Ruins) {
+                targets_in_range.RemoveAt(i);
+            }
+        }
+
         if (targets_in_range.Count > 0) target = Utils.Choice(targets_in_range);
     }
 
