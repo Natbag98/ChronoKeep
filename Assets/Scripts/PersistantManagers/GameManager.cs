@@ -112,9 +112,11 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     }
 
     void Update() {
-        if (load && RunManager.instance != null) {
-            load = false;
-            SaveSystemManager.instance.LoadGame();
+        if (load) {
+            if (RunManager.instance != null || SceneManager.GetActiveScene().name == "GameScene") {
+                load = false;
+                SaveSystemManager.instance.LoadGame();
+            }
         }
 
         // Game.DebugUpdate();
@@ -129,6 +131,7 @@ public class GameManager : MonoBehaviour, ISaveSystem {
         }
 
         data.perkUnlockTracker = new(Game.perksUnlockTracker);
+        data.characterUnlockTracker = new(Game.characterUnlockTracker);
         data.placeableObjectUnlockTracker = new(Game.placeableObjectsUnlockTracker);
 
         data.factionData = (from faction in Game.BaseFactions select new FactionData(faction)).ToList();
@@ -137,6 +140,7 @@ public class GameManager : MonoBehaviour, ISaveSystem {
         data.baseObjectInfo = (from info in Game.baseObjectInfo select new BaseObjectInfoData(info)).ToList();
 
         data.resources = Game.GetResources();
+        data.skill = Game.skillPoints;
         data.terrainSize = new(Game.TerrainSize);
     }
 

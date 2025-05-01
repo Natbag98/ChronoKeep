@@ -214,6 +214,12 @@ public class Game {
         foreach (string object_ in data.placeableObjectUnlockTracker.unlocked.Keys) {
             placeableObjectsUnlockTracker.unlocked[GetAsset<SOPlaceableObject>(object_)] = data.placeableObjectUnlockTracker.unlocked[object_];
         }
+        foreach (string object_ in data.characterUnlockTracker.disovered.Keys) {
+            characterUnlockTracker.disovered[GetAsset<SOCharacter>(object_)] = data.characterUnlockTracker.disovered[object_];
+        }
+        foreach (string object_ in data.characterUnlockTracker.unlocked.Keys) {
+            characterUnlockTracker.unlocked[GetAsset<SOCharacter>(object_)] = data.characterUnlockTracker.unlocked[object_];
+        }
 
         PlayerFaction = new(this, data.playerFaction.factionType, data.playerFaction.name, data.playerFaction.rulerName);
         BaseFactions = new();
@@ -236,6 +242,7 @@ public class Game {
         }
 
         resources = data.resources;
+        skillPoints = data.skill;
         TerrainSize = data.terrainSize.Get();
     }
 
