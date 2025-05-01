@@ -13,6 +13,7 @@ public class Plot : MonoBehaviour {
     [HideInInspector] public SOPlot plotSO;
     [HideInInspector] public GameManager.PlaceableObjectTypes? placedObjectType = null;
     [HideInInspector] public SOPlaceableObject placedObjectSO;
+    [HideInInspector] public SOFeature placedFeatureSO;
     [HideInInspector] public Faction faction;
     [HideInInspector] public GameManager.PlotTypes plotType;
     private Plot[] neighbours;
@@ -120,6 +121,17 @@ public class Plot : MonoBehaviour {
         return new_object;
     }
 
+    public void PlaceFeature(SOFeature feature_to_place) {
+        Instantiate(
+            feature_to_place.prefab,
+            transform.position,
+            Quaternion.identity,
+            transform
+        );
+        placedObjectType = GameManager.PlaceableObjectTypes.Feature;
+        placedFeatureSO = feature_to_place;
+    }
+
     /// <summary>
     /// Gets the plots (x, y) position in the plotArray, which will be different from the plots position in the scene.
     /// </summary>
@@ -209,8 +221,13 @@ public class Plot : MonoBehaviour {
             MainSceneUIManager.instance.plotInfoName.text = plotSO.displayName;
             MainSceneUIManager.instance.plotInfoDescription.text = plotSO.description;
             if (placedObjectType != null) {
-                MainSceneUIManager.instance.objectInfoName.text = placedObjectSO.displayName;
-                MainSceneUIManager.instance.objectInfoDescription.text = placedObjectSO.description;
+                if (placedObjectType == GameManager.PlaceableObjectTypes.Feature) {
+                    MainSceneUIManager.instance.objectInfoName.text = placedFeatureSO.displayName;
+                    MainSceneUIManager.instance.objectInfoDescription.text = placedFeatureSO.description;
+                } else {
+                    MainSceneUIManager.instance.objectInfoName.text = placedObjectSO.displayName;
+                    MainSceneUIManager.instance.objectInfoDescription.text = placedObjectSO.description;
+                }
             }
         }
 

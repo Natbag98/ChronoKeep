@@ -24,7 +24,8 @@ public class GameManager : MonoBehaviour, ISaveSystem {
         Castle,
         Tower,
         Spawner,
-        CivilianTower
+        CivilianTower,
+        Feature
     }
     public enum FactionTypes {
         BarbarianClan,
@@ -60,6 +61,8 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     public SOPlaceableObject ArcherTower;
 
     public SOPlot Plains;
+
+    public SOFeature Ruins;
 
     [Header("Plot Generation Data")]
     [SerializeField] private int mapSize;
