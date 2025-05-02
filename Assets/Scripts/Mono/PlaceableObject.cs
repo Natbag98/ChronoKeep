@@ -42,6 +42,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     }
 
     private void SetVisible(bool set) {
+        if (GameManager.instance.debugMode) return;
         foreach (MeshRenderer mesh in GetComponentsInChildren<MeshRenderer>()) mesh.enabled = set;
         foreach (Canvas canvas in GetComponentsInChildren<Canvas>()) canvas.enabled = set;
     }

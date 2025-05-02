@@ -69,6 +69,7 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     [SerializeField] private Utils.SerializeableDict<SOPlot, int> plotGenerationData;
 
     [Header("Test Data")]
+    public bool debugMode;
     public Utils.SerializeableDict<Resources, int> startingResources;
 
     [HideInInspector] public Game Game;

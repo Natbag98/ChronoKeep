@@ -64,6 +64,7 @@ MonoBehaviour:
       Value: 15
     - Key: {fileID: 11400000, guid: 487feeaaddffd7844895873763a7a0c8, type: 2}
       Value: 5
+  debugMode: 1
   startingResources:
     dictPairs:
     - Key: 0

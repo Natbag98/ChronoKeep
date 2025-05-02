@@ -175,6 +175,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     }
 
     private void SetVisible(bool set) {
+        if (GameManager.instance.debugMode) return;
         foreach (MeshRenderer mesh in GetComponentsInChildren<MeshRenderer>()) mesh.enabled = set;
         foreach (Canvas canvas in GetComponentsInChildren<Canvas>()) canvas.enabled = set;
     }
@@ -195,9 +196,13 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
         );
     }
 
-    private void Start() {
-        SetVisible(false);
-        List<Plot> targets = RunManager.instance.GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle);
+    private void GetTargetFaction() {
+        List<Plot> targets = (
+            from plot
+            in RunManager.instance.GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle)
+            where plot.visibleToPlayer
+            select plot
+        ).ToList();
         Dictionary<float, Plot> potential_targets = new();
 
         foreach (Plot target in targets) {
@@ -215,6 +220,11 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
         }
     
         targetFaction = potential_targets[potential_targets.Keys.ToArray().Min()].faction;
+    }
+
+    private void Start() {
+        SetVisible(false);
+        GetTargetFaction();
 
         health = attributes.GetAttribute(GameManager.Attributes.Health);
         reloadTimer = attributes.GetAttribute(GameManager.Attributes.ReloadTime);
