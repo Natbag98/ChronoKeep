@@ -71,12 +71,19 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     }
 
     /// <summary>
-    /// Gets and sets the chracters movement target.
+    /// Gets and sets the characters movement target.
     /// </summary>
     private void GetMovementTarget() {
         Plot min_target = null;
         float? min_distance = null;
-        List<Plot> target_objects = RunManager.instance.GetAllPlotsWithFactionObjects(targetFaction);
+        List<Plot> target_objects = (
+            from plot
+            in RunManager.instance.GetAllPlotsWithFactionObjects(targetFaction)
+            where plot.walkable
+            select plot
+        ).ToList();
+
+        // Target closest priority target
         foreach (GameManager.PlaceableObjectTypes targetObjectType in movementTargetPriorities) {
             List<Plot> targets = RunManager.instance.GetAllPlotsWithPlacedObject(targetObjectType, targetFaction);
             foreach (Plot target in targets) {
@@ -89,6 +96,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
             }
         }
 
+        // Attempt to target castle if there are no priority targets
         if (min_target == null) {
             movementTarget = RunManager.instance.GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Castle, targetFaction);
             if (movementTarget == null) movementTarget = Utils.Choice(target_objects);
@@ -96,6 +104,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
             movementTarget = min_target;
         }
 
+        // Attack the closest enemy object if the castle and priority targets have no valid paths
         if (Utils.GetPath(GetCurrentPlot().GetPositionInPlotArray(), movementTarget.GetPositionInPlotArray()) == null) {
             Dictionary<float, Plot> potential_movement_targets = new();
             foreach (Plot plot in target_objects) {

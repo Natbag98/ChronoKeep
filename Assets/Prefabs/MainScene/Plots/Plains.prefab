@@ -47,6 +47,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canPlaceObject: 1
+  walkable: 1
+  modsToApply: []
+  placementHeight: 0
   plotSO: {fileID: 0}
   placedObjectSO: {fileID: 0}
   placedFeatureSO: {fileID: 0}

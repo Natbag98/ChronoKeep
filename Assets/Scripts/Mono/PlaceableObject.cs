@@ -22,6 +22,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     private float loadedTimer = 2;
 
     public int GetRange(Plot hoverPlot) {
+        if (!attributes.HasAttribute(GameManager.Attributes.Range)) return 0;
         float range = attributes.GetAttributeAsInt(GameManager.Attributes.Range);
         foreach (Mod mod in hoverPlot.modsToApply) {
             if (mod.attributeToAffect == GameManager.Attributes.Range && mod.CheckTags(GetComponent<Tag>())) range *= mod.amount;
@@ -68,7 +69,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
         }
 
         foreach (Mod mod in parentPlot.modsToApply) {
-            Debug.Log(attributes.AddMod(mod, GetComponent<Tag>(), false));
+            attributes.AddMod(mod, GetComponent<Tag>(), false);
         }
     }
 
