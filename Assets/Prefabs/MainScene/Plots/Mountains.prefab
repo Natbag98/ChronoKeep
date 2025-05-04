@@ -47,6 +47,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canPlaceObject: 1
+  modsToApply:
+  - targetTags: 
+    attributeToAffect: 4
+    amount: 1.5
   placementHeight: 0.35
   plotSO: {fileID: 0}
   placedObjectSO: {fileID: 0}

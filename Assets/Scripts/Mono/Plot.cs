@@ -10,6 +10,7 @@ public class Plot : MonoBehaviour {
 
     [Header("Attributes")]
     [SerializeField] private bool canPlaceObject;
+    public Mod[] modsToApply;
     [SerializeField] private float placementHeight;
 
     [HideInInspector] public SOPlot plotSO;
@@ -210,7 +211,7 @@ public class Plot : MonoBehaviour {
     private void SetRangeFinding(bool set) {
         foreach (
             Plot plot in GetNeighbours(
-                MainSceneUIManager.instance.GetObjectToPlace().placeableObjectPrefab.GetComponent<PlaceableObject>().GetRange(), include_self: false
+                MainSceneUIManager.instance.GetObjectToPlace().placeableObjectPrefab.GetComponent<PlaceableObject>().GetRange(this), include_self: false
             )
         ) {
             plot.rangeFinding = set;
