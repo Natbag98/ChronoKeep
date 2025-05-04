@@ -38,7 +38,8 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     public enum PlotTypes {
         Plains,
         Lake,
-        Gold
+        Gold,
+        Mountains
     }
     public enum PerkTrees {
         KingdomManagement,

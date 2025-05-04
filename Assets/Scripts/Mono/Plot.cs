@@ -8,7 +8,9 @@ public class Plot : MonoBehaviour {
     public static int neighbourDown = 2;
     public static int neighbourLeft = 3;
 
+    [Header("Attributes")]
     [SerializeField] private bool canPlaceObject;
+    [SerializeField] private float placementHeight;
 
     [HideInInspector] public SOPlot plotSO;
     [HideInInspector] public GameManager.PlaceableObjectTypes? placedObjectType = null;
@@ -108,7 +110,7 @@ public class Plot : MonoBehaviour {
         MainSceneUIManager.instance.ObjectPlaced();
         PlaceableObject new_object = Instantiate(
             object_to_place.placeableObjectPrefab,
-            transform.position,
+            new Vector3(transform.position.x, transform.position.y + placementHeight, transform.position.z),
             Quaternion.identity,
             transform
         ).GetComponent<PlaceableObject>();

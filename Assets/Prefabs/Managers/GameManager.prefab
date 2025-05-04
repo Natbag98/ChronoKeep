@@ -59,11 +59,13 @@ MonoBehaviour:
   plotGenerationData:
     dictPairs:
     - Key: {fileID: 11400000, guid: 2a890fe14bba1d04cab20d4019369af9, type: 2}
-      Value: 75
+      Value: 72
     - Key: {fileID: 11400000, guid: 91b0b931bda090541a294a0c5834a536, type: 2}
-      Value: 15
+      Value: 12
     - Key: {fileID: 11400000, guid: 487feeaaddffd7844895873763a7a0c8, type: 2}
-      Value: 5
+      Value: 4
+    - Key: {fileID: 11400000, guid: cf8b1f3b326b6db46865e35690be2f4a, type: 2}
+      Value: 12
   debugMode: 1
   startingResources:
     dictPairs:
