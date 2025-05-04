@@ -16,6 +16,7 @@ public class Plot : MonoBehaviour {
     [HideInInspector] public SOFeature placedFeatureSO;
     [HideInInspector] public Faction faction;
     [HideInInspector] public GameManager.PlotTypes plotType;
+    [HideInInspector] public bool rangeFinding;
     private Plot[] neighbours;
     private bool mouseOver;
     public bool visibleToPlayer { get; private set; } = false;
@@ -34,7 +35,7 @@ public class Plot : MonoBehaviour {
     /// <param name="steps">The number of steps performed to find neighbours. Essentially the radius of the circle.</param>
     /// <param name="square">Will return a square of plots of steps size instead of a circle.</param>
     /// <returns>The list of neighbours.</returns>
-    public List<Plot> GetNeighbours(int steps=1, bool square=false) {
+    public List<Plot> GetNeighbours(int steps=1, bool square=false, bool include_self=true) {
         List<Plot> neighbours_to_return = new();
         List<Plot> neighbours_to_check = new() { this };
 
@@ -66,6 +67,8 @@ public class Plot : MonoBehaviour {
                 }
             }
         }
+
+        if (!include_self) neighbours_to_return.Remove(this);
         return neighbours_to_return;
     }
 
@@ -183,6 +186,7 @@ public class Plot : MonoBehaviour {
 
     public void OnMouseExit() {
         mouseOver = false;
+        if (MainSceneUIManager.instance.IsPlacingObject()) SetRangeFinding(false);
         MainSceneUIManager.instance.plotInfoPanel.SetActive(false);
         MainSceneUIManager.instance.objectInfoPanel.SetActive(false);
     }
@@ -201,6 +205,16 @@ public class Plot : MonoBehaviour {
         SetVisible(false);
     }
 
+    private void SetRangeFinding(bool set) {
+        foreach (
+            Plot plot in GetNeighbours(
+                MainSceneUIManager.instance.GetObjectToPlace().placeableObjectPrefab.GetComponent<PlaceableObject>().GetRange(), include_self: false
+            )
+        ) {
+            plot.rangeFinding = set;
+        }
+    }
+
     private void Update() {
         if (!visibleToPlayer) mouseOver = false;
         float target_height = 0;
@@ -209,13 +223,20 @@ public class Plot : MonoBehaviour {
                 mouseOver &&
                 !WaveManager.instance.waveActive
             ) {
-                if (faction != null) Debug.Log(faction.Name);
+                if (faction != null && GameManager.instance.debugMode) Debug.Log(faction.Name);
                 if (MainSceneUIManager.instance.IsPlacingObject()) {
-                    if (ValidTowerPlacement(MainSceneUIManager.instance.GetObjectToPlace())) target_height = GameManager.instance.PlotMouseOverHeight;
+                    if (ValidTowerPlacement(MainSceneUIManager.instance.GetObjectToPlace())) {
+                        target_height = GameManager.instance.PlotMouseOverHeight;
+                        SetRangeFinding(true);
+                    }
                 } else {
                     target_height = GameManager.instance.PlotMouseOverHeight;
                 }
             }
+        }
+
+        if (!MainSceneUIManager.instance.IsPlacingObject()) {
+            rangeFinding = false;
         }
 
         if (mouseOver) {
@@ -231,6 +252,8 @@ public class Plot : MonoBehaviour {
                 }
             }
         }
+
+        if (rangeFinding) target_height = GameManager.instance.PlotMouseOverHeight / 2;
 
         if (target_height != 0) {
             MainSceneUIManager.instance.plotInfoPanel.SetActive(true);

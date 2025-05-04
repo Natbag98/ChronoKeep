@@ -20,6 +20,10 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     [HideInInspector] public bool loaded = false;
     private float loadedTimer = 2;
 
+    public int GetRange() {
+        return attributes.GetAttributeAsInt(GameManager.Attributes.Range);
+    }
+
     public Vector3 GetTargetPoint() { return centerPoint.position; }
     public void Damage(GameManager.MagicTypes attackType, float amount) {
         if (Utils.CalculateDamage(attackType, amount, attributes) > 0) {
