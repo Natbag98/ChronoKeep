@@ -55,6 +55,12 @@ MonoBehaviour:
   ArcherTower: {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
   Plains: {fileID: 11400000, guid: 2a890fe14bba1d04cab20d4019369af9, type: 2}
   Ruins: {fileID: 11400000, guid: 1616302af5ccb704e8e274ab0d4a11ca, type: 2}
+  defaultAttributes:
+    dictPairs:
+    - Key: 9
+      Value: 0
+    - Key: 10
+      Value: 0
   mapSize: 25
   plotGenerationData:
     dictPairs:

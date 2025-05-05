@@ -13,10 +13,17 @@ public class Attributes {
     /// <param name="attribute_to_get">The attribute to get.</param>
     /// <returns>The value of the attribute.</returns>
     public float GetAttribute(GameManager.Attributes attribute_to_get) {
-        float attribute = baseAttributes.GetDict()[attribute_to_get];
+        float attribute;
+        if (HasAttribute(attribute_to_get)) {
+            attribute = baseAttributes.GetDict()[attribute_to_get];
+        } else {
+            attribute = GameManager.instance.defaultAttributes.GetDict()[attribute_to_get];
+        }
+
         foreach (Mod mod in mods) {
             if (mod.attributeToAffect == attribute_to_get) attribute *= mod.amount;
         }
+
         return attribute;
     }
 
@@ -26,11 +33,7 @@ public class Attributes {
     /// <param name="attribute_to_get">The attribute to get.</param>
     /// <returns>The value of the attribute.</returns>
     public int GetAttributeAsInt(GameManager.Attributes attribute_to_get) {
-        float attribute = baseAttributes.GetDict()[attribute_to_get];
-        foreach (Mod mod in mods) {
-            if (mod.attributeToAffect == attribute_to_get) attribute *= mod.amount;
-        }
-        return Mathf.FloorToInt(attribute);
+        return Mathf.FloorToInt(GetAttribute(attribute_to_get));
     }
 
     /// <summary>
