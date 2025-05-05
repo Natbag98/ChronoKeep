@@ -36,6 +36,8 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     protected bool blocked = false;
     protected PlaceableObject blockedObject;
     protected float reloadTimer;
+    private Plot fromPlot;
+    private List<Mod> modsFromPlot = new();
 
     protected virtual void GetTarget() {}
     protected virtual void Attack() {}
@@ -288,6 +290,16 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
 
         if (GetCurrentPlot().visibleToPlayer) {
             GameManager.instance.Game.characterUnlockTracker.UpdateDiscovered(characterSO);
+        }
+
+        if (fromPlot != GetCurrentPlot()) {
+            fromPlot = GetCurrentPlot();
+            foreach (Mod mod in modsFromPlot) attributes.RemoveMod(mod);
+            modsFromPlot.Clear();
+            foreach (Mod mod in GetCurrentPlot().modsToApply) {
+                attributes.AddMod(mod, GetComponent<Tag>(), false);
+                modsFromPlot.Add(mod);
+            }
         }
     }
 
