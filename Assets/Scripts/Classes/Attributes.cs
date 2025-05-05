@@ -41,11 +41,10 @@ public class Attributes {
     /// <param name="allow_duplicate">Whether multiple instances of the same mod can be added.</param>
     /// <returns>Whether the mod was added to the attributes or not.</returns>
     public bool AddMod(Mod mod, Tag object_tags, bool allow_duplicate) {
-        if (!allow_duplicate && mods.Contains(mod)) return false;
-        foreach (Tag.Tags tag in mod.targetTags) {
-            if (object_tags == null) return false;
-            if (!object_tags.HasTag(tag)) return false;
-        }
+        if (
+            !allow_duplicate && mods.Contains(mod) ||
+            !mod.CheckTags(object_tags)
+        ) return false;
         mods.Add(mod);
         return true;
     }

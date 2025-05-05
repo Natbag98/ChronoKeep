@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Lake
   description: Nothing can be placed on this tile.
-  prefab: {fileID: 4344120411089467013, guid: e44cfe94d4ffa7d44a423f09280be94b, type: 3}
+  prefab: {fileID: 640411937715291779, guid: 5bf5144b180c4fe4e89cb5c64b6f30d0, type: 3}
   plotType: 1

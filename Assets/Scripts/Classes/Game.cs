@@ -104,11 +104,14 @@ public class Game {
         for (int i = 0; i < 4; i++) {
             Faction faction = new(this, GameManager.FactionTypes.Kingdom);
             BaseFactions.Add(faction);
-            baseObjectInfo.Add(new BaseObjectInfo{
-                location = castle_locations[i],
-                base_object = GameManager.instance.Castle,
-                faction = faction
-            });
+
+            PlaceObject(
+                GameManager.instance.Castle,
+                faction,
+                baseObjectInfo,
+                castle_locations[i],
+                constraint_max_distance: 2
+            );
 
             PlaceObject(
                 GameManager.instance.BarbCamp,
@@ -141,7 +144,7 @@ public class Game {
     private void PlaceCastle() {
         for (int x = TerrainSize.x / 2; x < TerrainSize.x; x++) {
             for (int y = TerrainSize.y / 2; y < TerrainSize.y; y++) {
-                if (BaseTerrain[y][x].prefab.GetComponent<Plot>().GetCanPlaceObject()) {
+                if (BaseTerrain[y][x].prefab.GetComponent<Plot>().GetCanPlaceObject() && BaseTerrain[y][x].prefab.GetComponent<Plot>().walkable) {
                     baseObjectInfo.Add(new BaseObjectInfo{
                         location = new(x, y),
                         base_object = GameManager.instance.Castle,
@@ -182,7 +185,8 @@ public class Game {
         int y = Mathf.Clamp(GenerateNumberAroundCenter(constraint_location.y, constraint_min_distance, constraint_max_distance), 0, TerrainSize.y - 1);
 
         if (
-            !(from base_object_info in list_to_place select base_object_info.location).Contains(new Vector2Int(x, y))
+            !(from base_object_info in list_to_place select base_object_info.location).Contains(new Vector2Int(x, y)) &&
+            BaseTerrain[x][y].prefab.GetComponent<Plot>().GetCanPlaceObject(object_to_place)
         ) {
             list_to_place.Add(new BaseObjectInfo{
                 location = new(x, y),

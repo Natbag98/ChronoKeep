@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 283c5a900a5fc504084b11dbcc9d7802, type: 3}
-  m_Name: Plains
+  m_Name: Mountains
   m_EditorClassIdentifier: 
-  displayName: Plains
-  description: 
-  prefab: {fileID: 640411937715291779, guid: 4b7bf1d00e6d615468aa70e30180541a, type: 3}
-  plotType: 0
+  displayName: Mountains
+  description: Towers placed here will have increased range
+  prefab: {fileID: 640411937715291779, guid: 99e28ffe32d8a5840b9b01711f369557, type: 3}
+  plotType: 3

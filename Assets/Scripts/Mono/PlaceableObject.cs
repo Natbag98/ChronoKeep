@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarget, IModable {
@@ -20,8 +21,13 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     [HideInInspector] public bool loaded = false;
     private float loadedTimer = 2;
 
-    public int GetRange() {
-        return attributes.GetAttributeAsInt(GameManager.Attributes.Range);
+    public int GetRange(Plot hoverPlot) {
+        if (!attributes.HasAttribute(GameManager.Attributes.Range)) return 0;
+        float range = attributes.GetAttributeAsInt(GameManager.Attributes.Range);
+        foreach (Mod mod in hoverPlot.modsToApply) {
+            if (mod.attributeToAffect == GameManager.Attributes.Range && mod.CheckTags(GetComponent<Tag>())) range *= mod.amount;
+        }
+        return (int)Math.Floor(range);
     }
 
     public Vector3 GetTargetPoint() { return centerPoint.position; }
@@ -55,10 +61,15 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
         if (!parentPlot.visibleToPlayer) SetVisible(false);
         if (!loaded) health = attributes.GetAttribute(GameManager.Attributes.Health);
         WaveManager.instance.waveEnd += WaveEnd;
+
         if (parentPlot.faction == GameManager.instance.Game.PlayerFaction && attributes.HasAttribute(GameManager.Attributes.Range)) {
             foreach (Plot plot in parentPlot.GetNeighbours(attributes.GetAttributeAsInt(GameManager.Attributes.Range))) {
                 plot.SetVisibleToPlayer(true);
             }
+        }
+
+        foreach (Mod mod in parentPlot.modsToApply) {
+            attributes.AddMod(mod, GetComponent<Tag>(), false);
         }
     }
 

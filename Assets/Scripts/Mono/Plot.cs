@@ -8,7 +8,11 @@ public class Plot : MonoBehaviour {
     public static int neighbourDown = 2;
     public static int neighbourLeft = 3;
 
+    [Header("Attributes")]
     [SerializeField] private bool canPlaceObject;
+    public bool walkable;
+    public Mod[] modsToApply;
+    [SerializeField] private float placementHeight;
 
     [HideInInspector] public SOPlot plotSO;
     [HideInInspector] public GameManager.PlaceableObjectTypes? placedObjectType = null;
@@ -21,7 +25,14 @@ public class Plot : MonoBehaviour {
     private bool mouseOver;
     public bool visibleToPlayer { get; private set; } = false;
 
-    public bool GetCanPlaceObject() { return canPlaceObject; }
+    public bool GetCanPlaceObject(SOPlaceableObject p_object=null) {
+        if (p_object != null) {
+            if (p_object.objectType == GameManager.PlaceableObjectTypes.Spawner || p_object.objectType == GameManager.PlaceableObjectTypes.Castle) {
+                if (!walkable) return false;
+            }
+        }
+        return canPlaceObject;
+    }
 
     public void SetVisibleToPlayer(bool set) {
         visibleToPlayer = set;
@@ -93,7 +104,7 @@ public class Plot : MonoBehaviour {
         if (placedObjectType != null) {
             return false;
         } else {
-            return canPlaceObject;
+            return walkable;
         }
     }
 
@@ -108,7 +119,7 @@ public class Plot : MonoBehaviour {
         MainSceneUIManager.instance.ObjectPlaced();
         PlaceableObject new_object = Instantiate(
             object_to_place.placeableObjectPrefab,
-            transform.position,
+            new Vector3(transform.position.x, transform.position.y + placementHeight, transform.position.z),
             Quaternion.identity,
             transform
         ).GetComponent<PlaceableObject>();
@@ -150,6 +161,7 @@ public class Plot : MonoBehaviour {
     /// Checks whether the an object can be placed on the plot.
     /// </summary>
     private bool ValidTowerPlacement(SOPlaceableObject object_to_place) {
+        if (object_to_place.objectType == GameManager.PlaceableObjectTypes.Spawner && !walkable) return false;
         foreach (GameManager.PlotTypes plot_type in object_to_place.mustPlaceBeside) {
             if (!(from plot in GetNeighbours() select plot.plotType).Contains(plot_type)) return false;
         }
@@ -208,7 +220,7 @@ public class Plot : MonoBehaviour {
     private void SetRangeFinding(bool set) {
         foreach (
             Plot plot in GetNeighbours(
-                MainSceneUIManager.instance.GetObjectToPlace().placeableObjectPrefab.GetComponent<PlaceableObject>().GetRange(), include_self: false
+                MainSceneUIManager.instance.GetObjectToPlace().placeableObjectPrefab.GetComponent<PlaceableObject>().GetRange(this), include_self: false
             )
         ) {
             plot.rangeFinding = set;
