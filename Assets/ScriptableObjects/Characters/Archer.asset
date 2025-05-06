@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Archer
   m_EditorClassIdentifier: 
   prefab: {fileID: 6995875889840719490, guid: 70ca8b17ce1441d46b257bc4ffce708d, type: 3}
-  powerRequired: 0
+  powerRequired: 2
   displayName: Archer
   description: Fires arrows.

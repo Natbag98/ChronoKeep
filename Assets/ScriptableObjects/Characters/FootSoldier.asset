@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: FootSoldier
   m_EditorClassIdentifier: 
   prefab: {fileID: 6995875889840719490, guid: d141ad79b8bb16e458ead6d39dbbae46, type: 3}
-  powerRequired: 0
+  powerRequired: 1
   displayName: Soldier
   description: A basic foot soldier capable of melee attacks.

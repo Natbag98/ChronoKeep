@@ -114,6 +114,13 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
                     potential_movement_targets.Add(Vector3.Distance(transform.position, plot.transform.position), plot);
                 }
             }
+
+            if (potential_movement_targets.Count == 0) {
+                // Later in development enemies should either not spawn from a spawner with no valid path or the enemy should attempt to attack a different faction
+                Debug.Log("No path found");
+                Destroy(gameObject);
+            }
+
             movementTarget = potential_movement_targets[potential_movement_targets.Keys.ToArray().Min()];
         }
     }
@@ -127,12 +134,6 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
         path = new();
         pathIndex = 0;
         List<Plot> new_path = Utils.GetPath(GetCurrentPlot().GetPositionInPlotArray(), movementTarget.GetPositionInPlotArray());
-
-        if (new_path == null) {
-            // Later in development enemies should either not spawn from a spawner with no valid path or the enemy should attempt to attack a different faction
-            Debug.Log("No path found");
-            Destroy(gameObject);
-        }
 
         foreach (Plot plot in new_path) {
             path.Add(plot.transform);

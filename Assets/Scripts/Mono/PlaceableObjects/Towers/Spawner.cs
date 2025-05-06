@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Spawner : Tower {
@@ -15,10 +17,9 @@ public class Spawner : Tower {
         partOfHostileWave = true;
     }
 
-    public void SpawnCharacter() {
-        SOCharacter characterSO = Utils.Choice(potentialCharactersToSpawn);
+    public void SpawnCharacter(SOCharacter character_to_spawn) {
         Character character = Instantiate(
-            characterSO.prefab,
+            character_to_spawn.prefab,
             transform.position,
             Quaternion.identity,
             RunManager.instance.characterContainer
@@ -29,20 +30,43 @@ public class Spawner : Tower {
 
         character.SetStartPos(transform.position);
         character.faction = parentPlot.faction;
-        character.characterSO = characterSO;
+        character.characterSO = character_to_spawn;
     }
 
     protected new bool Attack() {
+        Dictionary<int, SOCharacter> character_costs = new();
+        foreach (SOCharacter character in potentialCharactersToSpawn) {
+            character_costs.Add(character.powerRequired, character);
+        }
+
         if (parentPlot.faction == GameManager.instance.Game.PlayerFaction) {
-            if (GameManager.instance.Game.SpendResources(GameManager.Resources.ManPower, 1)) {
-                SpawnCharacter();
+            SOCharacter character = Utils.Choice(
+                (
+                    from cost
+                    in character_costs.Keys
+                    where cost  <= GameManager.instance.Game.GetResources()[GameManager.Resources.ManPower]
+                    select character_costs[cost]
+                ).ToList()
+            );
+
+            if (GameManager.instance.Game.SpendResources(GameManager.Resources.ManPower, character_costs.FirstOrDefault(x => x.Value == character).Key)) {
+                SpawnCharacter(character);
                 return true;
             }
             return false;
         } else if (partOfHostileWave) {
             if (powerRemaining > 0) {
-                SpawnCharacter();
-                powerRemaining--;
+                SOCharacter character = Utils.Choice(
+                    (
+                        from cost
+                        in character_costs.Keys
+                        where cost  <= powerRemaining
+                        select character_costs[cost]
+                    ).ToList()
+                );
+
+                SpawnCharacter(character);
+                powerRemaining -= character_costs.FirstOrDefault(x => x.Value == character).Key;
                 return true;
             } else if (spawning) {
                 spawning = false;
@@ -52,6 +76,7 @@ public class Spawner : Tower {
                 return false;
             }
         }
+
         return false;
     }
 
