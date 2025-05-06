@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Plains
   description: 
-  prefab: {fileID: 640411937715291779, guid: 4b7bf1d00e6d615468aa70e30180541a, type: 3}
+  prefab: {fileID: 640411937715291779, guid: cc88ee249217db6478b6fc8d07b5c9f7, type: 3}
   plotType: 0

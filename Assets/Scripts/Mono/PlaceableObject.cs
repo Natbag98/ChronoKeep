@@ -31,9 +31,9 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     }
 
     public Vector3 GetTargetPoint() { return centerPoint.position; }
-    public void Damage(GameManager.MagicTypes attackType, float amount) {
-        if (Utils.CalculateDamage(attackType, amount, attributes) > 0) {
-            health -= Utils.CalculateDamage(attackType, amount, attributes);
+    public void Damage(GameManager.MagicTypes attackType, float amount, Attributes attacker_attributes) {
+        if (Utils.CalculateDamage(attackType, amount, attributes, attacker_attributes.GetAttribute(GameManager.Attributes.DamageReductionTower)) > 0) {
+            health -= Utils.CalculateDamage(attackType, amount, attributes, attacker_attributes.GetAttribute(GameManager.Attributes.DamageReductionTower));
         }
     }
 

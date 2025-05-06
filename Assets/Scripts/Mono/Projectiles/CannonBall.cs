@@ -20,7 +20,7 @@ public class CannonBall : Projectile {
     public override void Setup() {
         base.Setup();
         startPosition = transform.position;
-        stepScale = moveSpeed / Vector3.Distance(startPosition, targetPoint);
+        stepScale = attributes.GetAttribute(GameManager.Attributes.ProjectileMoveSpeed) / Vector3.Distance(startPosition, targetPoint);
         arcHeight = arcHeightMultiplier * Vector3.Distance(startPosition, targetPoint);
     }
 
@@ -36,7 +36,7 @@ public class CannonBall : Projectile {
 
     private void Explode() {
         Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
-        foreach (Collider hit in hits) hit.GetComponent<IRangedTarget>()?.Damage(magicType, damage);
+        foreach (Collider hit in hits) hit.GetComponent<IRangedTarget>()?.Damage(magicType, attributes.GetAttribute(GameManager.Attributes.Attack), attributes);
         Destroy(gameObject);
     }
 }

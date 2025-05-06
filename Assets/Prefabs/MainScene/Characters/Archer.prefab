@@ -290,9 +290,9 @@ MonoBehaviour:
     baseAttributes:
       dictPairs:
       - Key: 0
-        Value: 100
+        Value: 150
       - Key: 1
-        Value: 50
+        Value: 20
       - Key: 4
         Value: 3
       - Key: 5
@@ -304,11 +304,14 @@ MonoBehaviour:
       - Key: 2
         Value: 3
       - Key: 8
-        Value: 50
+        Value: 0
+      - Key: 9
+        Value: 90
   centerPoint: {fileID: 3637380205398060539}
   rotatePoint: {fileID: 7299065947056116757}
   healthBar: {fileID: 1703850382093475599}
   reloadBar: {fileID: 8243550522870341676}
+  characterSO: {fileID: 0}
   projectileToShoot: {fileID: 5921809335144549751, guid: 95dec3eebb46d5f49b1df02118c32718, type: 3}
   shootPoint: {fileID: 3637380205398060539}
 --- !u!1 &8259088755951453488

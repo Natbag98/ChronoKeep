@@ -301,25 +301,22 @@ MonoBehaviour:
     baseAttributes:
       dictPairs:
       - Key: 0
-        Value: 100
+        Value: 150
       - Key: 1
         Value: 50
-      - Key: 4
-        Value: 3
       - Key: 5
         Value: 0.65
-      - Key: 6
-        Value: 25
       - Key: 3
-        Value: 100
+        Value: 120
       - Key: 2
         Value: 3
       - Key: 8
-        Value: 25
+        Value: 0
   centerPoint: {fileID: 3637380205398060539}
   rotatePoint: {fileID: 7299065947056116757}
   healthBar: {fileID: 8995590570285438606}
   reloadBar: {fileID: 1810977505597509790}
+  characterSO: {fileID: 0}
 --- !u!1 &7280392322809693301
 GameObject:
   m_ObjectHideFlags: 0

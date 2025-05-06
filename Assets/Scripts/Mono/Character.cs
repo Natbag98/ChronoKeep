@@ -48,9 +48,9 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     }
 
     public Vector3 GetTargetPoint() { return centerPoint.position; }
-    public void Damage(GameManager.MagicTypes attackType, float amount) {
-        if (Utils.CalculateDamage(attackType, amount, attributes) > 0) {
-            health -= Utils.CalculateDamage(attackType, amount, attributes);
+    public void Damage(GameManager.MagicTypes attackType, float amount, Attributes attacker_attributes) {
+        if (Utils.CalculateDamage(attackType, amount, attributes, attacker_attributes.GetAttribute(GameManager.Attributes.DamageReductionCharacter)) > 0) {
+            health -= Utils.CalculateDamage(attackType, amount, attributes, attacker_attributes.GetAttribute(GameManager.Attributes.DamageReductionCharacter));
         }
     }
 
