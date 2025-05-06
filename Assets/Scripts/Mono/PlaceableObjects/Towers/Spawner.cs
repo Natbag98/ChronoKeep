@@ -34,22 +34,22 @@ public class Spawner : Tower {
     }
 
     protected new bool Attack() {
-        Dictionary<int, SOCharacter> character_costs = new();
+        Dictionary<SOCharacter, int> character_costs = new();
         foreach (SOCharacter character in potentialCharactersToSpawn) {
-            character_costs.Add(character.powerRequired, character);
+            character_costs.Add(character, character.powerRequired);
         }
 
         if (parentPlot.faction == GameManager.instance.Game.PlayerFaction) {
             SOCharacter character = Utils.Choice(
                 (
                     from cost
-                    in character_costs.Keys
-                    where cost  <= GameManager.instance.Game.GetResources()[GameManager.Resources.ManPower]
-                    select character_costs[cost]
+                    in character_costs
+                    where cost.Value  <= GameManager.instance.Game.GetResources()[GameManager.Resources.ManPower]
+                    select cost.Key
                 ).ToList()
             );
 
-            if (GameManager.instance.Game.SpendResources(GameManager.Resources.ManPower, character_costs.FirstOrDefault(x => x.Value == character).Key)) {
+            if (GameManager.instance.Game.SpendResources(GameManager.Resources.ManPower, character_costs[character])) {
                 SpawnCharacter(character);
                 return true;
             }
@@ -59,14 +59,14 @@ public class Spawner : Tower {
                 SOCharacter character = Utils.Choice(
                     (
                         from cost
-                        in character_costs.Keys
-                        where cost  <= powerRemaining
-                        select character_costs[cost]
+                        in character_costs
+                        where cost.Value  <= powerRemaining
+                        select cost.Key
                     ).ToList()
                 );
 
                 SpawnCharacter(character);
-                powerRemaining -= character_costs.FirstOrDefault(x => x.Value == character).Key;
+                powerRemaining -= character_costs[character];
                 return true;
             } else if (spawning) {
                 spawning = false;

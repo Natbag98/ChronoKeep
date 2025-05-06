@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6764c99b8b6f16a4c82abc88e4594b97, type: 3}
-  m_Name: FootSoldier
+  m_Name: Scout
   m_EditorClassIdentifier: 
-  prefab: {fileID: 6995875889840719490, guid: d141ad79b8bb16e458ead6d39dbbae46, type: 3}
-  powerRequired: 2
-  displayName: Soldier
-  description: A basic foot soldier capable of melee attacks.
+  prefab: {fileID: 6995875889840719490, guid: 1ac909d3fb0532e45ba4d716eec3afe1, type: 3}
+  powerRequired: 1
+  displayName: Scout
+  description: A very fast moving but weak unit.
