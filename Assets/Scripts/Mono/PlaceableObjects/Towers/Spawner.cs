@@ -39,7 +39,7 @@ public class Spawner : Tower {
             character_costs.Add(character, character.powerRequired);
         }
 
-        if (parentPlot.faction == GameManager.instance.Game.PlayerFaction) {
+        if (parentPlot.faction == GameManager.instance.Game.PlayerFaction && GameManager.instance.Game.GetResources()[GameManager.Resources.ManPower] > 0) {
             SOCharacter character = Utils.Choice(
                 (
                     from cost
@@ -54,6 +54,7 @@ public class Spawner : Tower {
                 return true;
             }
             return false;
+
         } else if (partOfHostileWave) {
             if (powerRemaining > 0) {
                 SOCharacter character = Utils.Choice(
@@ -68,6 +69,7 @@ public class Spawner : Tower {
                 SpawnCharacter(character);
                 powerRemaining -= character_costs[character];
                 return true;
+
             } else if (spawning) {
                 spawning = false;
                 partOfHostileWave = false;
