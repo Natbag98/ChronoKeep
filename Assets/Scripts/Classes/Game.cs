@@ -62,6 +62,15 @@ public class Game {
     public bool CanSpendResources(GameManager.Resources resource, int amount) {
         return amount <= resources[resource];
     }
+    public bool CanSpendResources(Dictionary<GameManager.Resources, int> resources) {
+        foreach (GameManager.Resources resource in resources.Keys) {
+            if (!CanSpendResources(resource, resources[resource])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     public bool SpendResources(GameManager.Resources resource, int amount) {
         if (CanSpendResources(resource, amount)) {
@@ -79,12 +88,7 @@ public class Game {
     }
 
     public bool SpendResources(Dictionary<GameManager.Resources, int> resource_dict) {
-        foreach (GameManager.Resources resource in resource_dict.Keys) {
-            if (!CanSpendResources(resource, resource_dict[resource])) {
-                return false;
-            }
-        }
-
+        if (!CanSpendResources(resource_dict)) return false;
         foreach (GameManager.Resources resource in resource_dict.Keys) SpendResources(resource, resource_dict[resource]);
         return true;
     }

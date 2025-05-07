@@ -260,7 +260,13 @@ public class Plot : MonoBehaviour {
                     MainSceneUIManager.instance.objectInfoDescription.text = placedFeatureSO.description;
                 } else {
                     MainSceneUIManager.instance.objectInfoName.text = placedObjectSO.displayName;
-                    MainSceneUIManager.instance.objectInfoDescription.text = placedObjectSO.description;
+                    foreach (SOUpgrade upgrade in Utils.GetAllAssets<SOUpgrade>()){
+                        if (upgrade.IsAvailable(placedObjectSO) && faction == GameManager.instance.Game.PlayerFaction) {
+                            MainSceneUIManager.instance.objectInfoDescription.text = $"{placedObjectSO.description}\n\nClick for Upgrades";
+                        } else {
+                            MainSceneUIManager.instance.objectInfoDescription.text = placedObjectSO.description;
+                        }
+                    }
                 }
             }
         }
