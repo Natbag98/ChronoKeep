@@ -47,8 +47,28 @@ public class RangedCharacter : Character {
         reloadTimer = 0;
     }
 
+    private IEnumerator RangedMeleeAttack() {
+        attacking = true;
+        canAttack = false;
+        yield return new WaitForSeconds(attackDelayTime);
+        if (!attacking) yield break;
+        target.GetComponent<IMeleeTarget>().Damage(
+            magicType,
+            attributes.GetAttribute(GameManager.Attributes.Attack) * (1 - attributes.GetAttribute(GameManager.Attributes.RangedMeleeAttackReduction) / 100), 
+            attributes
+        );
+        attacking = false;
+
+        StartCoroutine(Reload());
+        reloadTimer = 0;
+    }
+
     protected override void Attack() {
-        if (!blocked) { StartCoroutine(RangedAttack()); }
+        if (!blocked) {
+            StartCoroutine(RangedAttack());
+        } else {
+            StartCoroutine(RangedMeleeAttack());
+        }
     }
 
     protected override void Update() {

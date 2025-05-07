@@ -61,6 +61,8 @@ MonoBehaviour:
       Value: 0
     - Key: 10
       Value: 0
+    - Key: 11
+      Value: 80
   mapSize: 25
   plotGenerationData:
     dictPairs:

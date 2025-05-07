@@ -20,7 +20,8 @@ public class GameManager : MonoBehaviour, ISaveSystem {
         ExplosionRadius,
         Resistance,
         DamageReductionTower,
-        DamageReductionCharacter
+        DamageReductionCharacter,
+        RangedMeleeAttackReduction
     }
     public enum PlaceableObjectTypes {
         Castle,
