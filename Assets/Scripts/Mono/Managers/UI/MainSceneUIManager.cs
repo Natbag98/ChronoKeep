@@ -28,6 +28,10 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     public TextMeshProUGUI objectInfoName;
     public TextMeshProUGUI objectInfoDescription;
 
+    [Header("References Upgrade Menu")]
+    [SerializeField] private GameObject upgradePanel;
+    [SerializeField] private Transform upgradesHolder;
+
     private SOPlaceableObject placingObject;
     [HideInInspector] public bool mouseBlocked = false;
 
@@ -77,6 +81,10 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     public void PlaceInventoryItem(SOPlaceableObject placeable_object) {
         InventoryItem item = Instantiate(inventoryItemPrefab, inventoryPanel).GetComponent<InventoryItem>();
         item.placeableObject = placeable_object;
+    }
+
+    public void InitializeUpgradesMenu(SOPlaceableObject placeable_object) {
+        // TODO : Display upgrades, descriptions, and make them unlockable
     }
 
     private void Start() {

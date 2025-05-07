@@ -210,6 +210,11 @@ public class Plot : MonoBehaviour {
             ValidTowerPlacement(MainSceneUIManager.instance.GetObjectToPlace())
         ) {
             PlaceObject(MainSceneUIManager.instance.GetObjectToPlace(), GameManager.instance.Game.PlayerFaction, true);
+        } else if (faction == GameManager.instance.Game.PlayerFaction && placedObjectSO != null) {
+            foreach (SOUpgrade upgrade in Utils.GetAllAssets<SOUpgrade>()) {
+                if (upgrade.IsAvailable(placedObjectSO)) MainSceneUIManager.instance.InitializeUpgradesMenu(placedObjectSO);
+                return;
+            }
         }
     }
 
@@ -263,6 +268,7 @@ public class Plot : MonoBehaviour {
                     foreach (SOUpgrade upgrade in Utils.GetAllAssets<SOUpgrade>()){
                         if (upgrade.IsAvailable(placedObjectSO) && faction == GameManager.instance.Game.PlayerFaction) {
                             MainSceneUIManager.instance.objectInfoDescription.text = $"{placedObjectSO.description}\n\nClick for Upgrades";
+                            break;
                         } else {
                             MainSceneUIManager.instance.objectInfoDescription.text = placedObjectSO.description;
                         }
