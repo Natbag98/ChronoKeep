@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 283c5a900a5fc504084b11dbcc9d7802, type: 3}
-  m_Name: Plains
+  m_Script: {fileID: 11500000, guid: 6764c99b8b6f16a4c82abc88e4594b97, type: 3}
+  m_Name: Scout
   m_EditorClassIdentifier: 
-  displayName: Plains
-  description: 
-  prefab: {fileID: 640411937715291779, guid: cc88ee249217db6478b6fc8d07b5c9f7, type: 3}
-  plotType: 0
+  prefab: {fileID: 6995875889840719490, guid: 1ac909d3fb0532e45ba4d716eec3afe1, type: 3}
+  powerRequired: 1
+  displayName: Scout
+  description: A very fast moving but weak unit.

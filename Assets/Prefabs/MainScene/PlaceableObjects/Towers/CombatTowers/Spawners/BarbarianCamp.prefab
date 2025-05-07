@@ -215,11 +215,15 @@ MonoBehaviour:
   objectType: 0
   parentPlot: {fileID: 0}
   health: 0
+  loaded: 0
+  shootSound: {fileID: 0}
   reloadBar: {fileID: 850689369131243897}
   potentialCharactersToSpawn:
   - {fileID: 11400000, guid: 0d8835a8144b9ae4ebd680fae17343e2, type: 2}
   - {fileID: 11400000, guid: aae26af5810999345bbb394d8aba2b2c, type: 2}
   - {fileID: 11400000, guid: c293a2631ee69bc4dad0c73258986891, type: 2}
+  - {fileID: 11400000, guid: f8b3848aaf5b2a84784bca7ca9106e04, type: 2}
+  - {fileID: 11400000, guid: 5237e207544601d4299e260b30bb7b54, type: 2}
 --- !u!65 &8876198742693058485
 BoxCollider:
   m_ObjectHideFlags: 0

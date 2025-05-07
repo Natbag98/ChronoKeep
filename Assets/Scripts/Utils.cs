@@ -216,10 +216,17 @@ public class Utils : MonoBehaviour {
         }
     }
 
-    public static float CalculateDamage(GameManager.MagicTypes attackType, float amount, Attributes attributes) {
+    public static float CalculateDamage(
+        GameManager.MagicTypes attackType,
+        float amount,
+        Attributes hit_attributes,
+        float attack_reduction
+    ) {
+        amount *= Math.Clamp(1 - (attack_reduction / 100), 0, 1);
+
         return attackType switch {
-            GameManager.MagicTypes.Physical => amount - attributes.GetAttribute(GameManager.Attributes.Defense),
-            GameManager.MagicTypes.Magic => amount * (1 - (attributes.GetAttribute(GameManager.Attributes.Resistance) / 100)),
+            GameManager.MagicTypes.Physical => Math.Max(5, amount - hit_attributes.GetAttribute(GameManager.Attributes.Defense)),
+            GameManager.MagicTypes.Magic => amount * (1 - (hit_attributes.GetAttribute(GameManager.Attributes.Resistance) / 100)),
             _ => throw new Exception($"Non-existent attackType: {attackType}"),
         };
     }

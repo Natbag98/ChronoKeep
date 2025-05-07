@@ -18,7 +18,10 @@ public class GameManager : MonoBehaviour, ISaveSystem {
         CharacterMoveSpeed,
         ProjectileMoveSpeed,
         ExplosionRadius,
-        Resistance
+        Resistance,
+        DamageReductionTower,
+        DamageReductionCharacter,
+        RangedMeleeAttackReduction
     }
     public enum PlaceableObjectTypes {
         Castle,
@@ -61,10 +64,10 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     public SOPlaceableObject Castle;
     public SOPlaceableObject BarbCamp;
     public SOPlaceableObject ArcherTower;
-
     public SOPlot Plains;
-
     public SOFeature Ruins;
+
+    public Utils.SerializeableDict<Attributes, int> defaultAttributes;
 
     [Header("Plot Generation Data")]
     [SerializeField] private int mapSize;
