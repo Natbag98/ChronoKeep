@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Plot : MonoBehaviour {
@@ -210,7 +211,7 @@ public class Plot : MonoBehaviour {
             ValidTowerPlacement(MainSceneUIManager.instance.GetObjectToPlace())
         ) {
             PlaceObject(MainSceneUIManager.instance.GetObjectToPlace(), GameManager.instance.Game.PlayerFaction, true);
-        } else if (faction == GameManager.instance.Game.PlayerFaction && placedObjectSO != null) {
+        } else if (faction == GameManager.instance.Game.PlayerFaction && placedObjectSO != null && ! MainSceneUIManager.instance.mouseBlocked) {
             foreach (SOUpgrade upgrade in Utils.GetAllAssets<SOUpgrade>()) {
                 if (upgrade.IsAvailable(placedObjectSO)) MainSceneUIManager.instance.InitializeUpgradesMenu(placedObjectSO);
                 return;
