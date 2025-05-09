@@ -19,6 +19,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     [HideInInspector] public float health;
 
     [HideInInspector] public bool loaded = false;
+    [HideInInspector] public List<SOUpgrade> upgrades;
     private float loadedTimer = 2;
 
     public int GetRange(Plot hoverPlot) {

@@ -12,8 +12,11 @@ public class SOUpgrade : ScriptableObject {
     [SerializeField] private SOPlaceableObject[] availableFor;
     public Utils.SerializeableDict<GameManager.Resources, int> cost;
 
-    public bool IsAvailable(SOPlaceableObject placeable_object) {
-        if (!GameManager.instance.Game.CanSpendResources(cost.GetDict())) return false;
-        return availableForAll || availableFor.Contains(placeable_object);
+    public bool IsAvailable(PlaceableObject placeable_object) {
+        if (
+            !GameManager.instance.Game.CanSpendResources(cost.GetDict()) ||
+            placeable_object.upgrades.Contains(this)
+        ) return false;
+        return availableForAll || availableFor.Contains(placeable_object.placeableObjectSO);
     }   
 }

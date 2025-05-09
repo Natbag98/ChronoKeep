@@ -8,6 +8,12 @@ public class Upgrade : MonoBehaviour {
 
     [HideInInspector] public SOUpgrade upgrade;
 
+    public void _Button_UpgradeButtonClicked() {
+        MainSceneUIManager.instance.upgradePlot.GetComponentInChildren<PlaceableObject>().upgrades.Add(upgrade);
+        MainSceneUIManager.instance.resetUpgrades -= ResetUpgrades;
+        Destroy(gameObject);
+    }
+
     void Start() {
         MainSceneUIManager.instance.resetUpgrades += ResetUpgrades;
         buttonText.text = upgrade.displayName;

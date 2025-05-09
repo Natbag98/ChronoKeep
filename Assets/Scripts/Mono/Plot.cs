@@ -213,7 +213,7 @@ public class Plot : MonoBehaviour {
             PlaceObject(MainSceneUIManager.instance.GetObjectToPlace(), GameManager.instance.Game.PlayerFaction, true);
         } else if (faction == GameManager.instance.Game.PlayerFaction && placedObjectSO != null && ! MainSceneUIManager.instance.mouseBlocked) {
             foreach (SOUpgrade upgrade in Utils.GetAllAssets<SOUpgrade>()) {
-                if (upgrade.IsAvailable(placedObjectSO)) MainSceneUIManager.instance.InitializeUpgradesMenu(placedObjectSO);
+                if (upgrade.IsAvailable(GetComponentInChildren<PlaceableObject>())) MainSceneUIManager.instance.InitializeUpgradesMenu(this);
                 return;
             }
         }
@@ -267,7 +267,7 @@ public class Plot : MonoBehaviour {
                 } else {
                     MainSceneUIManager.instance.objectInfoName.text = placedObjectSO.displayName;
                     foreach (SOUpgrade upgrade in Utils.GetAllAssets<SOUpgrade>()){
-                        if (upgrade.IsAvailable(placedObjectSO) && faction == GameManager.instance.Game.PlayerFaction) {
+                        if (upgrade.IsAvailable(GetComponentInChildren<PlaceableObject>()) && faction == GameManager.instance.Game.PlayerFaction) {
                             MainSceneUIManager.instance.objectInfoDescription.text = $"{placedObjectSO.description}\n\nClick for Upgrades";
                             break;
                         } else {

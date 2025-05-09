@@ -37,6 +37,7 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
 
     private SOPlaceableObject placingObject;
     [HideInInspector] public bool mouseBlocked = false;
+    [HideInInspector] public Plot upgradePlot;
 
     public event EventHandler resetUpgrades;
 
@@ -89,13 +90,13 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
         item.placeableObject = placeable_object;
     }
 
-    public void InitializeUpgradesMenu(SOPlaceableObject placeable_object) {
+    public void InitializeUpgradesMenu(Plot plot) {
         CameraSystem.instance.cameraBlocked = true;
         mouseBlocked = true;
+        upgradePlot = plot;
         upgradePanel.SetActive(true);
         foreach (SOUpgrade upgrade in Utils.GetAllAssets<SOUpgrade>()) {
-            Debug.Log(upgrade);
-            if (upgrade.IsAvailable(placeable_object)) {
+            if (upgrade.IsAvailable(plot.GetComponentInChildren<PlaceableObject>())) {
                 Upgrade new_upgrade = Instantiate(
                     upgradePrefab,
                     upgradesHolder
@@ -110,7 +111,6 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     }
 
     private void Update() {
-        Debug.Log(mouseBlocked);
         dragger.SetActive(placingObject);
         dragger.transform.position = Input.mousePosition;
 
