@@ -61,6 +61,8 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     public int MinBarbGenerationDistance;
     public int MaxBarbGenerationDistance;
 
+    public Utils.SerializeableDict<Attributes, int> defaultAttributes;
+
     [Header("Static Data : Scriptable Objects")]
     public SOPlaceableObject Castle;
     public SOPlaceableObject BarbCamp;
@@ -69,7 +71,8 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     public SOFeature Ruins;
     public SOUpgrade WallsUpgrade;
 
-    public Utils.SerializeableDict<Attributes, int> defaultAttributes;
+    [Header("Static Data : References")]
+    public GameObject WallPrefab;
 
     [Header("Plot Generation Data")]
     [SerializeField] private int mapSize;

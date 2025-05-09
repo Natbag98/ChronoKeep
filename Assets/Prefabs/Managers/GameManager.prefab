@@ -50,11 +50,6 @@ MonoBehaviour:
   PlotMouseOverSpeed: 5
   MinBarbGenerationDistance: 2
   MaxBarbGenerationDistance: 5
-  Castle: {fileID: 11400000, guid: facc3f4559aae0043adf012e27c0de95, type: 2}
-  BarbCamp: {fileID: 11400000, guid: e504a0bbd48c9504686b3244871fecbd, type: 2}
-  ArcherTower: {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
-  Plains: {fileID: 11400000, guid: 2a890fe14bba1d04cab20d4019369af9, type: 2}
-  Ruins: {fileID: 11400000, guid: 1616302af5ccb704e8e274ab0d4a11ca, type: 2}
   defaultAttributes:
     dictPairs:
     - Key: 9
@@ -63,6 +58,13 @@ MonoBehaviour:
       Value: 0
     - Key: 11
       Value: 80
+  Castle: {fileID: 11400000, guid: facc3f4559aae0043adf012e27c0de95, type: 2}
+  BarbCamp: {fileID: 11400000, guid: e504a0bbd48c9504686b3244871fecbd, type: 2}
+  ArcherTower: {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
+  Plains: {fileID: 11400000, guid: 2a890fe14bba1d04cab20d4019369af9, type: 2}
+  Ruins: {fileID: 11400000, guid: 1616302af5ccb704e8e274ab0d4a11ca, type: 2}
+  WallsUpgrade: {fileID: 11400000, guid: d2e61e4e41cc624438b1cba624ea512d, type: 2}
+  WallPrefab: {fileID: 640411937715291779, guid: 1f67f3ffbdce83e4d82d3923349d4a62, type: 3}
   mapSize: 25
   plotGenerationData:
     dictPairs:
