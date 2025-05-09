@@ -19,8 +19,19 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     [HideInInspector] public float health;
 
     [HideInInspector] public bool loaded = false;
-    [HideInInspector] public List<SOUpgrade> upgrades;
+    private List<SOUpgrade> upgrades = new();
+    public List<SOUpgrade> GetUpgrades() { return upgrades; }
     private float loadedTimer = 2;
+
+    public void AddUpgrade(SOUpgrade upgrade) {
+        upgrades.Add(upgrade);
+
+        foreach (Mod mod in upgrade.modsToApply) AddMod(mod, false);
+
+        if (upgrade == GameManager.instance.WallsUpgrade) {
+            // TODO : Instantiate walls object
+        }
+    }
 
     public int GetRange(Plot hoverPlot) {
         if (!attributes.HasAttribute(GameManager.Attributes.Range)) return 0;

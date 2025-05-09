@@ -54,18 +54,20 @@ public class GameManager : MonoBehaviour, ISaveSystem {
         Magic
     }
 
-    [Header("Static Data")]
+    [Header("Static Data : Values")]
     public float PlotMouseOverHeight;
     public float PlotMouseOverSpeed;
 
     public int MinBarbGenerationDistance;
     public int MaxBarbGenerationDistance;
 
+    [Header("Static Data : Scriptable Objects")]
     public SOPlaceableObject Castle;
     public SOPlaceableObject BarbCamp;
     public SOPlaceableObject ArcherTower;
     public SOPlot Plains;
     public SOFeature Ruins;
+    public SOUpgrade WallsUpgrade;
 
     public Utils.SerializeableDict<Attributes, int> defaultAttributes;
 

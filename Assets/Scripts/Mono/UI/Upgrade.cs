@@ -9,7 +9,7 @@ public class Upgrade : MonoBehaviour {
     [HideInInspector] public SOUpgrade upgrade;
 
     public void _Button_UpgradeButtonClicked() {
-        MainSceneUIManager.instance.upgradePlot.GetComponentInChildren<PlaceableObject>().upgrades.Add(upgrade);
+        MainSceneUIManager.instance.upgradePlot.GetComponentInChildren<PlaceableObject>().AddUpgrade(upgrade);
         MainSceneUIManager.instance.resetUpgrades -= ResetUpgrades;
         Destroy(gameObject);
     }
