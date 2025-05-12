@@ -897,6 +897,7 @@ MonoBehaviour:
   upgradesHolder: {fileID: 843726744}
   upgradeText: {fileID: 1130043875}
   mouseBlocked: 0
+  upgradePlot: {fileID: 0}
 --- !u!1 &395016116
 GameObject:
   m_ObjectHideFlags: 0
@@ -4710,13 +4711,15 @@ MonoBehaviour:
   positiveEventsDict:
     dictPairs:
     - Key: {fileID: 11400000, guid: f861b974dd717b94596c540766c78102, type: 2}
-      Value: 1
+      Value: 100
+    - Key: {fileID: 11400000, guid: 9cf7eb88acc0b4448b3f7ca9c95bffd8, type: 2}
+      Value: 50
   negativeEventsDict:
     dictPairs:
     - Key: {fileID: 11400000, guid: 48dc2cb2668607446b107809c366ba4b, type: 2}
-      Value: 1
+      Value: 100
     - Key: {fileID: 11400000, guid: 15d4b00e740cee74c870a9af2eb41cce, type: 2}
-      Value: 2
+      Value: 100
   eventChanceIncreasePerWave: 100
   negativeEventChance: 60
   currentEvent: {fileID: 0}
@@ -5106,6 +5109,7 @@ MonoBehaviour:
   minZoom: 20
   scrollSpeed: 400
   cameraTransform: {fileID: 1823688467}
+  cameraBlocked: 0
 --- !u!1 &2103577975
 GameObject:
   m_ObjectHideFlags: 0
