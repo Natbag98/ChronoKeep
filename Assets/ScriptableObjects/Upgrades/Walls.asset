@@ -20,6 +20,7 @@ MonoBehaviour:
     dictPairs:
     - Key: 0
       Value: 1
+  perkRequired: {fileID: 11400000, guid: 533065791605a97478e12cd12a4ca03d, type: 2}
   modsToApply:
   - targetTags: 
     attributeToAffect: 0
