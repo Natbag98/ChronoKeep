@@ -14,6 +14,11 @@ public class RandomWar : SOEvent {
         return $"{from.Name} has declared war on {to.Name}!";
     }
 
+    public override bool IsValid() {
+        foreach (Faction faction in GameManager.instance.Game.BaseFactions) if (faction.atWarWith.Values.Contains(true)) return true;
+        return true;
+    }
+
     public override void Setup() {
         from = Utils.Choice(
             (
