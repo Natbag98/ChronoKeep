@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -28,14 +29,24 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     public TextMeshProUGUI objectInfoName;
     public TextMeshProUGUI objectInfoDescription;
 
+    [Header("References Upgrade Menu")]
+    [SerializeField] private GameObject upgradePrefab;
+    public GameObject upgradePanel;
+    [SerializeField] private Transform upgradesHolder;
+    [SerializeField] private TextMeshProUGUI upgradeText;
+
     private SOPlaceableObject placingObject;
     [HideInInspector] public bool mouseBlocked = false;
+    [HideInInspector] public Plot upgradePlot;
+
+    public event EventHandler resetUpgrades;
 
     public bool IsPlacingObject() { return placingObject; }
     public void ObjectPlaced() { placingObject = null; }
     public SOPlaceableObject GetObjectToPlace() { return placingObject; }
 
     public void _Button_NextWaveButtonClicked() {
+        if (upgradePanel.activeSelf) return;
         if (!WaveManager.instance.waveActive) {
             WaveManager.instance.StartWave(); 
         } else {
@@ -79,6 +90,22 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
         item.placeableObject = placeable_object;
     }
 
+    public void InitializeUpgradesMenu(Plot plot) {
+        CameraSystem.instance.cameraBlocked = true;
+        mouseBlocked = true;
+        upgradePlot = plot;
+        upgradePanel.SetActive(true);
+        foreach (SOUpgrade upgrade in Utils.GetAllAssets<SOUpgrade>()) {
+            if (upgrade.IsAvailable(plot.GetComponentInChildren<PlaceableObject>())) {
+                Upgrade new_upgrade = Instantiate(
+                    upgradePrefab,
+                    upgradesHolder
+                ).GetComponent<Upgrade>();
+                new_upgrade.upgrade = upgrade;
+            }
+        }
+    }
+
     private void Start() {
         instance = this;
     }
@@ -91,6 +118,11 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
             if (placingObject) {
                 PlaceInventoryItem(placingObject);
                 placingObject = null;
+            } else if (upgradePanel.activeSelf) {
+                CameraSystem.instance.cameraBlocked = false;
+                resetUpgrades?.Invoke(this, EventArgs.Empty);
+                upgradePanel.SetActive(false);
+                mouseBlocked = false;
             } else {
                 if (RunManager.instance.paused) {
                     RunManager.instance.Unpause();
@@ -100,10 +132,26 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
             }
         }
 
+        if (upgradePanel.activeSelf) {
+            GameObject hover = Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.UpgradeUI);
+            if (hover != null) {
+                Upgrade upgrade = hover.GetComponent<Upgrade>();
+                string cost_text = "";
+                foreach (var cost in upgrade.upgrade.cost.GetDict()) {
+                    cost_text += $"{cost.Key}: {cost.Value}\n";
+                }
+                string buy_text = "";
+                if (GameManager.instance.Game.CanSpendResources(upgrade.upgrade.cost.GetDict())) buy_text = "Click to Buy";
+                upgradeText.text = $"{upgrade.upgrade.displayName}\n\n{upgrade.upgrade.description}\n\nCost:\n{cost_text}\n{buy_text}";
+            } else {
+                upgradeText.text = "";
+            }
+        }
+
         if (Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.UIBlocksMouse) || RunManager.instance.paused) {
             mouseBlocked = true;
         } else {
-            mouseBlocked = false;
+            if (!upgradePanel.activeSelf) mouseBlocked = false;
         }
 
         SOEvent current_event = EventManager.instance.currentEvent;

@@ -1,6 +1,8 @@
 using UnityEngine;
 
 public class CameraSystem : MonoBehaviour {
+    public static CameraSystem instance;
+
     [SerializeField] private bool useScroll;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotateSpeed;
@@ -10,7 +12,15 @@ public class CameraSystem : MonoBehaviour {
     [SerializeField] private float scrollSpeed;
     [SerializeField] private Transform cameraTransform;
 
+    public bool cameraBlocked = false;
+
+    private void Start() {
+        instance = this;
+    }
+
     private void Update() {
+        if (cameraBlocked) return;
+
         // Move the camera on the x and z axes
         Vector3 inputDir = new(0f, 0f, 0f);
         if (Input.GetKey(KeyCode.W)) inputDir.z += 1f;

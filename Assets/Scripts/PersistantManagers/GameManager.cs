@@ -47,27 +47,33 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     }
     public enum PerkTrees {
         KingdomManagement,
-        Engineering
+        Engineering,
+        Walls
     }
     public enum MagicTypes {
         Physical,
         Magic
     }
 
-    [Header("Static Data")]
+    [Header("Static Data : Values")]
     public float PlotMouseOverHeight;
     public float PlotMouseOverSpeed;
 
     public int MinBarbGenerationDistance;
     public int MaxBarbGenerationDistance;
 
+    public Utils.SerializeableDict<Attributes, int> defaultAttributes;
+
+    [Header("Static Data : Scriptable Objects")]
     public SOPlaceableObject Castle;
     public SOPlaceableObject BarbCamp;
     public SOPlaceableObject ArcherTower;
     public SOPlot Plains;
     public SOFeature Ruins;
+    public SOUpgrade WallsUpgrade;
 
-    public Utils.SerializeableDict<Attributes, int> defaultAttributes;
+    [Header("Static Data : References")]
+    public GameObject WallPrefab;
 
     [Header("Plot Generation Data")]
     [SerializeField] private int mapSize;

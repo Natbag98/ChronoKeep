@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Plot : MonoBehaviour {
@@ -210,6 +211,11 @@ public class Plot : MonoBehaviour {
             ValidTowerPlacement(MainSceneUIManager.instance.GetObjectToPlace())
         ) {
             PlaceObject(MainSceneUIManager.instance.GetObjectToPlace(), GameManager.instance.Game.PlayerFaction, true);
+        } else if (faction == GameManager.instance.Game.PlayerFaction && placedObjectSO != null && ! MainSceneUIManager.instance.mouseBlocked) {
+            foreach (SOUpgrade upgrade in Utils.GetAllAssets<SOUpgrade>()) {
+                if (upgrade.IsAvailable(GetComponentInChildren<PlaceableObject>())) MainSceneUIManager.instance.InitializeUpgradesMenu(this);
+                return;
+            }
         }
     }
 
@@ -260,7 +266,14 @@ public class Plot : MonoBehaviour {
                     MainSceneUIManager.instance.objectInfoDescription.text = placedFeatureSO.description;
                 } else {
                     MainSceneUIManager.instance.objectInfoName.text = placedObjectSO.displayName;
-                    MainSceneUIManager.instance.objectInfoDescription.text = placedObjectSO.description;
+                    foreach (SOUpgrade upgrade in Utils.GetAllAssets<SOUpgrade>()){
+                        if (upgrade.IsAvailable(GetComponentInChildren<PlaceableObject>()) && faction == GameManager.instance.Game.PlayerFaction) {
+                            MainSceneUIManager.instance.objectInfoDescription.text = $"{placedObjectSO.description}\n\nClick for Upgrades";
+                            break;
+                        } else {
+                            MainSceneUIManager.instance.objectInfoDescription.text = placedObjectSO.description;
+                        }
+                    }
                 }
             }
         }

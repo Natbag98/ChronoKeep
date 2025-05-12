@@ -9,7 +9,8 @@ public class Tag : MonoBehaviour {
         TowerViewer,
         PopulationCenter,
         PerkUI,
-        CharacterViewer
+        CharacterViewer,
+        UpgradeUI
     }
 
     public Tags[] tags;
