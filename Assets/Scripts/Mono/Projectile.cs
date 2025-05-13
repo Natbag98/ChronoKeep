@@ -15,7 +15,11 @@ public abstract class Projectile : MonoBehaviour {
 
     protected abstract void Move();
     protected abstract void Collided(Collider coll);
-    protected virtual void Hit(GameObject hit) { hit.GetComponent<IRangedTarget>().Damage(magicType, attributes.GetAttribute(GameManager.Attributes.Attack), attributes); Destroy(gameObject); }
+    protected virtual void Hit(GameObject hit) {
+        Debug.Log(attributes.GetAttribute(GameManager.Attributes.Attack));
+        hit.GetComponent<IRangedTarget>().Damage(magicType, attributes.GetAttribute(GameManager.Attributes.Attack), attributes);
+        Destroy(gameObject);
+    }
     protected virtual void GetTargetPoint() { if (target != null) targetPoint = target.GetComponent<IRangedTarget>().GetTargetPoint(); }
 
     private void CheckCollision() {

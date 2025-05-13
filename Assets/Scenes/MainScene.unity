@@ -4716,7 +4716,7 @@ MonoBehaviour:
       Value: 50
   negativeEventsDict:
     dictPairs:
-    - Key: {fileID: 11400000, guid: 93575c8d56199434dac0a4d3daecadc6, type: 2}
+    - Key: {fileID: 11400000, guid: c6c299c96610fd04b9241f18126c61bc, type: 2}
       Value: 1
   eventChanceIncreasePerWave: 100
   negativeEventChance: 100

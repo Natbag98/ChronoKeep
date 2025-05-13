@@ -290,6 +290,7 @@ MonoBehaviour:
   objectType: 0
   parentPlot: {fileID: 0}
   health: 0
+  loaded: 0
 --- !u!65 &8179762866046384583
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -323,7 +324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18a5389b09fc8864985c1e82169e6d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tags: 04000000
+  tags: 0400000002000000
 --- !u!1 &4550273256088249621
 GameObject:
   m_ObjectHideFlags: 0
