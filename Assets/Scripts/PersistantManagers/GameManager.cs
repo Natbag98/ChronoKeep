@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     public enum Attributes {
         Health,
         Defense,
-        ReloadTime,
+        ReloadSpeed,
         Attack,
         Range,
         CharacterMoveSpeed,

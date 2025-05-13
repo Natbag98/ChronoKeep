@@ -14,10 +14,15 @@ public class ApplyMods : SOEvent {
                 target_tags += $" {tag.ToString().ToLower()}";
             }
 
+            string apply = "";
+            if (mod.applyTo != Mod.ApplyTo.All) {
+                apply = $" {mod.applyTo.ToString().ToLower()} ";
+            }
+
             if (mod.amount >= 1) {
-                description += $"All{target_tags}'s will gain {(mod.amount - 1) * 100}% {mod.attributeToAffect.ToString().ToLower()}\n";
+                description += $"All{apply}{target_tags}'s will gain {(mod.amount - 1) * 100}% {mod.attributeToAffect.ToString().ToLower()}\n";
             } else {
-                description += $"All{target_tags}'s will lose {(1 - mod.amount) * 100}% {mod.attributeToAffect.ToString().ToLower()}\n";
+                description += $"All{apply}{target_tags}'s will lose {(1 - mod.amount) * 100}% {mod.attributeToAffect.ToString().ToLower()}\n";
             }
         }
         return description;
@@ -26,10 +31,11 @@ public class ApplyMods : SOEvent {
     public override void Event() {
         foreach (Mod mod in modsToApply) {
             RunManager.instance.globalMods.Add(
-                new() { // TODO : Add applyTo here
+                new() {
                     targetTags = mod.targetTags,
                     attributeToAffect = mod.attributeToAffect,
-                    amount = mod.amount
+                    amount = mod.amount,
+                    applyTo = mod.applyTo
                 }
             );
         }

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 03ae0672617b2c146a1a1e9f85820bad, type: 3}
-  m_Name: Aid
+  m_Name: OrganizationalMishap
   m_EditorClassIdentifier: 
-  displayName: Skill Increase
-  description: Due to intense training, the skill of your soldiers has increased.
+  displayName: Organizational Mishap
+  description: There has been an issue with your supply of tower ammunition.
   modsToApply:
-  - targetTags: 08000000
-    attributeToAffect: 3
-    amount: 1.1
+  - targetTags: 0900000002000000
+    attributeToAffect: 2
+    amount: 0.85
     applyTo: 1
