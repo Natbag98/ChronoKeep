@@ -26,7 +26,7 @@ public class ApplyMods : SOEvent {
     public override void Event() {
         foreach (Mod mod in modsToApply) {
             RunManager.instance.globalMods.Add(
-                new() {
+                new() { // TODO : Add applyTo here
                     targetTags = mod.targetTags,
                     attributeToAffect = mod.attributeToAffect,
                     amount = mod.amount

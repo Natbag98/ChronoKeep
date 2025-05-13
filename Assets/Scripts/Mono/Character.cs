@@ -298,14 +298,14 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
             foreach (Mod mod in modsFromPlot) attributes.RemoveMod(mod);
             modsFromPlot.Clear();
             foreach (Mod mod in GetCurrentPlot().modsToApply) {
-                attributes.AddMod(mod, GetComponent<Tag>(), false);
+                attributes.AddMod(mod, GetComponent<Tag>(), false, faction);
                 modsFromPlot.Add(mod);
             }
         }
     }
 
     public void AddMod(Mod mod, bool allow_duplicate=false) {
-        if (attributes.AddMod(mod, GetComponent<Tag>(), allow_duplicate) && mod.attributeToAffect == GameManager.Attributes.Health) {
+        if (attributes.AddMod(mod, GetComponent<Tag>(), allow_duplicate, faction) && mod.attributeToAffect == GameManager.Attributes.Health) {
             health *= mod.amount;
         }
     }

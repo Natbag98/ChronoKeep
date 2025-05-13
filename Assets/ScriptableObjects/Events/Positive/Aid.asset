@@ -15,9 +15,7 @@ MonoBehaviour:
   displayName: Aid
   description: placeholder
   modsToApply:
-  - targetTags: 02000000
-    attributeToAffect: 3
-    amount: 2
   - targetTags: 
-    attributeToAffect: 8
-    amount: 1.15
+    attributeToAffect: 3
+    amount: 10
+    applyTo: 2

@@ -43,7 +43,20 @@ public class Attributes {
     /// <param name="object_tags">The tags required for the mod to be added.</param>
     /// <param name="allow_duplicate">Whether multiple instances of the same mod can be added.</param>
     /// <returns>Whether the mod was added to the attributes or not.</returns>
-    public bool AddMod(Mod mod, Tag object_tags, bool allow_duplicate) {
+    public bool AddMod(Mod mod, Tag object_tags, bool allow_duplicate, Faction faction) {
+        if (faction != null) {
+            Debug.Log(faction);
+            Debug.Log(mod.applyTo);
+            Debug.Log(mod.amount);
+            if (mod.applyTo == Mod.ApplyTo.Player) {
+                if (faction != GameManager.instance.Game.PlayerFaction) return false;
+            } else if (mod.applyTo == Mod.ApplyTo.Enemies) {
+                Debug.Log("here");
+                Debug.Log(faction.Name);
+                if (faction == GameManager.instance.Game.PlayerFaction) return false;
+            }   
+        }
+
         if (
             !allow_duplicate && mods.Contains(mod) ||
             !mod.CheckTags(object_tags)
