@@ -52,6 +52,15 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
         }
     }
 
+    public void Heal(float amount, bool full=false) {
+        if (full) {
+            health = attributes.GetAttribute(GameManager.Attributes.Health); // TODO : This might be broken, needs more testing
+        } else {
+            health += amount;
+            health = Math.Min(health, attributes.GetAttribute(GameManager.Attributes.Health));
+        }
+    }
+
     protected List<Plot> GetPlotsInRange() { return parentPlot.GetNeighbours(attributes.GetAttributeAsInt(GameManager.Attributes.Range)); }
 
     public void OnMouseEnter() { parentPlot.OnMouseEnter(); }

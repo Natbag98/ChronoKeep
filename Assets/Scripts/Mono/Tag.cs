@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -15,6 +16,7 @@ public class Tag : MonoBehaviour {
         Projectile
     }
 
-    public Tags[] tags;
+    public List<Tags> tags;
     public bool HasTag(Tags tag) { return tags.Contains(tag); }
+    public bool HasTag(Tags[] tags) { foreach (Tags tag in tags) if (!this.tags.Contains(tag)) return false; return true; }
 }
