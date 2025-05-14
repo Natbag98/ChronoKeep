@@ -2,9 +2,16 @@ using UnityEngine;
 
 [System.Serializable]
 public class Mod {
+    public enum ApplyTo {
+        All,
+        Player,
+        Enemies
+    }
+
     public Tag.Tags[] targetTags;
     public GameManager.Attributes attributeToAffect;
-    [Range(0, 2)] public float amount;
+    public float amount;
+    public ApplyTo applyTo;
 
     /// <summary>
     /// Checks if the given set of tags contains the tags required for the mod.

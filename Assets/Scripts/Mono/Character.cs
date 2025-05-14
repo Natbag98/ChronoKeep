@@ -43,7 +43,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     protected virtual void Attack() {}
 
     protected IEnumerator Reload() {
-        yield return new WaitForSeconds(attributes.GetAttribute(GameManager.Attributes.ReloadTime));
+        yield return new WaitForSeconds(attributes.GetAttribute(GameManager.Attributes.ReloadSpeed));
         canAttack = true;
     }
 
@@ -58,7 +58,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
 
     protected virtual void UpdateUI() {
         healthBar.fillAmount = health / attributes.GetAttribute(GameManager.Attributes.Health);
-        reloadBar.fillAmount = reloadTimer / (attributes.GetAttribute(GameManager.Attributes.ReloadTime) + attackDelayTime);
+        reloadBar.fillAmount = reloadTimer / (attributes.GetAttribute(GameManager.Attributes.ReloadSpeed) + attackDelayTime);
     }
 
     /// <summary>
@@ -230,7 +230,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
                 RunManager.instance.GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Spawner, GameManager.instance.Game.BaseFactions[^1])
             );
         }
-    
+
         targetFaction = potential_targets[potential_targets.Keys.ToArray().Min()].faction;
     }
 
@@ -239,7 +239,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
         GetTargetFaction();
 
         health = attributes.GetAttribute(GameManager.Attributes.Health);
-        reloadTimer = attributes.GetAttribute(GameManager.Attributes.ReloadTime);
+        reloadTimer = attributes.GetAttribute(GameManager.Attributes.ReloadSpeed);
     }
 
     protected virtual void UpdateAttack() {
@@ -265,12 +265,12 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
         UpdateUI();
 
         if (attacking) {
-            if (reloadTimer > attributes.GetAttribute(GameManager.Attributes.ReloadTime) + attackDelayTime) {
-                reloadTimer = attributes.GetAttribute(GameManager.Attributes.ReloadTime) + attackDelayTime;
+            if (reloadTimer > attributes.GetAttribute(GameManager.Attributes.ReloadSpeed) + attackDelayTime) {
+                reloadTimer = attributes.GetAttribute(GameManager.Attributes.ReloadSpeed) + attackDelayTime;
             }
         } else {
-            if (reloadTimer > attributes.GetAttribute(GameManager.Attributes.ReloadTime)) {
-                reloadTimer = attributes.GetAttribute(GameManager.Attributes.ReloadTime);
+            if (reloadTimer > attributes.GetAttribute(GameManager.Attributes.ReloadSpeed)) {
+                reloadTimer = attributes.GetAttribute(GameManager.Attributes.ReloadSpeed);
             }
             if (!blocked) Move();
             Rotate();
@@ -298,14 +298,14 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
             foreach (Mod mod in modsFromPlot) attributes.RemoveMod(mod);
             modsFromPlot.Clear();
             foreach (Mod mod in GetCurrentPlot().modsToApply) {
-                attributes.AddMod(mod, GetComponent<Tag>(), false);
+                attributes.AddMod(mod, GetComponent<Tag>(), false, faction);
                 modsFromPlot.Add(mod);
             }
         }
     }
 
     public void AddMod(Mod mod, bool allow_duplicate=false) {
-        if (attributes.AddMod(mod, GetComponent<Tag>(), allow_duplicate) && mod.attributeToAffect == GameManager.Attributes.Health) {
+        if (attributes.AddMod(mod, GetComponent<Tag>(), allow_duplicate, faction) && mod.attributeToAffect == GameManager.Attributes.Health) {
             health *= mod.amount;
         }
     }

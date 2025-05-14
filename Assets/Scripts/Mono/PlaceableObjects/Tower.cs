@@ -16,7 +16,7 @@ public abstract class Tower : PlaceableObject {
     protected IEnumerator Reload() {
         canAttack = false;
         reloadTimer = 0;
-        yield return new WaitForSeconds(attributes.GetAttribute(GameManager.Attributes.ReloadTime));
+        yield return new WaitForSeconds(attributes.GetAttribute(GameManager.Attributes.ReloadSpeed));
         canAttack = true;
     }
 
@@ -34,12 +34,12 @@ public abstract class Tower : PlaceableObject {
 
     protected override void UpdateUI() {
         base.UpdateUI();
-        reloadBar.fillAmount = reloadTimer / attributes.GetAttribute(GameManager.Attributes.ReloadTime);
+        reloadBar.fillAmount = reloadTimer / attributes.GetAttribute(GameManager.Attributes.ReloadSpeed);
     }
 
     protected override void Start() {
         base.Start();
-        reloadTimer = attributes.GetAttribute(GameManager.Attributes.ReloadTime);
+        reloadTimer = attributes.GetAttribute(GameManager.Attributes.ReloadSpeed);
     }
 
     protected override void Update() {

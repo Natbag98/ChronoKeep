@@ -84,7 +84,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
         }
 
         foreach (Mod mod in parentPlot.modsToApply) {
-            attributes.AddMod(mod, GetComponent<Tag>(), false);
+            attributes.AddMod(mod, GetComponent<Tag>(), false, parentPlot.faction);
         }
     }
 
@@ -98,14 +98,14 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
         }
     }
 
-    protected virtual void DestroySelf() {
+    public virtual void DestroySelf() {
         parentPlot.placedObjectSO = null;
         parentPlot.PlaceFeature(GameManager.instance.Ruins);
         Destroy(gameObject);
     }
 
     public void AddMod(Mod mod, bool allow_duplicate=false) {
-        if (attributes.AddMod(mod, GetComponent<Tag>(), allow_duplicate) && mod.attributeToAffect == GameManager.Attributes.Health) {
+        if (attributes.AddMod(mod, GetComponent<Tag>(), allow_duplicate, parentPlot.faction) && mod.attributeToAffect == GameManager.Attributes.Health) {
             if (loaded && loadedTimer > 0) return;
             health *= mod.amount;
         }

@@ -64,6 +64,10 @@ MonoBehaviour:
   Plains: {fileID: 11400000, guid: 2a890fe14bba1d04cab20d4019369af9, type: 2}
   Ruins: {fileID: 11400000, guid: 1616302af5ccb704e8e274ab0d4a11ca, type: 2}
   WallsUpgrade: {fileID: 11400000, guid: d2e61e4e41cc624438b1cba624ea512d, type: 2}
+  LuckPerks:
+  - {fileID: 11400000, guid: 2034b8e519c13434297f36c3b054820b, type: 2}
+  - {fileID: 11400000, guid: 6f1d24f4cb50a7a448c6b4d489f1dcd5, type: 2}
+  - {fileID: 11400000, guid: 031a4c2f2cc5e254681fc4e87d25e534, type: 2}
   WallPrefab: {fileID: 640411937715291779, guid: 1f67f3ffbdce83e4d82d3923349d4a62, type: 3}
   mapSize: 25
   plotGenerationData:

@@ -10,7 +10,9 @@ public class Tag : MonoBehaviour {
         PopulationCenter,
         PerkUI,
         CharacterViewer,
-        UpgradeUI
+        UpgradeUI,
+        Unit,
+        Projectile
     }
 
     public Tags[] tags;

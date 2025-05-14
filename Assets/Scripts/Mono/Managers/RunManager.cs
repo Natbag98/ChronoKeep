@@ -38,6 +38,7 @@ public class RunManager : MonoBehaviour, ISaveSystem {
     public Plot GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes placed_object, Faction faction=null) {
         foreach (Plot[] row in plotArray) {
             foreach (Plot plot in row) {
+                if (plot.placedObjectType == GameManager.PlaceableObjectTypes.Feature) continue;
                 if (faction == null) {
                     if (plot.placedObjectType == placed_object) return plot;
                 } else {
@@ -57,6 +58,7 @@ public class RunManager : MonoBehaviour, ISaveSystem {
         List<Plot> plots = new();
         foreach (Plot[] row in plotArray) {
             foreach (Plot plot in row) {
+                if (plot.placedObjectType == GameManager.PlaceableObjectTypes.Feature) continue;
                 if (faction == null) {
                     if (plot.placedObjectType == placed_object) plots.Add(plot);
                 } else {

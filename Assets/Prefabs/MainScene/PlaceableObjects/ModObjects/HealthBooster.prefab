@@ -157,6 +157,7 @@ GameObject:
   - component: {fileID: 4065923678500815569}
   - component: {fileID: 8876198742693058485}
   - component: {fileID: 6580152738284130337}
+  - component: {fileID: 3572753356594809297}
   m_Layer: 0
   m_Name: HealthBooster
   m_TagString: Untagged
@@ -241,10 +242,24 @@ MonoBehaviour:
   objectType: 0
   parentPlot: {fileID: 0}
   health: 0
+  loaded: 0
   modsToApply:
   - targetTags: 
     attributeToAffect: 0
     amount: 2
+--- !u!114 &3572753356594809297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1770908353305172144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18a5389b09fc8864985c1e82169e6d35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tags: 02000000
 --- !u!1 &7793943204553541298
 GameObject:
   m_ObjectHideFlags: 0
