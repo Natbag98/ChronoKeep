@@ -109,7 +109,7 @@ public class GameSceneUIManager : MonoBehaviour {
         if (hover) {
             perkDescriptionText.text = hover.GetComponent<Perk>().perk.description;
             perkDescriptionText.text += $"\n\nCost: {hover.GetComponent<Perk>().perk.cost}";
-            if (hover.GetComponent<Perk>().Unlockable()) {
+            if (hover.GetComponent<Perk>().perk.Unlockable()) {
                 perkDescriptionText.text += "\nClick to Unlock";
             }
         } else {

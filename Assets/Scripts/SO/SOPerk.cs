@@ -17,7 +17,9 @@ public class SOPerk : ScriptableObject, IUnlockTrackable {
 
     public bool Unlockable() {
         if (!GameManager.instance.Game.perksUnlockTracker.unlocked[this]) {
-            if (requiredPerk == null || GameManager.instance.Game.perksUnlockTracker.unlocked[requiredPerk]) return true;
+            if (requiredPerk == null || GameManager.instance.Game.perksUnlockTracker.unlocked[requiredPerk]) {
+                return GameManager.instance.Game.skillPoints >= cost;
+            }
         }
         return false;
     }

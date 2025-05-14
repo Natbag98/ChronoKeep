@@ -230,7 +230,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
                 RunManager.instance.GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Spawner, GameManager.instance.Game.BaseFactions[^1])
             );
         }
-    
+
         targetFaction = potential_targets[potential_targets.Keys.ToArray().Min()].faction;
     }
 
