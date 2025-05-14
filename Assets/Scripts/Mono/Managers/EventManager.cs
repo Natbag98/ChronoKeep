@@ -26,8 +26,14 @@ public class EventManager : MonoBehaviour, ISaveSystem {
     }
 
     private void NewEvent() {
+        int negative_event_chance = negativeEventChance;
+        if (GameManager.instance.Game.perksUnlockTracker.unlocked[GameManager.instance.LuckPerks[0]]) negative_event_chance -= 5;
+        if (GameManager.instance.Game.perksUnlockTracker.unlocked[GameManager.instance.LuckPerks[1]]) negative_event_chance -= 5;
+        if (GameManager.instance.Game.perksUnlockTracker.unlocked[GameManager.instance.LuckPerks[2]]) negative_event_chance -= 10;
+
+        Debug.Log(negative_event_chance);
         Dictionary<SOEvent, int> potentialEvents = new();
-        if (GameManager.Random.Next(1, 101) < negativeEventChance) {
+        if (GameManager.Random.Next(1, 101) < negative_event_chance) {
             foreach (SOEvent event_ in negativeEvents.Keys) if (event_.IsValid()) potentialEvents.Add(event_, negativeEvents[event_]);
         } else {
             foreach (SOEvent event_ in positiveEvents.Keys) if (event_.IsValid()) potentialEvents.Add(event_, positiveEvents[event_]);

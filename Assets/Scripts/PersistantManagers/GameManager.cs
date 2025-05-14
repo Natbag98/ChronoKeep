@@ -48,7 +48,8 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     public enum PerkTrees {
         KingdomManagement,
         Engineering,
-        Walls
+        Walls,
+        Luck
     }
     public enum MagicTypes {
         Physical,
@@ -71,6 +72,7 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     public SOPlot Plains;
     public SOFeature Ruins;
     public SOUpgrade WallsUpgrade;
+    public SOPerk[] LuckPerks;
 
     [Header("Static Data : References")]
     public GameObject WallPrefab;
