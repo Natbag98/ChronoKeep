@@ -253,6 +253,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     }
 
     protected virtual void Update() {
+        if (RunManager.instance.paused) return;
         reloadTimer += Time.deltaTime * RunManager.instance.simSpeed;
         if (movementTarget == null) GetPath();
         if (blockedObject == null) blocked = false;

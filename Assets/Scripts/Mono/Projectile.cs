@@ -36,6 +36,6 @@ public abstract class Projectile : MonoBehaviour {
     }
 
     public virtual void Setup() { GetTargetPoint(); }
-    private void Update() { Move(); CheckCollision(); }
+    private void Update() { if (RunManager.instance.paused) return; Move(); CheckCollision(); }
     private void Start() { lastPosition = transform.position; }
 }

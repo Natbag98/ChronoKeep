@@ -63,14 +63,12 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
         if (WaveManager.instance.waveActive) {
             PopupManager.instance.Display("Cannot save while a wave is active");
         } else {
-            Time.timeScale = 1;
             SaveSystemManager.instance.SaveGame();
             SceneManager.LoadScene("MainMenuScene");
         }
     }
 
     public void _Button_PauseMenuEndRunClicked() {
-        Time.timeScale = 1;
         RunManager.instance.GameOver();
     }
 

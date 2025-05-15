@@ -98,6 +98,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     }
 
     protected virtual void Update() {
+        if (RunManager.instance.paused) return;
         loadedTimer -= Time.deltaTime;
         GameManager.instance.Game.placeableObjectsUnlockTracker.UpdateDiscovered(placeableObjectSO);
         UpdateUI();

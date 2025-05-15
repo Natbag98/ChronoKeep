@@ -211,7 +211,7 @@ public class Plot : MonoBehaviour {
             ValidTowerPlacement(MainSceneUIManager.instance.GetObjectToPlace())
         ) {
             PlaceObject(MainSceneUIManager.instance.GetObjectToPlace(), GameManager.instance.Game.PlayerFaction, true);
-        } else if (faction == GameManager.instance.Game.PlayerFaction && placedObjectSO != null && ! MainSceneUIManager.instance.mouseBlocked) {
+        } else if (faction == GameManager.instance.Game.PlayerFaction && placedObjectSO != null && !MainSceneUIManager.instance.mouseBlocked) {
             foreach (SOUpgrade upgrade in Utils.GetAllAssets<SOUpgrade>()) {
                 if (upgrade.IsAvailable(GetComponentInChildren<PlaceableObject>())) MainSceneUIManager.instance.InitializeUpgradesMenu(this);
                 return;
@@ -234,6 +234,11 @@ public class Plot : MonoBehaviour {
     }
 
     private void Update() {
+        if (RunManager.instance.paused) {
+            MainSceneUIManager.instance.plotInfoPanel.SetActive(false);
+            MainSceneUIManager.instance.objectInfoPanel.SetActive(false);
+            return;
+        }
         if (!visibleToPlayer) mouseOver = false;
         float target_height = 0;
         if (!MainSceneUIManager.instance.mouseBlocked) {

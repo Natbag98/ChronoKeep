@@ -146,14 +146,14 @@ public class RunManager : MonoBehaviour, ISaveSystem {
     }
 
     public void Pause() {
-        Time.timeScale = 0;
         paused = true;
+        CameraSystem.instance.cameraBlocked = true;
         MainSceneUIManager.instance.pauseMenu.SetActive(true);
     }
 
     public void Unpause() {
-        Time.timeScale = 1;
         paused = false;
+        CameraSystem.instance.cameraBlocked = false;
         MainSceneUIManager.instance.pauseMenu.SetActive(false);
     }
 
