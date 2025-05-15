@@ -17,6 +17,7 @@ public class GameData {
     public List<BaseObjectInfoData> baseObjectInfo;
     public Dictionary<GameManager.Resources, int> resources;
     public int skill;
+    public bool firstRun;
     public Vector2IntData terrainSize;
 
     public GameData() {}

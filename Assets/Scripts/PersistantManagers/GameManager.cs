@@ -101,6 +101,9 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     [HideInInspector] public int scoreLastRun;
     [HideInInspector] public int skillLastRun;
 
+    [HideInInspector] public string nextScene;
+    [HideInInspector] public int storyDisplay;
+
     private void Awake() {
         if (instance) {
             Destroy(gameObject);
@@ -158,6 +161,7 @@ public class GameManager : MonoBehaviour, ISaveSystem {
 
         data.resources = Game.GetResources();
         data.skill = Game.skillPoints;
+        data.firstRun = Game.firstRun;
         data.terrainSize = new(Game.TerrainSize);
     }
 

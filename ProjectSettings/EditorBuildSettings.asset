@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PostRunScene.unity
     guid: 7e3a9a2394b22de42a27ae2d4a30aceb
+  - enabled: 1
+    path: Assets/Scenes/CutScene.unity
+    guid: 5c092f5dbc99a82418c556fb630e0493
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 1c6e206193dc75e489d60325a6c12738, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 35845fe01580c41289b024647b1d1c53, type: 3}

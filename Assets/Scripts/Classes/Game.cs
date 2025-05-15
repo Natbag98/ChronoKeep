@@ -22,9 +22,9 @@ public class Game {
     public UnlockTracker<SOCharacter> characterUnlockTracker = new();
     public UnlockTracker<SOPerk> perksUnlockTracker = new();
     public int skillPoints = 0;
+    public bool firstRun = true;
 
     private Vector2Int playerCastleLocation;
-
     public List<string> usedFactionNames;
 
     public class BaseObjectInfo {
@@ -251,6 +251,7 @@ public class Game {
 
         resources = data.resources;
         skillPoints = data.skill;
+        firstRun = data.firstRun;
         TerrainSize = data.terrainSize.Get();
     }
 

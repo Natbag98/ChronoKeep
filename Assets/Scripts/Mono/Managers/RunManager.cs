@@ -165,7 +165,14 @@ public class RunManager : MonoBehaviour, ISaveSystem {
         GameManager.instance.scoreLastRun = score;
         GameManager.instance.skillLastRun = Mathf.FloorToInt(score / 10 * skillMult);
         GameManager.instance.Game.skillPoints += GameManager.instance.skillLastRun;
-        SceneManager.LoadScene("PostRunScene");
+        if (GameManager.instance.Game.firstRun) {
+            SceneManager.LoadScene("CutScene");
+            GameManager.instance.nextScene = "PostRunScene";
+            GameManager.instance.storyDisplay = 1;
+            GameManager.instance.Game.firstRun = false;
+        } else {
+            SceneManager.LoadScene("PostRunScene");
+        }
     }
 
     private void Start() {

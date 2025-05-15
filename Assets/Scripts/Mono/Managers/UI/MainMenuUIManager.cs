@@ -55,6 +55,8 @@ public class MainMenuUIManager : MonoBehaviour {
         GameManager.instance.kingdomName = kingdomName.text;
         GameManager.instance.NewGame();
         
-        SceneManager.LoadScene("GameScene");
+        SceneManager.LoadScene("CutScene");
+        GameManager.instance.storyDisplay = 0;
+        GameManager.instance.nextScene = "MainScene";
     }
 }
