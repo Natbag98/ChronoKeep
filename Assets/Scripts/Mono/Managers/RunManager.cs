@@ -18,6 +18,7 @@ public class RunManager : MonoBehaviour, ISaveSystem {
     private float skillMult = 1;
     [HideInInspector] public bool paused = false;
     [HideInInspector] public List<Mod> globalMods = new();
+    [HideInInspector] public float simSpeed = 1f;
 
     private bool test = true;
     [SerializeField] private SOPlaceableObject[] testPlacement;

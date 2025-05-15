@@ -6,7 +6,11 @@ public class InventoryItem : MonoBehaviour, ISaveSystem {
     private TextMeshProUGUI text;
 
     public void _Button_InventoryItemClicked() {
-        if (!WaveManager.instance.waveActive && !MainSceneUIManager.instance.upgradePanel.activeSelf) {
+        if (
+            !WaveManager.instance.waveActive &&
+            !MainSceneUIManager.instance.upgradePanel.activeSelf &&
+            !RunManager.instance.paused
+        ) {
             MainSceneUIManager.instance.StartPlacing(placeableObject);
             Destroy(gameObject);
         }

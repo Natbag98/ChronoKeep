@@ -25,7 +25,7 @@ public class CannonBall : Projectile {
     }
 
     protected override void Move() {
-        progress = Mathf.Min(progress + Time.deltaTime * stepScale, 1.0f);
+        progress = Mathf.Min(progress + Time.deltaTime * stepScale * RunManager.instance.simSpeed, 1.0f);
         float parabola = 1.0f - 4.0f * (progress - 0.5f) * (progress - 0.5f);
         Vector3 nextPos = Vector3.Lerp(startPosition, targetPoint, progress);
         nextPos.y += parabola * arcHeight;

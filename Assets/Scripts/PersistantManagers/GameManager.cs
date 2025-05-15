@@ -63,6 +63,9 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     public int MinBarbGenerationDistance;
     public int MaxBarbGenerationDistance;
 
+    public float minGameSpeed;
+    public float maxGameSpeed;
+
     public Utils.SerializeableDict<Attributes, int> defaultAttributes;
 
     [Header("Static Data : Scriptable Objects")]

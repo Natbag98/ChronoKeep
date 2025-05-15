@@ -150,7 +150,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
 
     private void Move() {
         Vector3 direction = (GetPathTargetPos() - transform.position).normalized;
-        transform.Translate(attributes.GetAttribute(GameManager.Attributes.CharacterMoveSpeed) * Time.deltaTime * direction);
+        transform.Translate(attributes.GetAttribute(GameManager.Attributes.CharacterMoveSpeed) * Time.deltaTime * direction * RunManager.instance.simSpeed);
     }
 
     private void Rotate() {
@@ -253,7 +253,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     }
 
     protected virtual void Update() {
-        reloadTimer += Time.deltaTime;
+        reloadTimer += Time.deltaTime * RunManager.instance.simSpeed;
         if (movementTarget == null) GetPath();
         if (blockedObject == null) blocked = false;
         if (health <= 0) Destroy(gameObject);

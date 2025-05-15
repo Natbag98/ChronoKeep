@@ -50,6 +50,8 @@ MonoBehaviour:
   PlotMouseOverSpeed: 5
   MinBarbGenerationDistance: 2
   MaxBarbGenerationDistance: 5
+  minGameSpeed: 0.5
+  maxGameSpeed: 3
   defaultAttributes:
     dictPairs:
     - Key: 9

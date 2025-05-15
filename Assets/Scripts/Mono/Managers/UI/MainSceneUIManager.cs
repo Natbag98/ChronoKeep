@@ -11,6 +11,7 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     [SerializeField] private GameObject inventoryItemPrefab;
     [SerializeField] private GameObject dragger;
     public GameObject pauseMenu;
+    [SerializeField] private TextMeshProUGUI speedText;
 
     [Header("References Resources")]
     [SerializeField] private TextMeshProUGUI resourceGoldText;
@@ -46,7 +47,11 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     public SOPlaceableObject GetObjectToPlace() { return placingObject; }
 
     public void _Button_NextWaveButtonClicked() {
-        if (upgradePanel.activeSelf) return;
+        if (
+            upgradePanel.activeSelf ||
+            RunManager.instance.paused ||
+            MainSceneUIManager.instance.IsPlacingObject()
+        ) return;
         if (!WaveManager.instance.waveActive) {
             WaveManager.instance.StartWave(); 
         } else {
@@ -75,6 +80,21 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
 
     public void _Button_EventMenuContinueButtonClicked() {
         EventManager.instance.Event();
+    }
+
+    public void _Button_PauseButtonClicked() {
+        if (RunManager.instance.paused) return;
+        RunManager.instance.Pause();
+    }
+
+    public void _Button_GameSpeedDownButtonClicked() {
+        if (RunManager.instance.paused) return;
+        RunManager.instance.simSpeed = Math.Max(GameManager.instance.minGameSpeed, RunManager.instance.simSpeed - 0.5f);
+    }
+
+    public void _Button_GameSpeedUpButtonClicked() {
+        if (RunManager.instance.paused) return;
+        RunManager.instance.simSpeed = Math.Min(GameManager.instance.maxGameSpeed, RunManager.instance.simSpeed + 0.5f);
     }
 
     public void StartPlacing(SOPlaceableObject placeable_object) {
@@ -161,6 +181,8 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
 
         resourceGoldText.text = $"Gold: {GameManager.instance.Game.GetResources()[GameManager.Resources.Gold]}";
         resourceManPowerText.text = $"Manpower per turn: {GameManager.instance.Game.GetResources()[GameManager.Resources.ManPower]}";
+    
+        if (!RunManager.instance.paused) speedText.text = $"{RunManager.instance.simSpeed}x";
     }
 
     public void SaveData(GameData data) {}

@@ -212,7 +212,7 @@ public class Utils : MonoBehaviour {
         if (rotate_speed == 0f) {
             rotate.rotation = look_rotation;
         } else {
-            rotate.rotation = Quaternion.Slerp(rotate.rotation, look_rotation, Time.deltaTime * rotate_speed);
+            rotate.rotation = Quaternion.Slerp(rotate.rotation, look_rotation, Time.deltaTime * rotate_speed * RunManager.instance.simSpeed);
         }
     }
 
