@@ -29,7 +29,7 @@ public class RangedCharacter : Character {
     private IEnumerator RangedAttack() {
         attacking = true;
         canAttack = false;
-        yield return new WaitForSeconds(attackDelayTime);
+        yield return new WaitForSeconds(attackDelayTime / RunManager.instance.simSpeed);
         if (!attacking) yield break;
         Projectile projectile = Instantiate(
             projectileToShoot,
@@ -50,7 +50,7 @@ public class RangedCharacter : Character {
     private IEnumerator RangedMeleeAttack() {
         attacking = true;
         canAttack = false;
-        yield return new WaitForSeconds(attackDelayTime);
+        yield return new WaitForSeconds(attackDelayTime / RunManager.instance.simSpeed);
         if (!attacking) yield break;
         target.GetComponent<IMeleeTarget>().Damage(
             magicType,
