@@ -43,7 +43,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     protected virtual void Attack() {}
 
     protected IEnumerator Reload() {
-        yield return new WaitForSeconds(attributes.GetAttribute(GameManager.Attributes.ReloadSpeed));
+        yield return new WaitForSeconds(attributes.GetAttribute(GameManager.Attributes.ReloadSpeed) / RunManager.instance.simSpeed);
         canAttack = true;
     }
 

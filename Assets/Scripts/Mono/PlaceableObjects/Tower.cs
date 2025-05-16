@@ -16,7 +16,7 @@ public abstract class Tower : PlaceableObject {
     protected IEnumerator Reload() {
         canAttack = false;
         reloadTimer = 0;
-        yield return new WaitForSeconds(attributes.GetAttribute(GameManager.Attributes.ReloadSpeed));
+        yield return new WaitForSeconds(attributes.GetAttribute(GameManager.Attributes.ReloadSpeed) / RunManager.instance.simSpeed);
         canAttack = true;
     }
 
