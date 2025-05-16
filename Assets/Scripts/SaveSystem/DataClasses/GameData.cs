@@ -20,5 +20,8 @@ public class GameData {
     public bool firstRun;
     public Vector2IntData terrainSize;
 
+    public bool tutorialActive;
+    public int tutorial;
+
     public GameData() {}
 }

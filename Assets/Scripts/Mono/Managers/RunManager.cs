@@ -180,6 +180,7 @@ public class RunManager : MonoBehaviour, ISaveSystem {
 
         InstantiatePlots();
         GameManager.instance.Game.PlayerFaction.RunStart();
+        if (GameManager.instance.Game.firstRun) TutorialManager.instance.StartTutorial();
         foreach (Faction faction in GameManager.instance.Game.BaseFactions) faction.RunStart();
         foreach (SOPerk perk in GameManager.instance.Game.perksUnlockTracker.GetAllUnlocked()) {
             scoreMult += perk.scoreMultIncrease;
