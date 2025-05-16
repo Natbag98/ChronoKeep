@@ -1267,10 +1267,22 @@ MonoBehaviour:
   tutorialText: {fileID: 1898617465}
   nextButtonText: {fileID: 1100753769}
   texts:
-  - 1
-  - 2
-  - 3
-  - 4
+  - Welcome to Chrono Keep, this tutorial will attempt to guide you in how to play
+    this game.
+  - First, you will see a panel at the bottom of your screen. This panel will tell
+    you how may resources you have available, as well as the towers you have in your
+    inventory, which you click to place.
+  - In the top left of your screen, there is a pause button, as well as options to
+    increase or decrease the simulation speed of your game.
+  - When you start your wave, enemies will spawn at spawners around the map and attempt
+    to attack your tower. Your own towers will attack the enemies attacking you.
+  - There are multiple different kingdoms around the map (hidden by fog) that can
+    be at war with you and eachother independantly. Currently, there is no way to
+    view which plots/towers is owned by which kingdom.
+  - Your ru will end when your castle is destroyed, after which you will be able
+    to unlock character perks and start another run.
+  - Remember that this game is in early development, so expect for parts of the game
+    to be broken or not working properly.
 --- !u!1 &395016116
 GameObject:
   m_ObjectHideFlags: 0
