@@ -16,7 +16,7 @@ public class Perk : MonoBehaviour {
     }
 
     private void Update() {
-        if (GameManager.instance.Game.perksUnlockTracker.unlocked[perk]) {
+        if (GameManager.instance.Game.perksUnlockTracker.unlocked[perk.name]) {
             mask.color = new Color(0f, 0f, 0f, 0f);
         } else {
             if (perk.Unlockable()) {

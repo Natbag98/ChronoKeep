@@ -248,6 +248,8 @@ public class Utils : MonoBehaviour {
         return null;
     }
 
+    private static AssetBundle loadedBundle;
+
     public static List<T> GetAllAssets<T>() where T : UnityEngine.Object {
         # if UNITY_EDITOR
             List<T> to_return = new();
@@ -256,31 +258,20 @@ public class Utils : MonoBehaviour {
             }
             return to_return;
         # else
-            AssetBundle bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath, "AssetBundles", "asset"));
-            List<T> assets = bundle.LoadAllAssets<T>().ToList();
-            bundle.Unload(true);
+            if (loadedBundle == null) loadedBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath, "AssetBundles", "asset"));
+            List<T> assets = loadedBundle.LoadAllAssets<T>().ToList();
             return assets;
         # endif
     }
 
     public static Dictionary<string, T> GetAllAssetsDict<T>() where T : UnityEngine.Object {
-        # if UNITY_EDITOR
-            Dictionary<string, T> to_return = new();
-            foreach (string asset in AssetDatabase.FindAssets($"t:{typeof(T).Name}")) {
-                T loaded_asset = AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(asset));
-                to_return.Add(loaded_asset.name, loaded_asset);
-            }
-            return to_return;
-        # else
-            AssetBundle bundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath, "AssetBundles", "asset"));
-            List<T> assets = bundle.LoadAllAssets<T>().ToList();
-            bundle.Unload(true);
-
-            Dictionary<string, T> assets_dict = new();
-            foreach (T asset in assets) assets_dict.Add(asset.name, asset);
-            return assets_dict;
-        # endif
+        Dictionary<string, T> assets_dict = new();
+        foreach (T asset in GetAllAssets<T>()) assets_dict.Add(asset.name, asset);
+        return assets_dict;
     }
 
-    public static T GetAsset<T>(string name) where T : UnityEngine.Object { return GetAllAssetsDict<T>()[name]; }
+    public static T GetAsset<T>(string name) where T : UnityEngine.Object {
+        if (!GetAllAssetsDict<T>().ContainsKey(name)) throw new Exception($"Asset {name} of type {typeof(T)} has not been added to assets AssetBundle");
+        return GetAllAssetsDict<T>()[name];
+    }
 }
