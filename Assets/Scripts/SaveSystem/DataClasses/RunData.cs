@@ -9,6 +9,7 @@ public class RunData {
     public PlotData[][] plotData;
     public Dictionary<string, Dictionary<string, bool>> factionsWars = new();
     public List<string> inventoryItems = new();
+    public int score;
 
     public RunData() {}
 }

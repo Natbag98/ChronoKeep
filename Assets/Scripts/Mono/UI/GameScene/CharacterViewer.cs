@@ -7,7 +7,7 @@ public class CharacterViewer : MonoBehaviour {
     [HideInInspector] public SOCharacter character;
 
     private void Update() {
-        if (GameManager.instance.Game.characterUnlockTracker.disovered[character.name]) {
+        if (GameManager.instance.Game.characterUnlockTracker.disovered[character]) {
             mask.color = Color.white;
             if (Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.CharacterViewer) == gameObject) {
                 GameSceneUIManager.instance.characterInfo.SetActive(true);

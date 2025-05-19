@@ -84,11 +84,11 @@ MonoBehaviour:
       Value: 12
     - Key: {fileID: 11400000, guid: 981ac3728cebc7444a0e22b7fdb337e6, type: 2}
       Value: 12
-  debugMode: 1
+  debugMode: 0
   startingResources:
     dictPairs:
     - Key: 0
-      Value: 5
+      Value: 3
     - Key: 1
       Value: 1
   playerName: 
@@ -97,6 +97,39 @@ MonoBehaviour:
   load: 0
   scoreLastRun: 0
   skillLastRun: 0
+  nextScene: 
+  storyDisplay: 0
+  scriptableObjects:
+  - {fileID: 11400000, guid: aae26af5810999345bbb394d8aba2b2c, type: 2}
+  - {fileID: 11400000, guid: 5237e207544601d4299e260b30bb7b54, type: 2}
+  - {fileID: 11400000, guid: 0d8835a8144b9ae4ebd680fae17343e2, type: 2}
+  - {fileID: 11400000, guid: f8b3848aaf5b2a84784bca7ca9106e04, type: 2}
+  - {fileID: 11400000, guid: c293a2631ee69bc4dad0c73258986891, type: 2}
+  - {fileID: 11400000, guid: 1616302af5ccb704e8e274ab0d4a11ca, type: 2}
+  - {fileID: 11400000, guid: 29421b6c51b289048a989d823996f565, type: 2}
+  - {fileID: 11400000, guid: 0df2196dcc7265244adb227425ae589b, type: 2}
+  - {fileID: 11400000, guid: 1ef8c2dd154cc7542be8b05e25caff85, type: 2}
+  - {fileID: 11400000, guid: ddabd163f8851c34a937e97910186069, type: 2}
+  - {fileID: 11400000, guid: 98e3c26d3b6e51c4180444f4debd7861, type: 2}
+  - {fileID: 11400000, guid: addc69db81bfa9641974a21b50af58e4, type: 2}
+  - {fileID: 11400000, guid: 2034b8e519c13434297f36c3b054820b, type: 2}
+  - {fileID: 11400000, guid: 6f1d24f4cb50a7a448c6b4d489f1dcd5, type: 2}
+  - {fileID: 11400000, guid: 031a4c2f2cc5e254681fc4e87d25e534, type: 2}
+  - {fileID: 11400000, guid: 533065791605a97478e12cd12a4ca03d, type: 2}
+  - {fileID: 11400000, guid: 644ac2a4a10ef744a94df563b98377fd, type: 2}
+  - {fileID: 11400000, guid: e504a0bbd48c9504686b3244871fecbd, type: 2}
+  - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
+  - {fileID: 11400000, guid: 106fc22d69ab7ff4b91326f6c0e3b4e4, type: 2}
+  - {fileID: 11400000, guid: 6c8dbaeaa33991f4a8891d470e28dde3, type: 2}
+  - {fileID: 11400000, guid: 0a3b51ea6a481064c93fed7f69527eb6, type: 2}
+  - {fileID: 11400000, guid: facc3f4559aae0043adf012e27c0de95, type: 2}
+  - {fileID: 11400000, guid: 86066999b2da0ef4f9c74035828c70ab, type: 2}
+  - {fileID: 11400000, guid: 487feeaaddffd7844895873763a7a0c8, type: 2}
+  - {fileID: 11400000, guid: 91b0b931bda090541a294a0c5834a536, type: 2}
+  - {fileID: 11400000, guid: 981ac3728cebc7444a0e22b7fdb337e6, type: 2}
+  - {fileID: 11400000, guid: cf8b1f3b326b6db46865e35690be2f4a, type: 2}
+  - {fileID: 11400000, guid: 2a890fe14bba1d04cab20d4019369af9, type: 2}
+  - {fileID: 11400000, guid: d2e61e4e41cc624438b1cba624ea512d, type: 2}
 --- !u!114 &-8175749535513372674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,7 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveFileExtension: savegame
-  saveFileVersion: 3
+  saveFileVersion: 0.2
   saveFolder: Saves
 --- !u!114 &6351186431300672415
 MonoBehaviour:

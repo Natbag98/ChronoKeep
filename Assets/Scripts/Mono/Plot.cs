@@ -130,7 +130,10 @@ public class Plot : MonoBehaviour {
 
         if (faction != null) {
             this.faction = faction;
-            foreach (Plot plot in GetNeighbours(object_to_place.factionControlRange, true)) plot.faction ??= faction;
+            foreach (Plot plot in GetNeighbours(object_to_place.factionControlRange, true)) {
+                if (this.faction == GameManager.instance.Game.PlayerFaction) plot.SetVisibleToPlayer(true);
+                plot.faction ??= faction;
+            }
         }
 
         return new_object;

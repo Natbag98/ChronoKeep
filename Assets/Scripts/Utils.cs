@@ -250,27 +250,22 @@ public class Utils : MonoBehaviour {
 
     private static AssetBundle loadedBundle;
 
-    public static List<T> GetAllAssets<T>() where T : UnityEngine.Object {
-        # if UNITY_EDITOR
-            List<T> to_return = new();
-            foreach (string asset in AssetDatabase.FindAssets($"t:{typeof(T).Name}")) {
-                to_return.Add(AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(asset)));
-            }
-            return to_return;
-        # else
-            if (loadedBundle == null) loadedBundle = AssetBundle.LoadFromFile(Path.Combine(Application.dataPath, "AssetBundles", "asset"));
-            List<T> assets = loadedBundle.LoadAllAssets<T>().ToList();
-            return assets;
-        # endif
+    public static List<T> GetAllAssets<T>() where T : ScriptableObject {
+        return (
+            from s
+            in GameManager.instance.scriptableObjects
+            where s.GetType() == typeof(T)
+            select s
+        ).Cast<T>().ToList();
     }
 
-    public static Dictionary<string, T> GetAllAssetsDict<T>() where T : UnityEngine.Object {
+    public static Dictionary<string, T> GetAllAssetsDict<T>() where T : ScriptableObject {
         Dictionary<string, T> assets_dict = new();
         foreach (T asset in GetAllAssets<T>()) assets_dict.Add(asset.name, asset);
         return assets_dict;
     }
 
-    public static T GetAsset<T>(string name) where T : UnityEngine.Object {
+    public static T GetAsset<T>(string name) where T : ScriptableObject {
         if (!GetAllAssetsDict<T>().ContainsKey(name)) throw new Exception($"Asset {name} of type {typeof(T)} has not been added to assets AssetBundle");
         return GetAllAssetsDict<T>()[name];
     }

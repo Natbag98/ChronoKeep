@@ -64,8 +64,8 @@ public class SaveSystemManager : MonoBehaviour {
             Destroy(gameObject);
         }
 
-        // saveFolderPath = System.IO.Path.Combine(Application.persistentDataPath, saveFolder);
+        saveFolderPath = Path.Combine(Application.persistentDataPath, saveFolder);
         // Debug folder
-        saveFolderPath = Path.Combine(Application.dataPath, "TestSaves", saveFolder);
+        // saveFolderPath = Path.Combine(Application.dataPath, "TestSaves", saveFolder);
     }
 }

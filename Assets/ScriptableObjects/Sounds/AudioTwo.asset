@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AudioTwo
   m_EditorClassIdentifier: 
   clip: {fileID: 8300000, guid: cf631aa8f3c80c84285360936f5ab168, type: 3}
-  volume: 1
+  volume: 0
   pitch: 1
   onCamera: 1
   createGameObject: 0

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AudioOne
   m_EditorClassIdentifier: 
   clip: {fileID: 8300000, guid: c623ec374e34e0747aa94789b49f8661, type: 3}
-  volume: 1
+  volume: 0
   pitch: 1
   onCamera: 1
   createGameObject: 0

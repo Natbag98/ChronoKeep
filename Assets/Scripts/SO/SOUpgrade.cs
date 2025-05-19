@@ -18,7 +18,7 @@ public class SOUpgrade : ScriptableObject {
         if (
             !GameManager.instance.Game.CanSpendResources(cost.GetDict()) ||
             placeable_object.GetUpgrades().Contains(this) ||
-            (perkRequired && !GameManager.instance.Game.perksUnlockTracker.unlocked[perkRequired.name])
+            (perkRequired && !GameManager.instance.Game.perksUnlockTracker.unlocked[perkRequired])
         ) return false;
         return availableForAll || availableFor.Contains(placeable_object.placeableObjectSO);
     }

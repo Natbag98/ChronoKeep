@@ -16,4 +16,8 @@ public class SettingsManager : MonoBehaviour {
             Destroy(gameObject);
         }
     }
+
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.F11)) Screen.fullScreen = !Screen.fullScreen;
+    }
 }

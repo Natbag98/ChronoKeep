@@ -104,6 +104,9 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     [HideInInspector] public string nextScene;
     [HideInInspector] public int storyDisplay;
 
+    [Header("SO References")]
+    public List<ScriptableObject> scriptableObjects;
+
     private void Awake() {
         if (instance) {
             Destroy(gameObject);
@@ -111,6 +114,10 @@ public class GameManager : MonoBehaviour, ISaveSystem {
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
+
+        # if !UNITY_EDITOR
+            Screen.SetResolution(1920, 1080, true);
+        # endif
 
         foreach (SOPlaceableObject placeable_object in Utils.GetAllAssets<SOPlaceableObject>()) allSOPlaceableObjects.Add(placeable_object);
 

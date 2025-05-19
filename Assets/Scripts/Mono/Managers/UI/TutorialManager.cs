@@ -56,7 +56,7 @@ public class TutorialManager : MonoBehaviour, ISaveSystem {
     }
 
     public void LoadData(GameData data) {
-        if (tutorialActive) {
+        if (data.tutorialActive) {
             StartTutorial();
             tutorial = data.tutorial;
         } else {

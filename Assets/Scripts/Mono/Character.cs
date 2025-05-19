@@ -115,13 +115,13 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
                 }
             }
 
-            if (potential_movement_targets.Count == 0) {
+            if (potential_movement_targets.Keys.Count == 0) {
                 // Later in development enemies should either not spawn from a spawner with no valid path or the enemy should attempt to attack a different faction
                 Debug.Log("No path found");
                 Destroy(gameObject);
+            } else{
+                movementTarget = potential_movement_targets[potential_movement_targets.Keys.ToArray().Min()];
             }
-
-            movementTarget = potential_movement_targets[potential_movement_targets.Keys.ToArray().Min()];
         }
     }
 
@@ -231,6 +231,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
             );
         }
 
+        if (potential_targets.Count == 0) Destroy(gameObject);
         targetFaction = potential_targets[potential_targets.Keys.ToArray().Min()].faction;
     }
 

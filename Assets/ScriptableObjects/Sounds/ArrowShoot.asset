@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ArrowShoot
   m_EditorClassIdentifier: 
   clip: {fileID: 8300000, guid: ee13aed69c492944d8bdad0f1c0ae023, type: 3}
-  volume: 1
+  volume: 0
   pitch: 1
   onCamera: 0
   createGameObject: 0

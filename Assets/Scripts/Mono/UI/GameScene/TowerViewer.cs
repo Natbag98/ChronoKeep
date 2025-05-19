@@ -7,7 +7,7 @@ public class TowerViewer : MonoBehaviour {
     [HideInInspector] public SOPlaceableObject placeableObject;
 
     private void Update() {
-        if (GameManager.instance.Game.placeableObjectsUnlockTracker.disovered[placeableObject.name]) {
+        if (GameManager.instance.Game.placeableObjectsUnlockTracker.disovered[placeableObject]) {
             mask.color = Color.white;
             if (Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.TowerViewer) == gameObject) {
                 GameSceneUIManager.instance.towerInfo.SetActive(true);

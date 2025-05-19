@@ -206,6 +206,7 @@ public class RunManager : MonoBehaviour, ISaveSystem {
 
     public void SaveData(GameData data) {
         data.runData.globalMods = globalMods;
+        data.runData.score = score;
 
         data.runData.plotData = Utils.CreateJaggedArray<PlotData[][]>(GameManager.instance.Game.TerrainSize.x, GameManager.instance.Game.TerrainSize.y);
         for (int x = 0; x < GameManager.instance.Game.TerrainSize.x; x++) {
@@ -235,6 +236,7 @@ public class RunManager : MonoBehaviour, ISaveSystem {
 
     public void LoadData(GameData data) {
         globalMods = data.runData.globalMods;
+        score = data.runData.score;
 
         foreach (Plot[] row in plotArray) {
             foreach (Plot plot in row) {

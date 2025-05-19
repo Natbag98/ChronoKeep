@@ -211,22 +211,22 @@ public class Game {
         }
 
         foreach (string perk in data.perkUnlockTracker.disovered.Keys) {
-            perksUnlockTracker.disovered[perk] = data.perkUnlockTracker.disovered[perk];
+            perksUnlockTracker.disovered[GetAsset<SOPerk>(perk)] = data.perkUnlockTracker.disovered[perk];
         }
         foreach (string perk in data.perkUnlockTracker.unlocked.Keys) {
-            perksUnlockTracker.unlocked[perk] = data.perkUnlockTracker.unlocked[perk];
+            perksUnlockTracker.unlocked[GetAsset<SOPerk>(perk)] = data.perkUnlockTracker.unlocked[perk];
         }
         foreach (string object_ in data.placeableObjectUnlockTracker.disovered.Keys) {
-            placeableObjectsUnlockTracker.disovered[object_] = data.placeableObjectUnlockTracker.disovered[object_];
+            placeableObjectsUnlockTracker.disovered[GetAsset<SOPlaceableObject>(object_)] = data.placeableObjectUnlockTracker.disovered[object_];
         }
         foreach (string object_ in data.placeableObjectUnlockTracker.unlocked.Keys) {
-            placeableObjectsUnlockTracker.unlocked[object_] = data.placeableObjectUnlockTracker.unlocked[object_];
+            placeableObjectsUnlockTracker.unlocked[GetAsset<SOPlaceableObject>(object_)] = data.placeableObjectUnlockTracker.unlocked[object_];
         }
-        foreach (string object_ in data.characterUnlockTracker.disovered.Keys) {
-            characterUnlockTracker.disovered[object_] = data.characterUnlockTracker.disovered[object_];
+        foreach (string character in data.characterUnlockTracker.disovered.Keys) {
+            characterUnlockTracker.disovered[GetAsset<SOCharacter>(character)] = data.characterUnlockTracker.disovered[character];
         }
-        foreach (string object_ in data.characterUnlockTracker.unlocked.Keys) {
-            characterUnlockTracker.unlocked[object_] = data.characterUnlockTracker.unlocked[object_];
+        foreach (string character in data.characterUnlockTracker.unlocked.Keys) {
+            characterUnlockTracker.unlocked[GetAsset<SOCharacter>(character)] = data.characterUnlockTracker.unlocked[character];
         }
 
         PlayerFaction = new(this, data.playerFaction.factionType, data.playerFaction.name, data.playerFaction.rulerName);

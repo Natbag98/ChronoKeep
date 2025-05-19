@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Weak Stone
   description: Your stone masons have found that the stone you have been using to
-    build your with is inferior.
+    build your towers with is inferior.
   modsToApply:
   - targetTags: 02000000
     attributeToAffect: 0

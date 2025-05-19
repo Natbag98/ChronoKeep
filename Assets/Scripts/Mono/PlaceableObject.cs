@@ -28,7 +28,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
 
         foreach (Mod mod in upgrade.modsToApply) AddMod(mod, false);
 
-        if (upgrade.name == GameManager.instance.WallsUpgrade.name) {
+        if (upgrade == GameManager.instance.WallsUpgrade) {
             Instantiate(
                 GameManager.instance.WallPrefab,
                 transform
