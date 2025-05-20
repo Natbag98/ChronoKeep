@@ -180,7 +180,6 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     private void CheckCollisionWithCharacters() {
         foreach (Character character in GetCurrentPlot().GetCharacters()) {
             if (faction.atWarWith[character.faction]) {
-                Debug.Log("Coll");
                 blocked = true;
             }
         }
@@ -231,8 +230,11 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
             );
         }
 
-        if (potential_targets.Count == 0) Destroy(gameObject);
-        targetFaction = potential_targets[potential_targets.Keys.ToArray().Min()].faction;
+        if (potential_targets.Count == 0) {
+            Destroy(gameObject);
+        } else {
+            targetFaction = potential_targets[potential_targets.Keys.ToArray().Min()].faction;
+        }
     }
 
     private void Start() {

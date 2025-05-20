@@ -1279,7 +1279,9 @@ MonoBehaviour:
   - There are multiple different kingdoms around the map (hidden by fog) that can
     be at war with you and eachother independantly. Currently, there is no way to
     view which plots/towers is owned by which kingdom.
-  - Your ru will end when your castle is destroyed, after which you will be able
+  - Bear in mind that enemies will sometimes spawn off the edge of the map, and you
+    will have to wait fot them to reach your towers.
+  - Your run will end when your castle is destroyed, after which you will be able
     to unlock character perks and start another run.
   - Remember that this game is in early development, so expect for parts of the game
     to be broken or not working properly.
@@ -1633,10 +1635,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3

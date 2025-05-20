@@ -16,7 +16,7 @@ public class RandomWar : SOEvent {
 
     public override bool IsValid() {
         foreach (Faction faction in GameManager.instance.Game.BaseFactions) if (faction.atWarWith.Values.Contains(true)) return true;
-        return true;
+        return false;
     }
 
     public override void Setup() {
