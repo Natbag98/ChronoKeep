@@ -119,7 +119,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
                 // Later in development enemies should either not spawn from a spawner with no valid path or the enemy should attempt to attack a different faction
                 Debug.Log("No path found");
                 Destroy(gameObject);
-            } else{
+            } else {
                 movementTarget = potential_movement_targets[potential_movement_targets.Keys.ToArray().Min()];
             }
         }

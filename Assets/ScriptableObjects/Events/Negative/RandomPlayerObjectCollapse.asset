@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: RandomPlayerObjectCollapse
   m_EditorClassIdentifier: 
   displayName: Tower Collapse
-  description: On of your towers will be destroyed.
+  description: One of your towers will be destroyed.
   onPlayer: 1

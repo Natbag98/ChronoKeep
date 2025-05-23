@@ -8,6 +8,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     [SerializeField] protected GameManager.MagicTypes magicType;
     [SerializeField] protected Attributes attributes;
     [SerializeField] protected Utils.SerializeableDict<GameManager.Resources, int> resourcesPerWave;
+    public Dictionary<GameManager.Resources, int> GetResourcesPerWave() { return resourcesPerWave.GetDict(); }
     [SerializeField] private Transform centerPoint;
 
     [Header("PlaceableObject : References UI")]

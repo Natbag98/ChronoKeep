@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -39,6 +40,8 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     private SOPlaceableObject placingObject;
     [HideInInspector] public bool mouseBlocked = false;
     [HideInInspector] public Plot upgradePlot;
+    private Dictionary<GameManager.Resources, int> resourcesPerWave;
+    private Dictionary<GameManager.Resources, TextMeshProUGUI> text_dict;
 
     public event EventHandler resetUpgrades;
 
@@ -126,9 +129,27 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
 
     private void Start() {
         instance = this;
+        text_dict = new() {
+            {GameManager.Resources.Gold, resourceGoldText},
+            {GameManager.Resources.ManPower, resourceManPowerText}
+        };
+    }
+
+    public void UpdateResourceGain() {
+        resourcesPerWave = new();
+        foreach (var resource in Enum.GetValues(typeof(GameManager.Resources))) {
+            Debug.Log(resource);
+            resourcesPerWave.Add((GameManager.Resources)resource, 0);
+        }
+        foreach (Plot plot in RunManager.instance.GetAllPlotsWithFactionObjects(GameManager.instance.Game.PlayerFaction)) {
+            foreach (var resource in plot.GetComponentInChildren<PlaceableObject>().GetResourcesPerWave()) {
+                resourcesPerWave[resource.Key] += resource.Value;
+            }
+        }
     }
 
     private void Update() {
+        if (resourcesPerWave == null) UpdateResourceGain();
         dragger.SetActive(placingObject);
         dragger.transform.position = Input.mousePosition;
 
@@ -177,9 +198,13 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
         eventName.text = current_event?.displayName;
         eventDescription.text = current_event?.GetDescription();
 
-        resourceGoldText.text = $"Gold: {GameManager.instance.Game.GetResources()[GameManager.Resources.Gold]}";
-        resourceManPowerText.text = $"Manpower per turn: {GameManager.instance.Game.GetResources()[GameManager.Resources.ManPower]}";
-    
+        foreach (var r in Enum.GetValues(typeof(GameManager.Resources))) {
+            GameManager.Resources resource = (GameManager.Resources)r;
+            string add_text = "";
+            if (resourcesPerWave[resource] > 0) add_text = $" + {resourcesPerWave[resource]}";
+            text_dict[resource].text = $"{resource}: {GameManager.instance.Game.GetResources()[resource]}{add_text}";
+        }
+
         if (!RunManager.instance.paused) speedText.text = $"{RunManager.instance.simSpeed}x";
     }
 

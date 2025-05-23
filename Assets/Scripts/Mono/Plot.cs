@@ -214,6 +214,7 @@ public class Plot : MonoBehaviour {
             ValidTowerPlacement(MainSceneUIManager.instance.GetObjectToPlace())
         ) {
             PlaceObject(MainSceneUIManager.instance.GetObjectToPlace(), GameManager.instance.Game.PlayerFaction, true);
+            MainSceneUIManager.instance.UpdateResourceGain();
         } else if (faction == GameManager.instance.Game.PlayerFaction && placedObjectSO != null && !MainSceneUIManager.instance.mouseBlocked) {
             foreach (SOUpgrade upgrade in Utils.GetAllAssets<SOUpgrade>()) {
                 if (upgrade.IsAvailable(GetComponentInChildren<PlaceableObject>())) MainSceneUIManager.instance.InitializeUpgradesMenu(this);
