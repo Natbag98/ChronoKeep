@@ -3,19 +3,19 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlaceInventoryObject", menuName = "Event/PlaceInventoryObject")]
 public class PlaceInventoryObject : SOEvent {
     [Header("PlaceInventoryObject")]
-    [SerializeField] SOPlaceableObject[] potentialObjects;
+    [SerializeField] Tag.Tags[] potentialObjectTags;
 
     private SOPlaceableObject objectToPlace;
 
     public override string GetDescription() {
-        return $"A {objectToPlace.name} will be placed in your inventory";
+        return $"A {objectToPlace.displayName} will be placed in your inventory";
     }
 
     public override void Setup() {
-        objectToPlace = Utils.Choice(potentialObjects);
+        objectToPlace = GameManager.instance.Game.placeableObjectsUnlockTracker.GetRandomUnlocked(potentialObjectTags);
     }
 
     public override void Event() {
-        Utils.GetManager<MainSceneUIManager>().PlaceInventoryItem(objectToPlace);
+        MainSceneUIManager.instance.PlaceInventoryItem(objectToPlace);
     }
 }

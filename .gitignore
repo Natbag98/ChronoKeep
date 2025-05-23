@@ -72,3 +72,9 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 .editorconfig
+dist
+ProjectSettings/ProjectVersion.txt
+Assets/AssetBundles
+Assets/AssetBundles.meta
+Assets/TestSaves.meta
+Assets/TestSaves

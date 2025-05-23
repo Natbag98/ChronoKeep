@@ -1,6 +1,10 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using UnityEditor;
+using System.Linq;
+using System.IO;
 
 public class Utils : MonoBehaviour {
     public static T Choice<T>(T[] array) { return array[GameManager.Random.Next(array.Length)]; }
@@ -8,7 +12,7 @@ public class Utils : MonoBehaviour {
     public static T Choice<T>(Dictionary<T, int> dict) {
         int max = 0;
         foreach (int chance in dict.Values) max += chance;
-        int rand = GameManager.Random.Next(1, max);
+        int rand = GameManager.Random.Next(max);
 
         int threshold = 0;
         foreach (T key in dict.Keys) {
@@ -19,6 +23,28 @@ public class Utils : MonoBehaviour {
         }
 
         return default;
+    }
+
+    public static int GenerateNumberAroundCenter(int center, int minOffset, int maxOffset) {
+        int upperBound = center + maxOffset;
+        int lowerBound = center - minOffset;
+
+        int range_size = Mathf.Abs(minOffset - maxOffset);
+        int randomIndex = GameManager.Random.Next(0, range_size * 2);
+        
+        if (randomIndex < range_size) {
+            return upperBound - randomIndex - 1;
+        }
+        else {
+            return lowerBound - (randomIndex - range_size);
+        }
+    }
+
+    /// <summary>
+    /// Gets all the values in an enum as an enumerator
+    /// </summary>
+    public static IEnumerable<T> GetEnumValues<T>() {
+        return Enum.GetValues(typeof(T)).Cast<T>();
     }
 
     /// <summary>
@@ -40,6 +66,20 @@ public class Utils : MonoBehaviour {
             Dictionary<TKey, TValue> dict = new();
             foreach (SerializableDictPair pair in dictPairs) dict.Add(pair.Key, pair.Value);
             return dict;
+        }
+    }
+
+    [System.Serializable]
+    public class SerializableNullable<T> where T : class {
+        [SerializeField] private bool containsValue;
+        [SerializeField] private T value;
+
+        public T GetValue() {
+            if (containsValue) {
+                return value;
+            } else {
+                return null;
+            }
         }
     }
 
@@ -131,7 +171,7 @@ public class Utils : MonoBehaviour {
             plots_to_search.Remove(current_pos);
             plots_searched.Add(current_pos);
 
-            foreach (Plot neighbour in GetManager<RunManager>().GetPlotArray()[current_pos.y][current_pos.x].GetNeighbours()) {
+            foreach (Plot neighbour in RunManager.instance.GetPlotArray()[current_pos.y][current_pos.x].GetNeighbours()) {
                 Vector2Int neighbour_pos = neighbour.GetPositionInPlotArray();
                 PlotPathInfo neighbour_info = GetPlotPathInfo(plot_path_info, neighbour_pos);
                 PlotPathInfo current_info = GetPlotPathInfo(plot_path_info, current_pos);
@@ -141,7 +181,7 @@ public class Utils : MonoBehaviour {
                     List<Plot> path = new();
                     Vector2Int current_path_pos = target_pos;
                     while (GetPlotPathInfo(plot_path_info, current_path_pos).from_pos != null) {
-                        path.Add(GetManager<RunManager>().GetPlotArray()[current_path_pos.y][current_path_pos.x]);
+                        path.Add(RunManager.instance.GetPlotArray()[current_path_pos.y][current_path_pos.x]);
                         current_path_pos = (Vector2Int)GetPlotPathInfo(plot_path_info, current_path_pos).from_pos;
                     }
                     path.Reverse();
@@ -172,13 +212,61 @@ public class Utils : MonoBehaviour {
         if (rotate_speed == 0f) {
             rotate.rotation = look_rotation;
         } else {
-            rotate.rotation = Quaternion.Slerp(rotate.rotation, look_rotation, Time.deltaTime * rotate_speed);
+            rotate.rotation = Quaternion.Slerp(rotate.rotation, look_rotation, Time.deltaTime * rotate_speed * RunManager.instance.simSpeed);
         }
     }
 
-    public static float CalculateDamage(float amount, float defense) {
-        return amount - defense;
+    public static float CalculateDamage(
+        GameManager.MagicTypes attackType,
+        float amount,
+        Attributes hit_attributes,
+        float attack_reduction
+    ) {
+        amount *= Math.Clamp(1 - (attack_reduction / 100), 0, 1);
+
+        return attackType switch {
+            GameManager.MagicTypes.Physical => Math.Max(5, amount - hit_attributes.GetAttribute(GameManager.Attributes.Defense)),
+            GameManager.MagicTypes.Magic => amount * (1 - (hit_attributes.GetAttribute(GameManager.Attributes.Resistance) / 100)),
+            _ => throw new Exception($"Non-existent attackType: {attackType}"),
+        };
     }
 
-    public static T GetManager<T>() where T : UnityEngine.Object { return FindFirstObjectByType<T>(); }
+    /// <summary>
+    /// Checks whether the mouse is hovering over a UI element with the given tag.
+    /// </summary>
+    /// <param name="tag">The tag to check against.</param>
+    /// <returns>The GameObject that the mouse is hovering over.</returns>
+    public static GameObject CheckMouseHoveringOverUIElementWithTag(Tag.Tags tag) {
+        PointerEventData pointerEventData = new(EventSystem.current) { position = Input.mousePosition };
+        List<RaycastResult> raycastResult = new();
+        EventSystem.current.RaycastAll(pointerEventData, raycastResult);
+        foreach (RaycastResult result in raycastResult) {
+            if (result.gameObject.GetComponent<Tag>() != null && result.gameObject.GetComponent<Tag>().HasTag(tag)) {
+                return result.gameObject;
+            }
+        }
+        return null;
+    }
+
+    private static AssetBundle loadedBundle;
+
+    public static List<T> GetAllAssets<T>() where T : ScriptableObject {
+        return (
+            from s
+            in GameManager.instance.scriptableObjects
+            where s.GetType() == typeof(T)
+            select s
+        ).Cast<T>().ToList();
+    }
+
+    public static Dictionary<string, T> GetAllAssetsDict<T>() where T : ScriptableObject {
+        Dictionary<string, T> assets_dict = new();
+        foreach (T asset in GetAllAssets<T>()) assets_dict.Add(asset.name, asset);
+        return assets_dict;
+    }
+
+    public static T GetAsset<T>(string name) where T : ScriptableObject {
+        if (!GetAllAssetsDict<T>().ContainsKey(name)) throw new Exception($"Asset {name} of type {typeof(T)} has not been added to assets AssetBundle");
+        return GetAllAssetsDict<T>()[name];
+    }
 }

@@ -8,7 +8,9 @@ public class RangedTower : Tower {
 
     protected override void GetTarget() {
         List<Character> characters_in_range = new();
-        foreach (Plot plot in GetPlotsInRange()) characters_in_range.AddRange(plot.GetCharacters());
+        foreach (Plot plot in GetPlotsInRange()) {
+            foreach (Character character in plot.GetCharacters()) if (parentPlot.faction.atWarWith[character.faction]) characters_in_range.Add(character);
+        }
         if (characters_in_range.Count > 0) target = Utils.Choice(characters_in_range).transform;
     }
 
@@ -17,10 +19,11 @@ public class RangedTower : Tower {
             projectileToShoot,
             shootPoint.position,
             Quaternion.identity,
-            Utils.GetManager<RunManager>().projectileContainer
+            RunManager.instance.projectileContainer
         ).GetComponent<Projectile>();
         projectile.SetAttributes(attributes);
         projectile.SetTarget(target);
+        projectile.SetMagicType(magicType);
         projectile.Setup();
     }
 }

@@ -13,5 +13,11 @@ MonoBehaviour:
   m_Name: Castle
   m_EditorClassIdentifier: 
   placeableObjectPrefab: {fileID: 1770908353305172144, guid: 915b8dfd4484f7c4998502b56b1a8968, type: 3}
+  displayName: Castle
+  description: This is your castle. Your run will be over if it is destroyed.
   objectType: 0
   factionControlRange: 4
+  placementCost:
+    dictPairs: []
+  mustPlaceBeside: 
+  mustPlaceBesideTags: 

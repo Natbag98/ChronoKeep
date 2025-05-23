@@ -13,5 +13,13 @@ MonoBehaviour:
   m_Name: BarbarianCamp
   m_EditorClassIdentifier: 
   placeableObjectPrefab: {fileID: 1770908353305172144, guid: 57701f774cee8904eb036dfdb5a0512d, type: 3}
+  displayName: Camp
+  description: Spawns soldiers. Must be placed adjacent to a population center.
   objectType: 2
   factionControlRange: 1
+  placementCost:
+    dictPairs:
+    - Key: 0
+      Value: 1
+  mustPlaceBeside: 
+  mustPlaceBesideTags: 04000000

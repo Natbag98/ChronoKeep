@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class Tower : PlaceableObject {
     [Header("Tower : References")]
+    [SerializeField] protected SOSound shootSound;
     [SerializeField] private UnityEngine.UI.Image reloadBar;
 
     protected Transform target;
@@ -15,7 +16,7 @@ public abstract class Tower : PlaceableObject {
     protected IEnumerator Reload() {
         canAttack = false;
         reloadTimer = 0;
-        yield return new WaitForSeconds(attributes.GetAttribute(GameManager.Attributes.ReloadTime));
+        yield return new WaitForSeconds(attributes.GetAttribute(GameManager.Attributes.ReloadSpeed) / RunManager.instance.simSpeed);
         canAttack = true;
     }
 
@@ -24,6 +25,7 @@ public abstract class Tower : PlaceableObject {
             GetTarget();
         } else {
             if (canAttack) {
+                shootSound.Play(gameObject);
                 Attack();
                 StartCoroutine(Reload());
             }
@@ -32,17 +34,17 @@ public abstract class Tower : PlaceableObject {
 
     protected override void UpdateUI() {
         base.UpdateUI();
-        reloadBar.fillAmount = reloadTimer / attributes.GetAttribute(GameManager.Attributes.ReloadTime);
+        reloadBar.fillAmount = reloadTimer / attributes.GetAttribute(GameManager.Attributes.ReloadSpeed);
     }
 
     protected override void Start() {
         base.Start();
-        reloadTimer = attributes.GetAttribute(GameManager.Attributes.ReloadTime);
+        reloadTimer = attributes.GetAttribute(GameManager.Attributes.ReloadSpeed);
     }
 
     protected override void Update() {
-        reloadTimer += Time.deltaTime;
+        reloadTimer += Time.deltaTime * RunManager.instance.simSpeed;
         base.Update();
-        if (Utils.GetManager<WaveManager>().waveActive) UpdateAttack();
+        if (WaveManager.instance.waveActive) UpdateAttack();
     }
 }

@@ -18,7 +18,17 @@ public class MainMenuUIManager : MonoBehaviour {
     }
 
     public void _Button_LoadGameButtonClicked() {
-        Debug.Log("Load Game");
+        if (!SaveSystemManager.instance.GetCanLoadGame()) {
+            PopupManager.instance.Display("Cannot load save file");
+            return;
+        }
+        GameManager.instance.load = true;
+        GameManager.instance.NewGame();
+        if (SaveSystemManager.instance.GetRunActive()) {
+            SceneManager.LoadScene("MainScene");
+        } else {
+            SceneManager.LoadScene("GameScene");
+        }
     }
 
     public void _Button_SettingsButtonClicked() {
@@ -45,6 +55,8 @@ public class MainMenuUIManager : MonoBehaviour {
         GameManager.instance.kingdomName = kingdomName.text;
         GameManager.instance.NewGame();
         
-        SceneManager.LoadScene("MainScene");
+        SceneManager.LoadScene("CutScene");
+        GameManager.instance.storyDisplay = 0;
+        GameManager.instance.nextScene = "MainScene";
     }
 }

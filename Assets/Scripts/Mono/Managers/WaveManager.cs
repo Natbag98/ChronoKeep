@@ -1,35 +1,61 @@
 using System;
 using UnityEngine;
+using System.Linq;
 
-public class WaveManager : MonoBehaviour {
+public class WaveManager : MonoBehaviour, ISaveSystem {
+    public static WaveManager instance;
+
     private int wave = 0;
     [HideInInspector] public bool waveActive = false;
+    private float secondTimer = 0;
 
-    [HideInInspector] public int hostileWaveSpawners;
-    [HideInInspector] public int hostileWaveSpawnersFinished;
-
+    public event EventHandler waveStart;
     public event EventHandler waveEnd;
 
+    public int GetWave() { return wave; }
+
     public void StartWave() {
+        secondTimer = 0;
         waveActive = true;
         wave++;
+        waveStart?.Invoke(null, EventArgs.Empty);
 
-        hostileWaveSpawners = hostileWaveSpawnersFinished = 0;
-
-        foreach (Faction faction in Utils.GetManager<RunManager>().factions) {
+        foreach (Faction faction in GameManager.instance.Game.BaseFactions) {
             faction.OnWaveStart(wave);
         }
     }
 
     void Update() {
         if (waveActive) {
-            if (
-                hostileWaveSpawners == hostileWaveSpawnersFinished &&
-                Utils.GetManager<RunManager>().characterContainer.childCount < 1
-            ) {
-                waveEnd?.Invoke(null, EventArgs.Empty);
-                waveActive = false;
+            secondTimer += Time.deltaTime;
+            if (secondTimer > 1) {
+                secondTimer = 0;
+
+                foreach (Spawner spawner in FindObjectsByType<Spawner>(FindObjectsSortMode.None)) {
+                    if (spawner.partOfHostileWave && spawner.spawning) return;
+                }
+
+                if (
+                    RunManager.instance.characterContainer.childCount < 1
+                ) {
+                    RunManager.instance.AddScore(100);
+                    MainSceneUIManager.instance.UpdateResourceGain();
+                    waveEnd?.Invoke(null, EventArgs.Empty);
+                    waveActive = false;
+                }
             }
         }
+    }
+
+    private void Start() {
+        instance = this;
+    }
+
+    public void SaveData(GameData data) {
+        data.runData.wave = wave;
+    }
+
+    public void LoadData(GameData data) {
+        wave = data.runData.wave;
     }
 }

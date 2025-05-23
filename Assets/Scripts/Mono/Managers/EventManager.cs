@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EventManager : MonoBehaviour {
+public class EventManager : MonoBehaviour, ISaveSystem {
+    public static EventManager instance;
+
     [Header("Events")]
     [SerializeField] private Utils.SerializeableDict<SOEvent, int> positiveEventsDict;
     [SerializeField] private Utils.SerializeableDict<SOEvent, int> negativeEventsDict;
@@ -24,17 +26,20 @@ public class EventManager : MonoBehaviour {
     }
 
     private void NewEvent() {
-        if (GameManager.Random.Next(1, 101) < negativeEventChance) {
-            currentEvent = Utils.Choice(negativeEvents);
+        int negative_event_chance = negativeEventChance;
+        if (GameManager.instance.Game.perksUnlockTracker.unlocked[GameManager.instance.LuckPerks[0]]) negative_event_chance -= 5;
+        if (GameManager.instance.Game.perksUnlockTracker.unlocked[GameManager.instance.LuckPerks[1]]) negative_event_chance -= 5;
+        if (GameManager.instance.Game.perksUnlockTracker.unlocked[GameManager.instance.LuckPerks[2]]) negative_event_chance -= 10;
+
+        Dictionary<SOEvent, int> potentialEvents = new();
+        if (GameManager.Random.Next(1, 101) < negative_event_chance) {
+            foreach (SOEvent event_ in negativeEvents.Keys) if (event_.IsValid()) potentialEvents.Add(event_, negativeEvents[event_]);
         } else {
-            currentEvent = Utils.Choice(positiveEvents);
+            foreach (SOEvent event_ in positiveEvents.Keys) if (event_.IsValid()) potentialEvents.Add(event_, positiveEvents[event_]);
         }
-        if (currentEvent.IsValid()) {
-            currentEvent.Setup();
-        } else {
-            Debug.Log("Event was not valid"); // TODO : Replace with getting a new event once more events exist
-            currentEvent = null;
-        }
+
+        currentEvent = Utils.Choice(potentialEvents);
+        currentEvent.Setup();
     }
 
     private void WaveEnd(object _, EventArgs __) {
@@ -46,8 +51,18 @@ public class EventManager : MonoBehaviour {
     }
 
     private void Start() {
+        instance = this;
+
         positiveEvents = positiveEventsDict.GetDict();
         negativeEvents = negativeEventsDict.GetDict();
-        Utils.GetManager<WaveManager>().waveEnd += WaveEnd;
+        WaveManager.instance.waveEnd += WaveEnd;
+    }
+
+    public void SaveData(GameData data) {
+        data.runData.eventChance = eventChance;
+    }
+
+    public void LoadData(GameData data) {
+        eventChance = data.runData.eventChance;
     }
 }

@@ -233,6 +233,7 @@ GameObject:
   - component: {fileID: 2828861577566715767}
   - component: {fileID: 8975184731172336809}
   - component: {fileID: -1666253406845866567}
+  - component: {fileID: 211866954106879941}
   m_Layer: 0
   m_Name: FootSoldier
   m_TagString: Untagged
@@ -295,28 +296,43 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotateSpeed: 10
   attackDelayTime: 2
+  magicType: 0
   movementTargetPriorities: 
   attributes:
     baseAttributes:
       dictPairs:
       - Key: 0
-        Value: 100
+        Value: 150
       - Key: 1
-        Value: 50
-      - Key: 4
-        Value: 3
+        Value: 40
       - Key: 5
         Value: 0.65
-      - Key: 6
-        Value: 25
       - Key: 3
-        Value: 100
+        Value: 120
       - Key: 2
         Value: 3
+      - Key: 8
+        Value: 0
+      - Key: 9
+        Value: 75
   centerPoint: {fileID: 3637380205398060539}
   rotatePoint: {fileID: 7299065947056116757}
   healthBar: {fileID: 8995590570285438606}
   reloadBar: {fileID: 1810977505597509790}
+  characterSO: {fileID: 0}
+--- !u!114 &211866954106879941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6995875889840719490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18a5389b09fc8864985c1e82169e6d35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tags: 08000000
 --- !u!1 &7280392322809693301
 GameObject:
   m_ObjectHideFlags: 0
