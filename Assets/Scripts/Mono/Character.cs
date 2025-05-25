@@ -12,6 +12,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     [SerializeField] protected GameManager.MagicTypes magicType;
     [SerializeField] private GameManager.PlaceableObjectTypes[] movementTargetPriorities;
     [SerializeField] protected Attributes attributes;
+    [SerializeField] [SerializeReference] private SOCharacterAddon[] characterAddons;
 
     [Header("References")]
     [SerializeField] protected Transform centerPoint;
@@ -33,11 +34,12 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     protected bool canAttack = true;
     protected bool attacking;
     private Vector3 lastPosition;
-    protected bool blocked = false;
+    public bool blocked { protected set; get; } = false;
     protected PlaceableObject blockedObject;
     protected float reloadTimer;
     private Plot fromPlot;
     private List<Mod> modsFromPlot = new();
+    [HideInInspector] public bool invisible = false;
 
     protected virtual void GetTarget() {}
     protected virtual void Attack() {}
@@ -256,12 +258,14 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     }
 
     protected virtual void Update() {
+        Debug.Log(invisible);
         if (RunManager.instance.paused) return;
         reloadTimer += Time.deltaTime * RunManager.instance.simSpeed;
         if (movementTarget == null) GetPath();
         if (blockedObject == null) blocked = false;
         if (health <= 0) Destroy(gameObject);
         SetVisible(GetCurrentPlot().visibleToPlayer);
+        foreach (SOCharacterAddon addon in characterAddons) addon.AddonUpdate(this);
 
         CheckCollision();
         CheckCollisionWithCharacters();
