@@ -138,7 +138,6 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     public void UpdateResourceGain() {
         resourcesPerWave = new();
         foreach (var resource in Enum.GetValues(typeof(GameManager.Resources))) {
-            Debug.Log(resource);
             resourcesPerWave.Add((GameManager.Resources)resource, 0);
         }
         foreach (Plot plot in RunManager.instance.GetAllPlotsWithFactionObjects(GameManager.instance.Game.PlayerFaction)) {

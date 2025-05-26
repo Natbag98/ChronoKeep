@@ -18,7 +18,7 @@ public class RangedCharacter : Character {
                 targets_in_range.Add(plot.GetComponentInChildren<PlaceableObject>().transform);
             }
 
-            foreach (Character character in plot.GetCharacters()) {
+            foreach (Character character in plot.GetCharacters(false)) {
                 if (faction.atWarWith[character.faction]) targets_in_range.Add(character.transform);
             }
         }

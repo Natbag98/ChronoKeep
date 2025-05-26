@@ -9,7 +9,7 @@ public class RangedTower : Tower {
     protected override void GetTarget() {
         List<Character> characters_in_range = new();
         foreach (Plot plot in GetPlotsInRange()) {
-            foreach (Character character in plot.GetCharacters()) if (parentPlot.faction.atWarWith[character.faction]) characters_in_range.Add(character);
+            foreach (Character character in plot.GetCharacters(false)) if (parentPlot.faction.atWarWith[character.faction]) characters_in_range.Add(character);
         }
         if (characters_in_range.Count > 0) target = Utils.Choice(characters_in_range).transform;
     }
@@ -25,5 +25,10 @@ public class RangedTower : Tower {
         projectile.SetTarget(target);
         projectile.SetMagicType(magicType);
         projectile.Setup();
+    }
+
+    protected override void Update() {
+        if (target != null && target.GetComponent<IRangedTarget>().GetInvisible()) target = null;
+        base.Update();
     }
 }

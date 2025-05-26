@@ -39,7 +39,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     protected float reloadTimer;
     private Plot fromPlot;
     private List<Mod> modsFromPlot = new();
-    [HideInInspector] public bool invisible = false;
+    [HideInInspector] public bool invisible = true;
 
     protected virtual void GetTarget() {}
     protected virtual void Attack() {}
@@ -240,6 +240,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     }
 
     private void Start() {
+        invisible = true;
         SetVisible(false);
         GetTargetFaction();
 
@@ -258,7 +259,6 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     }
 
     protected virtual void Update() {
-        Debug.Log(invisible);
         if (RunManager.instance.paused) return;
         reloadTimer += Time.deltaTime * RunManager.instance.simSpeed;
         if (movementTarget == null) GetPath();
@@ -320,5 +320,9 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
 
     public void RemoveMod(Mod mod) {
         attributes.RemoveMod(mod);
+    }
+
+    public bool GetInvisible() {
+        return invisible;
     }
 }
