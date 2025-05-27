@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: KingdomManagement3
   m_EditorClassIdentifier: 
   displayName: Organization III
-  description: Decreases the reload speed of your towers by a further 20% and increases
+  description: Increases the reload speed of your towers by a further 20% and increases
     your score gain by a further 10%
   tree: 0
   index: 2
@@ -25,3 +25,4 @@ MonoBehaviour:
   - targetTags: 02000000
     attributeToAffect: 2
     amount: 0.8
+    applyTo: 0
