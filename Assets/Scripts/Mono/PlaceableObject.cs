@@ -125,4 +125,8 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     public void RemoveMod(Mod mod) {
         attributes.RemoveMod(mod);
     }
+
+    public bool GetInvisible() {
+        return false;
+    }
 }

@@ -87,11 +87,14 @@ public class Plot : MonoBehaviour {
     /// <summary>
     /// Gets a list of characters standing on this plot.
     /// </summary>
-    public List<Character> GetCharacters() {
+    public List<Character> GetCharacters(bool include_invisible=true) {
         List<Character> characters = new();
         foreach (Transform t in RunManager.instance.characterContainer) {
             Character character = t.GetComponent<Character>();
-            if (character.GetCurrentPlot() == this) characters.Add(character);
+            if (character.GetCurrentPlot() == this) {
+                if (!include_invisible && character.invisible) continue;
+                characters.Add(character);
+            }
         }
         return characters;
     }

@@ -84,7 +84,7 @@ MonoBehaviour:
       Value: 12
     - Key: {fileID: 11400000, guid: 981ac3728cebc7444a0e22b7fdb337e6, type: 2}
       Value: 12
-  debugMode: 0
+  debugMode: 1
   startingResources:
     dictPairs:
     - Key: 0
@@ -130,6 +130,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cf8b1f3b326b6db46865e35690be2f4a, type: 2}
   - {fileID: 11400000, guid: 2a890fe14bba1d04cab20d4019369af9, type: 2}
   - {fileID: 11400000, guid: d2e61e4e41cc624438b1cba624ea512d, type: 2}
+  - {fileID: 11400000, guid: 1edb1a4ff25d726439c752e1a4872543, type: 2}
 --- !u!114 &-8175749535513372674
 MonoBehaviour:
   m_ObjectHideFlags: 0
