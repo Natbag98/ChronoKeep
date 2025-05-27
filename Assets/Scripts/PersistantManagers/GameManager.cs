@@ -21,7 +21,8 @@ public class GameManager : MonoBehaviour, ISaveSystem {
         Resistance,
         DamageReductionTower,
         DamageReductionCharacter,
-        RangedMeleeAttackReduction
+        RangedMeleeAttackReduction,
+        DamageReductionCivilianTower
     }
     public enum PlaceableObjectTypes {
         Castle,
@@ -67,6 +68,7 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     public float maxGameSpeed;
 
     public Utils.SerializeableDict<Attributes, int> defaultAttributes;
+    public Utils.SerializeableDict<Attributes, Attributes> attributeDerive;
 
     [Header("Static Data : Scriptable Objects")]
     public SOPlaceableObject Castle;
