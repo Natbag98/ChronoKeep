@@ -90,12 +90,14 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
         // Target closest priority target
         foreach (GameManager.PlaceableObjectTypes targetObjectType in movementTargetPriorities) {
             List<Plot> targets = RunManager.instance.GetAllPlotsWithPlacedObject(targetObjectType, targetFaction);
-            foreach (Plot target in targets) {
-                float distance = Vector2.Distance(target.transform.position, transform.position);
-                min_distance ??= distance; min_target = min_target != null ? min_target : target;
-                if (distance < min_distance) {
-                    min_distance = distance;
-                    min_target = target;
+            if (targets != null) {
+                foreach (Plot target in targets) {
+                    float distance = Vector2.Distance(target.transform.position, transform.position);
+                    min_distance ??= distance; min_target = min_target != null ? min_target : target;
+                    if (distance < min_distance) {
+                        min_distance = distance;
+                        min_target = target;
+                    }
                 }
             }
         }
@@ -259,6 +261,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     }
 
     protected virtual void Update() {
+        Debug.Log(attributes.GetAttribute(GameManager.Attributes.DamageReductionCivilianTower));
         if (RunManager.instance.paused) return;
         reloadTimer += Time.deltaTime * RunManager.instance.simSpeed;
         if (movementTarget == null) GetPath();

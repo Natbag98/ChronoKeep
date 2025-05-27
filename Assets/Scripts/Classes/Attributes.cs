@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -16,8 +17,10 @@ public class Attributes {
         float attribute;
         if (HasAttribute(attribute_to_get)) {
             attribute = baseAttributes.GetDict()[attribute_to_get];
-        } else {
+        } else if (GameManager.instance.defaultAttributes.GetDict().Keys.Contains(attribute_to_get)) {
             attribute = GameManager.instance.defaultAttributes.GetDict()[attribute_to_get];
+        } else {
+            attribute = GetAttribute(GameManager.instance.attributeDerive.GetDict()[attribute_to_get]);
         }
 
         foreach (Mod mod in mods) {
