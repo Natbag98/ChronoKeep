@@ -104,8 +104,7 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     [HideInInspector] public string nextScene;
     [HideInInspector] public int storyDisplay;
 
-    [Header("SO References")]
-    public List<ScriptableObject> scriptableObjects;
+    [HideInInspector] public List<ScriptableObject> scriptableObjects;
 
     private void Awake() {
         if (instance) {
