@@ -34,6 +34,7 @@ public class CameraSystem : MonoBehaviour {
     private void Start() {
         instance = this;
         cameraComponent = GetComponentInChildren<Camera>();
+        cameraComponent.orthographic = SettingsManager.instance.orthographicCamera;
     }
 
     private void Update() {
