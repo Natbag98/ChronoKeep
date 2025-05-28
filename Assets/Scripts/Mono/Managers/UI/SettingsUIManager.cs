@@ -9,6 +9,7 @@ public class SettingsUIManager : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI soundEffectsVolumeText;
     [SerializeField] private TextMeshProUGUI musicVolumeText;
     [SerializeField] private TextMeshProUGUI fullScreenText;
+    [SerializeField] private TextMeshProUGUI orthButtonText;
 
     [Header("References Sliders")]
     [SerializeField] private Slider musicVolumeSlider;
@@ -19,12 +20,21 @@ public class SettingsUIManager : MonoBehaviour {
         {false, "Windowed"}
     };
 
+    private readonly Dictionary<bool, string> orthTexts = new() {
+        {true, "Orthographic"},
+        {false, "Perspective"}
+    };
+
     public void _Button_ModularHardwareAccelerationClicked() {
         SettingsManager.instance.modularHardwareAcceleration = !SettingsManager.instance.modularHardwareAcceleration;
     }
 
     public void _Button_FullScreenButtonClicked() {
         Screen.fullScreen = !Screen.fullScreen;
+    }
+
+    public void _Button_OrthButtonClicked() {
+        SettingsManager.instance.orthographicCamera = !SettingsManager.instance.orthographicCamera;
     }
 
     private string GetDispText(bool from) { if (from) return "On"; else return "Off"; }
@@ -37,5 +47,6 @@ public class SettingsUIManager : MonoBehaviour {
         soundEffectsVolumeText.text = $"Sound Effects Volume: {SettingsManager.instance.soundEffectsVolume}";
         musicVolumeText.text = $"Music Volume: {SettingsManager.instance.musicVolume}";
         fullScreenText.text = fullScreenTexts[Screen.fullScreen];
+        orthButtonText.text = orthTexts[SettingsManager.instance.orthographicCamera];
     }
 }
