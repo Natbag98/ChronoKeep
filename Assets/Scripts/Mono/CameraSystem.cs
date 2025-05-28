@@ -35,6 +35,13 @@ public class CameraSystem : MonoBehaviour {
         instance = this;
         cameraComponent = GetComponentInChildren<Camera>();
         cameraComponent.orthographic = SettingsManager.instance.orthographicCamera;
+        if (cameraComponent.orthographic) {
+            cameraTransform.localPosition = new(0, oYPosition, oZPosition);
+            cameraTransform.localEulerAngles = new(oXRotation, 0, 0);
+        } else {
+            cameraTransform.localPosition = new(0, pYPosition, pZPosition);
+            cameraTransform.localEulerAngles = new(pXRotation, 0, 0);
+        }
     }
 
     private void Update() {
@@ -76,9 +83,6 @@ public class CameraSystem : MonoBehaviour {
         }
 
         if (cameraComponent.orthographic) {
-            cameraTransform.localPosition = new(0, oYPosition, oZPosition);
-            cameraTransform.localEulerAngles = new(oXRotation, 0, 0);
-
             if (scroll == 0f) {
                 inputZoomDir *= oZoomSpeed;
             } else{
@@ -89,9 +93,6 @@ public class CameraSystem : MonoBehaviour {
                 cameraComponent.orthographicSize = Math.Min(oMinZoom, Math.Max(oMaxZoom, cameraComponent.orthographicSize + inputZoomDir.z * Time.deltaTime * -1));
             }
         } else {
-            cameraTransform.localPosition = new(0, pYPosition, pZPosition);
-            cameraTransform.localEulerAngles = new(pXRotation, 0, 0);
-
             if (scroll == 0f) {
                 inputZoomDir *= pZoomSpeed;
             } else{
