@@ -269,4 +269,23 @@ public class Utils : MonoBehaviour {
         if (!GetAllAssetsDict<T>().ContainsKey(name)) throw new Exception($"Asset {name} of type {typeof(T)} has not been added to assets AssetBundle");
         return GetAllAssetsDict<T>()[name];
     }
+
+    public static float[][] GenerateFalloffMap(Vector2Int size) {
+        float[][] falloff_map = CreateJaggedArray<float[][]>(size.y, size.x);
+
+        for (int y = 0; y < size.y; y++) {
+            for (int x = 0; x < size.x; x++) {
+                float nx = x / size.x * 2 - 1;
+                float ny = y / size.y * 2 - 1;
+
+                float distance = Mathf.Sqrt(nx * nx + ny * ny);
+                distance = Mathf.Clamp01(distance);
+                distance = Mathf.Pow(distance, 3f);
+
+                falloff_map[y][x] = distance;
+            }
+        }
+
+        return falloff_map;
+    }
 }

@@ -86,6 +86,10 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     [SerializeField] private int mapSize;
     [SerializeField] private Utils.SerializeableDict<SOPlot, int> plotGenerationData;
 
+    [Header("Noise Generation Data")]
+    [SerializeField] private float noiseScale;
+    [SerializeField] private flaot 
+
     [Header("Test Data")]
     public bool debugMode;
     public Utils.SerializeableDict<Resources, int> startingResources;

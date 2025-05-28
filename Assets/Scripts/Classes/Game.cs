@@ -133,6 +133,25 @@ public class Game {
     }
 
     private void GenerateBaseTerrain(Dictionary<SOPlot, int> plot_generation_data) {
+        float[][] falloff_map = Utils.GenerateFalloffMap(TerrainSize);
+        float[][] heightmap = Utils.CreateJaggedArray<float[][]>(TerrainSize.x, TerrainSize.y);
+        for (int y = 0; y < TerrainSize.y; y++) {
+            for (int x = 0; x < TerrainSize.x; x++) {
+                // Generate Perlin noise (0 to 1)
+                float xCoord = (float)x / TerrainSize.x * noiseScale;
+                float yCoord = (float)y / TerrainSize.y * noiseScale;
+                float perlinValue = Mathf.PerlinNoise(xCoord, yCoord);
+
+                // Apply falloff (subtract or multiply)
+                float falloff = falloff_map[y][x] * falloffStrength;
+                float heightValue = perlinValue - falloff; // Creates an island
+
+                // Clamp and store
+                heightmap[x, y] = Mathf.Clamp01(heightValue);
+            }
+        }
+    }
+
         BaseTerrain = CreateJaggedArray<SOPlot[][]>(TerrainSize.x, TerrainSize.y);
         for (int x = 0; x < TerrainSize.x; x++) {
             for (int y = 0; y < TerrainSize.y; y++) {
