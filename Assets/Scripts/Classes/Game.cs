@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using static Utils;
@@ -35,7 +36,7 @@ public class Game {
 
     public Game(
         Vector2Int terrain_size,
-        Dictionary<SOPlot, int> plot_generation_data,
+        Dictionary<SOPlot, float> plot_generation_data,
         string playerName,
         string kingdomName
     ) {
@@ -132,30 +133,29 @@ public class Game {
         BaseFactions.Add(new(this, GameManager.FactionTypes.BarbarianClan));
     }
 
-    private void GenerateBaseTerrain(Dictionary<SOPlot, int> plot_generation_data) {
-        float[][] falloff_map = Utils.GenerateFalloffMap(TerrainSize);
-        float[][] heightmap = Utils.CreateJaggedArray<float[][]>(TerrainSize.x, TerrainSize.y);
+    private void GenerateBaseTerrain(Dictionary<SOPlot, float> plot_generation_data) {
+        int xOffset = GameManager.Random.Next(GameManager.instance.maxOffset);
+        int yOffset = GameManager.Random.Next(GameManager.instance.maxOffset);
+        float[][] falloff_map = GenerateFalloffMap(TerrainSize);
+        float[][] heightmap = CreateJaggedArray<float[][]>(TerrainSize.x, TerrainSize.y);
         for (int y = 0; y < TerrainSize.y; y++) {
             for (int x = 0; x < TerrainSize.x; x++) {
-                // Generate Perlin noise (0 to 1)
-                float xCoord = (float)x / TerrainSize.x * noiseScale;
-                float yCoord = (float)y / TerrainSize.y * noiseScale;
-                float perlinValue = Mathf.PerlinNoise(xCoord, yCoord);
-
-                // Apply falloff (subtract or multiply)
-                float falloff = falloff_map[y][x] * falloffStrength;
-                float heightValue = perlinValue - falloff; // Creates an island
-
-                // Clamp and store
-                heightmap[x, y] = Mathf.Clamp01(heightValue);
+                float xCoord = (float)x / TerrainSize.x * GameManager.instance.noiseScale;
+                float yCoord = (float)y / TerrainSize.y * GameManager.instance.noiseScale;
+                float perlinValue = Mathf.PerlinNoise((xCoord + xOffset) / GameManager.instance.maxOffset, (yCoord + yOffset) / GameManager.instance.maxOffset);
+                heightmap[y][x] = Mathf.Clamp01(perlinValue * GameManager.instance.noiseStrength - falloff_map[y][x] * GameManager.instance.falloffStrength);
             }
         }
-    }
 
         BaseTerrain = CreateJaggedArray<SOPlot[][]>(TerrainSize.x, TerrainSize.y);
         for (int x = 0; x < TerrainSize.x; x++) {
             for (int y = 0; y < TerrainSize.y; y++) {
-                BaseTerrain[y][x] = Choice(plot_generation_data);
+                foreach (var pair in plot_generation_data) {
+                    if (heightmap[y][x] < pair.Value / 100) {
+                        BaseTerrain[y][x] = pair.Key;
+                        continue;
+                    }
+                }
             }
         }
     }
@@ -163,6 +163,13 @@ public class Game {
     private void PlaceCastle() {
         for (int x = TerrainSize.x / 2; x < TerrainSize.x; x++) {
             for (int y = TerrainSize.y / 2; y < TerrainSize.y; y++) {
+                baseObjectInfo.Add(new BaseObjectInfo{
+                    location = new(x, y),
+                    base_object = GameManager.instance.Castle,
+                    faction = PlayerFaction
+                });
+                playerCastleLocation = new(x, y);
+                return;
                 if (BaseTerrain[y][x].prefab.GetComponent<Plot>().GetCanPlaceObject() && BaseTerrain[y][x].prefab.GetComponent<Plot>().walkable) {
                     baseObjectInfo.Add(new BaseObjectInfo{
                         location = new(x, y),
@@ -202,6 +209,13 @@ public class Game {
         
         int x = Mathf.Clamp(GenerateNumberAroundCenter(constraint_location.x, constraint_min_distance, constraint_max_distance), 0, TerrainSize.x - 1);
         int y = Mathf.Clamp(GenerateNumberAroundCenter(constraint_location.y, constraint_min_distance, constraint_max_distance), 0, TerrainSize.y - 1);
+
+        list_to_place.Add(new BaseObjectInfo{
+            location = new(x, y),
+            base_object = object_to_place,
+            faction = faction
+        });
+        return;
 
         if (
             !(from base_object_info in list_to_place select base_object_info.location).Contains(new Vector2Int(x, y)) &&

@@ -88,6 +88,10 @@ MonoBehaviour:
       Value: 12
     - Key: {fileID: 11400000, guid: 981ac3728cebc7444a0e22b7fdb337e6, type: 2}
       Value: 12
+  noiseScale: 1000
+  noiseStrength: 1.15
+  falloffStrength: 0.5
+  maxOffset: 1000
   debugMode: 1
   startingResources:
     dictPairs:

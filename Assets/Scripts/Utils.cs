@@ -275,14 +275,13 @@ public class Utils : MonoBehaviour {
 
         for (int y = 0; y < size.y; y++) {
             for (int x = 0; x < size.x; x++) {
-                float nx = x / size.x * 2 - 1;
-                float ny = y / size.y * 2 - 1;
+                float xCenter = size.x / 2;
+                float yCenter = size.y / 2;
 
-                float distance = Mathf.Sqrt(nx * nx + ny * ny);
-                distance = Mathf.Clamp01(distance);
-                distance = Mathf.Pow(distance, 3f);
+                float xDist = Mathf.Abs(xCenter - x) / xCenter;
+                float yDist = Mathf.Abs(yCenter - y) / yCenter;
 
-                falloff_map[y][x] = distance;
+                falloff_map[y][x] = Mathf.Sqrt(Mathf.Pow(xDist, 2) + Mathf.Pow(yDist, 2));
             }
         }
 
