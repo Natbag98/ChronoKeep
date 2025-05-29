@@ -75,23 +75,23 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6f1d24f4cb50a7a448c6b4d489f1dcd5, type: 2}
   - {fileID: 11400000, guid: 031a4c2f2cc5e254681fc4e87d25e534, type: 2}
   WallPrefab: {fileID: 640411937715291779, guid: 1f67f3ffbdce83e4d82d3923349d4a62, type: 3}
-  mapSize: 25
+  mapSize: 50
   plotGenerationData:
     dictPairs:
     - Key: {fileID: 11400000, guid: 2a890fe14bba1d04cab20d4019369af9, type: 2}
-      Value: 60
+      Value: 0.25
     - Key: {fileID: 11400000, guid: 91b0b931bda090541a294a0c5834a536, type: 2}
-      Value: 12
+      Value: 0.6
     - Key: {fileID: 11400000, guid: 487feeaaddffd7844895873763a7a0c8, type: 2}
-      Value: 4
+      Value: 0.5
     - Key: {fileID: 11400000, guid: cf8b1f3b326b6db46865e35690be2f4a, type: 2}
-      Value: 12
+      Value: 1
     - Key: {fileID: 11400000, guid: 981ac3728cebc7444a0e22b7fdb337e6, type: 2}
-      Value: 12
-  noiseScale: 1000
-  noiseStrength: 1.15
-  falloffStrength: 0.5
-  maxOffset: 1000
+      Value: 0.2
+  noiseScale: 100000
+  noiseStrength: 2
+  falloffStrength: 1
+  maxOffset: 10000
   debugMode: 1
   startingResources:
     dictPairs:

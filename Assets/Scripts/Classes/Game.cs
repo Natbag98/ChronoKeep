@@ -148,12 +148,13 @@ public class Game {
         }
 
         BaseTerrain = CreateJaggedArray<SOPlot[][]>(TerrainSize.x, TerrainSize.y);
+        plot_generation_data = plot_generation_data.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
         for (int x = 0; x < TerrainSize.x; x++) {
             for (int y = 0; y < TerrainSize.y; y++) {
                 foreach (var pair in plot_generation_data) {
-                    if (heightmap[y][x] < pair.Value / 100) {
+                    if (heightmap[y][x] <= pair.Value) {
                         BaseTerrain[y][x] = pair.Key;
-                        continue;
+                        break;
                     }
                 }
             }
