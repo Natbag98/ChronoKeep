@@ -153,7 +153,14 @@ public class Game {
             for (int y = 0; y < TerrainSize.y; y++) {
                 foreach (var pair in plot_generation_data) {
                     if (heightmap[y][x] <= pair.Value) {
-                        BaseTerrain[y][x] = pair.Key;
+                        SOPlot plot_to_place = pair.Key;
+                        foreach (ReplacePlot replace in GameManager.instance.replacePlots) {
+                            if (replace.Replace(plot_to_place)) {
+                                plot_to_place = replace.plot;
+                                break;
+                            }
+                        }
+                        BaseTerrain[y][x] = plot_to_place;
                         break;
                     }
                 }
