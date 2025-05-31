@@ -44,7 +44,9 @@ public class GameManager : MonoBehaviour, ISaveSystem {
         Lake,
         Gold,
         Mountains,
-        Marsh
+        Marsh,
+        Ocean,
+        Forest
     }
     public enum PerkTrees {
         KingdomManagement,
