@@ -130,12 +130,12 @@ public class GameManager : MonoBehaviour, ISaveSystem {
         foreach (SOPlaceableObject placeable_object in Utils.GetAllAssets<SOPlaceableObject>()) allSOPlaceableObjects.Add(placeable_object);
 
         if (SceneManager.GetActiveScene().name != "MainMenuScene") {
-            Game = new(new(mapSize, mapSize), plotGenerationData.GetDict(), "", "");
+            Game = new(new(mapSize, mapSize), plotGenerationData.GetDict(), "", "", 4);
         }
     }
 
     public void NewGame() {
-        Game = new(new(mapSize, mapSize), plotGenerationData.GetDict(), kingdomName, playerName);
+        Game = new(new(mapSize, mapSize), plotGenerationData.GetDict(), kingdomName, playerName, 4);
     }
 
     public float GetVolumeScale(SOSound.SoundType soundType) {

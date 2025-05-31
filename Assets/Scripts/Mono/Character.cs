@@ -261,7 +261,6 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     }
 
     protected virtual void Update() {
-        Debug.Log(attributes.GetAttribute(GameManager.Attributes.DamageReductionCivilianTower));
         if (RunManager.instance.paused) return;
         reloadTimer += Time.deltaTime * RunManager.instance.simSpeed;
         if (movementTarget == null) GetPath();

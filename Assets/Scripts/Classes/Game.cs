@@ -38,7 +38,8 @@ public class Game {
         Vector2Int terrain_size,
         Dictionary<SOPlot, float> plot_generation_data,
         string playerName,
-        string kingdomName
+        string kingdomName,
+        int non_barb_faction_count
     ) {
         usedFactionNames = new();
         placeableObjectsUnlockTracker.UpdateUnlocked(GameManager.instance.ArcherTower);
@@ -49,9 +50,7 @@ public class Game {
         resources = GameManager.instance.startingResources.GetDict();
         TerrainSize = terrain_size;
         GenerateBaseTerrain(plot_generation_data);
-        GenerateFactions();
-        PlaceCastle();
-        PlaceBarbCamps(1);
+        GenerateFactions(non_barb_faction_count, 2);
     }
 
     public Faction GetFactionByName(string name) {
@@ -94,43 +93,25 @@ public class Game {
         return true;
     }
 
-    private void GenerateFactions() {
-        Vector2Int[] castle_locations = {
-            new(3, TerrainSize.y / 2),
-            new(TerrainSize.x - 3, TerrainSize.y / 2),
-            new(TerrainSize.x / 2, TerrainSize.y - 3),
-            new(TerrainSize.x / 2, 3),
+    private void GenerateFactions(int faction_count, int barb_count) {
+        List<Vector2Int> castle_locations = new() {
+            PlaceObject(baseObjectInfo, GameManager.instance.Castle, PlayerFaction)
         };
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < faction_count; i++) {
             Faction faction = new(this, GameManager.FactionTypes.Kingdom);
             BaseFactions.Add(faction);
-
-            PlaceObject(
-                GameManager.instance.Castle,
-                faction,
-                baseObjectInfo,
-                castle_locations[i],
-                constraint_max_distance: 2
-            );
-
-            PlaceObject(
-                GameManager.instance.BarbCamp,
-                faction,
-                baseObjectInfo,
-                castle_locations[i],
-                constraint_max_distance: 4
-            );
-
-            PlaceObject(
-                GameManager.instance.ArcherTower,
-                faction,
-                baseObjectInfo,
-                castle_locations[i],
-                constraint_max_distance: 4
-            );
+            Vector2Int castle_location = PlaceObject(baseObjectInfo, GameManager.instance.Castle, faction, avoid_locations: castle_locations, avoid_by: 10);
+            castle_locations.Add(castle_location);
+            PlaceObject(baseObjectInfo, GameManager.instance.ArcherTower, faction, castle_location, 4);
+            PlaceObject(baseObjectInfo, GameManager.instance.BarbCamp, faction, castle_location, 4);
         }
+
         BaseFactions.Add(new(this, GameManager.FactionTypes.BarbarianClan));
+        PlaceObject(baseObjectInfo, GameManager.instance.BarbCamp, BaseFactions[^1], castle_locations[0], 5);
+        for (int i = 0; i < barb_count - 1; i++) {
+            PlaceObject(baseObjectInfo, GameManager.instance.BarbCamp, BaseFactions[^1]);
+        }
     }
 
     private void GenerateBaseTerrain(Dictionary<SOPlot, float> plot_generation_data) {
@@ -168,75 +149,40 @@ public class Game {
         }
     }
 
-    private void PlaceCastle() {
-        for (int x = TerrainSize.x / 2; x < TerrainSize.x; x++) {
-            for (int y = TerrainSize.y / 2; y < TerrainSize.y; y++) {
-                baseObjectInfo.Add(new BaseObjectInfo{
-                    location = new(x, y),
-                    base_object = GameManager.instance.Castle,
-                    faction = PlayerFaction
-                });
-                playerCastleLocation = new(x, y);
-                return;
-                if (BaseTerrain[y][x].prefab.GetComponent<Plot>().GetCanPlaceObject() && BaseTerrain[y][x].prefab.GetComponent<Plot>().walkable) {
-                    baseObjectInfo.Add(new BaseObjectInfo{
-                        location = new(x, y),
-                        base_object = GameManager.instance.Castle,
-                        faction = PlayerFaction
-                    });
-                    playerCastleLocation = new(x, y);
-                    return;
+    private Vector2Int PlaceObject(
+        List<BaseObjectInfo> list_to_place,
+        SOPlaceableObject object_to_place,
+        Faction faction,
+        Vector2Int? center_location=null,
+        int? max_dist_from_center=null,
+        List<Vector2Int> avoid_locations=null,
+        int? avoid_by=null
+    ) {
+        List<Vector2Int> potential_locations = new();
+        for (int x = 0; x < TerrainSize.x; x++) {
+            for (int y = 0; y < TerrainSize.y; y++) {
+                if (
+                    BaseTerrain[y][x].prefab.GetComponent<Plot>().GetCanPlaceObject(object_to_place) &&
+                    !(from info in baseObjectInfo select info.location).ToList().Contains(new(x, y))
+                ) {
+                    if (center_location != null && Vector2Int.Distance((Vector2Int)center_location, new(x, y)) > max_dist_from_center) continue;
+                    if (avoid_locations != null) {
+                        bool cont = false;
+                        foreach (Vector2Int location_to_avoid in avoid_locations) if (Vector2Int.Distance(location_to_avoid, new(x, y)) < avoid_by) cont = true;
+                        if (cont) continue;
+                    }
+                    potential_locations.Add(new(x, y));
                 }
             }
         }
-    }
 
-    private void PlaceBarbCamps(int count) {
-        for (int i = 0; i < count; i++) PlaceObject(
-            GameManager.instance.BarbCamp,
-            BaseFactions[^1],
-            baseObjectInfo,
-            playerCastleLocation,
-            GameManager.instance.MinBarbGenerationDistance,
-            GameManager.instance.MaxBarbGenerationDistance
-        );
-    }
-
-    private void PlaceObject(
-        SOPlaceableObject object_to_place,
-        Faction faction,
-        List<BaseObjectInfo> list_to_place,
-        Vector2Int? constraint_location_input=null,
-        int constraint_min_distance=0,
-        int constraint_max_distance=1000
-    ) {
-        Vector2Int constraint_location = Vector2Int.zero;
-        if (constraint_location_input != null) {
-            constraint_location = (Vector2Int)constraint_location_input;
-        }
-        
-        int x = Mathf.Clamp(GenerateNumberAroundCenter(constraint_location.x, constraint_min_distance, constraint_max_distance), 0, TerrainSize.x - 1);
-        int y = Mathf.Clamp(GenerateNumberAroundCenter(constraint_location.y, constraint_min_distance, constraint_max_distance), 0, TerrainSize.y - 1);
-
+        Vector2Int location = Choice(potential_locations);
         list_to_place.Add(new BaseObjectInfo{
-            location = new(x, y),
+            location = location,
             base_object = object_to_place,
             faction = faction
         });
-        return;
-
-        if (
-            !(from base_object_info in list_to_place select base_object_info.location).Contains(new Vector2Int(x, y)) &&
-            BaseTerrain[x][y].prefab.GetComponent<Plot>().GetCanPlaceObject(object_to_place)
-        ) {
-            list_to_place.Add(new BaseObjectInfo{
-                location = new(x, y),
-                base_object = object_to_place,
-                faction = faction
-            });
-        } else {
-            PlaceObject(object_to_place, faction, list_to_place, constraint_location, constraint_min_distance, constraint_max_distance);
-        }
+        return location;
     }
 
     public void LoadData(GameData data) {
