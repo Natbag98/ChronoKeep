@@ -36,7 +36,7 @@ public class Game {
 
     public Game(
         Vector2Int terrain_size,
-        Dictionary<SOPlot, float> plot_generation_data,
+        Dictionary<SOGenerationLevel, float> plot_generation_data,
         string playerName,
         string kingdomName,
         int non_barb_faction_count
@@ -114,34 +114,42 @@ public class Game {
         }
     }
 
-    private void GenerateBaseTerrain(Dictionary<SOPlot, float> plot_generation_data) {
-        int xOffset = GameManager.Random.Next(GameManager.instance.maxOffset);
-        int yOffset = GameManager.Random.Next(GameManager.instance.maxOffset);
-        float[][] falloff_map = GenerateFalloffMap(TerrainSize);
-        float[][] heightmap = CreateJaggedArray<float[][]>(TerrainSize.x, TerrainSize.y);
-        for (int y = 0; y < TerrainSize.y; y++) {
-            for (int x = 0; x < TerrainSize.x; x++) {
-                float xCoord = (float)x / TerrainSize.x * GameManager.instance.noiseScale;
-                float yCoord = (float)y / TerrainSize.y * GameManager.instance.noiseScale;
-                float perlinValue = Mathf.PerlinNoise((xCoord + xOffset) / GameManager.instance.maxOffset, (yCoord + yOffset) / GameManager.instance.maxOffset);
-                heightmap[y][x] = Mathf.Clamp01(perlinValue * GameManager.instance.noiseStrength - falloff_map[y][x] * GameManager.instance.falloffStrength);
+    private SOPlot GetPlot(List<float[][]> heightmaps, int depth, int x, int y, SOGenerationLevel level, float height) {
+        if (heightmaps[depth][y][x] <= height) {
+            if (level.baseLevel) {
+                SOPlot plot_to_place = level.plot;
+                foreach (ReplacePlot replace in GameManager.instance.replacePlots) {
+                    if (replace.Replace(plot_to_place)) {
+                        plot_to_place = replace.plot;
+                        break;
+                    }
+                }
+                return plot_to_place;
+            } else {
+                Dictionary<SOGenerationLevel, float> levels = level.levels.GetDict().OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+                foreach (var pair in levels) {
+                    SOPlot plot = GetPlot(heightmaps, depth + 1, x, y, pair.Key, pair.Value);
+                    if (plot != null) return plot;
+                }
             }
         }
 
+        return null;
+    }
+
+    private void GenerateBaseTerrain(Dictionary<SOGenerationLevel, float> plot_generation_data) {
+        int max_depth = 0;
+        foreach (SOGenerationLevel level in plot_generation_data.Keys) if (level.GetMaxDepth(0) > max_depth) max_depth = level.GetMaxDepth(0);
+        List<float[][]> heightmaps = (from _ in Enumerable.Range(0, max_depth) select GenerateHeightMap(TerrainSize, false)).ToList();
+        heightmaps[0] = GenerateHeightMap(TerrainSize);
         BaseTerrain = CreateJaggedArray<SOPlot[][]>(TerrainSize.x, TerrainSize.y);
         plot_generation_data = plot_generation_data.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
         for (int x = 0; x < TerrainSize.x; x++) {
             for (int y = 0; y < TerrainSize.y; y++) {
                 foreach (var pair in plot_generation_data) {
-                    if (heightmap[y][x] <= pair.Value) {
-                        SOPlot plot_to_place = pair.Key;
-                        foreach (ReplacePlot replace in GameManager.instance.replacePlots) {
-                            if (replace.Replace(plot_to_place)) {
-                                plot_to_place = replace.plot;
-                                break;
-                            }
-                        }
-                        BaseTerrain[y][x] = plot_to_place;
+                    SOPlot plot = GetPlot(heightmaps, 0, x, y, pair.Key, pair.Value);
+                    if (plot != null) {
+                        BaseTerrain[y][x] = plot;
                         break;
                     }
                 }
@@ -176,6 +184,7 @@ public class Game {
             }
         }
 
+        if (potential_locations.Count == 0) return Vector2Int.zero;
         Vector2Int location = Choice(potential_locations);
         list_to_place.Add(new BaseObjectInfo{
             location = location,

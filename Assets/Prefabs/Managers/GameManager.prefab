@@ -78,12 +78,12 @@ MonoBehaviour:
   mapSize: 30
   plotGenerationData:
     dictPairs:
-    - Key: {fileID: 11400000, guid: 2a890fe14bba1d04cab20d4019369af9, type: 2}
-      Value: 0.5
-    - Key: {fileID: 11400000, guid: cf8b1f3b326b6db46865e35690be2f4a, type: 2}
-      Value: 1
-    - Key: {fileID: 11400000, guid: 981ac3728cebc7444a0e22b7fdb337e6, type: 2}
+    - Key: {fileID: 11400000, guid: e123358f4d3b5304fb6af660ad41221e, type: 2}
       Value: 0.1
+    - Key: {fileID: 11400000, guid: fdfc0f4e191f39e4192417662a488565, type: 2}
+      Value: 0.8
+    - Key: {fileID: 11400000, guid: 832e6ec910c52c24987aaa49455edcaf, type: 2}
+      Value: 1
   replacePlots:
   - plot: {fileID: 11400000, guid: 487feeaaddffd7844895873763a7a0c8, type: 2}
     replaceChance:
@@ -96,7 +96,7 @@ MonoBehaviour:
       - Key: {fileID: 11400000, guid: 2a890fe14bba1d04cab20d4019369af9, type: 2}
         Value: 20
   noiseScale: 100000
-  noiseStrength: 2
+  noiseStrength: 2.5
   falloffStrength: 1
   maxOffset: 10000
   debugMode: 1

@@ -287,4 +287,24 @@ public class Utils : MonoBehaviour {
 
         return falloff_map;
     }
+
+    public static float[][] GenerateHeightMap(Vector2Int size, bool apply_falloff=true) {
+        int xOffset = GameManager.Random.Next(GameManager.instance.maxOffset);
+        int yOffset = GameManager.Random.Next(GameManager.instance.maxOffset);
+        float[][] falloff_map = GenerateFalloffMap(size);
+        float[][] heightmap = CreateJaggedArray<float[][]>(size.x, size.y);
+        for (int y = 0; y < size.y; y++) {
+            for (int x = 0; x < size.x; x++) {
+                float xCoord = (float)x / size.x * GameManager.instance.noiseScale;
+                float yCoord = (float)y / size.y * GameManager.instance.noiseScale;
+                float perlinValue = Mathf.PerlinNoise((xCoord + xOffset) / GameManager.instance.maxOffset, (yCoord + yOffset) / GameManager.instance.maxOffset);
+                if (apply_falloff) {
+                    heightmap[y][x] = Mathf.Clamp01(perlinValue * GameManager.instance.noiseStrength - falloff_map[y][x] * GameManager.instance.falloffStrength);
+                } else {
+                    heightmap[y][x] = Mathf.Clamp01(perlinValue * GameManager.instance.noiseStrength);
+                }
+            }
+        }
+        return heightmap;
+    }
 }
