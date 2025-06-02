@@ -44,7 +44,9 @@ public class GameManager : MonoBehaviour, ISaveSystem {
         Lake,
         Gold,
         Mountains,
-        Marsh
+        Marsh,
+        Ocean,
+        Forest
     }
     public enum PerkTrees {
         KingdomManagement,
@@ -84,7 +86,14 @@ public class GameManager : MonoBehaviour, ISaveSystem {
 
     [Header("Plot Generation Data")]
     [SerializeField] private int mapSize;
-    [SerializeField] private Utils.SerializeableDict<SOPlot, int> plotGenerationData;
+    [SerializeField] private Utils.SerializeableDict<SOGenerationLevel, float> plotGenerationData;
+    public ReplacePlot[] replacePlots;
+
+    [Header("Noise Generation Data")]
+    public float noiseScale;
+    public float noiseStrength;
+    public float falloffStrength;
+    public int maxOffset;
 
     [Header("Test Data")]
     public bool debugMode;
@@ -120,15 +129,16 @@ public class GameManager : MonoBehaviour, ISaveSystem {
             Screen.SetResolution(1920, 1080, true);
         # endif
 
+        foreach (SOGenerationLevel level in Utils.GetAllAssets<SOGenerationLevel>()) level.Check();
         foreach (SOPlaceableObject placeable_object in Utils.GetAllAssets<SOPlaceableObject>()) allSOPlaceableObjects.Add(placeable_object);
 
         if (SceneManager.GetActiveScene().name != "MainMenuScene") {
-            Game = new(new(mapSize, mapSize), plotGenerationData.GetDict(), "", "");
+            Game = new(new(mapSize, mapSize), plotGenerationData.GetDict(), "", "", 4);
         }
     }
 
     public void NewGame() {
-        Game = new(new(mapSize, mapSize), plotGenerationData.GetDict(), kingdomName, playerName);
+        Game = new(new(mapSize, mapSize), plotGenerationData.GetDict(), kingdomName, playerName, 4);
     }
 
     public float GetVolumeScale(SOSound.SoundType soundType) {

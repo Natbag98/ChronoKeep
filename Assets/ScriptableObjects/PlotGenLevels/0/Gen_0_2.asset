@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 283c5a900a5fc504084b11dbcc9d7802, type: 3}
-  m_Name: Plains
+  m_Script: {fileID: 11500000, guid: caf97f99dd2031a40961187968991821, type: 3}
+  m_Name: Gen_0_2
   m_EditorClassIdentifier: 
-  displayName: Plains
-  description: 
-  prefab: {fileID: 640411937715291779, guid: 4b7bf1d00e6d615468aa70e30180541a, type: 3}
-  plotType: 0
+  baseLevel: 1
+  plot: {fileID: 11400000, guid: cf8b1f3b326b6db46865e35690be2f4a, type: 2}
+  levels:
+    dictPairs: []

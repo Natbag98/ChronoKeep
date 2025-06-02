@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using static Utils;
@@ -35,9 +36,10 @@ public class Game {
 
     public Game(
         Vector2Int terrain_size,
-        Dictionary<SOPlot, int> plot_generation_data,
+        Dictionary<SOGenerationLevel, float> plot_generation_data,
         string playerName,
-        string kingdomName
+        string kingdomName,
+        int non_barb_faction_count
     ) {
         usedFactionNames = new();
         placeableObjectsUnlockTracker.UpdateUnlocked(GameManager.instance.ArcherTower);
@@ -48,9 +50,7 @@ public class Game {
         resources = GameManager.instance.startingResources.GetDict();
         TerrainSize = terrain_size;
         GenerateBaseTerrain(plot_generation_data);
-        GenerateFactions();
-        PlaceCastle();
-        PlaceBarbCamps(1);
+        GenerateFactions(non_barb_faction_count, 2);
     }
 
     public Faction GetFactionByName(string name) {
@@ -93,109 +93,105 @@ public class Game {
         return true;
     }
 
-    private void GenerateFactions() {
-        Vector2Int[] castle_locations = {
-            new(3, TerrainSize.y / 2),
-            new(TerrainSize.x - 3, TerrainSize.y / 2),
-            new(TerrainSize.x / 2, TerrainSize.y - 3),
-            new(TerrainSize.x / 2, 3),
+    private void GenerateFactions(int faction_count, int barb_count) {
+        List<Vector2Int> castle_locations = new() {
+            PlaceObject(baseObjectInfo, GameManager.instance.Castle, PlayerFaction)
         };
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < faction_count; i++) {
             Faction faction = new(this, GameManager.FactionTypes.Kingdom);
             BaseFactions.Add(faction);
-
-            PlaceObject(
-                GameManager.instance.Castle,
-                faction,
-                baseObjectInfo,
-                castle_locations[i],
-                constraint_max_distance: 2
-            );
-
-            PlaceObject(
-                GameManager.instance.BarbCamp,
-                faction,
-                baseObjectInfo,
-                castle_locations[i],
-                constraint_max_distance: 4
-            );
-
-            PlaceObject(
-                GameManager.instance.ArcherTower,
-                faction,
-                baseObjectInfo,
-                castle_locations[i],
-                constraint_max_distance: 4
-            );
+            Vector2Int castle_location = PlaceObject(baseObjectInfo, GameManager.instance.Castle, faction, avoid_locations: castle_locations, avoid_by: 10);
+            castle_locations.Add(castle_location);
+            PlaceObject(baseObjectInfo, GameManager.instance.ArcherTower, faction, castle_location, 4);
+            PlaceObject(baseObjectInfo, GameManager.instance.BarbCamp, faction, castle_location, 4);
         }
+
         BaseFactions.Add(new(this, GameManager.FactionTypes.BarbarianClan));
+        PlaceObject(baseObjectInfo, GameManager.instance.BarbCamp, BaseFactions[^1], castle_locations[0], 5);
+        for (int i = 0; i < barb_count - 1; i++) {
+            PlaceObject(baseObjectInfo, GameManager.instance.BarbCamp, BaseFactions[^1]);
+        }
     }
 
-    private void GenerateBaseTerrain(Dictionary<SOPlot, int> plot_generation_data) {
-        BaseTerrain = CreateJaggedArray<SOPlot[][]>(TerrainSize.x, TerrainSize.y);
-        for (int x = 0; x < TerrainSize.x; x++) {
-            for (int y = 0; y < TerrainSize.y; y++) {
-                BaseTerrain[y][x] = Choice(plot_generation_data);
+    private SOPlot GetPlot(List<float[][]> heightmaps, int depth, int x, int y, SOGenerationLevel level, float height) {
+        if (heightmaps[depth][y][x] <= height) {
+            if (level.baseLevel) {
+                SOPlot plot_to_place = level.plot;
+                foreach (ReplacePlot replace in GameManager.instance.replacePlots) {
+                    if (replace.Replace(plot_to_place)) {
+                        plot_to_place = replace.plot;
+                        break;
+                    }
+                }
+                return plot_to_place;
+            } else {
+                Dictionary<SOGenerationLevel, float> levels = level.levels.GetDict().OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+                foreach (var pair in levels) {
+                    SOPlot plot = GetPlot(heightmaps, depth + 1, x, y, pair.Key, pair.Value);
+                    if (plot != null) return plot;
+                }
             }
         }
+
+        return null;
     }
 
-    private void PlaceCastle() {
-        for (int x = TerrainSize.x / 2; x < TerrainSize.x; x++) {
-            for (int y = TerrainSize.y / 2; y < TerrainSize.y; y++) {
-                if (BaseTerrain[y][x].prefab.GetComponent<Plot>().GetCanPlaceObject() && BaseTerrain[y][x].prefab.GetComponent<Plot>().walkable) {
-                    baseObjectInfo.Add(new BaseObjectInfo{
-                        location = new(x, y),
-                        base_object = GameManager.instance.Castle,
-                        faction = PlayerFaction
-                    });
-                    playerCastleLocation = new(x, y);
-                    return;
+    private void GenerateBaseTerrain(Dictionary<SOGenerationLevel, float> plot_generation_data) {
+        int max_depth = 0;
+        foreach (SOGenerationLevel level in plot_generation_data.Keys) if (level.GetMaxDepth(0) > max_depth) max_depth = level.GetMaxDepth(0);
+        List<float[][]> heightmaps = (from _ in Enumerable.Range(0, max_depth) select GenerateHeightMap(TerrainSize, false)).ToList();
+        heightmaps[0] = GenerateHeightMap(TerrainSize);
+        BaseTerrain = CreateJaggedArray<SOPlot[][]>(TerrainSize.x, TerrainSize.y);
+        plot_generation_data = plot_generation_data.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+        for (int x = 0; x < TerrainSize.x; x++) {
+            for (int y = 0; y < TerrainSize.y; y++) {
+                foreach (var pair in plot_generation_data) {
+                    SOPlot plot = GetPlot(heightmaps, 0, x, y, pair.Key, pair.Value);
+                    if (plot != null) {
+                        BaseTerrain[y][x] = plot;
+                        break;
+                    }
                 }
             }
         }
     }
 
-    private void PlaceBarbCamps(int count) {
-        for (int i = 0; i < count; i++) PlaceObject(
-            GameManager.instance.BarbCamp,
-            BaseFactions[^1],
-            baseObjectInfo,
-            playerCastleLocation,
-            GameManager.instance.MinBarbGenerationDistance,
-            GameManager.instance.MaxBarbGenerationDistance
-        );
-    }
-
-    private void PlaceObject(
+    private Vector2Int PlaceObject(
+        List<BaseObjectInfo> list_to_place,
         SOPlaceableObject object_to_place,
         Faction faction,
-        List<BaseObjectInfo> list_to_place,
-        Vector2Int? constraint_location_input=null,
-        int constraint_min_distance=0,
-        int constraint_max_distance=1000
+        Vector2Int? center_location=null,
+        int? max_dist_from_center=null,
+        List<Vector2Int> avoid_locations=null,
+        int? avoid_by=null
     ) {
-        Vector2Int constraint_location = Vector2Int.zero;
-        if (constraint_location_input != null) {
-            constraint_location = (Vector2Int)constraint_location_input;
+        List<Vector2Int> potential_locations = new();
+        for (int x = 0; x < TerrainSize.x; x++) {
+            for (int y = 0; y < TerrainSize.y; y++) {
+                if (
+                    BaseTerrain[y][x].prefab.GetComponent<Plot>().GetCanPlaceObject(object_to_place) &&
+                    !(from info in baseObjectInfo select info.location).ToList().Contains(new(x, y))
+                ) {
+                    if (center_location != null && Vector2Int.Distance((Vector2Int)center_location, new(x, y)) > max_dist_from_center) continue;
+                    if (avoid_locations != null) {
+                        bool cont = false;
+                        foreach (Vector2Int location_to_avoid in avoid_locations) if (Vector2Int.Distance(location_to_avoid, new(x, y)) < avoid_by) cont = true;
+                        if (cont) continue;
+                    }
+                    potential_locations.Add(new(x, y));
+                }
+            }
         }
-        
-        int x = Mathf.Clamp(GenerateNumberAroundCenter(constraint_location.x, constraint_min_distance, constraint_max_distance), 0, TerrainSize.x - 1);
-        int y = Mathf.Clamp(GenerateNumberAroundCenter(constraint_location.y, constraint_min_distance, constraint_max_distance), 0, TerrainSize.y - 1);
 
-        if (
-            !(from base_object_info in list_to_place select base_object_info.location).Contains(new Vector2Int(x, y)) &&
-            BaseTerrain[x][y].prefab.GetComponent<Plot>().GetCanPlaceObject(object_to_place)
-        ) {
-            list_to_place.Add(new BaseObjectInfo{
-                location = new(x, y),
-                base_object = object_to_place,
-                faction = faction
-            });
-        } else {
-            PlaceObject(object_to_place, faction, list_to_place, constraint_location, constraint_min_distance, constraint_max_distance);
-        }
+        if (potential_locations.Count == 0) return Vector2Int.zero;
+        Vector2Int location = Choice(potential_locations);
+        list_to_place.Add(new BaseObjectInfo{
+            location = location,
+            base_object = object_to_place,
+            faction = faction
+        });
+        return location;
     }
 
     public void LoadData(GameData data) {

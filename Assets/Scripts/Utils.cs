@@ -269,4 +269,42 @@ public class Utils : MonoBehaviour {
         if (!GetAllAssetsDict<T>().ContainsKey(name)) throw new Exception($"Asset {name} of type {typeof(T)} has not been added to assets AssetBundle");
         return GetAllAssetsDict<T>()[name];
     }
+
+    public static float[][] GenerateFalloffMap(Vector2Int size) {
+        float[][] falloff_map = CreateJaggedArray<float[][]>(size.y, size.x);
+
+        for (int y = 0; y < size.y; y++) {
+            for (int x = 0; x < size.x; x++) {
+                float xCenter = size.x / 2;
+                float yCenter = size.y / 2;
+
+                float xDist = Mathf.Abs(xCenter - x) / xCenter;
+                float yDist = Mathf.Abs(yCenter - y) / yCenter;
+
+                falloff_map[y][x] = Mathf.Sqrt(Mathf.Pow(xDist, 2) + Mathf.Pow(yDist, 2));
+            }
+        }
+
+        return falloff_map;
+    }
+
+    public static float[][] GenerateHeightMap(Vector2Int size, bool apply_falloff=true) {
+        int xOffset = GameManager.Random.Next(GameManager.instance.maxOffset);
+        int yOffset = GameManager.Random.Next(GameManager.instance.maxOffset);
+        float[][] falloff_map = GenerateFalloffMap(size);
+        float[][] heightmap = CreateJaggedArray<float[][]>(size.x, size.y);
+        for (int y = 0; y < size.y; y++) {
+            for (int x = 0; x < size.x; x++) {
+                float xCoord = (float)x / size.x * GameManager.instance.noiseScale;
+                float yCoord = (float)y / size.y * GameManager.instance.noiseScale;
+                float perlinValue = Mathf.PerlinNoise((xCoord + xOffset) / GameManager.instance.maxOffset, (yCoord + yOffset) / GameManager.instance.maxOffset);
+                if (apply_falloff) {
+                    heightmap[y][x] = Mathf.Clamp01(perlinValue * GameManager.instance.noiseStrength - falloff_map[y][x] * GameManager.instance.falloffStrength);
+                } else {
+                    heightmap[y][x] = Mathf.Clamp01(perlinValue * GameManager.instance.noiseStrength);
+                }
+            }
+        }
+        return heightmap;
+    }
 }

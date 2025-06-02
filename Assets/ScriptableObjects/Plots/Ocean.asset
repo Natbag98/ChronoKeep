@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 283c5a900a5fc504084b11dbcc9d7802, type: 3}
-  m_Name: Plains
+  m_Name: Ocean
   m_EditorClassIdentifier: 
-  displayName: Plains
+  displayName: Oceans
   description: 
-  prefab: {fileID: 640411937715291779, guid: 4b7bf1d00e6d615468aa70e30180541a, type: 3}
-  plotType: 0
+  prefab: {fileID: 640411937715291779, guid: c1082ff20f6a0054ea35833b46c59ad9, type: 3}
+  plotType: 5
