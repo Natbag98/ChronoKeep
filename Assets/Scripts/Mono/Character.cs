@@ -39,7 +39,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     protected float reloadTimer;
     private Plot fromPlot;
     private List<Mod> modsFromPlot = new();
-    [HideInInspector] public bool invisible = true;
+    [HideInInspector] public bool invisible = false;
 
     protected virtual void GetTarget() {}
     protected virtual void Attack() {}
@@ -205,6 +205,8 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     }
 
     private void Awake() {
+        invisible = false;
+        foreach (SOCharacterAddon addon in characterAddons) addon.AddonAwake(this);
         moveOffset = new(
             Mathf.Max(Mathf.Min((float)GameManager.Random.NextDouble() - 0.5f, 0.4f), -0.4f),
             Mathf.Max(Mathf.Min((float)GameManager.Random.NextDouble() - 0.5f, 0.4f), -0.4f)

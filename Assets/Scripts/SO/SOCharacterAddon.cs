@@ -1,5 +1,7 @@
 using UnityEngine;
 
 public abstract class SOCharacterAddon : ScriptableObject {
-    public abstract void AddonUpdate(Character character);
+    public virtual void AddonAwake(Character charater) {}
+    public virtual void AddonStart(Character charater) {}
+    public virtual void AddonUpdate(Character character) {}
 }
