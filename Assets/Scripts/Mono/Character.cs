@@ -12,7 +12,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     [SerializeField] protected GameManager.MagicTypes magicType;
     [SerializeField] private GameManager.PlaceableObjectTypes[] movementTargetPriorities;
     [SerializeField] protected Attributes attributes;
-    [SerializeField] [SerializeReference] private SOCharacterAddon[] characterAddons;
+    [SerializeField] [SerializeReference] private List<SOCharacterAddon> characterAddons;
 
     [Header("References")]
     [SerializeField] protected Transform centerPoint;
@@ -77,19 +77,19 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     /// <summary>
     /// Gets and sets the characters movement target.
     /// </summary>
-    private void GetMovementTarget() {
+    private bool GetMovementTarget(Faction target_faction) {
         Plot min_target = null;
         float? min_distance = null;
         List<Plot> target_objects = (
             from plot
-            in RunManager.instance.GetAllPlotsWithFactionObjects(targetFaction)
+            in RunManager.instance.GetAllPlotsWithFactionObjects(target_faction)
             where plot.walkable
             select plot
         ).ToList();
 
         // Target closest priority target
         foreach (GameManager.PlaceableObjectTypes targetObjectType in movementTargetPriorities) {
-            List<Plot> targets = RunManager.instance.GetAllPlotsWithPlacedObject(targetObjectType, targetFaction);
+            List<Plot> targets = RunManager.instance.GetAllPlotsWithPlacedObject(targetObjectType, target_faction);
             if (targets != null) {
                 foreach (Plot target in targets) {
                     float distance = Vector2.Distance(target.transform.position, transform.position);
@@ -104,7 +104,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
 
         // Attempt to target castle if there are no priority targets
         if (min_target == null) {
-            movementTarget = RunManager.instance.GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Castle, targetFaction);
+            movementTarget = RunManager.instance.GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Castle, target_faction);
             if (movementTarget == null) movementTarget = Utils.Choice(target_objects);
         } else {
             movementTarget = min_target;
@@ -120,28 +120,32 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
             }
 
             if (potential_movement_targets.Keys.Count == 0) {
-                // Later in development enemies should either not spawn from a spawner with no valid path or the enemy should attempt to attack a different faction
-                Debug.Log("No path found");
-                Destroy(gameObject);
+                return false;
             } else {
                 movementTarget = potential_movement_targets[potential_movement_targets.Keys.ToArray().Min()];
+                return true;
             }
         }
+
+        return true;
     }
 
     /// <summary>
     /// Gets and sets the character path.
     /// </summary>
-    private void GetPath() {
-        GetMovementTarget();
+    private bool GetPath(Faction target_faction) {
+        GetMovementTarget(target_faction);
 
         path = new();
         pathIndex = 0;
         List<Plot> new_path = Utils.GetPath(GetCurrentPlot().GetPositionInPlotArray(), movementTarget.GetPositionInPlotArray());
 
+        if (new_path == null) return false;
+
         foreach (Plot plot in new_path) {
             path.Add(plot.transform);
         }
+        return true;
     }
 
     public Vector3 GetPathTargetPos() {
@@ -236,7 +240,12 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
             );
         }
 
+        for (int i = 0; i < potential_targets.Count; i++) {
+            if (!GetPath(potential_targets.ElementAt(i).Value.faction)) potential_targets.Remove(potential_targets.ElementAt(i).Key);
+        }
+
         if (potential_targets.Count == 0) {
+            Debug.Log("No valid factions to attack");
             Destroy(gameObject);
         } else {
             targetFaction = potential_targets[potential_targets.Keys.ToArray().Min()].faction;
@@ -244,7 +253,6 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     }
 
     private void Start() {
-        invisible = true;
         SetVisible(false);
         GetTargetFaction();
 
@@ -265,7 +273,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     protected virtual void Update() {
         if (RunManager.instance.paused) return;
         reloadTimer += Time.deltaTime * RunManager.instance.simSpeed;
-        if (movementTarget == null) GetPath();
+        if (movementTarget == null) GetPath(targetFaction);
         if (blockedObject == null) blocked = false;
         if (health <= 0) Destroy(gameObject);
         SetVisible(GetCurrentPlot().visibleToPlayer);
