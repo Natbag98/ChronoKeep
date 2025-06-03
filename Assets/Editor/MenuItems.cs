@@ -6,18 +6,23 @@ using UnityEngine;
 public class MenuItems : MonoBehaviour {
     [MenuItem("Assets/Update GameManager SO Assets")]
     static void UpdateGameManagerSOAssets() {
-        GameManager game_manager = null;
+        GameObject game_manager = null;
+        string path = "";
         foreach (string asset in AssetDatabase.FindAssets($"t:{typeof(GameObject).Name}", new[] { Path.Join("Assets", "Prefabs", "Managers") })) {
-            if (AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(asset)).name == "GameManager") {
-                game_manager = AssetDatabase.LoadAssetAtPath<GameObject>(AssetDatabase.GUIDToAssetPath(asset)).GetComponent<GameManager>();
-            }
-        }
-        
-        game_manager.scriptableObjects.Clear();
-        foreach (string asset in AssetDatabase.FindAssets($"t:{typeof(ScriptableObject).Name}", new[] { Path.Join("Assets", "ScriptableObjects") })) {
-            game_manager.scriptableObjects.Add(AssetDatabase.LoadAssetAtPath<ScriptableObject>(AssetDatabase.GUIDToAssetPath(asset)));
+            path = AssetDatabase.GUIDToAssetPath(asset);
+            if (AssetDatabase.LoadAssetAtPath<GameObject>(path).name == "GameManager") game_manager = PrefabUtility.LoadPrefabContents(path);
+            break;
         }
 
-        Debug.Log($"Updated {game_manager.scriptableObjects.Count} SO assets");
+        game_manager.GetComponent<GameManager>().scriptableObjects.Clear();
+        foreach (string asset in AssetDatabase.FindAssets($"t:{typeof(ScriptableObject).Name}", new[] { Path.Join("Assets", "ScriptableObjects") })) {
+            game_manager.GetComponent<GameManager>().scriptableObjects.Add(AssetDatabase.LoadAssetAtPath<ScriptableObject>(AssetDatabase.GUIDToAssetPath(asset)));
+        }
+
+        PrefabUtility.SaveAsPrefabAsset(game_manager, path);
+        Debug.Log($"Updated {game_manager.GetComponent<GameManager>().scriptableObjects.Count} SO assets");
+        PrefabUtility.UnloadPrefabContents(game_manager);
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
     }
 }
