@@ -25,9 +25,6 @@ public class Spawner : Tower {
             RunManager.instance.characterContainer
         ).GetComponent<Character>();
 
-        // Test
-        foreach (Mod mod in RunManager.instance.testMods) character.AddMod(mod);
-
         character.SetStartPos(transform.position);
         character.faction = parentPlot.faction;
         character.characterSO = character_to_spawn;

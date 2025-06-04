@@ -192,6 +192,8 @@ public class RunManager : MonoBehaviour, ISaveSystem {
             test = false;
             foreach (SOPlaceableObject object_to_place in testPlacement) MainSceneUIManager.instance.PlaceInventoryItem(object_to_place);
         }
+
+        globalMods.AddRange(testMods);
     }
 
     private void Update() {

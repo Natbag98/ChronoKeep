@@ -6408,7 +6408,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
   - {fileID: 11400000, guid: 106fc22d69ab7ff4b91326f6c0e3b4e4, type: 2}
   - {fileID: 11400000, guid: d1d8e9105110c8849ae914a814a78d87, type: 2}
-  testMods: []
+  - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
+  - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
+  - {fileID: 11400000, guid: e504a0bbd48c9504686b3244871fecbd, type: 2}
+  testMods:
+  - targetTags: 08000000
+    attributeToAffect: 0
+    amount: 0.1
+    applyTo: 2
+  - targetTags: 02000000
+    attributeToAffect: 0
+    amount: 0.1
+    applyTo: 2
 --- !u!114 &1948326906
 MonoBehaviour:
   m_ObjectHideFlags: 0
