@@ -40,6 +40,8 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     private Plot fromPlot;
     private List<Mod> modsFromPlot = new();
     [HideInInspector] public bool invisible = false;
+    [HideInInspector] public PlaceableObject spawner;
+    private bool returning = false;
 
     protected virtual void GetTarget() {}
     protected virtual void Attack() {}
@@ -309,13 +311,31 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
         if (Vector3.Distance(GetPathTargetPos(), transform.position) < 0.05f) {
             pathIndex++;
             if (pathIndex >= path.Count) {
+                if (returning) {
+                    if (spawner != null && faction == GameManager.instance.Game.PlayerFaction) {
+                        GameManager.instance.Game.AddResources(GameManager.Resources.ManPower, characterSO.powerRequired);
+                    }
+
+                    Destroy(gameObject);
+                    return;
+                }
+
                 if (!GetMovementTarget(targetFaction)) {
-                    if (GetTargetFaction()) {
+                    if (GetTargetFaction(false)) {
                         GetMovementTarget(targetFaction);
                     }
                 }
 
-                if (targetFaction == null || movementTarget == null) Destroy(gameObject);
+                if (targetFaction == null || movementTarget == null || !GetPath(targetFaction, movementTarget)) {
+                    if (spawner != null) {
+                        movementTarget = spawner.parentPlot;
+                        returning = true;
+                    } else {
+                        Destroy(gameObject);
+                        return;
+                    }
+                }
+
                 GetPath(targetFaction, movementTarget);
             }
         }

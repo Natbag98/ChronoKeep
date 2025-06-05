@@ -28,6 +28,7 @@ public class Spawner : Tower {
         character.SetStartPos(transform.position);
         character.faction = parentPlot.faction;
         character.characterSO = character_to_spawn;
+        character.spawner = this;
     }
 
     protected new bool Attack() {
