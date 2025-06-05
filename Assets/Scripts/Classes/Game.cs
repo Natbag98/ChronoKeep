@@ -81,9 +81,12 @@ public class Game {
         }
     }
 
+    public void AddResources(GameManager.Resources resource, int amount) {
+        resources[resource] += amount;
+    }
     public void AddResources(Dictionary<GameManager.Resources, int> resource_dict) {
         foreach (GameManager.Resources resource in resource_dict.Keys) {
-            resources[resource] += resource_dict[resource];
+            AddResources(resource, resource_dict[resource]);
         }
     }
 
@@ -95,13 +98,27 @@ public class Game {
 
     private void GenerateFactions(int faction_count, int barb_count) {
         List<Vector2Int> castle_locations = new() {
-            PlaceObject(baseObjectInfo, GameManager.instance.Castle, PlayerFaction)
+            PlaceObject(
+                baseObjectInfo,
+                GameManager.instance.Castle,
+                PlayerFaction,
+                TerrainSize / 2,
+                Mathf.Min(TerrainSize.x / 4, TerrainSize.y / 4)
+            )
         };
 
         for (int i = 0; i < faction_count; i++) {
             Faction faction = new(this, GameManager.FactionTypes.Kingdom);
             BaseFactions.Add(faction);
-            Vector2Int castle_location = PlaceObject(baseObjectInfo, GameManager.instance.Castle, faction, avoid_locations: castle_locations, avoid_by: 10);
+            Vector2Int castle_location = PlaceObject(
+                baseObjectInfo,
+                GameManager.instance.Castle,
+                faction,
+                TerrainSize / 2,
+                Mathf.Min(TerrainSize.x / 4, TerrainSize.y / 4),
+                castle_locations,
+                7
+            );
             castle_locations.Add(castle_location);
             PlaceObject(baseObjectInfo, GameManager.instance.ArcherTower, faction, castle_location, 4);
             PlaceObject(baseObjectInfo, GameManager.instance.BarbCamp, faction, castle_location, 4);
@@ -109,6 +126,7 @@ public class Game {
 
         BaseFactions.Add(new(this, GameManager.FactionTypes.BarbarianClan));
         PlaceObject(baseObjectInfo, GameManager.instance.BarbCamp, BaseFactions[^1], castle_locations[0], 5);
+        return;
         for (int i = 0; i < barb_count - 1; i++) {
             PlaceObject(baseObjectInfo, GameManager.instance.BarbCamp, BaseFactions[^1]);
         }

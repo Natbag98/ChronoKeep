@@ -51,7 +51,7 @@ MonoBehaviour:
   MinBarbGenerationDistance: 2
   MaxBarbGenerationDistance: 5
   minGameSpeed: 0.5
-  maxGameSpeed: 3
+  maxGameSpeed: 6
   defaultAttributes:
     dictPairs:
     - Key: 9
