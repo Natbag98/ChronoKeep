@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ApplyMods", menuName = "Event/ApplyMods")]
@@ -16,13 +17,17 @@ public class ApplyMods : SOEvent {
 
             string apply = "";
             if (mod.applyTo != Mod.ApplyTo.All) {
-                apply = $" {mod.applyTo.ToString().ToLower()} ";
+                apply = $" {mod.applyTo.ToString().ToLower()}";
             }
 
+            string[] attribute_parts = Regex.Split(mod.attributeToAffect.ToString(), @"(?=[A-Z])");
+            string attribute = "";
+            foreach (string s in attribute_parts) attribute += s.ToLower();
+
             if (mod.amount >= 1) {
-                description += $"All{apply}{target_tags}'s will gain {(mod.amount - 1) * 100}% {mod.attributeToAffect.ToString().ToLower()}\n";
+                description += $"All{apply}{target_tags}'s will gain {(mod.amount - 1) * 100}% {attribute}.\n";
             } else {
-                description += $"All{apply}{target_tags}'s will lose {(1 - mod.amount) * 100}% {mod.attributeToAffect.ToString().ToLower()}\n";
+                description += $"All{apply}{target_tags}'s will lose {(1 - mod.amount) * 100}% {attribute}.\n";
             }
         }
         return description;

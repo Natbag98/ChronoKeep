@@ -94,12 +94,12 @@ MonoBehaviour:
     replaceChance:
       dictPairs:
       - Key: {fileID: 11400000, guid: 2a890fe14bba1d04cab20d4019369af9, type: 2}
-        Value: 20
-  noiseScale: 100000
-  noiseStrength: 1.5
+        Value: 15
+  noiseScale: 97000
+  noiseStrength: 1.6
   falloffStrength: 1
   maxOffset: 10000
-  debugMode: 1
+  debugMode: 0
   startingResources:
     dictPairs:
     - Key: 0
