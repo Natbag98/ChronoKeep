@@ -47,3 +47,4 @@ MonoBehaviour:
   modularHardwareAcceleration: 0
   soundEffectsVolume: 0
   musicVolume: 0
+  orthographicCamera: 1

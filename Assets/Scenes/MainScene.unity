@@ -6862,8 +6862,8 @@ MonoBehaviour:
   oMaxZoom: 1
   oMinZoom: 7
   oXRotation: 32
-  oYPosition: 20
-  oZPosition: -20
+  oYPosition: 5
+  oZPosition: -10
   cameraBlocked: 0
 --- !u!1 &2026290875
 GameObject:
