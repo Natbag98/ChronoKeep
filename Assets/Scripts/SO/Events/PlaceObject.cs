@@ -3,9 +3,10 @@ using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlaceObject", menuName = "Event/PlaceObject")]
 public class PlaceObject : SOEvent {
-    [Header("PlaceInventoryObject")]
-    [SerializeField] Tag.Tags[] potentialObjectTags;
-    [SerializeField] GameManager.FactionTypes factionType;
+    [Header("PlaceObject")]
+    [SerializeField] private Tag.Tags[] potentialObjectTags;
+    [SerializeField] private GameManager.FactionTypes factionType;
+    [SerializeField] private bool onVisible;
 
     private SOPlaceableObject objectToPlace;
     private Faction faction;
@@ -22,6 +23,6 @@ public class PlaceObject : SOEvent {
     }
 
     public override void Event() {
-        RunManager.instance.PlaceRandomObject(objectToPlace, faction, factionType == GameManager.FactionTypes.BarbarianClan);
+        RunManager.instance.PlaceRandomObject(objectToPlace, faction, factionType == GameManager.FactionTypes.BarbarianClan, onVisible);
     }
 }
