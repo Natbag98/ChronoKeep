@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Raider
   m_EditorClassIdentifier: 
   prefab: {fileID: 6995875889840719490, guid: d8e5b45211c349e45aa6e56b28caf201, type: 3}
-  powerRequired: 1
+  powerRequired: 2
   displayName: Raider
   description: A raider that will target civilians.
