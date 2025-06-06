@@ -54,7 +54,12 @@ public class Spawner : Tower {
             return false;
 
         } else if (partOfHostileWave) {
-            if (powerRemaining > 0) {
+            if (!parentPlot.visibleToPlayer) {
+                Debug.Log("Plot not visble to player");
+                spawning = false;
+                partOfHostileWave = false;
+                return false;
+            } else if (powerRemaining > 0) {
                 SOCharacter character = Utils.Choice(
                     (
                         from cost
@@ -67,7 +72,6 @@ public class Spawner : Tower {
                 SpawnCharacter(character);
                 powerRemaining -= character_costs[character];
                 return true;
-
             } else if (spawning) {
                 spawning = false;
                 partOfHostileWave = false;

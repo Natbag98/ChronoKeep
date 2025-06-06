@@ -31,6 +31,29 @@ public class RunManager : MonoBehaviour, ISaveSystem {
         return to_return;
     }
 
+    public List<Plot> GetAllVisiblePlots() {
+        List<Plot> plots = new();
+        foreach (Plot[] row in plotArray) {
+            foreach (Plot plot in row) {
+                if (plot.visibleToPlayer) plots.Add(plot);
+            }
+        }
+        return plots;
+    }
+
+    /// <summary>
+    /// Get a list of all plots belonging to a faction
+    /// </summary>
+    public List<Plot> GetAllFactionPlots(Faction faction) {
+        List<Plot> plots = new();
+        foreach (Plot[] row in plotArray) {
+            foreach (Plot plot in row) {
+                if (plot.faction == faction) plots.Add(plot);
+            }
+        }
+        return plots;
+    }
+
     /// <summary>
     /// Get the first plot with the given object placed.
     /// </summary>
@@ -135,12 +158,14 @@ public class RunManager : MonoBehaviour, ISaveSystem {
         return new_plot;
     }
 
-    public void PlaceRandomObject(SOPlaceableObject object_to_place, Faction faction, bool no_mans_land=false) {
+    public void PlaceRandomObject(SOPlaceableObject object_to_place, Faction faction, bool no_mans_land=false, bool on_visible=false) {
         List<Plot> plots = new();
-        if (!no_mans_land) {
-            foreach (Plot plot in GetPlotList()) if (faction == plot.faction && plot.GetCanPlaceObject()) plots.Add(plot);
+        if (on_visible) {
+            foreach (Plot plot in GetPlotList()) if (plot.visibleToPlayer && plot.GetCanPlaceObject()) plots.Add(plot);
+        } else if (no_mans_land) {
+            foreach (Plot plot in GetPlotList()) if ((faction == plot.faction || plot.faction == null) && plot.GetCanPlaceObject()) plots.Add(plot);
         } else {
-            foreach (Plot plot in GetPlotList()) if (faction == plot.faction || plot.faction == null && plot.GetCanPlaceObject()) plots.Add(plot);
+            foreach (Plot plot in GetPlotList()) if (faction == plot.faction && plot.GetCanPlaceObject()) plots.Add(plot);
         }
         Utils.Choice(plots).PlaceObject(object_to_place, faction);
     }

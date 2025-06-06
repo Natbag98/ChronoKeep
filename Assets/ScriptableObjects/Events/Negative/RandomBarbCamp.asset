@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 158b588657aa3fe488c18078322516f0, type: 3}
   m_Name: RandomBarbCamp
   m_EditorClassIdentifier: 
-  displayName: Random Barb Camp
+  displayName: Barbarian Expansion
   description: 
   potentialObjectTags: 01000000
   factionType: 0
+  onVisible: 0

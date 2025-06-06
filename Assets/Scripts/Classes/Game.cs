@@ -126,7 +126,6 @@ public class Game {
 
         BaseFactions.Add(new(this, GameManager.FactionTypes.BarbarianClan));
         PlaceObject(baseObjectInfo, GameManager.instance.BarbCamp, BaseFactions[^1], castle_locations[0], 5);
-        return;
         for (int i = 0; i < barb_count - 1; i++) {
             PlaceObject(baseObjectInfo, GameManager.instance.BarbCamp, BaseFactions[^1]);
         }

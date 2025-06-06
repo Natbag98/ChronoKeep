@@ -7,23 +7,28 @@ public class RandomWar : SOEvent {
     [Header("Random War")]
     [SerializeField] private bool toPlayer;
 
-    private Faction from;
+    private Faction from_faction;
     private Faction to;
 
     public override string GetDescription() {
-        return $"{from.Name} has declared war on {to.Name}!";
+        return $"{from_faction.Name} has declared war on {to.Name}!";
+    }
+
+    private bool CheckVisible(Faction faction) {
+        foreach (Plot plot in RunManager.instance.GetAllFactionPlots(faction)) if (plot.visibleToPlayer) return true;
+        return false;
     }
 
     public override bool IsValid() {
-        foreach (Faction faction in GameManager.instance.Game.BaseFactions) if (faction.atWarWith.Values.Contains(true)) return true;
+        foreach (Faction faction in GameManager.instance.Game.BaseFactions) if (faction.atWarWith.Values.Contains(false) && CheckVisible(faction)) return true;
         return false;
     }
 
     public override void Setup() {
-        from = Utils.Choice(
+        from_faction = Utils.Choice(
             (
                 from faction in GameManager.instance.Game.BaseFactions 
-                where faction.FactionType == GameManager.FactionTypes.Kingdom
+                where faction.FactionType == GameManager.FactionTypes.Kingdom && faction.atWarWith.Values.Contains(false)
                 select faction
             ).ToArray()
         );
@@ -33,15 +38,15 @@ public class RandomWar : SOEvent {
         } else {
             List<Faction> valid_to = (
                 from faction in GameManager.instance.Game.BaseFactions 
-                where faction.FactionType == GameManager.FactionTypes.Kingdom
+                where faction.FactionType == GameManager.FactionTypes.Kingdom && from_faction.atWarWith[faction] == false
                 select faction
             ).ToList();
-            valid_to.Remove(from);
+            valid_to.Remove(from_faction);
             to = Utils.Choice(valid_to);
         }
     }
 
     public override void Event() {
-        from.DeclareWar(to);
+        from_faction.DeclareWar(to);
     }
 }

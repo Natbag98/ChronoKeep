@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EventManager : MonoBehaviour, ISaveSystem {
@@ -19,6 +20,7 @@ public class EventManager : MonoBehaviour, ISaveSystem {
     private Dictionary<SOEvent, int> negativeEvents;
 
     private float eventChance;
+    private List<SOEvent> eventList = new();
 
     public void Event() {
         currentEvent.Event();
@@ -38,15 +40,27 @@ public class EventManager : MonoBehaviour, ISaveSystem {
             foreach (SOEvent event_ in positiveEvents.Keys) if (event_.IsValid()) potentialEvents.Add(event_, positiveEvents[event_]);
         }
 
-        currentEvent = Utils.Choice(potentialEvents);
-        currentEvent.Setup();
+        SOEvent new_event = Utils.Choice(potentialEvents);
+        eventList.Add(new_event);
     }
 
     private void WaveEnd(object _, EventArgs __) {
+        eventList = new();
         eventChance += eventChanceIncreasePerWave;
         if (GameManager.Random.Next(1, 101) < eventChance) {
             eventChance = 0f;
             NewEvent();
+        }
+
+        if (
+            (
+                from plot
+                in RunManager.instance.GetAllVisiblePlots()
+                where plot.placedObjectType == GameManager.PlaceableObjectTypes.Spawner && plot.faction == GameManager.instance.Game.BaseFactions[^1]
+                select plot
+            ).ToList().Count == 0
+        ) {
+            eventList.Add(Utils.GetAsset<PlaceObject>("PlaceVisibleBarbCamp"));
         }
     }
 
@@ -56,6 +70,14 @@ public class EventManager : MonoBehaviour, ISaveSystem {
         positiveEvents = positiveEventsDict.GetDict();
         negativeEvents = negativeEventsDict.GetDict();
         WaveManager.instance.waveEnd += WaveEnd;
+    }
+
+    void Update() {
+        if (eventList.Count > 0 && currentEvent == null) {
+            currentEvent = eventList[0];
+            eventList.RemoveAt(0);
+            currentEvent.Setup();
+        }
     }
 
     public void SaveData(GameData data) {
