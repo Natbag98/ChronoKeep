@@ -32,6 +32,19 @@ public class RunManager : MonoBehaviour, ISaveSystem {
     }
 
     /// <summary>
+    /// Get a list of all plots belonging to a faction
+    /// </summary>
+    public List<Plot> GetAllFactionPlots(Faction faction) {
+        List<Plot> plots = new();
+        foreach (Plot[] row in plotArray) {
+            foreach (Plot plot in row) {
+                if (plot.faction == faction) plots.Add(plot);
+            }
+        }
+        return plots;
+    }
+
+    /// <summary>
     /// Get the first plot with the given object placed.
     /// </summary>
     /// <param name="placed_object">The object to check for.</param>
