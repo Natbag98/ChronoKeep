@@ -12,7 +12,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     [SerializeField] protected GameManager.MagicTypes magicType;
     [SerializeField] private GameManager.PlaceableObjectTypes[] movementTargetPriorities;
     [SerializeField] protected Attributes attributes;
-    [SerializeField] [SerializeReference] private SOCharacterAddon[] characterAddons;
+    [SerializeField] [SerializeReference] private List<SOCharacterAddon> characterAddons;
 
     [Header("References")]
     [SerializeField] protected Transform centerPoint;
@@ -40,6 +40,8 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     private Plot fromPlot;
     private List<Mod> modsFromPlot = new();
     [HideInInspector] public bool invisible = false;
+    [HideInInspector] public PlaceableObject spawner;
+    private bool returning = false;
 
     protected virtual void GetTarget() {}
     protected virtual void Attack() {}
@@ -77,19 +79,19 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     /// <summary>
     /// Gets and sets the characters movement target.
     /// </summary>
-    private void GetMovementTarget() {
+    private bool GetMovementTarget(Faction target_faction) {
         Plot min_target = null;
         float? min_distance = null;
         List<Plot> target_objects = (
             from plot
-            in RunManager.instance.GetAllPlotsWithFactionObjects(targetFaction)
+            in RunManager.instance.GetAllPlotsWithFactionObjects(target_faction)
             where plot.walkable
             select plot
         ).ToList();
 
         // Target closest priority target
         foreach (GameManager.PlaceableObjectTypes targetObjectType in movementTargetPriorities) {
-            List<Plot> targets = RunManager.instance.GetAllPlotsWithPlacedObject(targetObjectType, targetFaction);
+            List<Plot> targets = RunManager.instance.GetAllPlotsWithPlacedObject(targetObjectType, target_faction);
             if (targets != null) {
                 foreach (Plot target in targets) {
                     float distance = Vector2.Distance(target.transform.position, transform.position);
@@ -104,14 +106,17 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
 
         // Attempt to target castle if there are no priority targets
         if (min_target == null) {
-            movementTarget = RunManager.instance.GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Castle, targetFaction);
-            if (movementTarget == null) movementTarget = Utils.Choice(target_objects);
+            movementTarget = RunManager.instance.GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Castle, target_faction);
+            if (movementTarget == null && target_objects.Count > 0) movementTarget = Utils.Choice(target_objects);
         } else {
             movementTarget = min_target;
         }
 
         // Attack the closest enemy object if the castle and priority targets have no valid paths
-        if (Utils.GetPath(GetCurrentPlot().GetPositionInPlotArray(), movementTarget.GetPositionInPlotArray()) == null) {
+        if (
+            movementTarget == null ||
+            Utils.GetPath(GetCurrentPlot().GetPositionInPlotArray(), movementTarget.GetPositionInPlotArray()) == null
+        ) {
             Dictionary<float, Plot> potential_movement_targets = new();
             foreach (Plot plot in target_objects) {
                 if (Utils.GetPath(GetCurrentPlot().GetPositionInPlotArray(), plot.GetPositionInPlotArray()) != null) {
@@ -120,28 +125,35 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
             }
 
             if (potential_movement_targets.Keys.Count == 0) {
-                // Later in development enemies should either not spawn from a spawner with no valid path or the enemy should attempt to attack a different faction
-                Debug.Log("No path found");
-                Destroy(gameObject);
+                return false;
             } else {
                 movementTarget = potential_movement_targets[potential_movement_targets.Keys.ToArray().Min()];
+                return true;
             }
         }
+
+        return true;
     }
 
     /// <summary>
     /// Gets and sets the character path.
     /// </summary>
-    private void GetPath() {
-        GetMovementTarget();
+    private bool GetPath(Faction target_faction, Plot movement_target=null) {
+        if (movement_target == null) {
+            GetMovementTarget(target_faction);
+            movement_target = movementTarget;
+        }
 
         path = new();
         pathIndex = 0;
-        List<Plot> new_path = Utils.GetPath(GetCurrentPlot().GetPositionInPlotArray(), movementTarget.GetPositionInPlotArray());
+        List<Plot> new_path = Utils.GetPath(GetCurrentPlot().GetPositionInPlotArray(), movement_target.GetPositionInPlotArray());
+
+        if (new_path == null) return false;
 
         foreach (Plot plot in new_path) {
             path.Add(plot.transform);
         }
+        return true;
     }
 
     public Vector3 GetPathTargetPos() {
@@ -208,12 +220,12 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
         invisible = false;
         foreach (SOCharacterAddon addon in characterAddons) addon.AddonAwake(this);
         moveOffset = new(
-            Mathf.Max(Mathf.Min((float)GameManager.Random.NextDouble() - 0.5f, 0.4f), -0.4f),
-            Mathf.Max(Mathf.Min((float)GameManager.Random.NextDouble() - 0.5f, 0.4f), -0.4f)
+            (float)GameManager.Random.Next(-3, 3) / 10,
+            (float)GameManager.Random.Next(-3, 3) / 10
         );
     }
 
-    private void GetTargetFaction() {
+    private bool GetTargetFaction(bool destroy_on_failure=true) {
         List<Plot> targets = (
             from plot
             in RunManager.instance.GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle)
@@ -236,15 +248,23 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
             );
         }
 
+        for (int i = 0; i < potential_targets.Count; i++) {
+            if (!GetPath(potential_targets.ElementAt(i).Value.faction)) potential_targets.Remove(potential_targets.ElementAt(i).Key);
+        }
+
         if (potential_targets.Count == 0) {
-            Destroy(gameObject);
+            if (destroy_on_failure) { 
+                Debug.Log("No valid factions to attack");
+                Destroy(gameObject);
+            }
+            return false;
         } else {
             targetFaction = potential_targets[potential_targets.Keys.ToArray().Min()].faction;
+            return true;
         }
     }
 
     private void Start() {
-        invisible = true;
         SetVisible(false);
         GetTargetFaction();
 
@@ -265,7 +285,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     protected virtual void Update() {
         if (RunManager.instance.paused) return;
         reloadTimer += Time.deltaTime * RunManager.instance.simSpeed;
-        if (movementTarget == null) GetPath();
+        if (movementTarget == null) GetPath(targetFaction);
         if (blockedObject == null) blocked = false;
         if (health <= 0) Destroy(gameObject);
         SetVisible(GetCurrentPlot().visibleToPlayer);
@@ -291,7 +311,32 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
         if (Vector3.Distance(GetPathTargetPos(), transform.position) < 0.05f) {
             pathIndex++;
             if (pathIndex >= path.Count) {
-                Destroy(gameObject);
+                if (returning) {
+                    if (spawner != null && faction == GameManager.instance.Game.PlayerFaction) {
+                        GameManager.instance.Game.AddResources(GameManager.Resources.ManPower, characterSO.powerRequired);
+                    }
+
+                    Destroy(gameObject);
+                    return;
+                }
+
+                if (!GetMovementTarget(targetFaction)) {
+                    if (GetTargetFaction(false)) {
+                        GetMovementTarget(targetFaction);
+                    }
+                }
+
+                if (targetFaction == null || movementTarget == null || !GetPath(targetFaction, movementTarget)) {
+                    if (spawner != null) {
+                        movementTarget = spawner.parentPlot;
+                        returning = true;
+                    } else {
+                        Destroy(gameObject);
+                        return;
+                    }
+                }
+
+                GetPath(targetFaction, movementTarget);
             }
         }
 

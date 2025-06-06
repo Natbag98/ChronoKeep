@@ -150,6 +150,7 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     }
 
     void Update() {
+        Debug.Log(Game.GetResources()[Resources.ManPower]);
         if (load) {
             if (RunManager.instance != null || SceneManager.GetActiveScene().name == "GameScene") {
                 load = false;
