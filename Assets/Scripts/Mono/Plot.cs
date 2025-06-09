@@ -27,6 +27,13 @@ public class Plot : MonoBehaviour {
     public bool visibleToPlayer { get; private set; } = false;
 
     private float once_per_second = 1;
+    private Vector2Int pos_in_plot_array;
+    private void SetPosInPlotArray() {
+        pos_in_plot_array = new(
+            (int)transform.position.x + GameManager.instance.Game.TerrainSize.x / 2,
+            (int)transform.position.z + GameManager.instance.Game.TerrainSize.y / 2
+        );
+    }
 
     public bool GetCanPlaceObject(SOPlaceableObject p_object=null) {
         if (p_object != null) {
@@ -52,6 +59,7 @@ public class Plot : MonoBehaviour {
     public List<Plot> GetNeighbours(int steps=1, bool square=false, bool include_self=true) {
         List<Plot> neighbours_to_return = new();
         List<Plot> neighbours_to_check = new() { this };
+        Vector2Int pos_in_plot_array = GetPositionInPlotArray();
 
         int? max_range = null;
         if (square) {
@@ -63,14 +71,15 @@ public class Plot : MonoBehaviour {
             Plot[] temp_neighbours_to_check = new Plot[neighbours_to_check.Count];
             neighbours_to_check.CopyTo(temp_neighbours_to_check);
 
-            foreach (Plot neighbour_to_check in temp_neighbours_to_check) {
+            foreach (Plot neighbour_to_check in neighbours_to_check.ToList()) {
                 neighbours_to_check.Remove(neighbour_to_check);
                 foreach (Plot neighbour in neighbour_to_check.neighbours) {
                     if (neighbour != null) {
                         if (max_range != null) {
+                            Vector2Int n_pos_in_plot_array = neighbour.GetPositionInPlotArray();
                             if (
-                                Mathf.Abs(GetPositionInPlotArray().x - neighbour.GetPositionInPlotArray().x) > max_range ||
-                                Mathf.Abs(GetPositionInPlotArray().y - neighbour.GetPositionInPlotArray().y) > max_range
+                                Mathf.Abs(pos_in_plot_array.x - n_pos_in_plot_array.x) > max_range ||
+                                Mathf.Abs(pos_in_plot_array.y - n_pos_in_plot_array.y) > max_range
                             ) {
                                 continue;
                             }
@@ -160,10 +169,7 @@ public class Plot : MonoBehaviour {
     /// </summary>
     /// <returns>The plots (x, y) positon in the plotArray</returns>
     public Vector2Int GetPositionInPlotArray() {
-        return new(
-            (int)transform.position.x + GameManager.instance.Game.TerrainSize.x / 2,
-            (int)transform.position.z + GameManager.instance.Game.TerrainSize.y / 2
-        );
+        return pos_in_plot_array;
     }
 
     /// <summary>
@@ -229,6 +235,7 @@ public class Plot : MonoBehaviour {
     }
 
     private void Start() {
+        SetPosInPlotArray();
         SetVisible(false);
     }
 

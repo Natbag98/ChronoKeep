@@ -44,7 +44,7 @@ public class CameraSystem : MonoBehaviour {
         }
     }
 
-    private void Update() {
+    private void LateUpdate() {
         if (cameraBlocked) return;
 
         // Move the camera on the x and z axes
