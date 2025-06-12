@@ -126,6 +126,8 @@ public class GameManager : MonoBehaviour, ISaveSystem {
             DontDestroyOnLoad(gameObject);
         }
 
+        Application.targetFrameRate = 60;
+
         # if !UNITY_EDITOR
             Screen.SetResolution(1920, 1080, true);
         # endif

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
@@ -21,12 +22,11 @@ public class Plot : MonoBehaviour {
     [HideInInspector] public SOFeature placedFeatureSO;
     [HideInInspector] public Faction faction;
     [HideInInspector] public GameManager.PlotTypes plotType;
-    [HideInInspector] public bool rangeFinding;
     private Plot[] neighbours;
     private bool mouseOver;
     public bool visibleToPlayer { get; private set; } = false;
 
-    private float once_per_second = 1;
+    private bool neighbourVisibilityUpdated = false;
     private Vector2Int pos_in_plot_array;
     private void SetPosInPlotArray() {
         pos_in_plot_array = new(
@@ -34,6 +34,8 @@ public class Plot : MonoBehaviour {
             (int)transform.position.z + GameManager.instance.Game.TerrainSize.y / 2
         );
     }
+
+    private List<Plot> neighbourPlotCache;
 
     public bool GetCanPlaceObject(SOPlaceableObject p_object=null) {
         if (p_object != null) {
@@ -56,7 +58,12 @@ public class Plot : MonoBehaviour {
     /// <param name="steps">The number of steps performed to find neighbours. Essentially the radius of the circle.</param>
     /// <param name="square">Will return a square of plots of steps size instead of a circle.</param>
     /// <returns>The list of neighbours.</returns>
-    public List<Plot> GetNeighbours(int steps=1, bool square=false, bool include_self=true) {
+    public List<Plot> GetNeighbours(int steps=1, bool square=false, bool include_self=true, bool cache=false) {
+        if (steps == 1 && square && !cache) {
+            neighbourPlotCache ??= GetNeighbours(steps, square, include_self, true);
+            return neighbourPlotCache;
+        }
+
         List<Plot> neighbours_to_return = new();
         List<Plot> neighbours_to_check = new() { this };
         Vector2Int pos_in_plot_array = GetPositionInPlotArray();
@@ -209,11 +216,22 @@ public class Plot : MonoBehaviour {
 
     public void OnMouseEnter() {
         mouseOver = true;
+        if (
+            !WaveManager.instance.waveActive
+        ) {
+            StartCoroutine(MoveToHeight(GameManager.instance.PlotMouseOverHeight));
+            MainSceneUIManager.instance.plotInfoPanel.SetActive(true);
+            if (placedObjectType != null) {
+                MainSceneUIManager.instance.objectInfoPanel.SetActive(true);
+            }
+        }
     }
 
     public void OnMouseExit() {
         mouseOver = false;
-        if (MainSceneUIManager.instance.IsPlacingObject()) SetRangeFinding(false);
+        StopAllCoroutines();
+        StartCoroutine(MoveToHeight(0));
+        if (MainSceneUIManager.instance.IsPlacingObject()) SetRangeFinding(0);
         MainSceneUIManager.instance.plotInfoPanel.SetActive(false);
         MainSceneUIManager.instance.objectInfoPanel.SetActive(false);
     }
@@ -224,6 +242,7 @@ public class Plot : MonoBehaviour {
             MainSceneUIManager.instance.GetObjectToPlace() &&
             ValidTowerPlacement(MainSceneUIManager.instance.GetObjectToPlace())
         ) {
+            SetRangeFinding(0);
             PlaceObject(MainSceneUIManager.instance.GetObjectToPlace(), GameManager.instance.Game.PlayerFaction, true);
             MainSceneUIManager.instance.UpdateResourceGain();
         } else if (faction == GameManager.instance.Game.PlayerFaction && placedObjectSO != null && !MainSceneUIManager.instance.mouseBlocked) {
@@ -239,13 +258,26 @@ public class Plot : MonoBehaviour {
         SetVisible(false);
     }
 
-    private void SetRangeFinding(bool set) {
+    private void SetRangeFinding(float height) {
         foreach (
             Plot plot in GetNeighbours(
                 MainSceneUIManager.instance.GetObjectToPlace().placeableObjectPrefab.GetComponent<PlaceableObject>().GetRange(this), include_self: false
             )
         ) {
-            plot.rangeFinding = set;
+            StartCoroutine(plot.MoveToHeight(height));
+        }
+    }
+
+    IEnumerator MoveToHeight(float targetHeight) {
+        Vector3 pos = transform.position;
+        while (Mathf.Abs(pos.y - targetHeight) > 0.001f) {
+            pos = Vector3.MoveTowards(
+                pos,
+                new (pos.x, targetHeight, pos.z),
+                GameManager.instance.PlotMouseOverSpeed * Time.deltaTime
+            );
+            transform.position = pos;
+            yield return null;
         }
     }
 
@@ -256,7 +288,6 @@ public class Plot : MonoBehaviour {
             return;
         }
         if (!visibleToPlayer) mouseOver = false;
-        float target_height = 0;
         if (!MainSceneUIManager.instance.mouseBlocked) {
             if (
                 mouseOver &&
@@ -265,17 +296,10 @@ public class Plot : MonoBehaviour {
                 if (faction != null && GameManager.instance.debugMode) Debug.Log(faction.Name);
                 if (MainSceneUIManager.instance.IsPlacingObject()) {
                     if (ValidTowerPlacement(MainSceneUIManager.instance.GetObjectToPlace())) {
-                        target_height = GameManager.instance.PlotMouseOverHeight;
-                        SetRangeFinding(true);
+                        SetRangeFinding(GameManager.instance.PlotMouseOverHeight / 2);
                     }
-                } else {
-                    target_height = GameManager.instance.PlotMouseOverHeight;
                 }
             }
-        }
-
-        if (!MainSceneUIManager.instance.IsPlacingObject()) {
-            rangeFinding = false;
         }
 
         if (mouseOver) {
@@ -299,26 +323,9 @@ public class Plot : MonoBehaviour {
             }
         }
 
-        if (rangeFinding) target_height = GameManager.instance.PlotMouseOverHeight / 2;
-
-        if (target_height != 0) {
-            MainSceneUIManager.instance.plotInfoPanel.SetActive(true);
-            if (placedObjectType != null) {
-                MainSceneUIManager.instance.objectInfoPanel.SetActive(true);
-            }
-        }
-
-        transform.position = Vector3.MoveTowards(
-            transform.position,
-            new Vector3(transform.position.x, target_height, transform.position.z),
-            GameManager.instance.PlotMouseOverSpeed * Time.deltaTime
-        );
-
-        once_per_second += Time.deltaTime;
-        if (once_per_second >= 1) {
-            once_per_second = 0;
+        if (!neighbourVisibilityUpdated && faction == GameManager.instance.Game.PlayerFaction) {
+            neighbourVisibilityUpdated = true;
             if (
-                faction == GameManager.instance.Game.PlayerFaction ||
                 (from neighbour in GetNeighbours(square: true) select neighbour.faction).Contains(GameManager.instance.Game.PlayerFaction)
             ) {
                 SetVisibleToPlayer(true);
