@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -32,7 +33,14 @@ public class GameSceneUIManager : MonoBehaviour {
     [SerializeField] private GameObject perkTreePrefab;
     [SerializeField] private GameObject perkPrefab;
 
+    [Header("References Difficulty")]
+    [SerializeField] private TextMeshProUGUI difficultyText;
+
+    private List<SODifficulty> difficulties;
+    private int currentDifficulty;
+
     public void _Button_StartRunButtonClicked() {
+        GameManager.instance.difficulty = difficulties[currentDifficulty];
         SceneManager.LoadScene("MainScene");
     }
 
@@ -71,6 +79,11 @@ public class GameSceneUIManager : MonoBehaviour {
         mainMenu.SetActive(true);
     }
 
+    public void _Button_DifficultyButtonClicked() {
+        currentDifficulty += 1;
+        if (currentDifficulty >= difficulties.Count) currentDifficulty = 0;
+    }
+
     private void Start() {
         instance = this;
 
@@ -94,6 +107,14 @@ public class GameSceneUIManager : MonoBehaviour {
                 }
             }
         }
+
+        difficulties = new() {
+            Utils.GetAsset<SODifficulty>("Easy"),
+            Utils.GetAsset<SODifficulty>("Normal"),
+            Utils.GetAsset<SODifficulty>("Hard")
+
+        };
+        currentDifficulty = 1;
     }
 
     private void Update() {
@@ -117,5 +138,6 @@ public class GameSceneUIManager : MonoBehaviour {
         }
 
         skillPointsText.text = $"Skill Points: {GameManager.instance.Game.skillPoints}";
+        difficultyText.text = $"Difficulty: {difficulties[currentDifficulty].displayName}";
     }
 }

@@ -26,7 +26,7 @@ public class Plot : MonoBehaviour {
     private bool mouseOver;
     public bool visibleToPlayer { get; private set; } = false;
 
-    private float once_per_second = 1;
+    private bool neighbourVisibilityUpdated = false;
 
     public bool GetCanPlaceObject(SOPlaceableObject p_object=null) {
         if (p_object != null) {
@@ -301,17 +301,17 @@ public class Plot : MonoBehaviour {
             }
         }
 
-        transform.position = Vector3.MoveTowards(
-            transform.position,
-            new Vector3(transform.position.x, target_height, transform.position.z),
-            GameManager.instance.PlotMouseOverSpeed * Time.deltaTime
-        );
+        if (transform.position.y != target_height) {
+            transform.position = Vector3.MoveTowards(
+                transform.position,
+                new Vector3(transform.position.x, target_height, transform.position.z),
+                GameManager.instance.PlotMouseOverSpeed * Time.deltaTime
+            );
+        }
 
-        once_per_second += Time.deltaTime;
-        if (once_per_second >= 1) {
-            once_per_second = 0;
+        if (!neighbourVisibilityUpdated && faction == GameManager.instance.Game.PlayerFaction) {
+            neighbourVisibilityUpdated = true;
             if (
-                faction == GameManager.instance.Game.PlayerFaction ||
                 (from neighbour in GetNeighbours(square: true) select neighbour.faction).Contains(GameManager.instance.Game.PlayerFaction)
             ) {
                 SetVisibleToPlayer(true);

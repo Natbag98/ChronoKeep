@@ -31,6 +31,7 @@ public class SettingsUIManager : MonoBehaviour {
 
     public void _Button_FullScreenButtonClicked() {
         Screen.fullScreen = !Screen.fullScreen;
+        SettingsManager.instance.fullScreen = Screen.fullScreen;
     }
 
     public void _Button_OrthButtonClicked() {

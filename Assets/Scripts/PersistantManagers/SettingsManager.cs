@@ -7,6 +7,7 @@ public class SettingsManager : MonoBehaviour {
     public bool modularHardwareAcceleration = false;
     [Range(0, 100)] public int soundEffectsVolume = 100;
     [Range(0, 100)] public int musicVolume = 100;
+    [HideInInspector] public bool fullScreen = true;
     public bool orthographicCamera = false;
 
     private void Awake() {

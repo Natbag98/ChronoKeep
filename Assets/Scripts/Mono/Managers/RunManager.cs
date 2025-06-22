@@ -187,7 +187,7 @@ public class RunManager : MonoBehaviour, ISaveSystem {
     }
 
     public void GameOver() {
-        GameManager.instance.scoreLastRun = score;
+        GameManager.instance.scoreLastRun = Mathf.FloorToInt(score * scoreMult * GameManager.instance.difficulty.mult);
         GameManager.instance.skillLastRun = Mathf.FloorToInt(score / 10 * skillMult);
         GameManager.instance.Game.skillPoints += GameManager.instance.skillLastRun;
         if (GameManager.instance.Game.firstRun) {
@@ -207,6 +207,7 @@ public class RunManager : MonoBehaviour, ISaveSystem {
         GameManager.instance.Game.PlayerFaction.RunStart();
         if (GameManager.instance.Game.firstRun) TutorialManager.instance.StartTutorial();
         foreach (Faction faction in GameManager.instance.Game.BaseFactions) faction.RunStart();
+        globalMods.AddRange(GameManager.instance.difficulty.modsToApply);
         foreach (SOPerk perk in GameManager.instance.Game.perksUnlockTracker.GetAllUnlocked()) {
             scoreMult += perk.scoreMultIncrease;
             skillMult += perk.skillMultIncrease;

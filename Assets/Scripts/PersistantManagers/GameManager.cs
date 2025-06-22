@@ -115,6 +115,8 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     [HideInInspector] public string nextScene;
     [HideInInspector] public int storyDisplay;
 
+    [HideInInspector] public SODifficulty difficulty;
+
     [Header("SO")]
     public List<ScriptableObject> scriptableObjects;
 
@@ -126,9 +128,9 @@ public class GameManager : MonoBehaviour, ISaveSystem {
             DontDestroyOnLoad(gameObject);
         }
 
-        # if !UNITY_EDITOR
-            Screen.SetResolution(1920, 1080, true);
-        # endif
+        // # if !UNITY_EDITOR
+        //     if (SettingsManager.instance.fullScreen) Screen.SetResolution(1920, 1080, true);
+        // # endif
 
         foreach (SOGenerationLevel level in Utils.GetAllAssets<SOGenerationLevel>()) level.Check();
         foreach (SOPlaceableObject placeable_object in Utils.GetAllAssets<SOPlaceableObject>()) allSOPlaceableObjects.Add(placeable_object);
