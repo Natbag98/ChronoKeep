@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ninja
   m_EditorClassIdentifier: 
   prefab: {fileID: 6995875889840719490, guid: 9d358b50848281947a3ded26dce860bf, type: 3}
-  powerRequired: 1
+  powerRequired: 6
   displayName: Ninja
   description: The unit fades into the shadows and exhibits crazy martial skills,
     never tapering off throughout the game. This unit will be invisible when not
