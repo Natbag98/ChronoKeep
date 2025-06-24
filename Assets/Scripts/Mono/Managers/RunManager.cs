@@ -183,7 +183,7 @@ public class RunManager : MonoBehaviour, ISaveSystem {
     }
 
     public void AddScore(int amount) {
-        score += Mathf.FloorToInt(amount * scoreMult);
+        score += amount;
     }
 
     public void GameOver() {
@@ -207,7 +207,7 @@ public class RunManager : MonoBehaviour, ISaveSystem {
         GameManager.instance.Game.PlayerFaction.RunStart();
         if (GameManager.instance.Game.firstRun) TutorialManager.instance.StartTutorial();
         foreach (Faction faction in GameManager.instance.Game.BaseFactions) faction.RunStart();
-        globalMods.AddRange(GameManager.instance.difficulty.modsToApply);
+        if (GameManager.instance.difficulty.modsToApply != null) globalMods.AddRange(GameManager.instance.difficulty.modsToApply);
         foreach (SOPerk perk in GameManager.instance.Game.perksUnlockTracker.GetAllUnlocked()) {
             scoreMult += perk.scoreMultIncrease;
             skillMult += perk.skillMultIncrease;

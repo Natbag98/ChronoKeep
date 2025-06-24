@@ -136,7 +136,9 @@ public class Plot : MonoBehaviour {
         if (faction != null) {
             this.faction = faction;
             foreach (Plot plot in GetNeighbours(object_to_place.factionControlRange, true)) {
-                if (this.faction == GameManager.instance.Game.PlayerFaction) plot.SetVisibleToPlayer(true);
+                if (faction == GameManager.instance.Game.PlayerFaction) {
+                    plot.SetVisibleToPlayer(true);
+                }
                 plot.faction ??= faction;
             }
         }
@@ -228,8 +230,8 @@ public class Plot : MonoBehaviour {
         }
     }
 
-    private void Start() {
-        SetVisible(false);
+    private void Awake() {
+        SetVisibleToPlayer(false);
     }
 
     private void SetRangeFinding(bool set) {

@@ -83,7 +83,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     }
 
     protected virtual void Start() {
-        if (!parentPlot.visibleToPlayer) SetVisible(false);
+        SetVisible(parentPlot.visibleToPlayer);
         if (!loaded) health = attributes.GetAttribute(GameManager.Attributes.Health);
         WaveManager.instance.waveEnd += WaveEnd;
 
