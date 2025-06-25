@@ -17,6 +17,7 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     [Header("References Resources")]
     [SerializeField] private TextMeshProUGUI resourceGoldText;
     [SerializeField] private TextMeshProUGUI resourceManPowerText;
+    [SerializeField] private TextMeshProUGUI resoureStoneText;
 
     [Header("References Event Menu")]
     [SerializeField] private GameObject eventMenu;
@@ -131,7 +132,8 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
         instance = this;
         text_dict = new() {
             {GameManager.Resources.Gold, resourceGoldText},
-            {GameManager.Resources.ManPower, resourceManPowerText}
+            {GameManager.Resources.ManPower, resourceManPowerText},
+            {GameManager.Resources.Stone, resoureStoneText}
         };
     }
 

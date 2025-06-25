@@ -106,6 +106,8 @@ MonoBehaviour:
       Value: 3
     - Key: 1
       Value: 1
+    - Key: 2
+      Value: 30
   playerName: 
   kingdomName: 
   allSOPlaceableObjects: []
@@ -114,6 +116,7 @@ MonoBehaviour:
   skillLastRun: 0
   nextScene: 
   storyDisplay: 0
+  difficulty: {fileID: 0}
   scriptableObjects:
   - {fileID: 11400000, guid: c1e66c2206308444eac9693f1f9edd10, type: 2}
   - {fileID: 11400000, guid: aae26af5810999345bbb394d8aba2b2c, type: 2}

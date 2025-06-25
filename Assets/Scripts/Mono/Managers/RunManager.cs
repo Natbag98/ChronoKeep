@@ -227,9 +227,21 @@ public class RunManager : MonoBehaviour, ISaveSystem {
             foreach (Mod mod in globalMods) modable.AddMod(mod);
         }
 
-        if (GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle, GameManager.instance.Game.PlayerFaction) == null) {
+        if (CheckGameOver()) {
             GameOver();
         }
+    }
+
+    private bool CheckGameOver() {
+        foreach (Plot[] row in plotArray) {
+            foreach (Plot plot in row) {
+                if (plot.faction == GameManager.instance.Game.PlayerFaction) {
+                    if (plot.placedObjectSO == Utils.GetAsset<SOPlaceableObject>("Castle")) return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     public void SaveData(GameData data) {
