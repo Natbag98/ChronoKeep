@@ -333,4 +333,15 @@ public class Utils : MonoBehaviour {
         }
         return heightmap;
     }
+
+    public static int CurrentFrame(Animator animator) {
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        float normalizedTime = stateInfo.normalizedTime;
+        float clampedTime = normalizedTime % 1f;
+        float currentTime = clampedTime * animator.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        int currentFrame = Mathf.FloorToInt(currentTime * animator.GetCurrentAnimatorClipInfo(0)[0].clip.frameRate);
+
+        Debug.Log("Current Frame: " + currentFrame);
+        return 0;
+    }
 }

@@ -33,6 +33,7 @@ public class RangedTower : Tower {
     protected override void Update() {
         if (target && rotateTransform.GetValue()) {
             Utils.RotateTowards(rotateTransform.GetValue().position, target.position, rotateTransform.GetValue(), rotateSpeed, "y");
+            Debug.Log(Utils.CurrentFrame(animator));
         }
         if (target != null && target.GetComponent<IRangedTarget>().GetInvisible()) target = null;
         base.Update();
