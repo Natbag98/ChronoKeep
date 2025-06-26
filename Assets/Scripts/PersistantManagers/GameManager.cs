@@ -115,7 +115,8 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     [HideInInspector] public string nextScene;
     [HideInInspector] public int storyDisplay;
 
-    [HideInInspector] public SODifficulty difficulty;
+    [Header("Default Difficulty")]
+    public SODifficulty difficulty;
 
     [Header("SO")]
     public List<ScriptableObject> scriptableObjects;

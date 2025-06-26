@@ -206,15 +206,41 @@ public class Utils : MonoBehaviour {
 
     #endregion
 
-    public static void RotateTowards(Vector3 from_position, Vector3 to_position, Transform rotate, float rotate_speed=0f) {
-        Vector3 direction = (to_position - from_position).normalized;
-		Quaternion look_rotation = Quaternion.LookRotation(direction);
-        if (rotate_speed == 0f) {
-            rotate.rotation = look_rotation;
-        } else {
-            rotate.rotation = Quaternion.Slerp(rotate.rotation, look_rotation, Time.deltaTime * rotate_speed * RunManager.instance.simSpeed);
-        }
+    public static void RotateTowards(Vector3 from_position, Vector3 to_position, Transform rotate, float rotate_speed = 0f, string axis = null) {
+    Vector3 direction = (to_position - from_position).normalized;
+    if (direction == Vector3.zero) return;
+
+    Quaternion look_rotation = Quaternion.LookRotation(direction);
+    Vector3 look_euler = look_rotation.eulerAngles;
+    Vector3 current_euler = rotate.rotation.eulerAngles;
+
+    switch (axis) {
+        case "x":
+            look_euler.y = current_euler.y;
+            look_euler.z = current_euler.z;
+            break;
+        case "y":
+            look_euler.x = current_euler.x;
+            look_euler.z = current_euler.z;
+            break;
+        case "z":
+            look_euler.x = current_euler.x;
+            look_euler.y = current_euler.y;
+            break;
     }
+
+    Quaternion filtered_rotation = Quaternion.Euler(look_euler);
+
+    if (rotate_speed == 0f) {
+        rotate.rotation = filtered_rotation;
+    } else {
+        rotate.rotation = Quaternion.Slerp(
+            rotate.rotation,
+            filtered_rotation,
+            Time.deltaTime * rotate_speed * RunManager.instance.simSpeed
+        );
+    }
+}
 
     public static float CalculateDamage(
         GameManager.MagicTypes attackType,

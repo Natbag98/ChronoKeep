@@ -5,6 +5,8 @@ public class RangedTower : Tower {
     [Header("Ranged Tower")]
     [SerializeField] private GameObject projectileToShoot;
     [SerializeField] private Transform shootPoint;
+    [SerializeField] private Utils.SerializableNullable<Transform> rotateTransform;
+    [SerializeField] private float rotateSpeed;
 
     protected override void GetTarget() {
         List<Character> characters_in_range = new();
@@ -15,6 +17,7 @@ public class RangedTower : Tower {
     }
 
     protected override void Attack() {
+        if (animator) animator.SetTrigger("Shoot");
         Projectile projectile = Instantiate(
             projectileToShoot,
             shootPoint.position,
@@ -28,6 +31,9 @@ public class RangedTower : Tower {
     }
 
     protected override void Update() {
+        if (target && rotateTransform.GetValue()) {
+            Utils.RotateTowards(rotateTransform.GetValue().position, target.position, rotateTransform.GetValue(), rotateSpeed, "y");
+        }
         if (target != null && target.GetComponent<IRangedTarget>().GetInvisible()) target = null;
         base.Update();
     }
