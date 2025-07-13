@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,12 +11,12 @@ public class HealingTower : Tower {
 
     protected override void UpdateAttack() {
         if (canAttack) {
-            Attack();
+            StartCoroutine(Attack());
             StartCoroutine(Reload());
         }
     }
 
-    protected override void Attack() {
+    protected override IEnumerator Attack() {
         Dictionary<float, List<PlaceableObject>> potential_targets = new();
         foreach (Plot plot in parentPlot.GetNeighbours(attributes.GetAttributeAsInt(GameManager.Attributes.Range))) {
             PlaceableObject placeable_object = plot.GetComponentInChildren<PlaceableObject>();
@@ -43,6 +44,7 @@ public class HealingTower : Tower {
         }
 
         foreach (PlaceableObject target in targets) target.Heal(attributes.GetAttribute(GameManager.Attributes.Attack));
+        yield return 0;
     }
 
     protected override void Start() {

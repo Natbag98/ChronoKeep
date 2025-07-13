@@ -342,6 +342,6 @@ public class Utils : MonoBehaviour {
         int currentFrame = Mathf.FloorToInt(currentTime * animator.GetCurrentAnimatorClipInfo(0)[0].clip.frameRate);
 
         Debug.Log("Current Frame: " + currentFrame);
-        return 0;
+        return currentFrame;
     }
 }

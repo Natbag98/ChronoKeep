@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,8 +17,11 @@ public class RangedTower : Tower {
         if (characters_in_range.Count > 0) target = Utils.Choice(characters_in_range).transform;
     }
 
-    protected override void Attack() {
+    protected override IEnumerator Attack() {
         if (animator) animator.SetTrigger("Shoot");
+        yield return new WaitForSeconds(0.01f);
+        if (animator) Debug.Log(attackFrame); // TODO : GPT this
+        if (animator) yield return new WaitForSeconds(attackFrame / 60);
         Projectile projectile = Instantiate(
             projectileToShoot,
             shootPoint.position,
@@ -33,7 +37,6 @@ public class RangedTower : Tower {
     protected override void Update() {
         if (target && rotateTransform.GetValue()) {
             Utils.RotateTowards(rotateTransform.GetValue().position, target.position, rotateTransform.GetValue(), rotateSpeed, "y");
-            Debug.Log(Utils.CurrentFrame(animator));
         }
         if (target != null && target.GetComponent<IRangedTarget>().GetInvisible()) target = null;
         base.Update();
