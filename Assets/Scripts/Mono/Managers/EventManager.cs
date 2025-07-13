@@ -21,6 +21,8 @@ public class EventManager : MonoBehaviour, ISaveSystem {
 
     private float eventChance;
     private List<SOEvent> eventList = new();
+    
+    private int shopChance = 0;
 
     public void Event() {
         currentEvent.Event();
@@ -61,6 +63,13 @@ public class EventManager : MonoBehaviour, ISaveSystem {
             ).ToList().Count == 0
         ) {
             eventList.Add(Utils.GetAsset<PlaceObject>("PlaceVisibleBarbCamp"));
+        }
+
+        if (GameManager.Random.Next(100) < shopChance) {
+            MainSceneUIManager.instance.shopActive = true;
+            shopChance = 0;
+        } else {
+            shopChance += 100;
         }
     }
 

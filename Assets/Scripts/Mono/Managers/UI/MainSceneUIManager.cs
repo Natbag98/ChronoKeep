@@ -43,6 +43,7 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     [HideInInspector] public Plot upgradePlot;
     private Dictionary<GameManager.Resources, int> resourcesPerWave;
     private Dictionary<GameManager.Resources, TextMeshProUGUI> text_dict;
+    [HideInInspector] public bool shopActive;
 
     public event EventHandler resetUpgrades;
 
@@ -207,6 +208,11 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
         }
 
         if (!RunManager.instance.paused) speedText.text = $"{RunManager.instance.simSpeed}x";
+
+        if (current_event == null && shopActive) {
+            Debug.Log("Here"); // TODO : Add shop funtionality
+            shopActive = false;
+        }
     }
 
     public void SaveData(GameData data) {}
