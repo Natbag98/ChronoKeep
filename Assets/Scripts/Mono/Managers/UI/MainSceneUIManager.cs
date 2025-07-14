@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -37,6 +38,11 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     public GameObject upgradePanel;
     [SerializeField] private Transform upgradesHolder;
     [SerializeField] private TextMeshProUGUI upgradeText;
+
+    [Header("References Trader UI")]
+    [SerializeField] private GameObject traderPanel;
+    [SerializeField] private Transform shopItemHolder;
+    [SerializeField] private GameObject shopItemPrefab;
 
     private SOPlaceableObject placingObject;
     [HideInInspector] public bool mouseBlocked = false;
@@ -98,6 +104,10 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     public void _Button_GameSpeedUpButtonClicked() {
         if (RunManager.instance.paused) return;
         RunManager.instance.simSpeed = Math.Min(GameManager.instance.maxGameSpeed, RunManager.instance.simSpeed + 0.5f);
+    }
+
+    public void _Button_TraderContinueButtonClicked() {
+        traderPanel.SetActive(false);
     }
 
     public void StartPlacing(SOPlaceableObject placeable_object) {
@@ -210,7 +220,9 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
         if (!RunManager.instance.paused) speedText.text = $"{RunManager.instance.simSpeed}x";
 
         if (current_event == null && shopActive) {
-            Debug.Log("Here"); // TODO : Add shop funtionality
+            traderPanel.SetActive(true);
+            if (transform.childCount > 0) foreach (Transform shop_item in shopItemHolder) Destroy(shop_item.gameObject);
+            for (int i = 0; i < GameManager.Random.Next(2, 5); i++) Instantiate(shopItemPrefab, shopItemHolder);
             shopActive = false;
         }
     }

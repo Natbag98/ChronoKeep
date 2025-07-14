@@ -23,5 +23,9 @@ MonoBehaviour:
       Value: 30
     - Key: 0
       Value: 8
+  purchaseCost:
+    dictPairs:
+    - Key: 0
+      Value: 15
   mustPlaceBeside: 
   mustPlaceBesideTags: 

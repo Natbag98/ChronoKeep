@@ -21,5 +21,9 @@ MonoBehaviour:
     dictPairs:
     - Key: 2
       Value: 10
+  purchaseCost:
+    dictPairs:
+    - Key: 0
+      Value: 2
   mustPlaceBeside: 02000000
   mustPlaceBesideTags: 

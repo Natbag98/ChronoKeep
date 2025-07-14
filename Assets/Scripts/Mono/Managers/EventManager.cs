@@ -22,7 +22,7 @@ public class EventManager : MonoBehaviour, ISaveSystem {
     private float eventChance;
     private List<SOEvent> eventList = new();
     
-    private int shopChance = 0;
+    private int shopChance = 100;
 
     public void Event() {
         currentEvent.Event();

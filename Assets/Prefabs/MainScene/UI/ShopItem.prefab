@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7541560566396526439}
   - component: {fileID: 4329556898180121820}
   - component: {fileID: 8528952820536153965}
+  - component: {fileID: 5360432488274310355}
   m_Layer: 0
   m_Name: ShopItem
   m_TagString: Untagged
@@ -120,7 +121,32 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4329556898180121820}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5360432488274310355}
+        m_TargetAssemblyTypeName: ShopItem, Assembly-CSharp
+        m_MethodName: _Button_ButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5360432488274310355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8329289867343711932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdc17d618c6811143a81429806f8ae85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 1168410676942704402}
 --- !u!1 &8643291094528782834
 GameObject:
   m_ObjectHideFlags: 0
