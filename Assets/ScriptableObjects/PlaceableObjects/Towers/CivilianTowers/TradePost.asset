@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b117226a6549b1448d8a08556c52cc1, type: 3}
+  m_Name: TradePost
+  m_EditorClassIdentifier: 
+  placeableObjectPrefab: {fileID: 1770908353305172144, guid: 229e19c3461d6d34ea976cca4ffc48e2, type: 3}
+  displayName: Trade Post
+  description: Increases your chance of traders appearing each wave when built.
+  objectType: 3
+  factionControlRange: 0
+  placementCost:
+    dictPairs:
+    - Key: 2
+      Value: 10
+  purchaseCost:
+    dictPairs:
+    - Key: 0
+      Value: 2
+  mustPlaceBeside: 
+  mustPlaceBesideTags: 04000000
