@@ -4,7 +4,7 @@ using UnityEngine;
 public class ShopItem : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI text;
 
-    private SOPlaceableObject objectToBuy;
+    public SOPlaceableObject objectToBuy { private set; get;}
 
     private void Start() {
         objectToBuy = Utils.Choice(Utils.GetAllAssets<SOPlaceableObject>());

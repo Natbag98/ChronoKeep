@@ -22,7 +22,7 @@ public class EventManager : MonoBehaviour, ISaveSystem {
     private float eventChance;
     private List<SOEvent> eventList = new();
     
-    private int shopChance = 100;
+    private int shopChance = 0;
 
     public void Event() {
         currentEvent.Event();
@@ -69,7 +69,7 @@ public class EventManager : MonoBehaviour, ISaveSystem {
             MainSceneUIManager.instance.shopActive = true;
             shopChance = 0;
         } else {
-            shopChance += 100;
+            shopChance += 10;
         }
     }
 

@@ -43,6 +43,7 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     [SerializeField] private GameObject traderPanel;
     [SerializeField] private Transform shopItemHolder;
     [SerializeField] private GameObject shopItemPrefab;
+    [SerializeField] private TextMeshProUGUI shopDesc;
 
     private SOPlaceableObject placingObject;
     [HideInInspector] public bool mouseBlocked = false;
@@ -224,6 +225,13 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
             if (transform.childCount > 0) foreach (Transform shop_item in shopItemHolder) Destroy(shop_item.gameObject);
             for (int i = 0; i < GameManager.Random.Next(2, 5); i++) Instantiate(shopItemPrefab, shopItemHolder);
             shopActive = false;
+        }
+
+        if (traderPanel.activeSelf) {
+            ShopItem item = Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.ShopItem)?.GetComponent<ShopItem>();
+            if (item != null) shopDesc.text = item.objectToBuy.description; else shopDesc.text = "";
+        } else {
+           shopDesc.text = ""; 
         }
     }
 
