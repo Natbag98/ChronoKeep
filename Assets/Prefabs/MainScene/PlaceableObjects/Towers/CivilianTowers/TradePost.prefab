@@ -245,7 +245,7 @@ GameObject:
   - component: {fileID: 2415632154634045942}
   - component: {fileID: 7812922507669299301}
   m_Layer: 0
-  m_Name: Town
+  m_Name: TradePost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -313,11 +313,7 @@ MonoBehaviour:
       - Key: 8
         Value: 0
   resourcesPerWave:
-    dictPairs:
-    - Key: 1
-      Value: 2
-    - Key: 2
-      Value: 1
+    dictPairs: []
   centerPoint: {fileID: 1968971150195000359}
   healthBar: {fileID: 1284041797425990211}
   placeableObjectSO: {fileID: 0}
@@ -337,7 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18a5389b09fc8864985c1e82169e6d35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tags: 0200000004000000
+  tags: 02000000
 --- !u!1 &7793943204553541298
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,7 +13,8 @@ public class Tag : MonoBehaviour {
         CharacterViewer,
         UpgradeUI,
         Unit,
-        Projectile
+        Projectile,
+        ShopItem
     }
 
     public List<Tags> tags;

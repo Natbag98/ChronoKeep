@@ -106,6 +106,8 @@ MonoBehaviour:
       Value: 3
     - Key: 1
       Value: 1
+    - Key: 2
+      Value: 30
   playerName: 
   kingdomName: 
   allSOPlaceableObjects: []
@@ -150,7 +152,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: facc3f4559aae0043adf012e27c0de95, type: 2}
   - {fileID: 11400000, guid: 644ac2a4a10ef744a94df563b98377fd, type: 2}
   - {fileID: 11400000, guid: 86066999b2da0ef4f9c74035828c70ab, type: 2}
+  - {fileID: 11400000, guid: 488d7db69dcffbc43b6cf6b63fdeeb71, type: 2}
   - {fileID: 11400000, guid: d1d8e9105110c8849ae914a814a78d87, type: 2}
+  - {fileID: 11400000, guid: 19bfb225a44977d4dbcbb3f2dcf706af, type: 2}
   - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
   - {fileID: 11400000, guid: 106fc22d69ab7ff4b91326f6c0e3b4e4, type: 2}
   - {fileID: 11400000, guid: 6c8dbaeaa33991f4a8891d470e28dde3, type: 2}

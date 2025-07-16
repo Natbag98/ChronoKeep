@@ -18,6 +18,14 @@ MonoBehaviour:
   objectType: 0
   factionControlRange: 4
   placementCost:
-    dictPairs: []
+    dictPairs:
+    - Key: 2
+      Value: 30
+    - Key: 0
+      Value: 8
+  purchaseCost:
+    dictPairs:
+    - Key: 0
+      Value: 15
   mustPlaceBeside: 
   mustPlaceBesideTags: 

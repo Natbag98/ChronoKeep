@@ -11,6 +11,7 @@ public class SOPlaceableObject : ScriptableObject, IUnlockTrackable {
     public GameManager.PlaceableObjectTypes objectType;
     public int factionControlRange;
     public Utils.SerializeableDict<GameManager.Resources, int> placementCost;
+    public Utils.SerializeableDict<GameManager.Resources, int> purchaseCost;
 
     [Header("Placement Rules")]
     public GameManager.PlotTypes[] mustPlaceBeside;

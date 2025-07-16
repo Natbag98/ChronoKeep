@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -17,6 +18,7 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     [Header("References Resources")]
     [SerializeField] private TextMeshProUGUI resourceGoldText;
     [SerializeField] private TextMeshProUGUI resourceManPowerText;
+    [SerializeField] private TextMeshProUGUI resoureStoneText;
 
     [Header("References Event Menu")]
     [SerializeField] private GameObject eventMenu;
@@ -37,11 +39,18 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     [SerializeField] private Transform upgradesHolder;
     [SerializeField] private TextMeshProUGUI upgradeText;
 
+    [Header("References Trader UI")]
+    [SerializeField] private GameObject traderPanel;
+    [SerializeField] private Transform shopItemHolder;
+    [SerializeField] private GameObject shopItemPrefab;
+    [SerializeField] private TextMeshProUGUI shopDesc;
+
     private SOPlaceableObject placingObject;
     [HideInInspector] public bool mouseBlocked = false;
     [HideInInspector] public Plot upgradePlot;
     private Dictionary<GameManager.Resources, int> resourcesPerWave;
     private Dictionary<GameManager.Resources, TextMeshProUGUI> text_dict;
+    [HideInInspector] public bool shopActive;
 
     public event EventHandler resetUpgrades;
 
@@ -98,6 +107,10 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
         RunManager.instance.simSpeed = Math.Min(GameManager.instance.maxGameSpeed, RunManager.instance.simSpeed + 0.5f);
     }
 
+    public void _Button_TraderContinueButtonClicked() {
+        traderPanel.SetActive(false);
+    }
+
     public void StartPlacing(SOPlaceableObject placeable_object) {
         placingObject = placeable_object;
     }
@@ -131,7 +144,8 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
         instance = this;
         text_dict = new() {
             {GameManager.Resources.Gold, resourceGoldText},
-            {GameManager.Resources.ManPower, resourceManPowerText}
+            {GameManager.Resources.ManPower, resourceManPowerText},
+            {GameManager.Resources.Stone, resoureStoneText}
         };
     }
 
@@ -205,6 +219,20 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
         }
 
         if (!RunManager.instance.paused) speedText.text = $"{RunManager.instance.simSpeed}x";
+
+        if (current_event == null && shopActive) {
+            traderPanel.SetActive(true);
+            if (transform.childCount > 0) foreach (Transform shop_item in shopItemHolder) Destroy(shop_item.gameObject);
+            for (int i = 0; i < GameManager.Random.Next(2, 5); i++) Instantiate(shopItemPrefab, shopItemHolder);
+            shopActive = false;
+        }
+
+        if (traderPanel.activeSelf) {
+            ShopItem item = Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.ShopItem)?.GetComponent<ShopItem>();
+            if (item != null) shopDesc.text = item.objectToBuy.description; else shopDesc.text = "";
+        } else {
+           shopDesc.text = ""; 
+        }
     }
 
     public void SaveData(GameData data) {}
