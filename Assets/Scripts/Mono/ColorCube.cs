@@ -10,7 +10,9 @@ public class ColorCube : MonoBehaviour {
 
     void Update() {
         if (plot.faction == null) {
-            mesh.material.color = new(mesh.material.r, mesh.material, mesh.material,)
+            mesh.material.color = new(mesh.material.color.r, mesh.material.color.g, mesh.material.color.b, 0);
+        } else {
+            
         }
     }
 }

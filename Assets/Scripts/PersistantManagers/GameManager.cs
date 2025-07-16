@@ -85,6 +85,10 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     [Header("Static Data : References")]
     public GameObject WallPrefab;
 
+    [Header("Faction Generation Data")]
+    public Color[] factionColors;
+    public int alpha;
+
     [Header("Plot Generation Data")]
     [SerializeField] private int mapSize;
     [SerializeField] private Utils.SerializeableDict<SOGenerationLevel, float> plotGenerationData;
