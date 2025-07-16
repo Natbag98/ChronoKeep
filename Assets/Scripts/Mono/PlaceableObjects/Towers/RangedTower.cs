@@ -20,8 +20,14 @@ public class RangedTower : Tower {
     protected override IEnumerator Attack() {
         if (animator) animator.SetTrigger("Shoot");
         yield return new WaitForSeconds(0.01f);
-        if (animator) Debug.Log(attackFrame); // TODO : GPT this
-        if (animator) yield return new WaitForSeconds(attackFrame / 60);
+
+        float targetTime = 0;
+        if (animator) {
+            float timePerFrame = 1f / animator.GetCurrentAnimatorClipInfo(0)[0].clip.frameRate;
+            targetTime = (attackFrame) * timePerFrame * RunManager.instance.simSpeed;
+        }
+        if (animator) yield return new WaitForSeconds(targetTime);
+
         Projectile projectile = Instantiate(
             projectileToShoot,
             shootPoint.position,
