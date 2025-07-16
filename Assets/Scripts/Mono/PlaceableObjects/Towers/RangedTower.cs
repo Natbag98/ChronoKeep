@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,6 +6,8 @@ public class RangedTower : Tower {
     [Header("Ranged Tower")]
     [SerializeField] private GameObject projectileToShoot;
     [SerializeField] private Transform shootPoint;
+    [SerializeField] private Utils.SerializableNullable<Transform> rotateTransform;
+    [SerializeField] private float rotateSpeed;
 
     protected override void GetTarget() {
         List<Character> characters_in_range = new();
@@ -14,7 +17,17 @@ public class RangedTower : Tower {
         if (characters_in_range.Count > 0) target = Utils.Choice(characters_in_range).transform;
     }
 
-    protected override void Attack() {
+    protected override IEnumerator Attack() {
+        if (animator) animator.SetTrigger("Shoot");
+        yield return new WaitForSeconds(0.01f);
+
+        float targetTime = 0;
+        if (animator) {
+            float timePerFrame = 1f / animator.GetCurrentAnimatorClipInfo(0)[0].clip.frameRate;
+            targetTime = (attackFrame) * timePerFrame * RunManager.instance.simSpeed;
+        }
+        if (animator) yield return new WaitForSeconds(targetTime);
+
         Projectile projectile = Instantiate(
             projectileToShoot,
             shootPoint.position,
@@ -28,6 +41,9 @@ public class RangedTower : Tower {
     }
 
     protected override void Update() {
+        if (target && rotateTransform.GetValue()) {
+            Utils.RotateTowards(rotateTransform.GetValue().position, target.position, rotateTransform.GetValue(), rotateSpeed, "y");
+        }
         if (target != null && target.GetComponent<IRangedTarget>().GetInvisible()) target = null;
         base.Update();
     }

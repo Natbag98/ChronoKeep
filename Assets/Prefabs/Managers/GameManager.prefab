@@ -116,7 +116,7 @@ MonoBehaviour:
   skillLastRun: 0
   nextScene: 
   storyDisplay: 0
-  difficulty: {fileID: 0}
+  difficulty: {fileID: 11400000, guid: a7edc561edfcac5469f6246f91011c4b, type: 2}
   scriptableObjects:
   - {fileID: 11400000, guid: c1e66c2206308444eac9693f1f9edd10, type: 2}
   - {fileID: 11400000, guid: aae26af5810999345bbb394d8aba2b2c, type: 2}

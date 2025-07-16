@@ -6,12 +6,15 @@ public abstract class Tower : PlaceableObject {
     [SerializeField] protected SOSound shootSound;
     [SerializeField] private UnityEngine.UI.Image reloadBar;
 
+    [Header("Animation")]
+    [SerializeField] protected int attackFrame;
+
     protected Transform target;
     protected bool canAttack = true;
     protected float reloadTimer;
 
     protected virtual void GetTarget() {}
-    protected virtual void Attack() {}
+    protected virtual IEnumerator Attack() { yield return 0; }
 
     protected IEnumerator Reload() {
         canAttack = false;
@@ -26,7 +29,7 @@ public abstract class Tower : PlaceableObject {
         } else {
             if (canAttack) {
                 shootSound.Play(gameObject);
-                Attack();
+                StartCoroutine(Attack());
                 StartCoroutine(Reload());
             }
         }

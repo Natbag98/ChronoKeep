@@ -23,6 +23,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     private List<SOUpgrade> upgrades = new();
     public List<SOUpgrade> GetUpgrades() { return upgrades; }
     private float loadedTimer = 2;
+    protected Animator animator;
 
     public void AddUpgrade(SOUpgrade upgrade) {
         upgrades.Add(upgrade);
@@ -83,6 +84,8 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     }
 
     protected virtual void Start() {
+        animator = GetComponentInChildren<Animator>();
+
         SetVisible(parentPlot.visibleToPlayer);
         if (!loaded) health = attributes.GetAttribute(GameManager.Attributes.Health);
         WaveManager.instance.waveEnd += WaveEnd;
