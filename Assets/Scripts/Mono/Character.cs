@@ -204,10 +204,10 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     private void SetVisible(bool set) {
         if (GameManager.instance.debugMode) return;
         foreach (MeshRenderer mesh in GetComponentsInChildren<MeshRenderer>()) mesh.enabled = set;
-        foreach (Canvas canvas in GetComponentsInChildren<Canvas>()) canvas.enabled = set;
+        foreach (Canvas canvas in GetComponentsInChildren<Canvas>()) if (canvas.name == "ui") canvas.enabled = set;
     }
 
-    public void SetStartPos(Vector3 position) { 
+    public void SetStartPos(Vector3 position) {
         lastPosition = position;
         transform.position = new Vector3(
             position.x - moveOffset.x,

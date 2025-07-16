@@ -19,7 +19,11 @@ MonoBehaviour:
   factionControlRange: 1
   placementCost:
     dictPairs:
+    - Key: 2
+      Value: 2
+  purchaseCost:
+    dictPairs:
     - Key: 0
-      Value: 1
+      Value: 2
   mustPlaceBeside: 
   mustPlaceBesideTags: 04000000

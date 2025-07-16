@@ -37,7 +37,8 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     }
     public enum Resources {
         Gold,
-        ManPower
+        ManPower,
+        Stone
     }
     public enum PlotTypes {
         Plains,
@@ -137,6 +138,7 @@ public class GameManager : MonoBehaviour, ISaveSystem {
 
         if (SceneManager.GetActiveScene().name != "MainMenuScene") {
             Game = new(new(mapSize, mapSize), plotGenerationData.GetDict(), "", "", 4);
+            difficulty = Utils.GetAsset<SODifficulty>("Normal");
         }
     }
 
