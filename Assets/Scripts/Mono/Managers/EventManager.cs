@@ -69,14 +69,18 @@ public class EventManager : MonoBehaviour, ISaveSystem {
             MainSceneUIManager.instance.shopActive = true;
             shopChance = 0;
         } else {
-            shopChance += 10 + (
-                8 * (
-                    from placed_plot
-                    in RunManager.instance.GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.CivilianTower, GameManager.instance.Game.PlayerFaction)
-                    where placed_plot.placedObjectSO.name == "TradePost"
-                    select placed_plot
-                ).ToList().Count
-            );
+            if (RunManager.instance.GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.CivilianTower, GameManager.instance.Game.PlayerFaction) != null) {
+                shopChance += 10 + (
+                    8 * (
+                        from placed_plot
+                        in RunManager.instance.GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.CivilianTower, GameManager.instance.Game.PlayerFaction)
+                        where placed_plot.placedObjectSO.name == "TradePost"
+                        select placed_plot
+                    ).ToList().Count
+                );
+            } else {
+                shopChance += 10;
+            }
         }
     }
 
