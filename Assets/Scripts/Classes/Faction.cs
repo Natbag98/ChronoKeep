@@ -7,7 +7,8 @@ using UnityEngine;
 public class Faction {
     public GameManager.FactionTypes FactionType { private set; get; }
     public string Name { private set; get; }
-    public string Ruler {private set; get; }
+    public string Ruler { private set; get; }
+    public Color Color { private set; get; }
 
     public Dictionary<Faction, bool> atWarWith = new();
 
@@ -15,7 +16,8 @@ public class Faction {
         Game game,
         GameManager.FactionTypes? faction_type=null,
         string name=null,
-        string ruler=null
+        string ruler=null,
+        Color? color=null
     ) {
         if (string.IsNullOrWhiteSpace(name)) name = null;
         if (string.IsNullOrWhiteSpace(ruler)) ruler = null;
@@ -47,6 +49,17 @@ public class Faction {
             Ruler = ruler;
         } else {
             Ruler = $"{Utils.Choice(GameManager.instance.TextData.Data["first_names"])} {Utils.Choice(GameManager.instance.TextData.Data["last_names"])}";
+        }
+
+        if (color != null) {
+            Color = (Color)color;
+        } else {
+            Color = new(
+                (float)GameManager.Random.NextDouble(),
+                (float)GameManager.Random.NextDouble(),
+                (float)GameManager.Random.NextDouble(),
+                GameManager.instance.alpha / 255f
+            );
         }
     }
 

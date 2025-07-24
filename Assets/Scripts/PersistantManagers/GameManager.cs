@@ -86,7 +86,6 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     public GameObject WallPrefab;
 
     [Header("Faction Generation Data")]
-    public Color[] factionColors;
     public int alpha;
 
     [Header("Plot Generation Data")]

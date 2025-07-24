@@ -32,6 +32,8 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     public GameObject objectInfoPanel;
     public TextMeshProUGUI objectInfoName;
     public TextMeshProUGUI objectInfoDescription;
+    public GameObject factionTextObject;
+    public TextMeshProUGUI factionText;
 
     [Header("References Upgrade Menu")]
     [SerializeField] private GameObject upgradePrefab;

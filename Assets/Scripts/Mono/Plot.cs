@@ -135,11 +135,9 @@ public class Plot : MonoBehaviour {
 
         if (faction != null) {
             this.faction = faction;
-            foreach (Plot plot in GetNeighbours(object_to_place.factionControlRange, true)) {
-                if (faction == GameManager.instance.Game.PlayerFaction) {
-                    plot.SetVisibleToPlayer(true);
-                }
-                plot.faction ??= faction;
+            foreach (Plot plot in GetNeighbours(object_to_place.factionControlRange, true)) plot.faction ??= faction;
+            if (faction == GameManager.instance.Game.PlayerFaction){
+                foreach (Plot plot in GetNeighbours(object_to_place.factionControlRange + 1, true)) plot.SetVisibleToPlayer(true);
             }
         }
 
@@ -276,6 +274,7 @@ public class Plot : MonoBehaviour {
         if (mouseOver) {
             MainSceneUIManager.instance.plotInfoName.text = plotSO.displayName;
             MainSceneUIManager.instance.plotInfoDescription.text = plotSO.description;
+
             if (placedObjectType != null) {
                 if (placedObjectType == GameManager.PlaceableObjectTypes.Feature) {
                     MainSceneUIManager.instance.objectInfoName.text = placedFeatureSO.displayName;
@@ -291,6 +290,13 @@ public class Plot : MonoBehaviour {
                         }
                     }
                 }
+            }
+
+            if (faction != null) {
+                MainSceneUIManager.instance.factionTextObject.SetActive(true);
+                MainSceneUIManager.instance.factionText.text = $"Owned by {faction.Name}";
+            } else {
+                MainSceneUIManager.instance.factionTextObject.SetActive(false);
             }
         }
 

@@ -4,15 +4,23 @@ public class ColorCube : MonoBehaviour {
     [SerializeField] private Plot plot;
     [SerializeField] private MeshRenderer mesh;
 
+    private bool visible = false;
+
     void Start() {
-        mesh.material.color = new Color((float)GameManager.Random.NextDouble(), mesh.material.color.g, mesh.material.color.b, (float)GameManager.Random.NextDouble());
+        plot = GetComponentInParent<Plot>();
     }
 
     void Update() {
-        if (plot.faction == null) {
-            mesh.material.color = new(mesh.material.color.r, mesh.material.color.g, mesh.material.color.b, 0);
+        if (Input.GetKey(KeyCode.G)) {
+            visible = true;
         } else {
-            
+            visible = false;
+        }
+
+        if (plot.faction == null || !visible) {
+            mesh.material.color = new(mesh.material.color.r, mesh.material.color.g, mesh.material.color.b, 0f);
+        }  else {
+            mesh.material.color = plot.faction.Color;
         }
     }
 }
