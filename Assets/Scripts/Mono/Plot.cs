@@ -135,7 +135,16 @@ public class Plot : MonoBehaviour {
 
         if (faction != null) {
             this.faction = faction;
-            foreach (Plot plot in GetNeighbours(object_to_place.factionControlRange, true)) plot.faction ??= faction;
+
+            foreach (Plot plot in GetNeighbours(object_to_place.factionControlRange, true)) {
+                if (plot.faction == null) {
+                    plot.faction = faction;
+                } else if (!plot.placedObjectSO) {
+                    if (plot.faction.FactionType == GameManager.FactionTypes.Kingdom) 
+                    plot.faction = faction;
+                }
+            }
+
             if (faction == GameManager.instance.Game.PlayerFaction){
                 foreach (Plot plot in GetNeighbours(object_to_place.factionControlRange + 1, true)) plot.SetVisibleToPlayer(true);
             }

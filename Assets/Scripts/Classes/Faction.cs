@@ -11,6 +11,7 @@ public class Faction {
     public Color Color { private set; get; }
 
     public Dictionary<Faction, bool> atWarWith = new();
+    public int aggro = 0;
 
     public Faction(
         Game game,
@@ -60,6 +61,14 @@ public class Faction {
                 (float)GameManager.Random.NextDouble(),
                 GameManager.instance.alpha / 255f
             );
+        }
+    }
+
+    public void OnWaveEnd() {
+        if (FactionType == GameManager.FactionTypes.Kingdom){
+            int max_aggro = 0;
+            foreach (Faction faction in GameManager.instance.Game.BaseFactions) if (faction.aggro > max_aggro) max_aggro = faction.aggro;
+            if (max_aggro == aggro && GameManager.Random.Next(100) > aggro) EventManager.instance.eventList.Add(Utils.GetAsset<SOEvent>("AggroWar"));
         }
     }
 
