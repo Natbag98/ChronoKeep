@@ -47,6 +47,14 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     [SerializeField] private GameObject shopItemPrefab;
     [SerializeField] private TextMeshProUGUI shopDesc;
 
+    [Header("References Diplomacy Panel")]
+    [SerializeField] private GameObject diploPanel;
+    [SerializeField] private TextMeshProUGUI diploTitle;
+    [SerializeField] private TextMeshProUGUI diploFlavour;
+    [SerializeField] private GameObject diploButtons;
+    [SerializeField] private GameObject diploNoOptions;
+    [SerializeField] private TextMeshProUGUI diploOptionDesc;
+
     private SOPlaceableObject placingObject;
     [HideInInspector] public bool mouseBlocked = false;
     [HideInInspector] public Plot upgradePlot;
@@ -142,6 +150,22 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
         }
     }
 
+    public void InitializeDiploMenu(Faction faction) {
+        CameraSystem.instance.cameraBlocked = true;
+        mouseBlocked = true;
+        diploPanel.SetActive(true);
+        if (!GameManager.instance.Game.PlayerFaction.atWarWith[faction]) {
+            diploButtons.SetActive(true);
+            diploNoOptions.SetActive(false);
+        } else {
+            diploButtons.SetActive(false);
+            diploNoOptions.SetActive(true);
+        }
+
+        diploTitle.text = faction.Name;
+        diploFlavour.text = $"King {faction.Ruler} has granted your diplomats an audience";
+    }
+
     private void Start() {
         instance = this;
         text_dict = new() {
@@ -176,6 +200,10 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
                 CameraSystem.instance.cameraBlocked = false;
                 resetUpgrades?.Invoke(this, EventArgs.Empty);
                 upgradePanel.SetActive(false);
+                mouseBlocked = false;
+            } else if (diploPanel.activeSelf) {
+                diploPanel.SetActive(false);
+                CameraSystem.instance.cameraBlocked = false;
                 mouseBlocked = false;
             } else {
                 if (RunManager.instance.paused) {
@@ -234,6 +262,15 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
             if (item != null) shopDesc.text = item.objectToBuy.description; else shopDesc.text = "";
         } else {
            shopDesc.text = ""; 
+        }
+
+        if (diploPanel.activeSelf) {
+            GameObject button = Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.DiploOption);
+            if (button != null) {
+                if (button.name == "DeclareWarButton") diploOptionDesc.text = "Declare war on this faction";
+            } else {
+                diploOptionDesc.text = "";
+            }
         }
     }
 
