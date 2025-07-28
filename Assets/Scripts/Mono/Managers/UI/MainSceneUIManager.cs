@@ -56,6 +56,7 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     [SerializeField] private TextMeshProUGUI diploOptionDesc;
     [SerializeField] private GameObject diploWarButton;
     [SerializeField] private GameObject diploPeaceButton;
+    [SerializeField] private GameObject diploEnvoyButton;
 
     private SOPlaceableObject placingObject;
     [HideInInspector] public bool mouseBlocked = false;
@@ -137,6 +138,13 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
         }
     }
 
+    public void _Button_EnvoyButtonClicked() {
+        foreach (Plot plot in RunManager.instance.GetAllFactionPlots(currentFaction)) {
+            foreach (Plot neighbour in plot.GetNeighbours(square: true, include_self: true)) neighbour.SetVisibleToPlayer(true);
+        }
+        InitializeDiploMenu(currentFaction);
+    }
+
     public void StartPlacing(SOPlaceableObject placeable_object) {
         placingObject = placeable_object;
     }
@@ -183,6 +191,11 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
             diploPeaceButton.SetActive(true);
         } else {
             diploPeaceButton.SetActive(false);
+        }
+
+        diploPeaceButton.SetActive(false);
+        foreach (Plot plot in RunManager.instance.GetAllPlotsWithFactionObjects(currentFaction)) {
+            if (plot.placedObjectSO.objectType == GameManager.PlaceableObjectTypes.Castle && !plot.visibleToPlayer) diploPeaceButton.SetActive(true);
         }
 
         diploTitle.text = faction.Name;
