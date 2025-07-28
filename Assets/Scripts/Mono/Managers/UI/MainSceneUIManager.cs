@@ -54,6 +54,8 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     [SerializeField] private GameObject diploButtons;
     [SerializeField] private GameObject diploNoOptions;
     [SerializeField] private TextMeshProUGUI diploOptionDesc;
+    [SerializeField] private GameObject diploWarButton;
+    [SerializeField] private GameObject diploPeaceButton;
 
     private SOPlaceableObject placingObject;
     [HideInInspector] public bool mouseBlocked = false;
@@ -61,6 +63,7 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     private Dictionary<GameManager.Resources, int> resourcesPerWave;
     private Dictionary<GameManager.Resources, TextMeshProUGUI> text_dict;
     [HideInInspector] public bool shopActive;
+    private Faction currentFaction;
 
     public event EventHandler resetUpgrades;
 
@@ -121,6 +124,19 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
         traderPanel.SetActive(false);
     }
 
+    public void _Button_DeclareWarButtonClicked() {
+        GameManager.instance.Game.PlayerFaction.DeclareWar(currentFaction);
+        InitializeDiploMenu(currentFaction);
+    }
+
+    public void _Button_PeaceButtonClicked() {
+        if (GameManager.instance.Game.SpendResources(new() {{GameManager.Resources.Gold, currentFaction.peaceCost}})) {
+            currentFaction.peaceCost += GameManager.Random.Next(5, 10);
+            currentFaction.MakePeace(GameManager.instance.Game.PlayerFaction);
+            InitializeDiploMenu(currentFaction);
+        }
+    }
+
     public void StartPlacing(SOPlaceableObject placeable_object) {
         placingObject = placeable_object;
     }
@@ -154,16 +170,25 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
         CameraSystem.instance.cameraBlocked = true;
         mouseBlocked = true;
         diploPanel.SetActive(true);
+        diploNoOptions.SetActive(false);
+        diploButtons.SetActive(true);
+
         if (!GameManager.instance.Game.PlayerFaction.atWarWith[faction]) {
-            diploButtons.SetActive(true);
-            diploNoOptions.SetActive(false);
+            diploWarButton.SetActive(true);
         } else {
-            diploButtons.SetActive(false);
-            diploNoOptions.SetActive(true);
+            diploWarButton.SetActive(false);
+        }
+
+        if (GameManager.instance.Game.PlayerFaction.atWarWith[faction]) {
+            diploPeaceButton.SetActive(true);
+        } else {
+            diploPeaceButton.SetActive(false);
         }
 
         diploTitle.text = faction.Name;
         diploFlavour.text = $"King {faction.Ruler} has granted your diplomats an audience";
+        if (GameManager.instance.Game.PlayerFaction.atWarWith[faction]) diploFlavour.text += ", despite the ongoing war being your kingdoms";
+        currentFaction = faction;
     }
 
     private void Start() {
@@ -265,9 +290,18 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
         }
 
         if (diploPanel.activeSelf) {
+            if (
+                !diploWarButton.activeSelf &&
+                !diploPeaceButton.activeSelf
+            ) {
+                diploNoOptions.SetActive(true);
+                diploButtons.SetActive(false);
+            }
+
             GameObject button = Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.DiploOption);
             if (button != null) {
                 if (button.name == "DeclareWarButton") diploOptionDesc.text = "Declare war on this faction";
+                if (button.name == "MakePeaceButton") diploOptionDesc.text = $"{currentFaction.Ruler} will make peace with you for a price of {currentFaction.peaceCost} gold";
             } else {
                 diploOptionDesc.text = "";
             }

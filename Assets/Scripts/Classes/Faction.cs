@@ -12,6 +12,7 @@ public class Faction {
 
     public Dictionary<Faction, bool> atWarWith = new();
     public int aggro = 0;
+    public int peaceCost;
 
     public Faction(
         Game game,
@@ -62,6 +63,8 @@ public class Faction {
                 GameManager.instance.alpha / 255f
             );
         }
+
+        peaceCost = GameManager.Random.Next(15, 25);
     }
 
     public void OnWaveEnd() {
@@ -100,6 +103,12 @@ public class Faction {
         if (faction == this) return;
         atWarWith[faction] = true;
         faction.atWarWith[this] = true;
+    }
+
+    public void MakePeace(Faction faction) {
+        if (faction == this) return;
+        atWarWith[faction] = false;
+        faction.atWarWith[this] = false;
     }
 
     public void RunStart() {
