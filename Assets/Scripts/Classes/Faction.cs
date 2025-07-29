@@ -13,6 +13,7 @@ public class Faction {
     public Dictionary<Faction, bool> atWarWith = new();
     public int aggro = 0;
     public int peaceCost;
+    public int envoyCost;
 
     public Faction(
         Game game,
@@ -65,6 +66,7 @@ public class Faction {
         }
 
         peaceCost = GameManager.Random.Next(15, 25);
+        envoyCost = GameManager.Random.Next(3, 6);
     }
 
     public void OnWaveEnd() {

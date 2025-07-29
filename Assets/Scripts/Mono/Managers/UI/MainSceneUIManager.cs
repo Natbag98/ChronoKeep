@@ -139,10 +139,12 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     }
 
     public void _Button_EnvoyButtonClicked() {
-        foreach (Plot plot in RunManager.instance.GetAllFactionPlots(currentFaction)) {
-            foreach (Plot neighbour in plot.GetNeighbours(square: true, include_self: true)) neighbour.SetVisibleToPlayer(true);
+        if (GameManager.instance.Game.SpendResources(new() {{GameManager.Resources.Gold, currentFaction.envoyCost}})) {
+            foreach (Plot plot in RunManager.instance.GetAllFactionPlots(currentFaction)) {
+                foreach (Plot neighbour in plot.GetNeighbours(square: true, include_self: true)) neighbour.SetVisibleToPlayer(true);
+            }
+            InitializeDiploMenu(currentFaction);
         }
-        InitializeDiploMenu(currentFaction);
     }
 
     public void StartPlacing(SOPlaceableObject placeable_object) {
@@ -193,9 +195,11 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
             diploPeaceButton.SetActive(false);
         }
 
-        diploPeaceButton.SetActive(false);
-        foreach (Plot plot in RunManager.instance.GetAllPlotsWithFactionObjects(currentFaction)) {
-            if (plot.placedObjectSO.objectType == GameManager.PlaceableObjectTypes.Castle && !plot.visibleToPlayer) diploPeaceButton.SetActive(true);
+        diploEnvoyButton.SetActive(false);
+        if (!GameManager.instance.Game.PlayerFaction.atWarWith[faction]) {
+            foreach (Plot plot in RunManager.instance.GetAllPlotsWithFactionObjects(currentFaction)) {
+                if (plot.placedObjectSO.objectType == GameManager.PlaceableObjectTypes.Castle && !plot.visibleToPlayer) diploEnvoyButton.SetActive(true);
+            }
         }
 
         diploTitle.text = faction.Name;
@@ -305,7 +309,8 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
         if (diploPanel.activeSelf) {
             if (
                 !diploWarButton.activeSelf &&
-                !diploPeaceButton.activeSelf
+                !diploPeaceButton.activeSelf &&
+                !diploEnvoyButton.activeSelf
             ) {
                 diploNoOptions.SetActive(true);
                 diploButtons.SetActive(false);
@@ -315,6 +320,7 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
             if (button != null) {
                 if (button.name == "DeclareWarButton") diploOptionDesc.text = "Declare war on this faction";
                 if (button.name == "MakePeaceButton") diploOptionDesc.text = $"{currentFaction.Ruler} will make peace with you for a price of {currentFaction.peaceCost} gold";
+                if (button.name == "EnvoyButton") diploOptionDesc.text = $"{currentFaction.Ruler} will recieve you envoy, which will cost you {currentFaction.envoyCost} gold to send (this will reveal their territory to you)";
             } else {
                 diploOptionDesc.text = "";
             }
