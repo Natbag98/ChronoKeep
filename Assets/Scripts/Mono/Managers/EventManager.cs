@@ -20,7 +20,7 @@ public class EventManager : MonoBehaviour, ISaveSystem {
     private Dictionary<SOEvent, int> negativeEvents;
 
     private float eventChance;
-    private List<SOEvent> eventList = new();
+    [HideInInspector] public List<SOEvent> eventList = new();
     
     private int shopChance = 0;
 

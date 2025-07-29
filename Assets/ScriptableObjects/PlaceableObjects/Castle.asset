@@ -16,7 +16,7 @@ MonoBehaviour:
   displayName: Castle
   description: This is your castle. Your run will be over if it is destroyed.
   objectType: 0
-  factionControlRange: 4
+  factionControlRange: 3
   placementCost:
     dictPairs:
     - Key: 2

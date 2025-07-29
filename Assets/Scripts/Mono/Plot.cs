@@ -135,11 +135,18 @@ public class Plot : MonoBehaviour {
 
         if (faction != null) {
             this.faction = faction;
+
             foreach (Plot plot in GetNeighbours(object_to_place.factionControlRange, true)) {
-                if (faction == GameManager.instance.Game.PlayerFaction) {
-                    plot.SetVisibleToPlayer(true);
+                if (plot.faction == null) {
+                    plot.faction = faction;
+                } else if (!plot.placedObjectSO) {
+                    if (plot.faction.FactionType == GameManager.FactionTypes.Kingdom) 
+                    plot.faction = faction;
                 }
-                plot.faction ??= faction;
+            }
+
+            if (faction == GameManager.instance.Game.PlayerFaction){
+                foreach (Plot plot in GetNeighbours(object_to_place.factionControlRange + 1, true)) plot.SetVisibleToPlayer(true);
             }
         }
 
@@ -222,11 +229,23 @@ public class Plot : MonoBehaviour {
         ) {
             PlaceObject(MainSceneUIManager.instance.GetObjectToPlace(), GameManager.instance.Game.PlayerFaction, true);
             MainSceneUIManager.instance.UpdateResourceGain();
-        } else if (faction == GameManager.instance.Game.PlayerFaction && placedObjectSO != null && !MainSceneUIManager.instance.mouseBlocked) {
+        } else if (
+            faction == GameManager.instance.Game.PlayerFaction &&
+            placedObjectSO != null &&
+            !MainSceneUIManager.instance.mouseBlocked
+        ) {
             foreach (SOUpgrade upgrade in Utils.GetAllAssets<SOUpgrade>()) {
                 if (upgrade.IsAvailable(GetComponentInChildren<PlaceableObject>())) MainSceneUIManager.instance.InitializeUpgradesMenu(this);
                 return;
             }
+        } else if (
+            faction != null &&
+            faction.FactionType == GameManager.FactionTypes.Kingdom &&
+            faction != GameManager.instance.Game.PlayerFaction &&
+            visibleToPlayer &&
+            !MainSceneUIManager.instance.mouseBlocked
+        ) {
+            MainSceneUIManager.instance.InitializeDiploMenu(faction);
         }
     }
 
@@ -276,6 +295,7 @@ public class Plot : MonoBehaviour {
         if (mouseOver) {
             MainSceneUIManager.instance.plotInfoName.text = plotSO.displayName;
             MainSceneUIManager.instance.plotInfoDescription.text = plotSO.description;
+
             if (placedObjectType != null) {
                 if (placedObjectType == GameManager.PlaceableObjectTypes.Feature) {
                     MainSceneUIManager.instance.objectInfoName.text = placedFeatureSO.displayName;
@@ -291,6 +311,16 @@ public class Plot : MonoBehaviour {
                         }
                     }
                 }
+            }
+
+            if (faction != null && !MainSceneUIManager.instance.mouseBlocked) {
+                MainSceneUIManager.instance.factionTextObject.SetActive(true);
+                MainSceneUIManager.instance.factionText.text = $"Owned by {faction.Name}";
+                if (faction.FactionType == GameManager.FactionTypes.Kingdom && faction != GameManager.instance.Game.PlayerFaction) {
+                    MainSceneUIManager.instance.factionText.text += "\nClick for diplomacy";
+                }
+            } else {
+                MainSceneUIManager.instance.factionTextObject.SetActive(false);
             }
         }
 

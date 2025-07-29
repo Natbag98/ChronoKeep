@@ -32,6 +32,8 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     public GameObject objectInfoPanel;
     public TextMeshProUGUI objectInfoName;
     public TextMeshProUGUI objectInfoDescription;
+    public GameObject factionTextObject;
+    public TextMeshProUGUI factionText;
 
     [Header("References Upgrade Menu")]
     [SerializeField] private GameObject upgradePrefab;
@@ -45,12 +47,24 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     [SerializeField] private GameObject shopItemPrefab;
     [SerializeField] private TextMeshProUGUI shopDesc;
 
+    [Header("References Diplomacy Panel")]
+    [SerializeField] private GameObject diploPanel;
+    [SerializeField] private TextMeshProUGUI diploTitle;
+    [SerializeField] private TextMeshProUGUI diploFlavour;
+    [SerializeField] private GameObject diploButtons;
+    [SerializeField] private GameObject diploNoOptions;
+    [SerializeField] private TextMeshProUGUI diploOptionDesc;
+    [SerializeField] private GameObject diploWarButton;
+    [SerializeField] private GameObject diploPeaceButton;
+    [SerializeField] private GameObject diploEnvoyButton;
+
     private SOPlaceableObject placingObject;
     [HideInInspector] public bool mouseBlocked = false;
     [HideInInspector] public Plot upgradePlot;
     private Dictionary<GameManager.Resources, int> resourcesPerWave;
     private Dictionary<GameManager.Resources, TextMeshProUGUI> text_dict;
     [HideInInspector] public bool shopActive;
+    private Faction currentFaction;
 
     public event EventHandler resetUpgrades;
 
@@ -111,6 +125,28 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
         traderPanel.SetActive(false);
     }
 
+    public void _Button_DeclareWarButtonClicked() {
+        GameManager.instance.Game.PlayerFaction.DeclareWar(currentFaction);
+        InitializeDiploMenu(currentFaction);
+    }
+
+    public void _Button_PeaceButtonClicked() {
+        if (GameManager.instance.Game.SpendResources(new() {{GameManager.Resources.Gold, currentFaction.peaceCost}})) {
+            currentFaction.peaceCost += GameManager.Random.Next(5, 10);
+            currentFaction.MakePeace(GameManager.instance.Game.PlayerFaction);
+            InitializeDiploMenu(currentFaction);
+        }
+    }
+
+    public void _Button_EnvoyButtonClicked() {
+        if (GameManager.instance.Game.SpendResources(new() {{GameManager.Resources.Gold, currentFaction.envoyCost}})) {
+            foreach (Plot plot in RunManager.instance.GetAllFactionPlots(currentFaction)) {
+                foreach (Plot neighbour in plot.GetNeighbours(square: true, include_self: true)) neighbour.SetVisibleToPlayer(true);
+            }
+            InitializeDiploMenu(currentFaction);
+        }
+    }
+
     public void StartPlacing(SOPlaceableObject placeable_object) {
         placingObject = placeable_object;
     }
@@ -138,6 +174,38 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
                 new_upgrade.upgrade = upgrade;
             }
         }
+    }
+
+    public void InitializeDiploMenu(Faction faction) {
+        CameraSystem.instance.cameraBlocked = true;
+        mouseBlocked = true;
+        diploPanel.SetActive(true);
+        diploNoOptions.SetActive(false);
+        diploButtons.SetActive(true);
+
+        if (!GameManager.instance.Game.PlayerFaction.atWarWith[faction]) {
+            diploWarButton.SetActive(true);
+        } else {
+            diploWarButton.SetActive(false);
+        }
+
+        if (GameManager.instance.Game.PlayerFaction.atWarWith[faction]) {
+            diploPeaceButton.SetActive(true);
+        } else {
+            diploPeaceButton.SetActive(false);
+        }
+
+        diploEnvoyButton.SetActive(false);
+        if (!GameManager.instance.Game.PlayerFaction.atWarWith[faction]) {
+            foreach (Plot plot in RunManager.instance.GetAllPlotsWithFactionObjects(currentFaction)) {
+                if (plot.placedObjectSO.objectType == GameManager.PlaceableObjectTypes.Castle && !plot.visibleToPlayer) diploEnvoyButton.SetActive(true);
+            }
+        }
+
+        diploTitle.text = faction.Name;
+        diploFlavour.text = $"King {faction.Ruler} has granted your diplomats an audience";
+        if (GameManager.instance.Game.PlayerFaction.atWarWith[faction]) diploFlavour.text += ", despite the ongoing war being your kingdoms";
+        currentFaction = faction;
     }
 
     private void Start() {
@@ -174,6 +242,10 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
                 CameraSystem.instance.cameraBlocked = false;
                 resetUpgrades?.Invoke(this, EventArgs.Empty);
                 upgradePanel.SetActive(false);
+                mouseBlocked = false;
+            } else if (diploPanel.activeSelf) {
+                diploPanel.SetActive(false);
+                CameraSystem.instance.cameraBlocked = false;
                 mouseBlocked = false;
             } else {
                 if (RunManager.instance.paused) {
@@ -232,6 +304,26 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
             if (item != null) shopDesc.text = item.objectToBuy.description; else shopDesc.text = "";
         } else {
            shopDesc.text = ""; 
+        }
+
+        if (diploPanel.activeSelf) {
+            if (
+                !diploWarButton.activeSelf &&
+                !diploPeaceButton.activeSelf &&
+                !diploEnvoyButton.activeSelf
+            ) {
+                diploNoOptions.SetActive(true);
+                diploButtons.SetActive(false);
+            }
+
+            GameObject button = Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.DiploOption);
+            if (button != null) {
+                if (button.name == "DeclareWarButton") diploOptionDesc.text = "Declare war on this faction";
+                if (button.name == "MakePeaceButton") diploOptionDesc.text = $"{currentFaction.Ruler} will make peace with you for a price of {currentFaction.peaceCost} gold";
+                if (button.name == "EnvoyButton") diploOptionDesc.text = $"{currentFaction.Ruler} will recieve you envoy, which will cost you {currentFaction.envoyCost} gold to send (this will reveal their territory to you)";
+            } else {
+                diploOptionDesc.text = "";
+            }
         }
     }
 
