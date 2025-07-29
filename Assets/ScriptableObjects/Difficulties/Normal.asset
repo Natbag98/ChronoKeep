@@ -13,5 +13,17 @@ MonoBehaviour:
   m_Name: Normal
   m_EditorClassIdentifier: 
   displayName: Normal
+  base_peace_cost: 0
+  base_envoy_cost: 0
+  aggroMult: 1
+  powerMult: 1
   modsToApply: []
+  startingResources:
+    dictPairs:
+    - Key: 0
+      Value: 15
+    - Key: 2
+      Value: 25
+    - Key: 1
+      Value: 1
   mult: 1

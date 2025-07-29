@@ -140,7 +140,7 @@ public class Plot : MonoBehaviour {
                 if (plot.faction == null) {
                     plot.faction = faction;
                 } else if (!plot.placedObjectSO) {
-                    if (plot.faction.FactionType == GameManager.FactionTypes.Kingdom) 
+                    if (plot.faction.FactionType == GameManager.FactionTypes.Kingdom) plot.faction.aggro += (int)(10 * GameManager.instance.difficulty.aggroMult);
                     plot.faction = faction;
                 }
             }

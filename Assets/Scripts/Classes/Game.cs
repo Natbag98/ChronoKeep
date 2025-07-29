@@ -47,7 +47,7 @@ public class Game {
         placeableObjectsUnlockTracker.UpdateUnlocked(GameManager.instance.BarbCamp);
 
         PlayerFaction = new(this, GameManager.FactionTypes.Kingdom, kingdomName, playerName);
-        resources = GameManager.instance.startingResources.GetDict();
+        resources = GameManager.instance.difficulty.startingResources.GetDict();
         TerrainSize = terrain_size;
         GenerateBaseTerrain(plot_generation_data);
         GenerateFactions(non_barb_faction_count, 2);
