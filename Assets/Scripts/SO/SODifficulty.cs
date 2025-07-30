@@ -12,6 +12,7 @@ public class SODifficulty : ScriptableObject {
     public Mod[] modsToApply;
 
     [Header("Starting Recources")]
+    public SOPlaceableObject[] startingObjects;
     public Utils.SerializeableDict<GameManager.Resources, int> startingResources;
     
     [Header("Score Bonus")]

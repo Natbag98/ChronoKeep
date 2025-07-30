@@ -160,8 +160,8 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     void Update() {
         if (load) {
             if (RunManager.instance != null || SceneManager.GetActiveScene().name == "GameScene") {
-                load = false;
                 SaveSystemManager.instance.LoadGame();
+                load = false;
             }
         }
 

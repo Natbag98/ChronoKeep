@@ -24,7 +24,8 @@ public class Plot : MonoBehaviour {
     [HideInInspector] public bool rangeFinding;
     private Plot[] neighbours;
     private bool mouseOver;
-    public bool visibleToPlayer { get; private set; } = false;
+    public bool visibleToPlayer = false;
+    public bool loaded = false;
 
     private bool neighbourVisibilityUpdated = false;
 
@@ -250,7 +251,11 @@ public class Plot : MonoBehaviour {
     }
 
     private void Awake() {
-        SetVisibleToPlayer(false);
+        if (!loaded) SetVisibleToPlayer(false);
+    }
+
+    private void Start() {
+        SetVisible(visibleToPlayer);
     }
 
     private void SetRangeFinding(bool set) {

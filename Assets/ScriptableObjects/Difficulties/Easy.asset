@@ -22,6 +22,12 @@ MonoBehaviour:
     attributeToAffect: 3
     amount: 1.5
     applyTo: 1
+  startingObjects:
+  - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
+  - {fileID: 11400000, guid: 86066999b2da0ef4f9c74035828c70ab, type: 2}
+  - {fileID: 11400000, guid: 488d7db69dcffbc43b6cf6b63fdeeb71, type: 2}
+  - {fileID: 11400000, guid: d1d8e9105110c8849ae914a814a78d87, type: 2}
+  - {fileID: 11400000, guid: 106fc22d69ab7ff4b91326f6c0e3b4e4, type: 2}
   startingResources:
     dictPairs:
     - Key: 0
