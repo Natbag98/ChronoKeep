@@ -213,6 +213,7 @@ public class RunManager : MonoBehaviour, ISaveSystem {
             globalMods.AddRange(perk.modsToApply);
         }
         foreach (SOPlaceableObject object_to_place in GameManager.instance.difficulty.startingObjects) MainSceneUIManager.instance.PlaceInventoryItem(object_to_place);
+        GameManager.instance.Game.NewRun();
 
         globalMods.AddRange(testMods);
     }
