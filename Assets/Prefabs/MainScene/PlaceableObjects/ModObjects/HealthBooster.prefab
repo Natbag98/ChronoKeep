@@ -247,6 +247,7 @@ MonoBehaviour:
   - targetTags: 
     attributeToAffect: 0
     amount: 2
+    applyTo: 0
 --- !u!114 &3572753356594809297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -524,27 +525,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 2054b9844a359914e8b9787e5831898e, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.3
+      value: 0.42198002
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2054b9844a359914e8b9787e5831898e, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.3
+      value: 0.42198002
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2054b9844a359914e8b9787e5831898e, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.3
+      value: 0.42198002
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2054b9844a359914e8b9787e5831898e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.009975
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2054b9844a359914e8b9787e5831898e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.002
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2054b9844a359914e8b9787e5831898e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.0031856
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2054b9844a359914e8b9787e5831898e, type: 3}
       propertyPath: m_LocalRotation.w

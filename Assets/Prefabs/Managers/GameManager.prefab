@@ -99,7 +99,7 @@ MonoBehaviour:
   noiseStrength: 1.6
   falloffStrength: 1
   maxOffset: 10000
-  debugMode: 0
+  debugMode: 1
   startingResources:
     dictPairs:
     - Key: 0
