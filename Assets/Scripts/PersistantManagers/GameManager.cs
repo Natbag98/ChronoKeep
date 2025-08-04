@@ -101,7 +101,6 @@ public class GameManager : MonoBehaviour, ISaveSystem {
 
     [Header("Test Data")]
     public bool debugMode;
-    public Utils.SerializeableDict<Resources, int> startingResources;
 
     [HideInInspector] public Game Game;
     [HideInInspector] public TextData TextData = new();
@@ -161,8 +160,8 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     void Update() {
         if (load) {
             if (RunManager.instance != null || SceneManager.GetActiveScene().name == "GameScene") {
-                load = false;
                 SaveSystemManager.instance.LoadGame();
+                load = false;
             }
         }
 

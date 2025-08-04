@@ -13,9 +13,24 @@ MonoBehaviour:
   m_Name: Hard
   m_EditorClassIdentifier: 
   displayName: Hard
+  base_peace_cost: 5
+  base_envoy_cost: 2
+  aggroMult: 3
+  powerMult: 1.2
   modsToApply:
   - targetTags: 02000000
     attributeToAffect: 3
     amount: 0.75
     applyTo: 1
+  startingObjects:
+  - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
+  - {fileID: 11400000, guid: d1d8e9105110c8849ae914a814a78d87, type: 2}
+  startingResources:
+    dictPairs:
+    - Key: 0
+      Value: 12
+    - Key: 2
+      Value: 15
+    - Key: 1
+      Value: 1
   mult: 1.5

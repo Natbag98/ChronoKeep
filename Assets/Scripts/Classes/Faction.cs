@@ -65,15 +65,15 @@ public class Faction {
             );
         }
 
-        peaceCost = GameManager.Random.Next(15, 25);
-        envoyCost = GameManager.Random.Next(3, 6);
+        peaceCost = GameManager.Random.Next(15 + GameManager.instance.difficulty.base_peace_cost, 25 + GameManager.instance.difficulty.base_peace_cost);
+        envoyCost = GameManager.Random.Next(3 + GameManager.instance.difficulty.base_envoy_cost, 6 + GameManager.instance.difficulty.base_envoy_cost);
     }
 
     public void OnWaveEnd() {
         if (FactionType == GameManager.FactionTypes.Kingdom){
             int max_aggro = 0;
             foreach (Faction faction in GameManager.instance.Game.BaseFactions) if (faction.aggro > max_aggro) max_aggro = faction.aggro;
-            if (max_aggro == aggro && GameManager.Random.Next(100) > aggro) EventManager.instance.eventList.Add(Utils.GetAsset<SOEvent>("AggroWar"));
+            if (max_aggro == aggro && GameManager.Random.Next(100) > aggro) EventManager.instance.eventList.Add(Utils.GetAsset<AggroWar>("AggroWar"));
         }
     }
 
@@ -88,7 +88,7 @@ public class Faction {
                     select faction
                 ).ToList().Count != 0
             ) {
-                plot.GetComponentInChildren<Spawner>().SpawnHostileWave(base_power); //(int)Math.Ceiling(GetWarCount() / 2f));
+                plot.GetComponentInChildren<Spawner>().SpawnHostileWave((int)Math.Ceiling(base_power * (int)Math.Ceiling(GetWarCount() / 2f) * GameManager.instance.difficulty.powerMult));
             }
         }
     }
