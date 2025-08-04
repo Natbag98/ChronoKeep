@@ -24,7 +24,7 @@ public class RangedTower : Tower {
         float targetTime = 0;
         if (animator) {
             float timePerFrame = 1f / animator.GetCurrentAnimatorClipInfo(0)[0].clip.frameRate;
-            targetTime = (attackFrame) * timePerFrame * RunManager.instance.simSpeed;
+            targetTime = attackFrame * timePerFrame * RunManager.instance.simSpeed;
         }
         if (animator) yield return new WaitForSeconds(targetTime);
 

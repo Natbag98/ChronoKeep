@@ -75,6 +75,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6f1d24f4cb50a7a448c6b4d489f1dcd5, type: 2}
   - {fileID: 11400000, guid: 031a4c2f2cc5e254681fc4e87d25e534, type: 2}
   WallPrefab: {fileID: 640411937715291779, guid: 1f67f3ffbdce83e4d82d3923349d4a62, type: 3}
+  alpha: 75
   mapSize: 40
   plotGenerationData:
     dictPairs:
@@ -99,15 +100,7 @@ MonoBehaviour:
   noiseStrength: 1.6
   falloffStrength: 1
   maxOffset: 10000
-  debugMode: 1
-  startingResources:
-    dictPairs:
-    - Key: 0
-      Value: 3
-    - Key: 1
-      Value: 1
-    - Key: 2
-      Value: 30
+  debugMode: 0
   playerName: 
   kingdomName: 
   allSOPlaceableObjects: []
@@ -129,6 +122,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1f96a5305d59c8043a104823d75dc57f, type: 2}
   - {fileID: 11400000, guid: 18f8b17b76184cb40add7cc6d6a3c9e9, type: 2}
   - {fileID: 11400000, guid: a7edc561edfcac5469f6246f91011c4b, type: 2}
+  - {fileID: 11400000, guid: 8065ca146f558634a912699b75725e38, type: 2}
   - {fileID: 11400000, guid: 6ae8d37b2a67ee14a8f525521a126c0c, type: 2}
   - {fileID: 11400000, guid: c82085ee43c584b428ebe979af21fec6, type: 2}
   - {fileID: 11400000, guid: 15d4b00e740cee74c870a9af2eb41cce, type: 2}

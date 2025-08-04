@@ -20,8 +20,7 @@ public class RunManager : MonoBehaviour, ISaveSystem {
     [HideInInspector] public List<Mod> globalMods = new();
     [HideInInspector] public float simSpeed = 1f;
 
-    private bool test = true;
-    [SerializeField] private SOPlaceableObject[] testPlacement;
+    [Header("Test")]
     public Mod[] testMods;
 
     public Plot[][] GetPlotArray() { return plotArray; }
@@ -154,6 +153,7 @@ public class RunManager : MonoBehaviour, ISaveSystem {
             plotContainer
         ).GetComponent<Plot>();
         new_plot.plotSO = plotSO;
+        new_plot.plotType = plotSO.plotType;
         plotArray[y][x] = new_plot;
         return new_plot;
     }
@@ -213,11 +213,8 @@ public class RunManager : MonoBehaviour, ISaveSystem {
             skillMult += perk.skillMultIncrease;
             globalMods.AddRange(perk.modsToApply);
         }
-
-        if (test) {
-            test = false;
-            foreach (SOPlaceableObject object_to_place in testPlacement) MainSceneUIManager.instance.PlaceInventoryItem(object_to_place);
-        }
+        foreach (SOPlaceableObject object_to_place in GameManager.instance.difficulty.startingObjects) MainSceneUIManager.instance.PlaceInventoryItem(object_to_place);
+        GameManager.instance.Game.NewRun();
 
         globalMods.AddRange(testMods);
     }
@@ -254,7 +251,8 @@ public class RunManager : MonoBehaviour, ISaveSystem {
                 Plot plot = plotArray[y][x];
                 data.runData.plotData[y][x] = new() {
                     plotSO = plot.plotSO.name,
-                    faction = plot.faction?.Name
+                    faction = plot.faction?.Name,
+                    visiblToPlayer = plot.visibleToPlayer
                 };
 
                 if (plot.placedObjectSO) {
@@ -288,6 +286,7 @@ public class RunManager : MonoBehaviour, ISaveSystem {
         for (int x = 0; x < data.terrainSize.x; x++) {
             for (int y = 0; y < data.terrainSize.y; y++) {
                 Plot new_plot = InstantiatePlot(x, y, Utils.GetAsset<SOPlot>(data.runData.plotData[y][x].plotSO));
+                new_plot.visibleToPlayer = data.runData.plotData[y][x].visiblToPlayer;
 
                 if (data.runData.plotData[y][x].faction == null) {
                     new_plot.faction = null;

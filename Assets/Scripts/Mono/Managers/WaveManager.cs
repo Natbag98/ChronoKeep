@@ -20,9 +20,7 @@ public class WaveManager : MonoBehaviour, ISaveSystem {
         wave++;
         waveStart?.Invoke(null, EventArgs.Empty);
 
-        foreach (Faction faction in GameManager.instance.Game.BaseFactions) {
-            faction.OnWaveStart(wave);
-        }
+        foreach (Faction faction in GameManager.instance.Game.BaseFactions) faction.OnWaveStart(wave);
     }
 
     void Update() {
@@ -41,6 +39,7 @@ public class WaveManager : MonoBehaviour, ISaveSystem {
                     RunManager.instance.AddScore(100);
                     MainSceneUIManager.instance.UpdateResourceGain();
                     waveEnd?.Invoke(null, EventArgs.Empty);
+                    foreach (Faction faction in GameManager.instance.Game.BaseFactions) faction.OnWaveEnd();
                     waveActive = false;
                 }
             }

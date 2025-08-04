@@ -13,5 +13,21 @@ MonoBehaviour:
   m_Name: Normal
   m_EditorClassIdentifier: 
   displayName: Normal
+  base_peace_cost: 0
+  base_envoy_cost: 0
+  aggroMult: 1
+  powerMult: 1
   modsToApply: []
+  startingObjects:
+  - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
+  - {fileID: 11400000, guid: 488d7db69dcffbc43b6cf6b63fdeeb71, type: 2}
+  - {fileID: 11400000, guid: d1d8e9105110c8849ae914a814a78d87, type: 2}
+  startingResources:
+    dictPairs:
+    - Key: 0
+      Value: 15
+    - Key: 2
+      Value: 25
+    - Key: 1
+      Value: 1
   mult: 1

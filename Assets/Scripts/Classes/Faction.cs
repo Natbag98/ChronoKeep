@@ -7,15 +7,20 @@ using UnityEngine;
 public class Faction {
     public GameManager.FactionTypes FactionType { private set; get; }
     public string Name { private set; get; }
-    public string Ruler {private set; get; }
+    public string Ruler { private set; get; }
+    public Color Color { private set; get; }
 
     public Dictionary<Faction, bool> atWarWith = new();
+    public int aggro = 0;
+    public int peaceCost;
+    public int envoyCost;
 
     public Faction(
         Game game,
         GameManager.FactionTypes? faction_type=null,
         string name=null,
-        string ruler=null
+        string ruler=null,
+        Color? color=null
     ) {
         if (string.IsNullOrWhiteSpace(name)) name = null;
         if (string.IsNullOrWhiteSpace(ruler)) ruler = null;
@@ -48,6 +53,28 @@ public class Faction {
         } else {
             Ruler = $"{Utils.Choice(GameManager.instance.TextData.Data["first_names"])} {Utils.Choice(GameManager.instance.TextData.Data["last_names"])}";
         }
+
+        if (color != null) {
+            Color = (Color)color;
+        } else {
+            Color = new(
+                (float)GameManager.Random.NextDouble(),
+                (float)GameManager.Random.NextDouble(),
+                (float)GameManager.Random.NextDouble(),
+                GameManager.instance.alpha / 255f
+            );
+        }
+
+        peaceCost = GameManager.Random.Next(15 + GameManager.instance.difficulty.base_peace_cost, 25 + GameManager.instance.difficulty.base_peace_cost);
+        envoyCost = GameManager.Random.Next(3 + GameManager.instance.difficulty.base_envoy_cost, 6 + GameManager.instance.difficulty.base_envoy_cost);
+    }
+
+    public void OnWaveEnd() {
+        if (FactionType == GameManager.FactionTypes.Kingdom){
+            int max_aggro = 0;
+            foreach (Faction faction in GameManager.instance.Game.BaseFactions) if (faction.aggro > max_aggro) max_aggro = faction.aggro;
+            if (max_aggro == aggro && GameManager.Random.Next(100) > aggro) EventManager.instance.eventList.Add(Utils.GetAsset<AggroWar>("AggroWar"));
+        }
     }
 
     public void OnWaveStart(int base_power) {
@@ -61,7 +88,7 @@ public class Faction {
                     select faction
                 ).ToList().Count != 0
             ) {
-                plot.GetComponentInChildren<Spawner>().SpawnHostileWave(base_power); //(int)Math.Ceiling(GetWarCount() / 2f));
+                plot.GetComponentInChildren<Spawner>().SpawnHostileWave((int)Math.Ceiling(base_power * (int)Math.Ceiling(GetWarCount() / 2f) * GameManager.instance.difficulty.powerMult));
             }
         }
     }
@@ -78,6 +105,12 @@ public class Faction {
         if (faction == this) return;
         atWarWith[faction] = true;
         faction.atWarWith[this] = true;
+    }
+
+    public void MakePeace(Faction faction) {
+        if (faction == this) return;
+        atWarWith[faction] = false;
+        faction.atWarWith[this] = false;
     }
 
     public void RunStart() {

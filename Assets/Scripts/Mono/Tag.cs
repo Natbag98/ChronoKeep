@@ -14,7 +14,9 @@ public class Tag : MonoBehaviour {
         UpgradeUI,
         Unit,
         Projectile,
-        ShopItem
+        ShopItem,
+        DiploOption,
+        InventoryItem
     }
 
     public List<Tags> tags;
