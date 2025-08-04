@@ -9,6 +9,9 @@ public class Plot : MonoBehaviour {
     public static int neighbourDown = 2;
     public static int neighbourLeft = 3;
 
+    [Header("References")]
+    [SerializeField] private MeshRenderer plotMesh;
+
     [Header("Attributes")]
     [SerializeField] private bool canPlaceObject;
     public bool walkable;
@@ -352,6 +355,14 @@ public class Plot : MonoBehaviour {
                 (from neighbour in GetNeighbours(square: true) select neighbour.faction).Contains(GameManager.instance.Game.PlayerFaction)
             ) {
                 SetVisibleToPlayer(true);
+            }
+        }
+
+        if (plotMesh != null && placedObjectSO != null) {
+            if (placedObjectSO.name == "Quarry") {
+            plotMesh.enabled = false;
+            } else {
+                plotMesh.enabled = visibleToPlayer;
             }
         }
     }

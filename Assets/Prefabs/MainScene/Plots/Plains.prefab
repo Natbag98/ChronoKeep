@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0569a2468ae0264ba4f2a0f962e0b18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  plotMesh: {fileID: 8888400621522677468}
   canPlaceObject: 1
   walkable: 1
   modsToApply: []
@@ -56,6 +57,8 @@ MonoBehaviour:
   placedFeatureSO: {fileID: 0}
   plotType: 0
   rangeFinding: 0
+  visibleToPlayer: 0
+  loaded: 0
 --- !u!65 &-185615555812766510
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -141,6 +144,11 @@ PrefabInstance:
 --- !u!4 &7715472762703680947 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f2c55f50266f6974fb27817c9f185c3e, type: 3}
+  m_PrefabInstance: {fileID: 7825115283266925144}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &8888400621522677468 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: f2c55f50266f6974fb27817c9f185c3e, type: 3}
   m_PrefabInstance: {fileID: 7825115283266925144}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &9159338835660046076
