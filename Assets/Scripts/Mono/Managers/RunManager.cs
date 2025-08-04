@@ -153,6 +153,7 @@ public class RunManager : MonoBehaviour, ISaveSystem {
             plotContainer
         ).GetComponent<Plot>();
         new_plot.plotSO = plotSO;
+        new_plot.plotType = plotSO.plotType;
         plotArray[y][x] = new_plot;
         return new_plot;
     }
