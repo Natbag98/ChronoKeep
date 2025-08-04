@@ -15,7 +15,8 @@ public class Tag : MonoBehaviour {
         Unit,
         Projectile,
         ShopItem,
-        DiploOption
+        DiploOption,
+        InventoryItem
     }
 
     public List<Tags> tags;

@@ -14,6 +14,7 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     [SerializeField] private GameObject dragger;
     public GameObject pauseMenu;
     [SerializeField] private TextMeshProUGUI speedText;
+    public GameObject enemyDotPrefab;
 
     [Header("References Resources")]
     [SerializeField] private TextMeshProUGUI resourceGoldText;
@@ -34,6 +35,8 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     public TextMeshProUGUI objectInfoDescription;
     public GameObject factionTextObject;
     public TextMeshProUGUI factionText;
+    public GameObject placePlotInfoPanel;
+    public TextMeshProUGUI placePlotInfoPanelText;
 
     [Header("References Upgrade Menu")]
     [SerializeField] private GameObject upgradePrefab;
@@ -324,6 +327,17 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
             } else {
                 diploOptionDesc.text = "";
             }
+        }
+
+        InventoryItem inventory_item = Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.InventoryItem)?.GetComponent<InventoryItem>();
+        if (inventory_item != null) {
+            placePlotInfoPanel.SetActive(true);
+            placePlotInfoPanelText.text = $"{inventory_item.placeableObject.description}\nCost:";
+            foreach (var cost in inventory_item.placeableObject.placementCost.GetDict()) {
+                placePlotInfoPanelText.text += $"\n{cost.Key}: {cost.Value}";
+            }
+        } else {
+            placePlotInfoPanel.SetActive(false);
         }
     }
 

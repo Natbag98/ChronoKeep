@@ -29,6 +29,9 @@ public class Spawner : Tower {
         character.faction = parentPlot.faction;
         character.characterSO = character_to_spawn;
         character.spawner = this;
+
+        EnemyDot enemy_dot = Instantiate(MainSceneUIManager.instance.enemyDotPrefab).GetComponent<EnemyDot>();
+        enemy_dot.character = character.gameObject;
     }
 
     protected new bool Attack() {

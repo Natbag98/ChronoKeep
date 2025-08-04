@@ -73,7 +73,7 @@ public class Faction {
         if (FactionType == GameManager.FactionTypes.Kingdom){
             int max_aggro = 0;
             foreach (Faction faction in GameManager.instance.Game.BaseFactions) if (faction.aggro > max_aggro) max_aggro = faction.aggro;
-            if (max_aggro == aggro && GameManager.Random.Next(100) > aggro) EventManager.instance.eventList.Add(Utils.GetAsset<SOEvent>("AggroWar"));
+            if (max_aggro == aggro && GameManager.Random.Next(100) > aggro) EventManager.instance.eventList.Add(Utils.GetAsset<AggroWar>("AggroWar"));
         }
     }
 
