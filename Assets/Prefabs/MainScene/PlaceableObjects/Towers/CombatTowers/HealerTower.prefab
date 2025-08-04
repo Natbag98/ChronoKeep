@@ -256,6 +256,7 @@ MonoBehaviour:
   loaded: 0
   shootSound: {fileID: 11400000, guid: f9b4298990655a74da45201c670ca979, type: 2}
   reloadBar: {fileID: 850689369131243897}
+  attackFrame: 0
   targetTags: 
   healCount: 0
 --- !u!1 &7793943204553541298
@@ -522,27 +523,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 2054b9844a359914e8b9787e5831898e, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.3
+      value: 0.39015004
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2054b9844a359914e8b9787e5831898e, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.3
+      value: 0.39015004
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2054b9844a359914e8b9787e5831898e, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.3
+      value: 0.39015004
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2054b9844a359914e8b9787e5831898e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.0073729
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2054b9844a359914e8b9787e5831898e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.001
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2054b9844a359914e8b9787e5831898e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.0023546
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2054b9844a359914e8b9787e5831898e, type: 3}
       propertyPath: m_LocalRotation.w
