@@ -10,6 +10,12 @@ public class Spawner : Tower {
     private int powerRemaining;
     public bool spawning { private set; get; } = false;
     public bool partOfHostileWave { private set; get; } = false;
+    public Dictionary<SOCharacter, int> charactersToSpawn = new();
+
+    private void WaveEnd(object _, EventArgs __) {
+        charactersToSpawn = new();
+        foreach (SOCharacter character in potentialCharactersToSpawn) charactersToSpawn.Add(character, 0);
+    }
 
     public void SpawnHostileWave(int power) {
         powerRemaining = power;
@@ -45,7 +51,7 @@ public class Spawner : Tower {
                 (
                     from cost
                     in character_costs
-                    where cost.Value  <= GameManager.instance.Game.GetResources()[GameManager.Resources.ManPower]
+                    where cost.Value <= GameManager.instance.Game.GetResources()[GameManager.Resources.ManPower]
                     select cost.Key
                 ).ToList()
             );
@@ -67,7 +73,7 @@ public class Spawner : Tower {
                     (
                         from cost
                         in character_costs
-                        where cost.Value  <= powerRemaining
+                        where cost.Value <= powerRemaining
                         select cost.Key
                     ).ToList()
                 );
@@ -91,5 +97,12 @@ public class Spawner : Tower {
         if (canAttack) {
             if (Attack()) StartCoroutine(Reload());
         }
+    }
+
+    protected override void Start() {
+        charactersToSpawn = new();
+        foreach (SOCharacter character in potentialCharactersToSpawn) charactersToSpawn.Add(character, 0);
+        WaveManager.instance.waveEnd += WaveEnd;
+        base.Start();
     }
 }

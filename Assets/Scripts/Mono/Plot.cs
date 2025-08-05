@@ -236,11 +236,12 @@ public class Plot : MonoBehaviour {
         } else if (
             faction == GameManager.instance.Game.PlayerFaction &&
             placedObjectSO != null &&
-            !MainSceneUIManager.instance.mouseBlocked
+            !MainSceneUIManager.instance.mouseBlocked &&
+            !Input.GetKey(KeyCode.C)
         ) {
             foreach (SOUpgrade upgrade in Utils.GetAllAssets<SOUpgrade>()) {
                 if (upgrade.IsAvailable(GetComponentInChildren<PlaceableObject>())) MainSceneUIManager.instance.InitializeUpgradesMenu(this);
-                return;
+                break;
             }
         } else if (
             faction != null &&
@@ -250,6 +251,13 @@ public class Plot : MonoBehaviour {
             !MainSceneUIManager.instance.mouseBlocked
         ) {
             MainSceneUIManager.instance.InitializeDiploMenu(faction);
+        } else if (
+            faction == GameManager.instance.Game.PlayerFaction &&
+            placedObjectSO != null &&
+            placedObjectType == GameManager.PlaceableObjectTypes.Spawner &&
+            Input.GetKey(KeyCode.C)
+        ) {
+            MainSceneUIManager.instance.InitializeCharacterMenu(GetComponentInChildren<Spawner>());
         }
     }
 

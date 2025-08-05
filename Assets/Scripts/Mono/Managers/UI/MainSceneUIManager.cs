@@ -61,6 +61,12 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     [SerializeField] private GameObject diploPeaceButton;
     [SerializeField] private GameObject diploEnvoyButton;
 
+    [Header("References Character Panel")]
+    [SerializeField] private GameObject characterPanel;
+    [SerializeField] private Transform characterButtons;
+    [SerializeField] private GameObject characterButtonPrefab;
+    [SerializeField] private TextMeshProUGUI characterDescText;
+
     private SOPlaceableObject placingObject;
     [HideInInspector] public bool mouseBlocked = false;
     [HideInInspector] public Plot upgradePlot;
@@ -211,7 +217,20 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
         currentFaction = faction;
     }
 
-    private void Start() {
+    public void InitializeCharacterMenu(Spawner spawner) {
+        CameraSystem.instance.cameraBlocked = true;
+        mouseBlocked = true;
+        characterPanel.SetActive(true);
+
+        foreach (SOCharacter character in spawner.charactersToSpawn.Keys) {
+            CharacterButton character_button = Instantiate(characterButtonPrefab, characterButtons).GetComponent<CharacterButton>();
+            character_button.character = character;
+            character_button.spawner = spawner;
+        }
+    }
+
+    private void Start()
+    {
         instance = this;
         text_dict = new() {
             {GameManager.Resources.Gold, resourceGoldText},
@@ -250,6 +269,11 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
                 diploPanel.SetActive(false);
                 CameraSystem.instance.cameraBlocked = false;
                 mouseBlocked = false;
+            } else if (characterPanel.activeSelf) {
+                characterPanel.SetActive(false);
+                CameraSystem.instance.cameraBlocked = false;
+                mouseBlocked = false;
+                foreach (Transform character_button in characterButtons) Destroy(character_button.gameObject);
             } else {
                 if (RunManager.instance.paused) {
                     RunManager.instance.Unpause();
