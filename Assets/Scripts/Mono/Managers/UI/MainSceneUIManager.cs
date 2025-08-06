@@ -363,6 +363,13 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
         } else {
             placePlotInfoPanel.SetActive(false);
         }
+
+        CharacterButton char_button = Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.CharacterButton)?.GetComponent<CharacterButton>();
+        if (char_button != null) {
+            characterDescText.text = $"{char_button.character.description}\n\nManpower cost: {char_button.character.powerRequired}";
+        } else {
+            characterDescText.text = "";
+        }
     }
 
     public void SaveData(GameData data) {}

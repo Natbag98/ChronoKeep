@@ -318,12 +318,16 @@ public class Plot : MonoBehaviour {
                     MainSceneUIManager.instance.objectInfoDescription.text = placedFeatureSO.description;
                 } else {
                     MainSceneUIManager.instance.objectInfoName.text = placedObjectSO.displayName;
-                    foreach (SOUpgrade upgrade in Utils.GetAllAssets<SOUpgrade>()){
+                    foreach (SOUpgrade upgrade in Utils.GetAllAssets<SOUpgrade>()) {
+                        MainSceneUIManager.instance.objectInfoDescription.text = placedObjectSO.description;
+
+                        if (faction == GameManager.instance.Game.PlayerFaction && placedObjectType == GameManager.PlaceableObjectTypes.Spawner) {
+                            MainSceneUIManager.instance.objectInfoDescription.text += "Click while holding C to open the unit spawning menu.";
+                        }
+                        
                         if (upgrade.IsAvailable(GetComponentInChildren<PlaceableObject>()) && faction == GameManager.instance.Game.PlayerFaction) {
-                            MainSceneUIManager.instance.objectInfoDescription.text = $"{placedObjectSO.description}\n\nClick for Upgrades";
+                            MainSceneUIManager.instance.objectInfoDescription.text += "\n\nClick for Upgrades";
                             break;
-                        } else {
-                            MainSceneUIManager.instance.objectInfoDescription.text = placedObjectSO.description;
                         }
                     }
                 }
