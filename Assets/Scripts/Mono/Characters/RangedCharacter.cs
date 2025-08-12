@@ -48,7 +48,6 @@ public class RangedCharacter : Character {
     }
 
     private IEnumerator RangedMeleeAttack() {
-        Debug.Log("here");
         attacking = true;
         canAttack = false;
         yield return new WaitForSeconds(attackDelayTime / RunManager.instance.simSpeed);

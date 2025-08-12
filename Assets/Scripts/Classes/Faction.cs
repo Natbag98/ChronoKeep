@@ -78,7 +78,7 @@ public class Faction {
     }
 
     public void OnWaveStart(int base_power) {
-        List<Plot> plots_with_spawners = RunManager.instance.GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Spawner);
+        List<Plot> plots_with_spawners = RunManager.instance.GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Spawner);\
         foreach (Plot plot in plots_with_spawners) {
             if (
                 plot.faction == this &&

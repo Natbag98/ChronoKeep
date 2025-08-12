@@ -64,34 +64,35 @@ public class Spawner : Tower {
                 return true;
             }
         } else if (partOfHostileWave) {
-            if (!parentPlot.visibleToPlayer) {
-                Debug.Log("Plot not visble to player");
-                spawning = false;
-                partOfHostileWave = false;
-                return false;
-            } else if (powerRemaining > 0) {
-                List<SOCharacter> potential_characters = (
-                    from cost
-                    in character_costs
-                    where cost.Value <= powerRemaining
-                    select cost.Key
-                ).ToList();
-                if (potential_characters.Count == 0) {
-                    powerRemaining = 0;
-                    return false;
-                }
-                SOCharacter character = Utils.Choice(potential_characters);
-
-                SpawnCharacter(character);
-                powerRemaining -= character_costs[character];
-                return true;
-            } else if (spawning) {
-                spawning = false;
-                partOfHostileWave = false;
-                return false;
-            } else {
+            // if (!parentPlot.visibleToPlayer && GetComponentInParent<Plot>().faction == GameManager.instance.Game.BaseFactions[^1]) {
+            //     Debug.Log("Barbarian plot not visble to player");
+            //     spawning = false;
+            //     partOfHostileWave = false;
+            //     return false;
+            // } else
+            if (powerRemaining > 0) {
+            List<SOCharacter> potential_characters = (
+                from cost
+                in character_costs
+                where cost.Value <= powerRemaining
+                select cost.Key
+            ).ToList();
+            if (potential_characters.Count == 0) {
+                powerRemaining = 0;
                 return false;
             }
+            SOCharacter character = Utils.Choice(potential_characters);
+
+            SpawnCharacter(character);
+            powerRemaining -= character_costs[character];
+            return true;
+        } else if (spawning) {
+            spawning = false;
+            partOfHostileWave = false;
+            return false;
+        } else {
+            return false;
+        }
         }
 
         return false;
