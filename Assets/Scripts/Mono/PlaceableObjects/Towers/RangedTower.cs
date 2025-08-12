@@ -41,13 +41,7 @@ public class RangedTower : Tower {
     }
     
     private void CheckTargetInRange() {
-        foreach (Plot plot in GetPlotsInRange()) {
-            if (Vector3.Distance(target.position, plot.transform.position) < 0.5) {
-                return;
-            }
-        }
-
-        target = null;
+        if (!GetPlotsInRange().Contains(target.GetComponent<Character>().GetCurrentPlot())) target = null;
     }
 
     protected override void Update() {

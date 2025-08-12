@@ -70,14 +70,17 @@ public class Spawner : Tower {
                 partOfHostileWave = false;
                 return false;
             } else if (powerRemaining > 0) {
-                SOCharacter character = Utils.Choice(
-                    (
-                        from cost
-                        in character_costs
-                        where cost.Value <= powerRemaining
-                        select cost.Key
-                    ).ToList()
-                );
+                List<SOCharacter> potential_characters = (
+                    from cost
+                    in character_costs
+                    where cost.Value <= powerRemaining
+                    select cost.Key
+                ).ToList();
+                if (potential_characters.Count == 0) {
+                    powerRemaining = 0;
+                    return false;
+                }
+                SOCharacter character = Utils.Choice(potential_characters);
 
                 SpawnCharacter(character);
                 powerRemaining -= character_costs[character];

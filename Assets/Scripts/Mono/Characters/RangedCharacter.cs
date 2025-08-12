@@ -48,6 +48,7 @@ public class RangedCharacter : Character {
     }
 
     private IEnumerator RangedMeleeAttack() {
+        Debug.Log("here");
         attacking = true;
         canAttack = false;
         yield return new WaitForSeconds(attackDelayTime / RunManager.instance.simSpeed);
@@ -64,13 +65,12 @@ public class RangedCharacter : Character {
     }
 
     private void CheckTargetInRange() {
-        foreach (Plot plot in GetPlotsInRange()) {
-            if (Vector3.Distance(target.position, plot.transform.position) < 0.5) {
-                return;
-            }
+        Character target_character = target.GetComponentInParent<Character>();
+        if (target_character != null) {
+            if (!GetPlotsInRange().Contains(target_character.GetCurrentPlot())) target = null;
+        } else {
+            if (!GetPlotsInRange().Contains(target.gameObject.GetComponent<PlaceableObject>().GetComponentInParent<Plot>())) target = null;
         }
-
-        target = null;
     }
 
     protected override void Attack() {
@@ -78,6 +78,13 @@ public class RangedCharacter : Character {
             StartCoroutine(RangedAttack());
         } else {
             StartCoroutine(RangedMeleeAttack());
+        }
+    }
+
+    protected override void UpdateAttack() {
+        base.UpdateAttack();
+        if (blocked && target == null) {
+            Attack();
         }
     }
 
