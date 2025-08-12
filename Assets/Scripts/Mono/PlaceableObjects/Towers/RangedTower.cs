@@ -39,8 +39,19 @@ public class RangedTower : Tower {
         projectile.SetMagicType(magicType);
         projectile.Setup();
     }
+    
+    private void CheckTargetInRange() {
+        foreach (Plot plot in GetPlotsInRange()) {
+            if (Vector3.Distance(target.position, plot.transform.position) < 0.5) {
+                return;
+            }
+        }
+
+        target = null;
+    }
 
     protected override void Update() {
+        if (target != null) CheckTargetInRange();
         if (target && rotateTransform.GetValue()) {
             Utils.RotateTowards(rotateTransform.GetValue().position, target.position, rotateTransform.GetValue(), rotateSpeed, "y");
         }

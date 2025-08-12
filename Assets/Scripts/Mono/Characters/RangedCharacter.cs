@@ -63,6 +63,16 @@ public class RangedCharacter : Character {
         reloadTimer = 0;
     }
 
+    private void CheckTargetInRange() {
+        foreach (Plot plot in GetPlotsInRange()) {
+            if (Vector3.Distance(target.position, plot.transform.position) < 0.5) {
+                return;
+            }
+        }
+
+        target = null;
+    }
+
     protected override void Attack() {
         if (!blocked) {
             StartCoroutine(RangedAttack());
@@ -73,6 +83,7 @@ public class RangedCharacter : Character {
 
     protected override void Update() {
         base.Update();
+        if (target != null) CheckTargetInRange();
         if (target == null) attacking = false;
         if (attacking) Utils.RotateTowards(transform.position, target.position, rotatePoint, rotateSpeed);
     }
