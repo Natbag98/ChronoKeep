@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Spawner : Tower {
     [Header("Spawner")]
@@ -10,6 +11,14 @@ public class Spawner : Tower {
     private int powerRemaining;
     public bool spawning { private set; get; } = false;
     public bool partOfHostileWave { private set; get; } = false;
+    public Dictionary<SOCharacter, int> charactersToSpawn = new();
+    public List<SOCharacter> charactersToSpawnList = new();
+
+    private void WaveEnd(object _, EventArgs __) {
+        charactersToSpawn = new();
+        charactersToSpawnList = new();
+        foreach (SOCharacter character in potentialCharactersToSpawn) charactersToSpawn.Add(character, 0);
+    }
 
     public void SpawnHostileWave(int power) {
         powerRemaining = power;
@@ -40,22 +49,20 @@ public class Spawner : Tower {
             character_costs.Add(character, character.powerRequired);
         }
 
-        if (parentPlot.faction == GameManager.instance.Game.PlayerFaction && GameManager.instance.Game.GetResources()[GameManager.Resources.ManPower] > 0) {
-            SOCharacter character = Utils.Choice(
-                (
-                    from cost
-                    in character_costs
-                    where cost.Value  <= GameManager.instance.Game.GetResources()[GameManager.Resources.ManPower]
-                    select cost.Key
-                ).ToList()
-            );
+        if (parentPlot.faction == GameManager.instance.Game.PlayerFaction) {
+            if (charactersToSpawnList.Count != 0 || (from spawn_count in from to_spawn in charactersToSpawn.Values select to_spawn where spawn_count > 0 select spawn_count).ToList().Count > 0) {
+                if (charactersToSpawnList.Count == 0 && charactersToSpawn.Count != 0) {
+                    foreach (var pair in charactersToSpawn) {
+                        for (int i = 0; i < pair.Value; i++) charactersToSpawnList.Add(pair.Key);
+                    }
+                    charactersToSpawnList.Reverse();
+                    charactersToSpawn = new();
+                }
 
-            if (GameManager.instance.Game.SpendResources(GameManager.Resources.ManPower, character_costs[character])) {
-                SpawnCharacter(character);
+                SpawnCharacter(charactersToSpawnList[0]);
+                charactersToSpawnList.RemoveAt(0);
                 return true;
             }
-            return false;
-
         } else if (partOfHostileWave) {
             if (!parentPlot.visibleToPlayer) {
                 Debug.Log("Plot not visble to player");
@@ -67,7 +74,7 @@ public class Spawner : Tower {
                     (
                         from cost
                         in character_costs
-                        where cost.Value  <= powerRemaining
+                        where cost.Value <= powerRemaining
                         select cost.Key
                     ).ToList()
                 );
@@ -91,5 +98,12 @@ public class Spawner : Tower {
         if (canAttack) {
             if (Attack()) StartCoroutine(Reload());
         }
+    }
+
+    protected override void Start() {
+        charactersToSpawn = new();
+        foreach (SOCharacter character in potentialCharactersToSpawn) charactersToSpawn.Add(character, 0);
+        WaveManager.instance.waveEnd += WaveEnd;
+        base.Start();
     }
 }

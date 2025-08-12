@@ -80,6 +80,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     /// Gets and sets the characters movement target.
     /// </summary>
     private bool GetMovementTarget(Faction target_faction) {
+        bool can_target_invisible = characterSO.canTargetInvisible;
         Plot min_target = null;
         float? min_distance = null;
         List<Plot> target_objects = (
@@ -94,6 +95,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
             List<Plot> targets = RunManager.instance.GetAllPlotsWithPlacedObject(targetObjectType, target_faction);
             if (targets != null) {
                 foreach (Plot target in targets) {
+                    if (!can_target_invisible && !target.visibleToPlayer) continue;
                     float distance = Vector2.Distance(target.transform.position, transform.position);
                     min_distance ??= distance; min_target = min_target != null ? min_target : target;
                     if (distance < min_distance) {
@@ -112,13 +114,15 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
             movementTarget = min_target;
         }
 
-        // Attack the closest enemy object if the castle and priority targets have no valid paths
+        // Attack the closest enemy object if the castle and priority targets have no valid paths or are not visible
         if (
             movementTarget == null ||
-            Utils.GetPath(GetCurrentPlot().GetPositionInPlotArray(), movementTarget.GetPositionInPlotArray()) == null
+            Utils.GetPath(GetCurrentPlot().GetPositionInPlotArray(), movementTarget.GetPositionInPlotArray()) == null ||
+            (!can_target_invisible && !movementTarget.visibleToPlayer)
         ) {
             Dictionary<float, Plot> potential_movement_targets = new();
             foreach (Plot plot in target_objects) {
+                if (!can_target_invisible && !plot.visibleToPlayer) continue;
                 if (Utils.GetPath(GetCurrentPlot().GetPositionInPlotArray(), plot.GetPositionInPlotArray()) != null) {
                     potential_movement_targets.Add(Vector3.Distance(transform.position, plot.transform.position), plot);
                 }
@@ -322,7 +326,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
 
                 if (!GetMovementTarget(targetFaction)) {
                     if (GetTargetFaction(false)) {
-                        GetMovementTarget(targetFaction);
+                        if (!GetMovementTarget(targetFaction)) movementTarget = null;
                     }
                 }
 

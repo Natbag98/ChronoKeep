@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 6995875889840719490, guid: 1ac909d3fb0532e45ba4d716eec3afe1, type: 3}
   powerRequired: 1
+  canTargetInvisible: 1
   displayName: Scout
   description: A very fast moving but weak unit.
