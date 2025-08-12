@@ -79,7 +79,8 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     /// <summary>
     /// Gets and sets the characters movement target.
     /// </summary>
-    private bool GetMovementTarget(Faction target_faction, bool can_target_invisible=false) {
+    private bool GetMovementTarget(Faction target_faction) {
+        bool can_target_invisible = characterSO.canTargetInvisible;
         Plot min_target = null;
         float? min_distance = null;
         List<Plot> target_objects = (

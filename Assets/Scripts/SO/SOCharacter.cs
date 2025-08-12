@@ -7,6 +7,7 @@ public class SOCharacter : ScriptableObject, IUnlockTrackable {
 
     [Header("Attributes")]
     public int powerRequired;
+    public bool canTargetInvisible;
 
     [Header("UI")]
     public string displayName;
