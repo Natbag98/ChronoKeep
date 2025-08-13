@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9b117226a6549b1448d8a08556c52cc1, type: 3}
-  m_Name: BarbarianCamp
+  m_Name: WizardAcademy
   m_EditorClassIdentifier: 
-  placeableObjectPrefab: {fileID: 1770908353305172144, guid: 57701f774cee8904eb036dfdb5a0512d, type: 3}
-  displayName: Camp
-  description: Spawns soldiers. Can be placed anywhere
+  placeableObjectPrefab: {fileID: 1770908353305172144, guid: d0181d2d8d8c7ad45ba497ac401ff443, type: 3}
+  displayName: Wizard Academy
+  description: Spawns wizards. Must be placed adjacent to a population center.
   objectType: 2
   factionControlRange: 1
   placementCost:
     dictPairs:
     - Key: 2
-      Value: 2
+      Value: 12
   purchaseCost:
     dictPairs:
     - Key: 0
-      Value: 2
+      Value: 12
   mustPlaceBeside: 
-  mustPlaceBesideTags: 
+  mustPlaceBesideTags: 04000000

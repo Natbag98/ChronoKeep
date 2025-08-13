@@ -12,7 +12,7 @@ public class Spawner : Tower {
     public bool spawning { private set; get; } = false;
     public bool partOfHostileWave { private set; get; } = false;
     public Dictionary<SOCharacter, int> charactersToSpawn = new();
-    public List<SOCharacter> charactersToSpawnList = new();
+    [HideInInspector] public List<SOCharacter> charactersToSpawnList = new();
 
     private void WaveEnd(object _, EventArgs __) {
         charactersToSpawn = new();
