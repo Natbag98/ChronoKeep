@@ -42,8 +42,9 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     [HideInInspector] public bool invisible = false;
     [HideInInspector] public PlaceableObject spawner;
     private bool returning = false;
+    [HideInInspector] public bool oil = false;
 
-    protected virtual void GetTarget() {}
+    protected virtual void GetTarget() { }
     protected virtual void Attack() {}
 
     protected IEnumerator Reload() {

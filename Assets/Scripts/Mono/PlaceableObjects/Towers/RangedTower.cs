@@ -28,6 +28,46 @@ public class RangedTower : Tower {
         }
         if (animator) yield return new WaitForSeconds(targetTime);
 
+        if (GetComponent<Tag>().HasTag(Tag.Tags.OilTower)) {
+            foreach (Plot neighbour in GetComponentInParent<Plot>().GetNeighbours(attributes.GetAttributeAsInt(GameManager.Attributes.Range))) {
+                foreach (Character character in neighbour.GetCharacters()) {
+                    if (character.faction != GameManager.instance.Game.PlayerFaction) {
+                        character.AddMod(
+                            new() {
+                                targetTags = new Tag.Tags[0],
+                                attributeToAffect = GameManager.Attributes.CharacterMoveSpeed,
+                                amount = 0.6f,
+                                applyTo = Mod.ApplyTo.All
+                            },
+                            true
+                        );
+                        character.AddMod(
+                            new() {
+                                targetTags = new Tag.Tags[0],
+                                attributeToAffect = GameManager.Attributes.ReloadSpeed,
+                                amount = 0.8f,
+                                applyTo = Mod.ApplyTo.All
+                            },
+                            true
+                        );
+                        character.oil = true;
+                    }
+                }
+            }
+            yield break;
+        } else if (GetComponent<Tag>().HasTag(Tag.Tags.FireTower)) {
+            foreach (Plot neighbour in GetComponentInParent<Plot>().GetNeighbours(attributes.GetAttributeAsInt(GameManager.Attributes.Range))) {
+                foreach (Character character in neighbour.GetCharacters()) {
+                    if (character.faction != GameManager.instance.Game.PlayerFaction) {
+                        float damage = attributes.GetAttribute(GameManager.Attributes.Attack);
+                        if (character.oil) damage *= 5;
+                        character.Damage(GameManager.MagicTypes.Magic, damage, attributes);
+                    }
+                }
+            }
+            yield break;
+        }
+
         Projectile projectile = Instantiate(
             projectileToShoot,
             shootPoint.position,
@@ -39,7 +79,7 @@ public class RangedTower : Tower {
         projectile.SetMagicType(magicType);
         projectile.Setup();
     }
-    
+
     private void CheckTargetInRange() {
         if (!GetPlotsInRange().Contains(target.GetComponent<Character>().GetCurrentPlot())) target = null;
     }
