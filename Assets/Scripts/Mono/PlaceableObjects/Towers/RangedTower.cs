@@ -55,6 +55,17 @@ public class RangedTower : Tower {
                 }
             }
             yield break;
+        } else if (GetComponent<Tag>().HasTag(Tag.Tags.FireTower)) {
+            foreach (Plot neighbour in GetComponentInParent<Plot>().GetNeighbours(attributes.GetAttributeAsInt(GameManager.Attributes.Range))) {
+                foreach (Character character in neighbour.GetCharacters()) {
+                    if (character.faction != GameManager.instance.Game.PlayerFaction) {
+                        float damage = attributes.GetAttribute(GameManager.Attributes.Attack);
+                        if (character.oil) damage *= 5;
+                        character.Damage(GameManager.MagicTypes.Magic, damage, attributes);
+                    }
+                }
+            }
+            yield break;
         }
 
         Projectile projectile = Instantiate(

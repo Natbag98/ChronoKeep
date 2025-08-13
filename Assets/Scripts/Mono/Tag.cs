@@ -18,7 +18,8 @@ public class Tag : MonoBehaviour {
         DiploOption,
         InventoryItem,
         CharacterButton,
-        OilTower
+        OilTower,
+        FireTower
     }
 
     public List<Tags> tags;
