@@ -17,7 +17,8 @@ public class Tag : MonoBehaviour {
         ShopItem,
         DiploOption,
         InventoryItem,
-        CharacterButton
+        CharacterButton,
+        OilTower
     }
 
     public List<Tags> tags;
