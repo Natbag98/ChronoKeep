@@ -15,6 +15,8 @@ public class Faction {
     public int peaceCost;
     public int envoyCost;
 
+    private int expansion_chance = 100;
+
     public Faction(
         Game game,
         GameManager.FactionTypes? faction_type=null,
@@ -75,10 +77,22 @@ public class Faction {
             foreach (Faction faction in GameManager.instance.Game.BaseFactions) if (faction.aggro > max_aggro) max_aggro = faction.aggro;
             if (max_aggro == aggro && GameManager.Random.Next(100) > aggro) EventManager.instance.eventList.Add(Utils.GetAsset<AggroWar>("AggroWar"));
         }
+
+        expansion_chance += GameManager.instance.difficulty.base_faction_expansion;
+        if (FactionType == GameManager.FactionTypes.Kingdom) {
+            expansion_chance += RunManager.instance.GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.CivilianTower, this, true).Count;
+        }
+
+        if (this != GameManager.instance.Game.PlayerFaction) {
+            if (GameManager.Random.Next(0, 100) < expansion_chance) {
+                expansion_chance = 0;
+                RunManager.instance.PlaceRandomObject(Utils.Choice(GameManager.instance.expansionPotentialObjects.GetDict()[FactionType]), this);
+            }
+        }
     }
 
     public void OnWaveStart(int base_power) {
-        List<Plot> plots_with_spawners = RunManager.instance.GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Spawner);\
+        List<Plot> plots_with_spawners = RunManager.instance.GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Spawner);
         foreach (Plot plot in plots_with_spawners) {
             if (
                 plot.faction == this &&

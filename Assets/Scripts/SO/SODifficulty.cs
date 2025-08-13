@@ -10,6 +10,7 @@ public class SODifficulty : ScriptableObject {
     public float aggroMult;
     public float powerMult;
     public Mod[] modsToApply;
+    public int base_faction_expansion;
 
     [Header("Starting Recources")]
     public SOPlaceableObject[] startingObjects;

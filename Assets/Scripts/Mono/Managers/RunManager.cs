@@ -77,7 +77,7 @@ public class RunManager : MonoBehaviour, ISaveSystem {
     /// </summary>
     /// <param name="placed_object">The object to check for.</param>
     /// <returns>The list of plots with the placed object.</returns>
-    public List<Plot> GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes placed_object, Faction faction=null) {
+    public List<Plot> GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes placed_object, Faction faction=null, bool force_return=false) {
         List<Plot> plots = new();
         foreach (Plot[] row in plotArray) {
             foreach (Plot plot in row) {
@@ -89,7 +89,7 @@ public class RunManager : MonoBehaviour, ISaveSystem {
                 }
             }
         }
-        if (plots.Count == 0) return null;
+        if (plots.Count == 0 && !force_return) return null;
         return plots;
     }
 

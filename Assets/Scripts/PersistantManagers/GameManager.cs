@@ -81,6 +81,7 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     public SOFeature Ruins;
     public SOUpgrade WallsUpgrade;
     public SOPerk[] LuckPerks;
+    public Utils.SerializeableDict<FactionTypes, SOPlaceableObject[]> expansionPotentialObjects;
 
     [Header("Static Data : References")]
     public GameObject WallPrefab;
