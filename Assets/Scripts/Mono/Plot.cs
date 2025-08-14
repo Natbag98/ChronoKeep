@@ -38,6 +38,8 @@ public class Plot : MonoBehaviour {
                 if (!walkable) return false;
             }
         }
+
+        if (placedObjectSO != null || placedFeatureSO != null) return false;
         return canPlaceObject;
     }
 
@@ -157,8 +159,8 @@ public class Plot : MonoBehaviour {
         return new_object;
     }
 
-    public void PlaceFeature(SOFeature feature_to_place) {
-        Instantiate(
+    public GameObject PlaceFeature(SOFeature feature_to_place) {
+        GameObject placed = Instantiate(
             feature_to_place.prefab,
             transform.position,
             Quaternion.identity,
@@ -166,6 +168,7 @@ public class Plot : MonoBehaviour {
         );
         placedObjectType = GameManager.PlaceableObjectTypes.Feature;
         placedFeatureSO = feature_to_place;
+        return placed;
     }
 
     /// <summary>
