@@ -328,12 +328,6 @@ MonoBehaviour:
   reloadBar: {fileID: 850689369131243897}
   attackFrame: 0
   potentialCharactersToSpawn:
-  - {fileID: 11400000, guid: aae26af5810999345bbb394d8aba2b2c, type: 2}
-  - {fileID: 11400000, guid: 5237e207544601d4299e260b30bb7b54, type: 2}
-  - {fileID: 11400000, guid: 0d8835a8144b9ae4ebd680fae17343e2, type: 2}
-  - {fileID: 11400000, guid: 1edb1a4ff25d726439c752e1a4872543, type: 2}
-  - {fileID: 11400000, guid: f3a07f7e777a89c49a4d8a2d5f86656c, type: 2}
-  - {fileID: 11400000, guid: f8b3848aaf5b2a84784bca7ca9106e04, type: 2}
   - {fileID: 11400000, guid: c293a2631ee69bc4dad0c73258986891, type: 2}
   charactersToSpawnList: []
 --- !u!65 &8876198742693058485
