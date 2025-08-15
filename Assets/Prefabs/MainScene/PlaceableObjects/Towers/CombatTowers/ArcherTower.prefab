@@ -55,15 +55,15 @@ MonoBehaviour:
     baseAttributes:
       dictPairs:
       - Key: 0
-        Value: 100
+        Value: 80
       - Key: 1
-        Value: 50
+        Value: 45
       - Key: 4
         Value: 3
       - Key: 2
-        Value: 2
+        Value: 1.5
       - Key: 3
-        Value: 40
+        Value: 45
       - Key: 6
         Value: 25
       - Key: 8
@@ -79,8 +79,13 @@ MonoBehaviour:
   loaded: 0
   shootSound: {fileID: 11400000, guid: f9b4298990655a74da45201c670ca979, type: 2}
   reloadBar: {fileID: 4159230835596145758}
+  attackFrame: 0
   projectileToShoot: {fileID: 5921809335144549751, guid: 95dec3eebb46d5f49b1df02118c32718, type: 3}
   shootPoint: {fileID: 4218300769254404606}
+  rotateTransform:
+    containsValue: 0
+    value: {fileID: 0}
+  rotateSpeed: 0
 --- !u!65 &4128386589434947518
 BoxCollider:
   m_ObjectHideFlags: 0

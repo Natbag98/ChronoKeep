@@ -14,6 +14,7 @@ public class Faction {
     public int aggro = 0;
     public int peaceCost;
     public int envoyCost;
+    public int? envoyChance = null;
 
     private int expansion_chance = 100;
 
@@ -89,6 +90,23 @@ public class Faction {
                 RunManager.instance.PlaceRandomObject(Utils.Choice(GameManager.instance.expansionPotentialObjects.GetDict()[FactionType]), this);
             }
         }
+
+        if (
+            FactionType == GameManager.FactionTypes.Kingdom &&
+            !RunManager.instance.GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Castle, this).visibleToPlayer &&
+            !atWarWith[GameManager.instance.Game.PlayerFaction]
+        ) {
+            foreach (Plot plot in RunManager.instance.GetAllFactionPlots(this)) {
+                if (plot.visibleToPlayer) {
+                    envoyChance ??= 0;
+                    envoyChance += 15;
+                    if (GameManager.Random.Next(1, 100) < envoyChance) {
+                        EventManager.instance.eventList.Add(Utils.GetAsset<SendEnvoy>("SendEnvoy"));
+                    }
+                    break;
+                }
+            }
+        }
     }
 
     public void OnWaveStart(int base_power) {
@@ -138,6 +156,8 @@ public class Faction {
         if (FactionType == GameManager.FactionTypes.BarbarianClan) {
             foreach (Faction faction in atWarWith.Keys.ToList()) faction.DeclareWar(this); 
         }
+
+        envoyChance = null;
 
         // Test
         // foreach (Faction faction in atWarWith.Keys.ToList()) {

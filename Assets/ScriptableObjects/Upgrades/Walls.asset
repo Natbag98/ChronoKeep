@@ -25,6 +25,8 @@ MonoBehaviour:
   - targetTags: 
     attributeToAffect: 0
     amount: 2
+    applyTo: 0
   - targetTags: 
     attributeToAffect: 1
     amount: 1.2
+    applyTo: 0

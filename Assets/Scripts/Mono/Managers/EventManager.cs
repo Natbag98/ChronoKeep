@@ -22,7 +22,7 @@ public class EventManager : MonoBehaviour, ISaveSystem {
     private float eventChance;
     [HideInInspector] public List<SOEvent> eventList = new();
     
-    private int shopChance = 0;
+    private int shopChance = 30;
 
     public void Event() {
         currentEvent.Event();
@@ -70,7 +70,7 @@ public class EventManager : MonoBehaviour, ISaveSystem {
             shopChance = 0;
         } else {
             if (RunManager.instance.GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.CivilianTower, GameManager.instance.Game.PlayerFaction) != null) {
-                shopChance += 10 + (
+                shopChance += GameManager.instance.difficulty.base_shop_chance_increase + (
                     8 * (
                         from placed_plot
                         in RunManager.instance.GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.CivilianTower, GameManager.instance.Game.PlayerFaction)

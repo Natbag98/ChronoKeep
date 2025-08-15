@@ -11,6 +11,7 @@ public class SODifficulty : ScriptableObject {
     public float powerMult;
     public Mod[] modsToApply;
     public int base_faction_expansion;
+    public int base_shop_chance_increase;
 
     [Header("Starting Recources")]
     public SOPlaceableObject[] startingObjects;

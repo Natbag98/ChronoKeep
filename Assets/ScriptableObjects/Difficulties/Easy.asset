@@ -23,6 +23,7 @@ MonoBehaviour:
     amount: 1.5
     applyTo: 1
   base_faction_expansion: 10
+  base_shop_chance_increase: 25
   startingObjects:
   - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
   - {fileID: 11400000, guid: 86066999b2da0ef4f9c74035828c70ab, type: 2}
@@ -37,4 +38,4 @@ MonoBehaviour:
       Value: 40
     - Key: 1
       Value: 1
-  mult: 0.5
+  mult: 0.2

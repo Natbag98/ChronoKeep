@@ -43,13 +43,16 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     [HideInInspector] public PlaceableObject spawner;
     private bool returning = false;
     [HideInInspector] public bool oil = false;
+    public bool reloading = false;
 
     protected virtual void GetTarget() { }
     protected virtual void Attack() {}
 
     protected IEnumerator Reload() {
+        reloading = true;
         yield return new WaitForSeconds(attributes.GetAttribute(GameManager.Attributes.ReloadSpeed) / RunManager.instance.simSpeed);
         canAttack = true;
+        reloading = false;
     }
 
     public Vector3 GetTargetPoint() { return centerPoint.position; }
@@ -234,7 +237,7 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
         List<Plot> targets = (
             from plot
             in RunManager.instance.GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle)
-            where plot.visibleToPlayer
+            where plot.visibleToPlayer && plot.faction == GameManager.instance.Game.PlayerFaction // Temporarily, characters should only be able to attack the player
             select plot
         ).ToList();
         Dictionary<float, Plot> potential_targets = new();

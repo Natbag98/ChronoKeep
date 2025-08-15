@@ -26,6 +26,6 @@ MonoBehaviour:
   purchaseCost:
     dictPairs:
     - Key: 0
-      Value: 15
+      Value: 30
   mustPlaceBeside: 
   mustPlaceBesideTags: 

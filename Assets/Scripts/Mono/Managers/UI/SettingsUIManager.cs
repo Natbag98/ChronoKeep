@@ -30,8 +30,12 @@ public class SettingsUIManager : MonoBehaviour {
     }
 
     public void _Button_FullScreenButtonClicked() {
-        Screen.fullScreen = !Screen.fullScreen;
-        SettingsManager.instance.fullScreen = Screen.fullScreen;
+        SettingsManager.instance.fullScreen = !SettingsManager.instance.fullScreen;
+        if (SettingsManager.instance.fullScreen) {
+            Screen.SetResolution(1920, 1080, true);
+        } else {
+            Screen.fullScreen = false;
+        }
     }
 
     public void _Button_OrthButtonClicked() {

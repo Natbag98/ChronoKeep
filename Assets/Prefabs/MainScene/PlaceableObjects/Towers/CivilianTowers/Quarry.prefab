@@ -229,7 +229,7 @@ MonoBehaviour:
   resourcesPerWave:
     dictPairs:
     - Key: 2
-      Value: 5
+      Value: 6
   centerPoint: {fileID: 1968971150195000359}
   healthBar: {fileID: 1284041797425990211}
   placeableObjectSO: {fileID: 0}

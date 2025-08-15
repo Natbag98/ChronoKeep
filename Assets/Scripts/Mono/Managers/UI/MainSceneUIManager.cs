@@ -328,7 +328,11 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
 
         if (traderPanel.activeSelf) {
             ShopItem item = Utils.CheckMouseHoveringOverUIElementWithTag(Tag.Tags.ShopItem)?.GetComponent<ShopItem>();
-            if (item != null) shopDesc.text = item.objectToBuy.description; else shopDesc.text = "";
+            if (item != null) {
+                shopDesc.text = $"{item.objectToBuy.description}\n\nCost: {item.objectToBuy.purchaseCost.GetDict()[GameManager.Resources.Gold]}";
+            } else {
+                shopDesc.text = "";
+            }
         } else {
            shopDesc.text = ""; 
         }

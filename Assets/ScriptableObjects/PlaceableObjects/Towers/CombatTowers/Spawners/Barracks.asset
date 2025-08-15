@@ -24,6 +24,6 @@ MonoBehaviour:
   purchaseCost:
     dictPairs:
     - Key: 0
-      Value: 8
+      Value: 15
   mustPlaceBeside: 
   mustPlaceBesideTags: 04000000

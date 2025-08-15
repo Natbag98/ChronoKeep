@@ -1889,14 +1889,13 @@ MonoBehaviour:
   - When you start your wave, enemies will spawn at spawners around the map and attempt
     to attack your tower. Your own towers will attack the enemies attacking you.
   - There are multiple different kingdoms around the map (hidden by fog) that can
-    be at war with you and eachother independantly. Currently, there is no way to
-    view which plots/towers is owned by which kingdom.
+    be at war with you and eachother independantly
   - Bear in mind that enemies will sometimes spawn off the edge of the map, and you
     will have to wait fot them to reach your towers.
   - Your run will end when your castle is destroyed, after which you will be able
     to unlock character perks and start another run.
-  - Remember that this game is in early development, so expect for parts of the game
-    to be broken or not working properly.
+  - Remember that this game is not complete, so expect some bugs and imbalance in
+    gameplay.
 --- !u!1 &395016116
 GameObject:
   m_ObjectHideFlags: 0
@@ -3332,7 +3331,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: A trader has arrived with advanced resources required to build some towers.
+  m_text: A trader has arrived with advanced resources required to build some towers,
+    which are available for purchase.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -9921,6 +9921,8 @@ MonoBehaviour:
     - Key: {fileID: 11400000, guid: 48dc2cb2668607446b107809c366ba4b, type: 2}
       Value: 60
     - Key: {fileID: 11400000, guid: 98d100b4b6d24034fa47873ef3a4e61e, type: 2}
+      Value: 50
+    - Key: {fileID: 11400000, guid: 5881c266e27ae414a8a0e22ce7c8e0b6, type: 2}
       Value: 50
   eventChanceIncreasePerWave: 100
   negativeEventChance: 60

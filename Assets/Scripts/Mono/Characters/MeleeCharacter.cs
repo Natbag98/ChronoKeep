@@ -19,7 +19,10 @@ public class MeleeCharacter : Character {
         attacking = true;
         canAttack = false;
         yield return new WaitForSeconds(attackDelayTime / RunManager.instance.simSpeed);
-        if (!attacking) yield break;
+        if (!attacking) {
+            StartCoroutine(Reload());
+            yield break;
+        }
         target.GetComponent<IMeleeTarget>().Damage(magicType, attributes.GetAttribute(GameManager.Attributes.Attack), attributes);
         attacking = false;
 

@@ -19,19 +19,18 @@ MonoBehaviour:
   powerMult: 1
   modsToApply: []
   base_faction_expansion: 20
+  base_shop_chance_increase: 15
   startingObjects:
   - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
   - {fileID: 11400000, guid: 488d7db69dcffbc43b6cf6b63fdeeb71, type: 2}
   - {fileID: 11400000, guid: d1d8e9105110c8849ae914a814a78d87, type: 2}
-  - {fileID: 11400000, guid: e504a0bbd48c9504686b3244871fecbd, type: 2}
-  - {fileID: 11400000, guid: 9702463d1fbb66d4fa15b8a0bee42453, type: 2}
-  - {fileID: 11400000, guid: 0c0702d9c72b13346a9a17dc1f2b4261, type: 2}
+  - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
   startingResources:
     dictPairs:
     - Key: 0
       Value: 15
     - Key: 2
-      Value: 40
+      Value: 25
     - Key: 1
-      Value: 10
+      Value: 1
   mult: 1

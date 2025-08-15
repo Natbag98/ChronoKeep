@@ -36,7 +36,15 @@ public class CannonBall : Projectile {
 
     private void Explode() {
         Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
-        foreach (Collider hit in hits) hit.GetComponent<IRangedTarget>()?.Damage(magicType, attributes.GetAttribute(GameManager.Attributes.Attack), attributes);
+        foreach (Collider hit in hits) {
+            if (hit.gameObject.GetComponent<PlaceableObject>() != null) {
+                if (hit.gameObject.GetComponent<PlaceableObject>().GetComponentInParent<Plot>().faction == GameManager.instance.Game.PlayerFaction) continue;
+            }
+            if (hit.gameObject.GetComponent<Character>() != null) {
+                if (hit.gameObject.GetComponent<Character>().faction == GameManager.instance.Game.PlayerFaction) continue;
+            }
+            hit.GetComponent<IRangedTarget>()?.Damage(magicType, attributes.GetAttribute(GameManager.Attributes.Attack), attributes);
+        }
         Destroy(gameObject);
     }
 }
