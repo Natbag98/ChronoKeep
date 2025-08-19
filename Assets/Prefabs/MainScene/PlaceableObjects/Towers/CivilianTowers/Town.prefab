@@ -231,9 +231,9 @@ MonoBehaviour:
     - Key: 1
       Value: 2
     - Key: 2
-      Value: 3
+      Value: 4
     - Key: 0
-      Value: 2
+      Value: 3
   centerPoint: {fileID: 1968971150195000359}
   healthBar: {fileID: 1284041797425990211}
   placeableObjectSO: {fileID: 0}

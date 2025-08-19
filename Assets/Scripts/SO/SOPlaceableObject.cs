@@ -14,6 +14,7 @@ public class SOPlaceableObject : ScriptableObject, IUnlockTrackable {
     public Utils.SerializeableDict<GameManager.Resources, int> purchaseCost;
 
     [Header("Placement Rules")]
+    public GameManager.PlotTypes[] mustPlaceOn;
     public GameManager.PlotTypes[] mustPlaceBeside;
     public Tag.Tags[] mustPlaceBesideTags;
 

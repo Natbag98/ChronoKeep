@@ -187,6 +187,9 @@ public class Plot : MonoBehaviour {
     /// </summary>
     private bool ValidTowerPlacement(SOPlaceableObject object_to_place) {
         if (object_to_place.objectType == GameManager.PlaceableObjectTypes.Spawner && !walkable) return false;
+        foreach (GameManager.PlotTypes plot_type in object_to_place.mustPlaceOn) {
+            if (plot_type != plotType) return false;
+        }
         foreach (GameManager.PlotTypes plot_type in object_to_place.mustPlaceBeside) {
             if (!(from plot in GetNeighbours() select plot.plotType).Contains(plot_type)) return false;
         }

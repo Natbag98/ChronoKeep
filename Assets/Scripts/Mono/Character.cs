@@ -234,12 +234,22 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
     }
 
     private bool GetTargetFaction(bool destroy_on_failure=true) {
-        List<Plot> targets = (
-            from plot
-            in RunManager.instance.GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle)
-            where plot.visibleToPlayer && plot.faction == GameManager.instance.Game.PlayerFaction // Temporarily, characters should only be able to attack the player
-            select plot
-        ).ToList();
+        List<Plot> targets;
+        if (faction.FactionType == GameManager.FactionTypes.BarbarianClan) {
+            targets = (
+                from plot
+                in RunManager.instance.GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle)
+                where plot.visibleToPlayer && plot.faction == GameManager.instance.Game.PlayerFaction // Barb characters should only be able to attack the player
+                select plot
+            ).ToList();
+        } else {
+            targets = (
+                from plot
+                in RunManager.instance.GetAllPlotsWithPlacedObject(GameManager.PlaceableObjectTypes.Castle)
+                where plot.visibleToPlayer
+                select plot
+            ).ToList();
+        }
         Dictionary<float, Plot> potential_targets = new();
 
         foreach (Plot target in targets) {

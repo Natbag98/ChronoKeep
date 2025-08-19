@@ -25,5 +25,6 @@ MonoBehaviour:
     dictPairs:
     - Key: 0
       Value: 6
+  mustPlaceOn: 00000000
   mustPlaceBeside: 
   mustPlaceBesideTags: 04000000

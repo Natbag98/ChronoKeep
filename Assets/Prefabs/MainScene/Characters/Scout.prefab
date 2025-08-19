@@ -308,7 +308,7 @@ MonoBehaviour:
       - Key: 5
         Value: 0.85
       - Key: 3
-        Value: 50
+        Value: 15
       - Key: 2
         Value: 1
       - Key: 8
@@ -321,6 +321,8 @@ MonoBehaviour:
   characterSO: {fileID: 0}
   invisible: 0
   spawner: {fileID: 0}
+  oil: 0
+  reloading: 0
 --- !u!114 &2680347776060978851
 MonoBehaviour:
   m_ObjectHideFlags: 0
