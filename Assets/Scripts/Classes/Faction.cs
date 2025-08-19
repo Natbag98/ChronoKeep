@@ -100,10 +100,10 @@ public class Faction {
                 if (plot.visibleToPlayer) {
                     envoyChance ??= 0;
                     envoyChance += 15;
-                    if (GameManager.Random.Next(1, 100) < envoyChance) {
+                    if (GameManager.Random.Next(1, 100) < envoyChance && !EventManager.instance.eventList.Contains(Utils.GetAsset<SendEnvoy>("SendEnvoy"))) {
                         EventManager.instance.eventList.Add(Utils.GetAsset<SendEnvoy>("SendEnvoy"));
                     }
-                    break;
+                    return;
                 }
             }
         }
