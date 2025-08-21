@@ -116,6 +116,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
         parentPlot.placedObjectSO = null;
         Ruins ruins = parentPlot.PlaceFeature(GameManager.instance.Ruins).GetComponent<Ruins>();
         ruins.placeableObjectName = gameObject.name;
+        WaveManager.instance.waveEnd -= WaveEnd;
         Destroy(gameObject);
     }
 

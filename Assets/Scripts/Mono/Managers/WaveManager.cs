@@ -38,8 +38,8 @@ public class WaveManager : MonoBehaviour, ISaveSystem {
                 ) {
                     RunManager.instance.AddScore(100);
                     MainSceneUIManager.instance.UpdateResourceGain();
-                    waveEnd?.Invoke(null, EventArgs.Empty);
                     foreach (Faction faction in GameManager.instance.Game.BaseFactions) faction.OnWaveEnd();
+                    waveEnd?.Invoke(null, EventArgs.Empty);
                     waveActive = false;
                 }
             }

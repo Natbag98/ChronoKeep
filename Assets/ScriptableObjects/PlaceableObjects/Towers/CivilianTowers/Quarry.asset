@@ -16,7 +16,7 @@ MonoBehaviour:
   displayName: Quarry
   description: Mines stone from adjacent mountains every turn.
   objectType: 3
-  factionControlRange: 1
+  factionControlRange: 0
   placementCost:
     dictPairs:
     - Key: 2

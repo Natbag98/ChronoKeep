@@ -111,7 +111,8 @@ public class GameSceneUIManager : MonoBehaviour {
         difficulties = new() {
             Utils.GetAsset<SODifficulty>("Easy"),
             Utils.GetAsset<SODifficulty>("Normal"),
-            Utils.GetAsset<SODifficulty>("Hard")
+            Utils.GetAsset<SODifficulty>("Hard"),
+            Utils.GetAsset<SODifficulty>("Test")
 
         };
         currentDifficulty = 1;

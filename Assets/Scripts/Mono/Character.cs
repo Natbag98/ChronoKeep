@@ -260,10 +260,12 @@ public abstract class Character : MonoBehaviour, IRangedTarget, IMeleeTarget, IM
             faction == GameManager.instance.Game.PlayerFaction &&
             RunManager.instance.GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Spawner, GameManager.instance.Game.BaseFactions[^1]) != null
         ) {
-            potential_targets.Add(
-                0,
-                RunManager.instance.GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Spawner, GameManager.instance.Game.BaseFactions[^1])
-            );
+            if (potential_targets.Count == 0 || GameManager.Random.Next(1, 100) > 50) {
+                potential_targets.Add(
+                    0,
+                    RunManager.instance.GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Spawner, GameManager.instance.Game.BaseFactions[^1])
+                );
+            }
         }
 
         for (int i = 0; i < potential_targets.Count; i++) {

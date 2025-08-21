@@ -16,7 +16,7 @@ MonoBehaviour:
   displayName: Wizard Tower
   description: Casts a single bolt of magic at enemies periodically.
   objectType: 1
-  factionControlRange: 0
+  factionControlRange: 1
   placementCost:
     dictPairs:
     - Key: 2
@@ -25,5 +25,6 @@ MonoBehaviour:
     dictPairs:
     - Key: 0
       Value: 15
+  mustPlaceOn: 
   mustPlaceBeside: 
   mustPlaceBesideTags: 

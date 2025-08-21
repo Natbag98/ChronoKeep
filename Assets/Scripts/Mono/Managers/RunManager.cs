@@ -186,15 +186,20 @@ public class RunManager : MonoBehaviour, ISaveSystem {
         score += amount;
     }
 
-    public void GameOver() {
+    public void GameOver(bool win=false) {
         GameManager.instance.scoreLastRun = Mathf.FloorToInt(score * scoreMult * GameManager.instance.difficulty.mult);
         GameManager.instance.skillLastRun = Mathf.FloorToInt(score / 10 * skillMult);
         GameManager.instance.Game.skillPoints += GameManager.instance.skillLastRun;
-        if (GameManager.instance.Game.firstRun) {
+        if (win) {
+            GameManager.instance.nextScene = "PostRunScene";
+            GameManager.instance.storyDisplay = 2;
+            GameManager.instance.Game.firstRun = false;
             SceneManager.LoadScene("CutScene");
+        } else if (GameManager.instance.Game.firstRun) {
             GameManager.instance.nextScene = "PostRunScene";
             GameManager.instance.storyDisplay = 1;
             GameManager.instance.Game.firstRun = false;
+            SceneManager.LoadScene("CutScene");
         } else {
             SceneManager.LoadScene("PostRunScene");
         }

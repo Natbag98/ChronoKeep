@@ -27,12 +27,13 @@ MonoBehaviour:
   startingObjects:
   - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
   - {fileID: 11400000, guid: d1d8e9105110c8849ae914a814a78d87, type: 2}
+  - {fileID: 11400000, guid: 488d7db69dcffbc43b6cf6b63fdeeb71, type: 2}
   startingResources:
     dictPairs:
     - Key: 0
-      Value: 12
-    - Key: 2
       Value: 15
+    - Key: 2
+      Value: 20
     - Key: 1
-      Value: 1
+      Value: 0
   mult: 1.5

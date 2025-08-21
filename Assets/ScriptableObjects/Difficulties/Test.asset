@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ebf553c8a621da44fa65b481c07bbdf2, type: 3}
-  m_Name: Normal
+  m_Name: Test
   m_EditorClassIdentifier: 
-  displayName: Normal
+  displayName: Test
   base_peace_cost: 0
   base_envoy_cost: 0
   aggroMult: 1
@@ -21,16 +21,17 @@ MonoBehaviour:
   base_faction_expansion: 20
   base_shop_chance_increase: 15
   startingObjects:
-  - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
-  - {fileID: 11400000, guid: d1d8e9105110c8849ae914a814a78d87, type: 2}
+  - {fileID: 11400000, guid: 48ff362db18515a48bd93849275405d4, type: 2}
   - {fileID: 11400000, guid: 488d7db69dcffbc43b6cf6b63fdeeb71, type: 2}
+  - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
+  - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
   - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
   startingResources:
     dictPairs:
     - Key: 0
-      Value: 15
-    - Key: 2
-      Value: 25
+      Value: 100
     - Key: 1
-      Value: 1
+      Value: 100
+    - Key: 2
+      Value: 100
   mult: 1

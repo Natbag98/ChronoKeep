@@ -17,7 +17,7 @@ MonoBehaviour:
   description: Heals your towers peridocally, and restores their health at the end
     of each wave.
   objectType: 1
-  factionControlRange: 0
+  factionControlRange: 1
   placementCost:
     dictPairs:
     - Key: 2
@@ -26,5 +26,6 @@ MonoBehaviour:
     dictPairs:
     - Key: 0
       Value: 15
+  mustPlaceOn: 
   mustPlaceBeside: 
   mustPlaceBesideTags: 

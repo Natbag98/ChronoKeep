@@ -17,7 +17,7 @@ MonoBehaviour:
   description: This wizard tower peridocally shoots elemental fire at all surrounding
     enemies.
   objectType: 1
-  factionControlRange: 0
+  factionControlRange: 1
   placementCost:
     dictPairs:
     - Key: 2
@@ -26,5 +26,6 @@ MonoBehaviour:
     dictPairs:
     - Key: 0
       Value: 20
+  mustPlaceOn: 
   mustPlaceBeside: 
   mustPlaceBesideTags: 

@@ -37,5 +37,6 @@ public class MeleeCharacter : Character {
     protected override void Update() {
         base.Update();
         if (target == null) attacking = false;
+        if (attacking) Utils.RotateTowards(transform.position, target.position, rotatePoint, rotateSpeed);
     }
 }
