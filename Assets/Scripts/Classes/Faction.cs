@@ -15,19 +15,20 @@ public class Faction {
     public int peaceCost;
     public int envoyCost;
     public int? envoyChance = null;
+    public int traderCost;
 
     private int expansion_chance = 100;
 
     public Faction(
         Game game,
-        GameManager.FactionTypes? faction_type=null,
-        string name=null,
-        string ruler=null,
-        Color? color=null
+        GameManager.FactionTypes? faction_type = null,
+        string name = null,
+        string ruler = null,
+        Color? color = null
     ) {
         if (string.IsNullOrWhiteSpace(name)) name = null;
         if (string.IsNullOrWhiteSpace(ruler)) ruler = null;
-        
+
         if (faction_type != null) {
             FactionType = (GameManager.FactionTypes)faction_type;
         } else {
@@ -70,6 +71,7 @@ public class Faction {
 
         peaceCost = GameManager.Random.Next(15 + GameManager.instance.difficulty.base_peace_cost, 25 + GameManager.instance.difficulty.base_peace_cost);
         envoyCost = GameManager.Random.Next(3 + GameManager.instance.difficulty.base_envoy_cost, 6 + GameManager.instance.difficulty.base_envoy_cost);
+        traderCost = GameManager.Random.Next(5 + GameManager.instance.difficulty.base_trader_cost, 10 + GameManager.instance.difficulty.base_trader_cost);
     }
 
     public void OnWaveEnd() {

@@ -24,6 +24,7 @@ MonoBehaviour:
     applyTo: 1
   base_faction_expansion: 30
   base_shop_chance_increase: 5
+  base_trader_cost: 2
   startingObjects:
   - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
   - {fileID: 11400000, guid: d1d8e9105110c8849ae914a814a78d87, type: 2}

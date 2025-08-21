@@ -60,6 +60,7 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
     [SerializeField] private GameObject diploWarButton;
     [SerializeField] private GameObject diploPeaceButton;
     [SerializeField] private GameObject diploEnvoyButton;
+    [SerializeField] private GameObject diploTraderButton;
 
     [Header("References Character Panel")]
     [SerializeField] private GameObject characterPanel;
@@ -156,6 +157,15 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
         }
     }
 
+    public void _Buttton_RequestTraderButtonlicked() {
+        if (GameManager.instance.Game.SpendResources(new() { { GameManager.Resources.Gold, currentFaction.traderCost } })) {
+            diploPanel.SetActive(false);
+            CameraSystem.instance.cameraBlocked = false;
+            mouseBlocked = false;
+            instance.shopActive = true;
+        }
+    }
+
     public void StartPlacing(SOPlaceableObject placeable_object) {
         placingObject = placeable_object;
     }
@@ -209,6 +219,12 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
             foreach (Plot plot in RunManager.instance.GetAllPlotsWithFactionObjects(currentFaction)) {
                 if (plot.placedObjectSO.objectType == GameManager.PlaceableObjectTypes.Castle && !plot.visibleToPlayer) diploEnvoyButton.SetActive(true);
             }
+        }
+
+        if (RunManager.instance.GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Castle, faction).visibleToPlayer && !GameManager.instance.Game.PlayerFaction.atWarWith[faction]) {
+            diploTraderButton.SetActive(true);
+        } else {
+            diploTraderButton.SetActive(false);
         }
 
         diploTitle.text = faction.Name;
@@ -352,6 +368,7 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
                 if (button.name == "DeclareWarButton") diploOptionDesc.text = "Declare war on this faction";
                 if (button.name == "MakePeaceButton") diploOptionDesc.text = $"{currentFaction.Ruler} will make peace with you for a price of {currentFaction.peaceCost} gold";
                 if (button.name == "EnvoyButton") diploOptionDesc.text = $"{currentFaction.Ruler} will recieve you envoy, which will cost you {currentFaction.envoyCost} gold to send (this will reveal their territory to you)";
+                if (button.name == "RequestTraderButton") diploOptionDesc.text = $"You can request a trader from {currentFaction.Name} to arrive in your lands for a cost of {currentFaction.traderCost} gold";
             } else {
                 diploOptionDesc.text = "";
             }
