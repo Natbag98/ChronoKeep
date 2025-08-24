@@ -245,8 +245,7 @@ public class MainSceneUIManager : MonoBehaviour, ISaveSystem {
         }
     }
 
-    private void Start()
-    {
+    private void Start() {
         instance = this;
         text_dict = new() {
             {GameManager.Resources.Gold, resourceGoldText},

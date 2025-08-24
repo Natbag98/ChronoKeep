@@ -124,7 +124,7 @@ MonoBehaviour:
   skillLastRun: 0
   nextScene: 
   storyDisplay: 0
-  difficulty: {fileID: 11400000, guid: a7edc561edfcac5469f6246f91011c4b, type: 2}
+  difficulty: {fileID: 11400000, guid: 315ecd5aa0d25bd4698d44bb12c8bac8, type: 2}
   scriptableObjects:
   - {fileID: 11400000, guid: c1e66c2206308444eac9693f1f9edd10, type: 2}
   - {fileID: 11400000, guid: aae26af5810999345bbb394d8aba2b2c, type: 2}
@@ -193,6 +193,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f9b4298990655a74da45201c670ca979, type: 2}
   - {fileID: 11400000, guid: 65bcd62fb1138414b9c9304871685bac, type: 2}
   - {fileID: 11400000, guid: 9dbef530766415f41934747355d00867, type: 2}
+  - {fileID: 11400000, guid: 2ec8087d9175e634e829aff7b9f7146d, type: 2}
+  - {fileID: 11400000, guid: cceae9127fe8cf24eb16f02e58308436, type: 2}
+  - {fileID: 11400000, guid: b4355d306afd08d4daceb2031108ed02, type: 2}
+  - {fileID: 11400000, guid: 0351f8cad45eff146b2842c4cf6475c2, type: 2}
   - {fileID: 11400000, guid: d2e61e4e41cc624438b1cba624ea512d, type: 2}
 --- !u!114 &-8175749535513372674
 MonoBehaviour:

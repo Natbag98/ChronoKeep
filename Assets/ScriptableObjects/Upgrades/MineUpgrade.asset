@@ -10,25 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c718d0c6567913439f748234d281abe, type: 3}
-  m_Name: Walls
+  m_Name: MineUpgrade
   m_EditorClassIdentifier: 
-  displayName: Walls
-  description: Adds extra health and defense to the tower it is placed on.
-  availableForAll: 1
-  availableFor: []
+  displayName: Better Tools
+  description: Equips this tower with better tools, increasing its stone per turn.
+  availableForAll: 0
+  availableFor:
+  - {fileID: 11400000, guid: 488d7db69dcffbc43b6cf6b63fdeeb71, type: 2}
+  - {fileID: 11400000, guid: 86066999b2da0ef4f9c74035828c70ab, type: 2}
   cost:
     dictPairs:
     - Key: 0
       Value: 5
-    - Key: 2
-      Value: 8
-  perkRequired: {fileID: 11400000, guid: 533065791605a97478e12cd12a4ca03d, type: 2}
-  modsToApply:
-  - targetTags: 
-    attributeToAffect: 0
-    amount: 2
-    applyTo: 0
-  - targetTags: 
-    attributeToAffect: 1
-    amount: 1.2
-    applyTo: 0
+  perkRequired: {fileID: 0}
+  modsToApply: []
