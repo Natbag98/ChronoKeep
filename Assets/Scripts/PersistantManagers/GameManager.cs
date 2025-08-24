@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour, ISaveSystem {
     public enum PerkTrees {
         KingdomManagement,
         Engineering,
-        Walls,
+        Upgrades,
         Luck
     }
     public enum MagicTypes {
