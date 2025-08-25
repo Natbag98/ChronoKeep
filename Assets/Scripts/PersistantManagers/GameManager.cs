@@ -53,7 +53,8 @@ public class GameManager : MonoBehaviour, ISaveSystem {
         KingdomManagement,
         Engineering,
         Upgrades,
-        Luck
+        Luck,
+        Stockpiling
     }
     public enum MagicTypes {
         Physical,
