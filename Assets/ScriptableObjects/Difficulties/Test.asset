@@ -20,12 +20,13 @@ MonoBehaviour:
   modsToApply: []
   base_faction_expansion: 20
   base_shop_chance_increase: 15
+  base_trader_cost: 0
   startingObjects:
   - {fileID: 11400000, guid: 48ff362db18515a48bd93849275405d4, type: 2}
   - {fileID: 11400000, guid: 488d7db69dcffbc43b6cf6b63fdeeb71, type: 2}
   - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
   - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
-  - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
+  - {fileID: 11400000, guid: be9f26e3776645349b4a8d0977555eee, type: 2}
   startingResources:
     dictPairs:
     - Key: 0

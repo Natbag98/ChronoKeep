@@ -81,6 +81,9 @@ MonoBehaviour:
       - {fileID: 11400000, guid: e504a0bbd48c9504686b3244871fecbd, type: 2}
       - {fileID: 11400000, guid: 48ff362db18515a48bd93849275405d4, type: 2}
       - {fileID: 11400000, guid: 1c1059160c5cda94aae0c3495c4a6b4d, type: 2}
+      - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
+      - {fileID: 11400000, guid: 106fc22d69ab7ff4b91326f6c0e3b4e4, type: 2}
+      - {fileID: 11400000, guid: d1d8e9105110c8849ae914a814a78d87, type: 2}
     - Key: 1
       Value:
       - {fileID: 11400000, guid: e504a0bbd48c9504686b3244871fecbd, type: 2}
@@ -89,6 +92,13 @@ MonoBehaviour:
       - {fileID: 11400000, guid: 488d7db69dcffbc43b6cf6b63fdeeb71, type: 2}
       - {fileID: 11400000, guid: 106fc22d69ab7ff4b91326f6c0e3b4e4, type: 2}
       - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
+      - {fileID: 11400000, guid: be9f26e3776645349b4a8d0977555eee, type: 2}
+      - {fileID: 11400000, guid: 1c1059160c5cda94aae0c3495c4a6b4d, type: 2}
+      - {fileID: 11400000, guid: 0a3b51ea6a481064c93fed7f69527eb6, type: 2}
+      - {fileID: 11400000, guid: 48ff362db18515a48bd93849275405d4, type: 2}
+      - {fileID: 11400000, guid: 0c0702d9c72b13346a9a17dc1f2b4261, type: 2}
+      - {fileID: 11400000, guid: 9702463d1fbb66d4fa15b8a0bee42453, type: 2}
+      - {fileID: 11400000, guid: 9702463d1fbb66d4fa15b8a0bee42453, type: 2}
   WallPrefab: {fileID: 640411937715291779, guid: 1f67f3ffbdce83e4d82d3923349d4a62, type: 3}
   alpha: 75
   mapSize: 40
@@ -180,6 +190,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e504a0bbd48c9504686b3244871fecbd, type: 2}
   - {fileID: 11400000, guid: 48ff362db18515a48bd93849275405d4, type: 2}
   - {fileID: 11400000, guid: 1c1059160c5cda94aae0c3495c4a6b4d, type: 2}
+  - {fileID: 11400000, guid: be9f26e3776645349b4a8d0977555eee, type: 2}
   - {fileID: 11400000, guid: 0a3b51ea6a481064c93fed7f69527eb6, type: 2}
   - {fileID: 11400000, guid: e123358f4d3b5304fb6af660ad41221e, type: 2}
   - {fileID: 11400000, guid: fdfc0f4e191f39e4192417662a488565, type: 2}
