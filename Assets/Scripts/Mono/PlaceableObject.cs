@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     [SerializeField] protected GameManager.MagicTypes magicType;
     [SerializeField] protected Attributes attributes;
     [SerializeField] protected Utils.SerializeableDict<GameManager.Resources, int> resourcesPerWave;
-    public Dictionary<GameManager.Resources, int> GetResourcesPerWave() { return resourcesPerWave.GetDict(); }
+    public Dictionary<GameManager.Resources, int> GetResourcesPerWave() { return GetResourcesNextTurn(); }
     [SerializeField] private Transform centerPoint;
 
     [Header("PlaceableObject : References UI")]
@@ -35,6 +36,8 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
                 GameManager.instance.WallPrefab,
                 transform
             );
+        } else if (upgrade.name == "CivilianUpgrade" || upgrade.name == "MineUpgrade") {
+            MainSceneUIManager.instance.UpdateResourceGain();
         }
     }
 
@@ -69,8 +72,18 @@ public abstract class PlaceableObject : MonoBehaviour, IRangedTarget, IMeleeTarg
     public void OnMouseExit() { parentPlot.OnMouseExit(); }
     private void OnMouseDown() { parentPlot.OnMouseDown(); }
 
+    public Dictionary<GameManager.Resources, int> GetResourcesNextTurn() {
+        Dictionary<GameManager.Resources, int> resources = resourcesPerWave.GetDict();
+        foreach (SOUpgrade upgrade in upgrades) {
+            if (upgrade.name == "CivilianUpgrade" || upgrade.name == "MineUpgrade") {
+                foreach (GameManager.Resources resource in resources.Keys.ToList()) resources[resource] = (int)Math.Ceiling(resources[resource] * 1.25);
+            }
+        }
+        return resources;
+    }
+
     private void WaveEnd(object _, EventArgs __) {
-        if (parentPlot.faction == GameManager.instance.Game.PlayerFaction) GameManager.instance.Game.AddResources(resourcesPerWave.GetDict());
+        if (parentPlot.faction == GameManager.instance.Game.PlayerFaction) GameManager.instance.Game.AddResources(GetResourcesNextTurn());
     }
 
     protected virtual void UpdateUI() {

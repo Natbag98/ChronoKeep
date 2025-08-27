@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c718d0c6567913439f748234d281abe, type: 3}
+  m_Name: CivilianUpgrade
+  m_EditorClassIdentifier: 
+  displayName: More Population
+  description: Boosts the population of this civilan tower, increasing its resource
+    output.
+  availableForAll: 0
+  availableFor:
+  - {fileID: 11400000, guid: d1d8e9105110c8849ae914a814a78d87, type: 2}
+  - {fileID: 11400000, guid: 19bfb225a44977d4dbcbb3f2dcf706af, type: 2}
+  - {fileID: 11400000, guid: 488d7db69dcffbc43b6cf6b63fdeeb71, type: 2}
+  - {fileID: 11400000, guid: 86066999b2da0ef4f9c74035828c70ab, type: 2}
+  cost:
+    dictPairs:
+    - Key: 0
+      Value: 10
+  perkRequired: {fileID: 11400000, guid: e9351abffc34ad1448e33740cf2998a6, type: 2}
+  modsToApply: []

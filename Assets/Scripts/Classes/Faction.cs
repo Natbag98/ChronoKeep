@@ -75,7 +75,7 @@ public class Faction {
     }
 
     public void OnWaveEnd() {
-        if (RunManager.instance.GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Castle, this) == null) {
+        if (FactionType == GameManager.FactionTypes.Kingdom && this != GameManager.instance.Game.PlayerFaction && RunManager.instance.GetFirstPlotWithPlacedObject(GameManager.PlaceableObjectTypes.Castle, this) == null) {
             RunManager.instance.GameOver(true);
         }
 

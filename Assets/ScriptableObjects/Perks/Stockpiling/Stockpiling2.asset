@@ -10,14 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 32cf4beba6c02b24e878e04cc492b1b9, type: 3}
-  m_Name: Walls
+  m_Name: Stockpiling2
   m_EditorClassIdentifier: 
-  displayName: Walls
-  description: Unlocks the walls upgrade.
-  tree: 2
-  index: 0
-  requiredPerk: {fileID: 0}
-  cost: 30
+  displayName: Stockpiling II
+  description: Further increases your initial stockpile of resources.
+  tree: 4
+  index: 1
+  requiredPerk: {fileID: 11400000, guid: 10bd0d06835331d4d966e5bd712f9711, type: 2}
+  cost: 20
   scoreMultIncrease: 0
   skillMultIncrease: 0
   modsToApply: []
+  extraStartingResources:
+    dictPairs:
+    - Key: 2
+      Value: 8
+    - Key: 0
+      Value: 6

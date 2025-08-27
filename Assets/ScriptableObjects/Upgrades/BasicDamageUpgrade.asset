@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c718d0c6567913439f748234d281abe, type: 3}
+  m_Name: BasicDamageUpgrade
+  m_EditorClassIdentifier: 
+  displayName: Damage Upgrade
+  description: 
+  availableForAll: 0
+  availableFor:
+  - {fileID: 11400000, guid: dd798303cb8c6594e970cbb268983123, type: 2}
+  - {fileID: 11400000, guid: 106fc22d69ab7ff4b91326f6c0e3b4e4, type: 2}
+  - {fileID: 11400000, guid: 0c0702d9c72b13346a9a17dc1f2b4261, type: 2}
+  - {fileID: 11400000, guid: 6c8dbaeaa33991f4a8891d470e28dde3, type: 2}
+  - {fileID: 11400000, guid: 0a3b51ea6a481064c93fed7f69527eb6, type: 2}
+  cost:
+    dictPairs:
+    - Key: 0
+      Value: 6
+    - Key: 2
+      Value: 2
+  perkRequired: {fileID: 0}
+  modsToApply:
+  - targetTags: 
+    attributeToAffect: 3
+    amount: 1.25
+    applyTo: 0

@@ -246,8 +246,10 @@ public class Plot : MonoBehaviour {
             !Input.GetKey(KeyCode.C)
         ) {
             foreach (SOUpgrade upgrade in Utils.GetAllAssets<SOUpgrade>()) {
-                if (upgrade.IsAvailable(GetComponentInChildren<PlaceableObject>())) MainSceneUIManager.instance.InitializeUpgradesMenu(this);
-                break;
+                if (upgrade.IsAvailable(GetComponentInChildren<PlaceableObject>())) {
+                    MainSceneUIManager.instance.InitializeUpgradesMenu(this);
+                    break;
+                }
             }
         } else if (
             faction != null &&
