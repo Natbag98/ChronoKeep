@@ -213,13 +213,14 @@ public class RunManager : MonoBehaviour, ISaveSystem {
         if (GameManager.instance.Game.firstRun) TutorialManager.instance.StartTutorial();
         foreach (Faction faction in GameManager.instance.Game.BaseFactions) faction.RunStart();
         if (GameManager.instance.difficulty.modsToApply != null) globalMods.AddRange(GameManager.instance.difficulty.modsToApply);
+        foreach (SOPlaceableObject object_to_place in GameManager.instance.difficulty.startingObjects) MainSceneUIManager.instance.PlaceInventoryItem(object_to_place);
+        GameManager.instance.Game.NewRun();
         foreach (SOPerk perk in GameManager.instance.Game.perksUnlockTracker.GetAllUnlocked()) {
             scoreMult += perk.scoreMultIncrease;
             skillMult += perk.skillMultIncrease;
             globalMods.AddRange(perk.modsToApply);
+            GameManager.instance.Game.AddResources(perk.extraStartingResources.GetDict());
         }
-        foreach (SOPlaceableObject object_to_place in GameManager.instance.difficulty.startingObjects) MainSceneUIManager.instance.PlaceInventoryItem(object_to_place);
-        GameManager.instance.Game.NewRun();
 
         globalMods.AddRange(testMods);
     }

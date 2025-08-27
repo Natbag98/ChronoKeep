@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6764c99b8b6f16a4c82abc88e4594b97, type: 3}
+  m_Name: BatteringRam
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 6995875889840719490, guid: 1b3ce6964ff820d4bb2571e2a7cf0cfd, type: 3}
+  powerRequired: 8
+  canTargetInvisible: 0
+  displayName: Battering Ram
+  description: A powerful peice of seige equipment that can quickly destroy towers
+    and has high defense, but is susciptable to magical attacks.

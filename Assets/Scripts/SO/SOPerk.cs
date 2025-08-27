@@ -14,6 +14,7 @@ public class SOPerk : ScriptableObject, IUnlockTrackable {
     public float scoreMultIncrease;
     public float skillMultIncrease;
     public Mod[] modsToApply;
+    public Utils.SerializeableDict<GameManager.Resources, int> extraStartingResources;
 
     public bool Unlockable() {
         if (!GameManager.instance.Game.perksUnlockTracker.unlocked[this]) {
