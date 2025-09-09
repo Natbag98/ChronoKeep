@@ -26,7 +26,7 @@ public class Spawner : Tower {
         partOfHostileWave = true;
     }
 
-    public void SpawnCharacter(SOCharacter character_to_spawn) {
+    public void SpawnCharacter(SOCharacter character_to_spawn, int extra_power) {
         Character character = Instantiate(
             character_to_spawn.prefab,
             transform.position,
@@ -41,6 +41,45 @@ public class Spawner : Tower {
 
         EnemyDot enemy_dot = Instantiate(MainSceneUIManager.instance.enemyDotPrefab).GetComponent<EnemyDot>();
         enemy_dot.character = character.gameObject;
+
+        if (extra_power != 1) {
+            character.AddMod(
+                new() {
+                    targetTags = new Tag.Tags[0],
+                    attributeToAffect = GameManager.Attributes.Health,
+                    amount = extra_power * 0.5f,
+                    applyTo = Mod.ApplyTo.All
+                },
+                true
+            );
+            character.AddMod(
+                new() {
+                    targetTags = new Tag.Tags[0],
+                    attributeToAffect = GameManager.Attributes.Defense,
+                    amount = extra_power * 0.5f,
+                    applyTo = Mod.ApplyTo.All
+                },
+                true
+            );
+            character.AddMod(
+                new() {
+                    targetTags = new Tag.Tags[0],
+                    attributeToAffect = GameManager.Attributes.Resistance,
+                    amount = extra_power * 0.5f,
+                    applyTo = Mod.ApplyTo.All
+                },
+                true
+            );
+            character.AddMod(
+                new() {
+                    targetTags = new Tag.Tags[0],
+                    attributeToAffect = GameManager.Attributes.Attack,
+                    amount = extra_power * 0.5f,
+                    applyTo = Mod.ApplyTo.All
+                },
+                true
+            );
+        }
     }
 
     protected new bool Attack() {
@@ -59,7 +98,7 @@ public class Spawner : Tower {
                     charactersToSpawn = new();
                 }
 
-                SpawnCharacter(charactersToSpawnList[0]);
+                SpawnCharacter(charactersToSpawnList[0], 1);
                 charactersToSpawnList.RemoveAt(0);
                 return true;
             }
@@ -81,9 +120,14 @@ public class Spawner : Tower {
                     return false;
                 }
                 SOCharacter character = Utils.Choice(potential_characters);
-
-                SpawnCharacter(character);
+                
                 powerRemaining -= character_costs[character];
+                int extra_power = 1;
+                if (powerRemaining > character_costs[character] + 2 && GameManager.Random.Next(100) > 50) {
+                    powerRemaining -= character_costs[character];
+                    extra_power++;
+                } 
+                SpawnCharacter(character, extra_power);
                 return true;
             } else if (spawning) {
                 spawning = false;
