@@ -84,7 +84,7 @@ MonoBehaviour:
   shootSound: {fileID: 11400000, guid: f9b4298990655a74da45201c670ca979, type: 2}
   reloadBar: {fileID: 4159230835596145758}
   attackFrame: 0
-  projectileToShoot: {fileID: 8691435012008618616, guid: 4ab096dfc4cd6bc4daf803109e1f137e, type: 3}
+  projectileToShoot: {fileID: 8691435012008618616, guid: a362a621e7e5871499e6f8fd25ce9bd0, type: 3}
   shootPoint: {fileID: 4218300769254404606}
   rotateTransform:
     containsValue: 0

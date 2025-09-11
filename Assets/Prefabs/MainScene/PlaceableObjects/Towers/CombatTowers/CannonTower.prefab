@@ -67,8 +67,6 @@ MonoBehaviour:
         Value: 120
       - Key: 6
         Value: 5
-      - Key: 8
-        Value: 0
       - Key: 7
         Value: 0.5
       - Key: 9
@@ -84,7 +82,7 @@ MonoBehaviour:
   loaded: 0
   shootSound: {fileID: 11400000, guid: f9b4298990655a74da45201c670ca979, type: 2}
   reloadBar: {fileID: 7986063309831295654}
-  attackFrame: 13
+  attackFrame: 6
   projectileToShoot: {fileID: 8691435012008618616, guid: 4ab096dfc4cd6bc4daf803109e1f137e, type: 3}
   shootPoint: {fileID: 5182663363030290}
   rotateTransform:

@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 7460117332644621695}
   - component: {fileID: -6030677119313003621}
   m_Layer: 0
-  m_Name: CannonBall
+  m_Name: MageBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -153,4 +153,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee32cf09bc6ec0941a17993f70565197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arcHeightMultiplier: 0.5
+  arcHeightMultiplier: 0.01

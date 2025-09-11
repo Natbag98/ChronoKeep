@@ -121,7 +121,7 @@ MonoBehaviour:
     replaceChance:
       dictPairs:
       - Key: {fileID: 11400000, guid: 2a890fe14bba1d04cab20d4019369af9, type: 2}
-        Value: 15
+        Value: 2
   noiseScale: 97000
   noiseStrength: 1.6
   falloffStrength: 1
