@@ -378,9 +378,9 @@ public class Plot : MonoBehaviour {
             }
         }
 
-        if (plotMesh != null && placedObjectSO != null) {
-            if (placedObjectSO.name == "Quarry") {
-            plotMesh.enabled = false;
+        if (plotMesh != null) {
+            if (placedObjectSO != null && placedObjectSO.name == "Quarry") {
+                plotMesh.enabled = false;
             } else {
                 plotMesh.enabled = visibleToPlayer;
             }
