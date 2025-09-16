@@ -113,7 +113,9 @@ public class Plot : MonoBehaviour {
     /// Checks whether a character can move through the plot.
     /// </summary>
     public bool CanCharacterMoveThrough() {
-        if (placedObjectType != null) {
+        if (placedObjectType == GameManager.PlaceableObjectTypes.Feature) {
+            return walkable;
+        } else if (placedObjectType != null) {
             return false;
         } else {
             return walkable;
