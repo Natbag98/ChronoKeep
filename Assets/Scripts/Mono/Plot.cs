@@ -113,7 +113,9 @@ public class Plot : MonoBehaviour {
     /// Checks whether a character can move through the plot.
     /// </summary>
     public bool CanCharacterMoveThrough() {
-        if (placedObjectType != null) {
+        if (placedObjectType == GameManager.PlaceableObjectTypes.Feature) {
+            return walkable;
+        } else if (placedObjectType != null) {
             return false;
         } else {
             return walkable;
@@ -378,9 +380,9 @@ public class Plot : MonoBehaviour {
             }
         }
 
-        if (plotMesh != null && placedObjectSO != null) {
-            if (placedObjectSO.name == "Quarry") {
-            plotMesh.enabled = false;
+        if (plotMesh != null) {
+            if (placedObjectSO != null && placedObjectSO.name == "Quarry") {
+                plotMesh.enabled = false;
             } else {
                 plotMesh.enabled = visibleToPlayer;
             }

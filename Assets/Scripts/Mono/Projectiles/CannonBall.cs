@@ -14,7 +14,10 @@ public class CannonBall : Projectile {
         explosionRadius = attributes.GetAttribute(GameManager.Attributes.ExplosionRadius);
     }
 
-    protected override void GetTargetPoint() { targetPoint = target.transform.position; }
+    protected override void GetTargetPoint() {
+        if (target == null) Explode();
+        targetPoint = target.transform.position;
+    }
     protected override void Collided(Collider coll) { Explode(); }
 
     public override void Setup() {
