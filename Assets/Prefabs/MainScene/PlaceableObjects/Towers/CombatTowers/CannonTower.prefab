@@ -71,6 +71,8 @@ MonoBehaviour:
         Value: 0.5
       - Key: 9
         Value: 40
+      - Key: 8
+        Value: 0
   resourcesPerWave:
     dictPairs: []
   centerPoint: {fileID: 5090057776214024442}
